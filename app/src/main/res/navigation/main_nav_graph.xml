@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/flightsFragment">
+
+
+    <fragment
+        android:id="@+id/flightsFragment"
+        android:name="pl.kossa.myflights.fragments.flights.FlightsFragment"
+        android:label="FlightsFragment"
+        tools:layout="@layout/fragment_flights" />
+
+    <fragment
+        android:id="@+id/airplanesFragment"
+        android:name="pl.kossa.myflights.fragments.airplanes.AirplanesFragment"
+        android:label="AirplanesFragment"
+        tools:layout="@layout/fragment_airplanes">
+
+        <action
+            android:id="@+id/goToAirplaneAdd"
+            app:destination="@id/airplaneAddFragment" />
+
+
+        <action
+            android:id="@+id/goToAirplaneDetails"
+            app:destination="@id/airplaneDetailsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/airplaneAddFragment"
+        android:name="pl.kossa.myflights.fragments.airplanes.add.AirplaneAddFragment"
+        android:label="AirplaneAddFragment"
+        tools:layout="@layout/fragment_airplane_add"></fragment>
+
+    <fragment
+        android:id="@+id/airplaneDetailsFragment"
+        android:name="pl.kossa.myflights.fragments.airplanes.details.AirplaneDetailsFragment"
+        android:label="AirplaneDetailsFragment"
+        tools:layout="@layout/fragment_airplane_details">
+
+        <argument
+            android:name="airplaneId"
+            app:argType="integer" />
+
+    </fragment>
+
+    <action
+        android:id="@+id/goToAirplanes"
+        app:destination="@id/airplanesFragment" />
+
+    <action
+        android:id="@+id/goToFlights"
+        app:destination="@id/flightsFragment" />
+
+    <action
+        android:id="@+id/goToLoginActivity"
+        app:destination="@id/loginActivity"
+        app:launchSingleTop="false"
+        app:popUpTo="@id/main_nav_graph"
+        app:popUpToInclusive="true" />
+
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="pl.kossa.myflights.activities.LoginActivity"
+        android:label="LoginActivity"
+        tools:layout="@layout/activity_login" />
+
+</navigation>

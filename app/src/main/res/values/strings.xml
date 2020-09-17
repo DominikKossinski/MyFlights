@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">myflights</string>
+
+
+    <!--LoginFragment-->
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="type_email">Type email</string>
+    <string name="empty_email">Email nie może być pusty</string>
+    <string name="empty_password">Hasło nie może być puste</string>
+    <string name="no_user_error">No user</string>
+    <string name="not_email_error">It is not an email</string>
+    <string name="wrong_password_error">Wrong password</string>
+    <string name="no_internet_error">No internet</string>
+    <string name="unexpected_error">Unexpected error</string>
+    <string name="confirm_password">Type password again</string>
+    <string name="create_accout">Create account</string>
+    <string name="password_not_maches">Password doesn\'t match</string>
+    <string name="email_resend_info">Na twój email została wysłana wiadomość z mająca na celu zweryfikowanie adresu. W przypadku nie otrzymania wiadomości naciśnij \'Wyślij ponownie\'.</string>
+    <string name="resend">Resend</string>
+    <string name="confirmed_go_to_login">Confirmed go to login</string>
+    <string name="to_weak_password">Ad least 6 characters</string>
+    <string name="user_exists">User already exists</string>
+    <string name="email_resended">Wysłano ponownie wiadomość</string>
+    <string name="flights">Flights</string>
+
+    <!--AirplanesFragment-->
+    <string name="airplanes">Airplanes</string>
+    <string name="no_airplanes_info">You have no airplanes.\nClick add button to add new airplane.</string>
+
+    <!--AirplaneAddFragment-->
+    <string name="airplane_name">Airplane name</string>
+    <string name="max_speed">Max speed</string>
+    <string name="weight">Weight</string>
+
+
+    <!--Errors-->
+    <string name="error_empty_name">Name can\'t be empty</string>
+</resources>
