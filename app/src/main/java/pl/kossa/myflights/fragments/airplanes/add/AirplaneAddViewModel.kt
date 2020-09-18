@@ -59,11 +59,10 @@ class AirplaneAddViewModel(
             nameError = R.string.error_empty_name
             return
         }
-        //TODO image
-        val request = AirplaneRequest(name, maxSpeed?.toInt(), weight?.toInt(), null)
-        makeRequest({
+        makeRequest({//TODO image
+            val request = AirplaneRequest(name, maxSpeed?.toInt(), weight?.toInt(), null)
             apiService.airplanesService.postAirplane(request)
-        }) {
+        }) { it ->
             navigateToDetails(it.entityId)
         }
     }

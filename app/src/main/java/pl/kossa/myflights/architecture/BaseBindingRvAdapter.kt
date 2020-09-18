@@ -10,7 +10,7 @@ abstract class BaseBindingRvAdapter<T> : RecyclerView.Adapter<BaseBindingViewHol
 
     abstract val layoutId: Int
 
-    val items = arrayListOf<T>()
+    val items = arrayListOf<BaseRecyclerViewModel<T>>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseBindingViewHolder<T> {
         val inflater = LayoutInflater.from(parent.context)
@@ -24,4 +24,5 @@ abstract class BaseBindingRvAdapter<T> : RecyclerView.Adapter<BaseBindingViewHol
     }
 
     override fun getItemCount(): Int = items.size
+
 }

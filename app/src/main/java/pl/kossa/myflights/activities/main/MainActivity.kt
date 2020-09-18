@@ -1,7 +1,6 @@
 package pl.kossa.myflights.activities.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
@@ -24,7 +23,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fab.setOnClickListener { onFabClicked() }
         navView.setNavigationItemSelectedListener(this)
     }
 
@@ -37,13 +35,4 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         return true
     }
 
-    private fun onFabClicked() {
-        Log.d("MyLog", "Nav:")
-        when (viewModel.navController.currentDestination?.id) {
-            R.id.airplanesFragment -> {
-                viewModel.goToAirplaneAdd()
-                Log.d("MyLog", "Nav: after")
-            }
-        }
-    }
 }

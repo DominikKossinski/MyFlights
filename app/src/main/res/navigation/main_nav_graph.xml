@@ -29,11 +29,24 @@
 
     </fragment>
 
+
+    <fragment
+        android:id="@+id/airplaneEditFragment"
+        android:name="pl.kossa.myflights.fragments.airplanes.edit.AirplaneEditFragment"
+        android:label="AirplaneEditFragment"
+        tools:layout="@layout/fragment_airplane_edit">
+
+        <argument
+            android:name="airplaneId"
+            app:argType="integer" />
+
+    </fragment>
+
     <fragment
         android:id="@+id/airplaneAddFragment"
         android:name="pl.kossa.myflights.fragments.airplanes.add.AirplaneAddFragment"
         android:label="AirplaneAddFragment"
-        tools:layout="@layout/fragment_airplane_add"></fragment>
+        tools:layout="@layout/fragment_airplane_add" />
 
     <fragment
         android:id="@+id/airplaneDetailsFragment"
@@ -44,6 +57,10 @@
         <argument
             android:name="airplaneId"
             app:argType="integer" />
+
+        <action
+            android:id="@+id/goToAirplaneEdit"
+            app:destination="@id/airplaneEditFragment" />
 
     </fragment>
 

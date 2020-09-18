@@ -23,7 +23,7 @@ abstract class BaseViewModel(
 
     protected val firebaseAuth = FirebaseAuth.getInstance()
 
-    private var tokenRefreshed = true
+    private var tokenRefreshed = false
 
     protected val apiService by lazy {
         ApiService(preferencesHelper)
@@ -78,6 +78,35 @@ abstract class BaseViewModel(
         }
     }
 
+    fun makeRequest(request: suspend () -> Response<Void>, onSuccess: () -> Unit) {
+        viewModelScope.launch {
+            isLoadingData.value = true
+            val response = request.invoke()
+            Log.d("MyLog", "Response $response")
+            if (response.isSuccessful) {
+                onSuccess.invoke()
+            } else {
+                if (response.code() == 401) {
+                    if (tokenRefreshed) {
+                        firebaseAuth.signOut()
+                        goToLoginActivity()
+                    } else {
+                        tokenRefreshed = true
+                        refreshToken {
+                            makeRequest(request, onSuccess)
+                        }
+                    }
+                } else {
+                    Log.d("MyLog", "Error $response")
+                    TODO("handle errors")
+                }
+
+            }
+            isLoadingData.value = false
+            Log.d("MyLog", "false")
+        }
+    }
+
     protected fun refreshToken(onSuccess: () -> Unit) {
         firebaseAuth.currentUser?.getIdToken(true)?.addOnSuccessListener {
             preferencesHelper.token = it.token
@@ -104,5 +133,9 @@ abstract class BaseViewModel(
                 navController.navigate(MainNavGraphDirections.goToLoginActivity())
             }
         }
+    }
+
+    fun navigateBack() {
+        navController.popBackStack()
     }
 }
