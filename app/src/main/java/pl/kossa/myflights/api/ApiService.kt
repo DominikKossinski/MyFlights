@@ -3,6 +3,7 @@ package pl.kossa.myflights.api
 import android.util.Log
 import okhttp3.OkHttpClient
 import pl.kossa.myflights.api.services.AirplanesService
+import pl.kossa.myflights.api.services.AirportsService
 import pl.kossa.myflights.utils.PreferencesHelper
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -31,6 +32,7 @@ class ApiService(
 
     val airplanesService: AirplanesService = retrofit.create(AirplanesService::class.java)
 
+    val airportsService: AirportsService = retrofit.create(AirportsService::class.java)
 
 //        fun getUser() {
 //            GlobalScope.launch {

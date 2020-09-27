@@ -19,7 +19,7 @@ class AirplanesViewModel(navController: NavController, preferencesHelper: Prefer
     val airplanesList = MutableLiveData<List<Airplane>>()
 
     fun fetchAirplanes() {
-        makeRequest(apiService.airplanesService::getAllAirplanes) { it ->
+        makeRequest(apiService.airplanesService::getAllAirplanes) {
             airplanesList.value = it
         }
     }

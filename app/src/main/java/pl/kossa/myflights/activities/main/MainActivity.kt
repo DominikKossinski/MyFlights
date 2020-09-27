@@ -30,6 +30,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         when (item.itemId) {
             R.id.actionAirplanes -> viewModel.goToAirplanes()
             R.id.actionFlights -> viewModel.goToFlights()
+            R.id.actionAiports -> viewModel.goToAirports()
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
