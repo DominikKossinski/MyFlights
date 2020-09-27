@@ -68,6 +68,63 @@
         android:id="@+id/goToAirplanes"
         app:destination="@id/airplanesFragment" />
 
+
+    <action
+        android:id="@+id/goToAirports"
+        app:destination="@id/airportsFragment" />
+
+    <fragment
+        android:id="@+id/airportsFragment"
+        android:name="pl.kossa.myflights.fragments.airports.AirportsFragment"
+        android:label="AirportsFragment"
+        tools:layout="@layout/fragment_airports">
+
+        <action
+            android:id="@+id/goToAirportAdd"
+            app:destination="@id/airportAddFragment" />
+
+
+        <action
+            android:id="@+id/goToAirportDetails"
+            app:destination="@id/airportDetailsFragment" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/airportEditFragment"
+        android:name="pl.kossa.myflights.fragments.airports.edit.AirportEditFragment"
+        android:label="AirportEditFragment"
+        tools:layout="@layout/fragment_airport_edit">
+
+        <argument
+            android:name="airportId"
+            app:argType="integer" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/airportAddFragment"
+        android:name="pl.kossa.myflights.fragments.airports.add.AirportAddFragment"
+        android:label="AirportAddFragment"
+        tools:layout="@layout/fragment_airport_add" />
+
+    <fragment
+        android:id="@+id/airportDetailsFragment"
+        android:name="pl.kossa.myflights.fragments.airports.details.AirportDetailsFragment"
+        android:label="AirportDetailsFragment"
+        tools:layout="@layout/fragment_airport_details">
+
+        <argument
+            android:name="airportId"
+            app:argType="integer" />
+
+        <action
+            android:id="@+id/goToAirportEdit"
+            app:destination="@id/airportEditFragment" />
+
+    </fragment>
+
     <action
         android:id="@+id/goToFlights"
         app:destination="@id/flightsFragment" />
