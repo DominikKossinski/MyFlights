@@ -17,10 +17,6 @@ class CreateAccountViewModel(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(navController, preferencesHelper) {
 
-    fun navigateBack() {
-        navController.popBackStack()
-    }
-
     @Bindable
     var createAccountButtonEnabled = false
         set(value) {

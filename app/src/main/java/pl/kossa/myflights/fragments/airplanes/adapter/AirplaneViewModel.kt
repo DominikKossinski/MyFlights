@@ -2,11 +2,11 @@ package pl.kossa.myflights.fragments.airplanes.adapter
 
 import androidx.databinding.Bindable
 import pl.kossa.myflights.api.models.Airplane
-import pl.kossa.myflights.architecture.BaseObservable
+import pl.kossa.myflights.architecture.BaseRecyclerViewModel
 
-class AirplaneViewModel(
+abstract class AirplaneViewModel(
     airplane: Airplane
-) : BaseObservable() {
+) : BaseRecyclerViewModel<Airplane>(airplane) {
 
     @get:Bindable
     val name = airplane.name

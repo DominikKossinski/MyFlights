@@ -8,7 +8,7 @@ class BaseBindingViewHolder<T>(
     private val binding: ViewDataBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(model: T) {
+    fun bind(model: BaseRecyclerViewModel<T>) {
         binding.setVariable(BR.model, model)
         binding.executePendingBindings()
     }
