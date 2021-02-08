@@ -31,6 +31,10 @@ class AirportDetailsViewModel(
     val airportName
         get() = airport?.name ?: ""
 
+    @get:Bindable
+    val city
+        get() = airport?.city ?: ""
+
     fun fetchAirport() {
         makeRequest({
             apiService.airportsService.getAirportById(airportId)
