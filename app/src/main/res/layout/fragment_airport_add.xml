@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:error="@{viewModel.nameError}"
-            android:hint="@string/airplane_name"
+            android:hint="@string/airport_name"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -30,13 +30,80 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/cityTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:error="@{viewModel.cityError}"
+            android:hint="@string/airport_city"
+            app:layout_constraintTop_toBottomOf="@id/nameTextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.city}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/icaoShortcutTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:error="@{viewModel.icaoShortcutError}"
+            android:hint="@string/airport_icaoShortcut"
+            app:layout_constraintTop_toBottomOf="@id/cityTextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.icaoShortcut}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/towerFrequencyTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:error="@{viewModel.towerFrequencyError}"
+            android:hint="@string/airport_towerFrequency"
+            app:layout_constraintTop_toBottomOf="@id/icaoShortcutTextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.towerFrequency}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/groundFrequencyTextInputLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:error="@{viewModel.groundFrequencyError}"
+            android:hint="@string/airport_groundFrequency"
+            app:layout_constraintTop_toBottomOf="@id/towerFrequencyTextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@={viewModel.groundFrequency}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
         <Button
             android:id="@+id/addButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Add"
-            app:layout_constraintTop_toBottomOf="@id/nameTextInputLayout" />
+            android:text="@string/airport_save"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <ProgressBar
             android:id="@+id/loadingProgressBar"

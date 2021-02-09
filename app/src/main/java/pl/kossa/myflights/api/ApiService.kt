@@ -16,7 +16,7 @@ class ApiService(
         val newRequest = chain.request().newBuilder()
             .addHeader("Authorization", "Bearer ${preferencesHelper.token}")
             .build()
-
+//        TODO handling errors
         Log.d("MyLog", "$newRequest")
         chain.proceed(newRequest)
     }.build()
