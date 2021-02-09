@@ -57,4 +57,10 @@
 
     <!--Errors-->
     <string name="error_empty_name">Name can\'t be empty</string>
+    <string name="airport_city">City</string>
+    <string name="airport_icaoShortcut">ICAO</string>
+    <string name="airport_groundFrequency">Ground Frequency</string>
+    <string name="airport_towerFrequency">Tower Frequency</string>
+    <string name="airport_save">Save Airport</string>
+    <string name="airport_name">Airport name</string>
 </resources>
