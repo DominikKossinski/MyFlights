@@ -6,18 +6,16 @@ import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
-import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.ApiService
+import pl.kossa.myflights.livedata.SingleLiveEvent
 import pl.kossa.myflights.utils.PreferencesHelper
 import retrofit2.Response
 
 abstract class BaseViewModel(
-    val navController: NavController,
     private val preferencesHelper: PreferencesHelper
 ) : ViewModel(), Observable {
 
@@ -25,11 +23,11 @@ abstract class BaseViewModel(
 
     private var tokenRefreshed = false
 
-    protected val apiService by lazy {
-        ApiService(preferencesHelper)
-    }
     val toastError = MutableLiveData<Int?>(null)
     val isLoadingData = MutableLiveData(false)
+    val navDirectionLiveData = SingleLiveEvent<NavDirections>()
+    val backLiveData = SingleLiveEvent<Unit>()
+    val signOutLiveData = SingleLiveEvent<Unit>()
 
     private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
 
@@ -60,7 +58,7 @@ abstract class BaseViewModel(
                 if (response.code() == 401) {
                     if (tokenRefreshed) {
                         firebaseAuth.signOut()
-                        goToLoginActivity()
+                        signOutLiveData.value = Unit
                     } else {
                         tokenRefreshed = true
                         refreshToken {
@@ -89,7 +87,7 @@ abstract class BaseViewModel(
                 if (response.code() == 401) {
                     if (tokenRefreshed) {
                         firebaseAuth.signOut()
-                        goToLoginActivity()
+                        signOutLiveData.value = Unit
                     } else {
                         tokenRefreshed = true
                         refreshToken {
@@ -119,23 +117,16 @@ abstract class BaseViewModel(
                 else -> {
                     Log.d("MyLog", "Token error: $it")
                     toastError.value = R.string.unexpected_error
-                    goToLoginActivity()
+                    firebaseAuth.signOut()
+                    preferencesHelper.token = null
+                    signOutLiveData.value = Unit
                 }
             }
             isLoadingData.value = false
         }
     }
 
-    private fun goToLoginActivity() {
-
-        when (navController.graph.id) {
-            R.id.main_nav_graph -> {
-                navController.navigate(MainNavGraphDirections.goToLoginActivity())
-            }
-        }
-    }
-
     fun navigateBack() {
-        navController.popBackStack()
+        backLiveData.value = Unit
     }
 }

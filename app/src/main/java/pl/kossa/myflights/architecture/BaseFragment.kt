@@ -12,7 +12,9 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
+import pl.kossa.myflights.MainNavGraphDirections
+import pl.kossa.myflights.R
 import pl.kossa.myflights.utils.PreferencesHelper
 
 abstract class BaseFragment<in T : ViewDataBinding, out Y : BaseViewModel> : Fragment() {
@@ -39,8 +41,21 @@ abstract class BaseFragment<in T : ViewDataBinding, out Y : BaseViewModel> : Fra
             }
         }
         viewModel.isLoadingData.observe(viewLifecycleOwner) {
-            Log.d("MyLog", "Progress bar: $progressBar")
             progressBar?.isVisible = it
+        }
+        viewModel.navDirectionLiveData.observe(viewLifecycleOwner) {
+            findNavController().navigate(it)
+        }
+        viewModel.backLiveData.observe(viewLifecycleOwner) {
+            Log.d("MyLog", "Go back")
+            findNavController().popBackStack()
+        }
+        viewModel.signOutLiveData.observe(viewLifecycleOwner) {
+            when (findNavController().graph.id) {
+                R.navigation.main_nav_graph -> {
+                    findNavController().navigate(MainNavGraphDirections.goToLoginActivity())
+                }
+            }
         }
     }
 

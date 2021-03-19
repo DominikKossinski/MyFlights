@@ -2,11 +2,13 @@ package pl.kossa.myflights.fragments.airplanes
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_airplanes.*
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airplane
@@ -16,13 +18,12 @@ import pl.kossa.myflights.databinding.FragmentAirplanesBinding
 import pl.kossa.myflights.fragments.airplanes.adapter.AirplaneViewModel
 import pl.kossa.myflights.fragments.airplanes.adapter.AirplanesAdapter
 
+@AndroidEntryPoint
 class AirplanesFragment : BaseFragment<FragmentAirplanesBinding, AirplanesViewModel>() {
 
     override val layoutId = R.layout.fragment_airplanes
 
-    override val viewModel by lazy {
-        AirplanesViewModel(findNavController(), preferencesHelper)
-    }
+    override val viewModel: AirplanesViewModel by viewModels()
 
     private val swipeDeleteCallback by lazy {
         object : BaseSwipeDeleteCallback(requireContext()) {
@@ -65,7 +66,7 @@ class AirplanesFragment : BaseFragment<FragmentAirplanesBinding, AirplanesViewMo
             viewModel.fetchAirplanes()
         }
         fab.setOnClickListener {
-            viewModel.navigateToAddAirplane()
+            //TODO viewModel.navigateToAddAirplane()
         }
     }
 
@@ -85,7 +86,7 @@ class AirplanesFragment : BaseFragment<FragmentAirplanesBinding, AirplanesViewMo
             adapter.items.addAll(it.map { airplane ->
                 object : AirplaneViewModel(airplane) {
                     override fun onRowClick(model: Airplane) {
-                        viewModel.navigateToAirplaneDetails(model.airplaneId)
+                        //TODO    viewModel.navigateToAirplaneDetails(model.airplaneId)
                     }
                 }
             })

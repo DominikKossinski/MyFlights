@@ -2,15 +2,17 @@ package pl.kossa.myflights.utils
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
+import dagger.hilt.android.qualifiers.ApplicationContext
 
-class PreferencesHelper(activity: AppCompatActivity) {
+class PreferencesHelper(applicationContext: Context) {
 
     companion object {
         private const val TOKEN = "TOKEN"
         private const val PREFERENCES = "pl.kossa.myflights.prefs"
     }
 
-    private val preferences = activity.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+    private val preferences =
+        applicationContext.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
 
     var token: String? = null
         get() {

@@ -3,18 +3,20 @@ package pl.kossa.myflights.fragments.airplanes
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
+import dagger.hilt.android.lifecycle.HiltViewModel
 import pl.kossa.myflights.BR
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.ApiService
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
+import javax.inject.Inject
 
-class AirplanesViewModel(navController: NavController, preferencesHelper: PreferencesHelper) :
-    BaseViewModel(navController, preferencesHelper) {
-
-    init {
-        fetchAirplanes()
-    }
+@HiltViewModel
+class AirplanesViewModel @Inject constructor(
+    private val apiService: ApiService,
+    preferencesHelper: PreferencesHelper
+) : BaseViewModel(preferencesHelper) {
 
     val airplanesList = MutableLiveData<List<Airplane>>()
 
@@ -44,10 +46,10 @@ class AirplanesViewModel(navController: NavController, preferencesHelper: Prefer
     }
 
     fun navigateToAddAirplane() {
-        navController.navigate(AirplanesFragmentDirections.goToAirplaneAdd())
+        navDirectionLiveData.value = AirplanesFragmentDirections.goToAirplaneAdd()
     }
 
     fun navigateToAirplaneDetails(airplaneId: Int) {
-        navController.navigate(AirplanesFragmentDirections.goToAirplaneDetails(airplaneId))
+        navDirectionLiveData.value = AirplanesFragmentDirections.goToAirplaneDetails(airplaneId)
     }
 }

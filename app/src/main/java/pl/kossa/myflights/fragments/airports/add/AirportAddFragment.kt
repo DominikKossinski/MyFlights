@@ -2,6 +2,7 @@ package pl.kossa.myflights.fragments.airports.add
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_airport_add.*
 import pl.kossa.myflights.R
@@ -12,12 +13,7 @@ class AirportAddFragment : BaseFragment<FragmentAirportAddBinding, AirportAddVie
 
     override val layoutId = R.layout.fragment_airport_add
 
-    override val viewModel by lazy {
-        AirportAddViewModel(
-            findNavController(),
-            preferencesHelper
-        )
-    }
+    override val viewModel: AirportAddViewModel by viewModels()
 
     override fun setBindingVariables(binding: FragmentAirportAddBinding) {
         binding.viewModel = viewModel
