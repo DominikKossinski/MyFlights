@@ -2,22 +2,21 @@ package pl.kossa.myflights.fragments.airplanes.add
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_airplane_add.*
 import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplaneAddBinding
+import pl.kossa.myflights.fragments.airplanes.adapter.AirplaneViewModel
 
+@AndroidEntryPoint
 class AirplaneAddFragment : BaseFragment<FragmentAirplaneAddBinding, AirplaneAddViewModel>() {
 
     override val layoutId = R.layout.fragment_airplane_add
 
-    override val viewModel by lazy {
-        AirplaneAddViewModel(
-            findNavController(),
-            preferencesHelper
-        )
-    }
+    override val viewModel: AirplaneAddViewModel by viewModels()
 
     override fun setBindingVariables(binding: FragmentAirplaneAddBinding) {
         binding.viewModel = viewModel

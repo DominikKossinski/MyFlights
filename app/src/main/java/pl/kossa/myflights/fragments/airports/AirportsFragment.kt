@@ -1,12 +1,15 @@
 package pl.kossa.myflights.fragments.airports
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import androidx.navigation.fragment.findNavController
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_airports.*
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airport
@@ -16,13 +19,12 @@ import pl.kossa.myflights.databinding.FragmentAirportsBinding
 import pl.kossa.myflights.fragments.airports.adapter.AirportViewModel
 import pl.kossa.myflights.fragments.airports.adapter.AirportsAdapter
 
+@AndroidEntryPoint
 class AirportsFragment : BaseFragment<FragmentAirportsBinding, AirportsViewModel>() {
 
     override val layoutId = R.layout.fragment_airports
 
-    override val viewModel by lazy {
-        AirportsViewModel(findNavController(), preferencesHelper)
-    }
+    override val viewModel: AirportsViewModel by viewModels()
 
     private val swipeDeleteCallback by lazy {
         object : BaseSwipeDeleteCallback(requireContext()) {
@@ -72,6 +74,7 @@ class AirportsFragment : BaseFragment<FragmentAirportsBinding, AirportsViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("MyLog", "Air")
         setupRecyclerView()
     }
 

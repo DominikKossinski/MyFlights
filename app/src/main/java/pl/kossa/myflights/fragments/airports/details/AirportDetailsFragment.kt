@@ -2,32 +2,31 @@ package pl.kossa.myflights.fragments.airports.details
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_airport_details.*
 import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirportDetailsBinding
 
+@AndroidEntryPoint
 class AirportDetailsFragment :
     BaseFragment<FragmentAirportDetailsBinding, AirportDetailsViewModel>() {
 
     override val layoutId = R.layout.fragment_airport_details
 
-    private val args by navArgs<AirportDetailsFragmentArgs>()
+    private val args: AirportDetailsFragmentArgs by navArgs()
 
-    override val viewModel by lazy {
-        AirportDetailsViewModel(
-            args.airportId,
-            findNavController(),
-            preferencesHelper
-        )
-    }
-
+    override val viewModel: AirportDetailsViewModel by viewModels()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
+
     }
 
     private fun setupToolbar() {

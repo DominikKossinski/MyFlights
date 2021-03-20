@@ -6,15 +6,18 @@ import androidx.navigation.NavController
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import dagger.hilt.android.lifecycle.HiltViewModel
 import pl.kossa.myflights.BR
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.ApiService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
+import javax.inject.Inject
 
-class LoginViewModel(
-    navController: NavController,
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(navController, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     @Bindable
     var loginButtonEnabled = false
@@ -70,7 +73,7 @@ class LoginViewModel(
     }
 
     fun navigateToCreateAccount() {
-        navController.navigate(LoginFragmentDirections.goToCreateAccount())
+        navDirectionLiveData.value = LoginFragmentDirections.goToCreateAccount()
     }
 
     internal fun login() {
@@ -90,7 +93,8 @@ class LoginViewModel(
                 firebaseAuth.signInWithEmailAndPassword(email, password).addOnSuccessListener {
                     if (firebaseAuth.currentUser != null && firebaseAuth.currentUser?.isEmailVerified ?: false) {
                         refreshToken {
-                            navController.navigate(LoginFragmentDirections.goToMainActivity())
+                            Log.d("MyLog", "Token Login: $it")
+                            navDirectionLiveData.value = LoginFragmentDirections.goToMainActivity()
                             isLoadingData.value = false
                         }
                     } else {
@@ -147,6 +151,6 @@ class LoginViewModel(
     }
 
     private fun navigateToResendEmail() {
-        navController.navigate(LoginFragmentDirections.goToEmailResend())
+        navDirectionLiveData.value = LoginFragmentDirections.goToEmailResend()
     }
 }

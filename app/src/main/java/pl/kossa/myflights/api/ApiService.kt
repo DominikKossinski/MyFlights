@@ -7,6 +7,7 @@ import pl.kossa.myflights.api.services.AirportsService
 import pl.kossa.myflights.utils.PreferencesHelper
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 class ApiService(
     private val preferencesHelper: PreferencesHelper
@@ -16,6 +17,7 @@ class ApiService(
         val newRequest = chain.request().newBuilder()
             .addHeader("Authorization", "Bearer ${preferencesHelper.token}")
             .build()
+        Log.d("MyLog", "Token: ${preferencesHelper.token}")
 //        TODO handling errors
         Log.d("MyLog", "$newRequest")
         chain.proceed(newRequest)

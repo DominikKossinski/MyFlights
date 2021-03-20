@@ -2,23 +2,21 @@ package pl.kossa.myflights.activities.main
 
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.core.view.GravityCompat
 import androidx.navigation.findNavController
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseActivity
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override val layoutId: Int = R.layout.activity_main
 
-    private val viewModel by lazy {
-        MainActivityViewModel(
-            findNavController(R.id.mainNavHostFragment),
-            preferencesHelper
-        )
-    }
+    private val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -1,15 +1,13 @@
 package pl.kossa.myflights.fragments.emailresend
 
-import androidx.navigation.NavController
 import com.google.firebase.FirebaseNetworkException
 import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 
 class EmailResendViewModel(
-    navController: NavController,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(navController, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
 
     fun resendEmail() {
@@ -28,7 +26,7 @@ class EmailResendViewModel(
 
     fun navigateToLogin() {
         firebaseAuth.signOut()
-        navController.navigate(EmailResendFragmentDirections.goToLoginFragment())
+        navDirectionLiveData.value = EmailResendFragmentDirections.goToLoginFragment()
     }
 
 }

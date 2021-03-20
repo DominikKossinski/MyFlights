@@ -2,18 +2,23 @@ package pl.kossa.myflights.fragments.airports.details
 
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.NavController
+import androidx.lifecycle.SavedStateHandle
+import dagger.hilt.android.lifecycle.HiltViewModel
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.ApiService
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
+import javax.inject.Inject
 
-class AirportDetailsViewModel(
-    private val airportId: Int,
-    navController: NavController,
+@HiltViewModel
+class AirportDetailsViewModel @Inject constructor(
+    private val savedStateHandle: SavedStateHandle,
+    private val apiService: ApiService,
     preferencesHelper: PreferencesHelper
-) :
-    BaseViewModel(navController, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
+
+    private val airportId = savedStateHandle.get<Int>("airportId")!!
 
     init {
         fetchAirport()
@@ -44,7 +49,7 @@ class AirportDetailsViewModel(
     }
 
     fun navigateToAirportEdit() {
-        navController.navigate(AirportDetailsFragmentDirections.goToAirportEdit(airportId))
+    navDirectionLiveData.value =  AirportDetailsFragmentDirections.goToAirportEdit(airportId)
     }
 
     fun deleteAirport() {

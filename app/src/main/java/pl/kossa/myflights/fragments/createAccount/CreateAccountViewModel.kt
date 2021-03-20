@@ -7,15 +7,17 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import dagger.hilt.android.lifecycle.HiltViewModel
 import pl.kossa.myflights.BR
 import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
+import javax.inject.Inject
 
-class CreateAccountViewModel(
-    navController: NavController,
+@HiltViewModel
+class CreateAccountViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(navController, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     @Bindable
     var createAccountButtonEnabled = false
@@ -141,6 +143,6 @@ class CreateAccountViewModel(
     }
 
     private fun navigateToEmailResend() {
-        navController.navigate(CreateAccountFragmentDirections.goToEmailResend())
+        navDirectionLiveData.value = CreateAccountFragmentDirections.goToEmailResend()
     }
 }

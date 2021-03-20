@@ -3,16 +3,20 @@ package pl.kossa.myflights.fragments.airports.add
 import android.util.Log
 import androidx.databinding.Bindable
 import androidx.navigation.NavController
+import dagger.hilt.android.lifecycle.HiltViewModel
 import pl.kossa.myflights.BR
+import pl.kossa.myflights.api.ApiService
 import pl.kossa.myflights.api.requests.AirportRequest
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.airports.AirportsFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
+import javax.inject.Inject
 
-class AirportAddViewModel(
-    navController: NavController,
+@HiltViewModel
+class AirportAddViewModel @Inject constructor(
+    private val apiService: ApiService,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(navController, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
 
     @get:Bindable
@@ -121,7 +125,7 @@ class AirportAddViewModel(
 
     private fun navigateToDetails(airportId: Int) {
         Log.d("MyLog", "AirportId: $airportId")
-        navController.popBackStack()
-        navController.navigate(AirportsFragmentDirections.goToAirportDetails(airportId))
+        navigateBack()
+        navDirectionLiveData.value = AirportsFragmentDirections.goToAirportDetails(airportId)
     }
 }
