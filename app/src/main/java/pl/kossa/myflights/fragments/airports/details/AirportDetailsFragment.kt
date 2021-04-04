@@ -15,14 +15,12 @@ import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirportDetailsBinding
 
 @AndroidEntryPoint
-class AirportDetailsFragment :
-    BaseFragment<FragmentAirportDetailsBinding, AirportDetailsViewModel>() {
+class AirportDetailsFragment : BaseFragment<AirportDetailsViewModel>() {
 
     override val layoutId = R.layout.fragment_airport_details
 
-    private val args: AirportDetailsFragmentArgs by navArgs()
-
     override val viewModel: AirportDetailsViewModel by viewModels()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
@@ -42,10 +40,6 @@ class AirportDetailsFragment :
     override fun onResume() {
         super.onResume()
         viewModel.fetchAirport()
-    }
-
-    override fun setBindingVariables(binding: FragmentAirportDetailsBinding) {
-        binding.viewModel = viewModel
     }
 
     override fun setObservers() {

@@ -11,15 +11,11 @@ import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentFlightsBinding
 
 @AndroidEntryPoint
-class FlightsFragment : BaseFragment<FragmentFlightsBinding, FlightsViewModel>() {
+class FlightsFragment : BaseFragment<FlightsViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_flights
 
     override val viewModel: FlightsViewModel by viewModels()
-
-    override fun setBindingVariables(binding: FragmentFlightsBinding) {
-        binding.viewModel = viewModel
-    }
 
     override fun setOnClickListeners() {
 

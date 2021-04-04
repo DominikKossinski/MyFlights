@@ -12,16 +12,12 @@ import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplaneEditBinding
 
 @AndroidEntryPoint
-class AirplaneEditFragment : BaseFragment<FragmentAirplaneEditBinding, AirplaneEditViewModel>() {
+class AirplaneEditFragment : BaseFragment<AirplaneEditViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_airplane_edit
 
 
     override val viewModel: AirplaneEditViewModel by viewModels()
-
-    override fun setBindingVariables(binding: FragmentAirplaneEditBinding) {
-        binding.viewModel = viewModel
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

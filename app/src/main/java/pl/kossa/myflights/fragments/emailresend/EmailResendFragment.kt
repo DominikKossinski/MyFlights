@@ -8,14 +8,10 @@ import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentEmailResendBinding
 
 @AndroidEntryPoint
-class EmailResendFragment : BaseFragment<FragmentEmailResendBinding, EmailResendViewModel>() {
+class EmailResendFragment : BaseFragment<EmailResendViewModel>() {
     override val layoutId: Int = pl.kossa.myflights.R.layout.fragment_email_resend
 
     override val viewModel: EmailResendViewModel by viewModels()
-
-    override fun setBindingVariables(binding: FragmentEmailResendBinding) {
-        binding.viewModel = viewModel
-    }
 
     override fun setOnClickListeners() {
         resendButton.setOnClickListener {

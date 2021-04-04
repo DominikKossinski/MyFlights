@@ -19,7 +19,7 @@ import pl.kossa.myflights.fragments.airplanes.adapter.AirplaneViewModel
 import pl.kossa.myflights.fragments.airplanes.adapter.AirplanesAdapter
 
 @AndroidEntryPoint
-class AirplanesFragment : BaseFragment<FragmentAirplanesBinding, AirplanesViewModel>() {
+class AirplanesFragment : BaseFragment<AirplanesViewModel>() {
 
     override val layoutId = R.layout.fragment_airplanes
 
@@ -56,10 +56,6 @@ class AirplanesFragment : BaseFragment<FragmentAirplanesBinding, AirplanesViewMo
     }
 
     private val adapter = AirplanesAdapter()
-
-    override fun setBindingVariables(binding: FragmentAirplanesBinding) {
-        binding.viewModel = viewModel
-    }
 
     override fun setOnClickListeners() {
         airplanesSwipeRefresh.setOnRefreshListener {
