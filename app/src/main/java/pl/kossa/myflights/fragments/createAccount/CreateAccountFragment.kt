@@ -11,15 +11,11 @@ import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentCreateAccountBinding
 
 @AndroidEntryPoint
-class CreateAccountFragment : BaseFragment<FragmentCreateAccountBinding, CreateAccountViewModel>() {
+class CreateAccountFragment : BaseFragment<CreateAccountViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_create_account
 
     override val viewModel: CreateAccountViewModel by viewModels()
-
-    override fun setBindingVariables(binding: FragmentCreateAccountBinding) {
-        binding.viewModel = viewModel
-    }
 
     override fun setOnClickListeners() {
         backButton.setOnClickListener {

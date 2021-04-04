@@ -13,15 +13,11 @@ import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentLoginBinding
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>() {
+class LoginFragment : BaseFragment<LoginViewModel>() {
 
     override val layoutId: Int = R.layout.fragment_login
 
     override val viewModel : LoginViewModel by viewModels()
-
-    override fun setBindingVariables(binding: FragmentLoginBinding) {
-        binding.viewModel = viewModel
-    }
 
     override fun setOnClickListeners() {
         loginButton.setOnClickListener {

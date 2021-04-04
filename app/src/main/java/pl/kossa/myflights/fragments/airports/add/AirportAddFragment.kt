@@ -9,15 +9,11 @@ import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirportAddBinding
 
-class AirportAddFragment : BaseFragment<FragmentAirportAddBinding, AirportAddViewModel>() {
+class AirportAddFragment : BaseFragment<AirportAddViewModel>() {
 
     override val layoutId = R.layout.fragment_airport_add
 
     override val viewModel: AirportAddViewModel by viewModels()
-
-    override fun setBindingVariables(binding: FragmentAirportAddBinding) {
-        binding.viewModel = viewModel
-    }
 
     override fun setOnClickListeners() {
         addButton.setOnClickListener {

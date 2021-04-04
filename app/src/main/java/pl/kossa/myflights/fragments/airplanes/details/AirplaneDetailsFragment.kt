@@ -13,8 +13,7 @@ import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplaneDetailsBinding
 
 @AndroidEntryPoint
-class AirplaneDetailsFragment :
-    BaseFragment<FragmentAirplaneDetailsBinding, AirplaneDetailsViewModel>() {
+class AirplaneDetailsFragment : BaseFragment<AirplaneDetailsViewModel>() {
 
     override val layoutId = R.layout.fragment_airplane_details
 
@@ -38,10 +37,6 @@ class AirplaneDetailsFragment :
     override fun onResume() {
         super.onResume()
         viewModel.fetchAirplane()
-    }
-
-    override fun setBindingVariables(binding: FragmentAirplaneDetailsBinding) {
-        binding.viewModel = viewModel
     }
 
     override fun setObservers() {

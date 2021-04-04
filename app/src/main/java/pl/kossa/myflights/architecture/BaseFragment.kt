@@ -16,14 +16,13 @@ import androidx.navigation.fragment.findNavController
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
 import pl.kossa.myflights.utils.PreferencesHelper
+import pl.kossa.myflights.BR
 
-abstract class BaseFragment<in T : ViewDataBinding, out Y : BaseViewModel> : Fragment() {
+abstract class BaseFragment<out Y : BaseViewModel> : Fragment() {
 
     protected abstract val layoutId: Int
 
     protected abstract val viewModel: Y
-
-    protected abstract fun setBindingVariables(binding: T)
 
     protected abstract fun setOnClickListeners()
 
@@ -64,8 +63,8 @@ abstract class BaseFragment<in T : ViewDataBinding, out Y : BaseViewModel> : Fra
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
-        setBindingVariables(binding)
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, layoutId, container, false)
+        binding.setVariable(BR.viewModel, viewModel)
         return binding.root
     }
 
