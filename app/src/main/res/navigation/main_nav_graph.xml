@@ -9,7 +9,24 @@
         android:id="@+id/flightsFragment"
         android:name="pl.kossa.myflights.fragments.flights.FlightsFragment"
         android:label="FlightsFragment"
-        tools:layout="@layout/fragment_flights" />
+        tools:layout="@layout/fragment_flights">
+
+        <action
+            android:id="@+id/goToFlightDetails"
+            app:destination="@id/flightDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/flightDetailsFragment"
+        android:name="pl.kossa.myflights.fragments.flights.details.FlightDetailsFragment"
+        android:label="FlightDetailsFragment"
+        tools:layout="@layout/fragment_flight_details">
+
+        <argument
+            android:name="flightId"
+            app:argType="integer" />
+    </fragment>
+
 
     <fragment
         android:id="@+id/airplanesFragment"

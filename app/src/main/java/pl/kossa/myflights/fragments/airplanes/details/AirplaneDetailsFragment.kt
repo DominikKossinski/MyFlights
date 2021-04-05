@@ -26,7 +26,7 @@ class AirplaneDetailsFragment : BaseFragment<AirplaneDetailsViewModel>() {
 
     private fun setupToolbar() {
         toolbar.setNavigationOnClickListener {
-            //TODO viewModel.navigateBack()
+            viewModel.navigateBack()
         }
         toolbar.setOnMenuItemClickListener {
             val id = it.itemId

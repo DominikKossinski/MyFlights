@@ -3,12 +3,11 @@ package pl.kossa.myflights.fragments.airplanes.edit
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import pl.kossa.myflights.BR
-import pl.kossa.myflights.api.ApiService
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.requests.AirplaneRequest
+import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.airplanes.AirplanesFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -16,8 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AirplaneEditViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val apiService: ApiService,
+    savedStateHandle: SavedStateHandle,
+    private val airplanesService: AirplanesService,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -79,7 +78,7 @@ class AirplaneEditViewModel @Inject constructor(
 
     private fun fetchAirplane() {
         makeRequest({
-            apiService.airplanesService.getAirplaneById(airplaneId)
+            airplanesService.getAirplaneById(airplaneId)
         }) { it ->
             airplaneLiveData.value = it
         }
@@ -89,7 +88,7 @@ class AirplaneEditViewModel @Inject constructor(
         makeRequest({
             //TODO image
             val request = AirplaneRequest(name, maxSpeed?.toInt(), weight?.toInt(), null)
-            apiService.airplanesService.putAirplane(airplaneId, request)
+            airplanesService.putAirplane(airplaneId, request)
         }) {
             navigateBack()
         }

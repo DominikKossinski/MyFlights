@@ -2,14 +2,12 @@ package pl.kossa.myflights.fragments.login
 
 import android.util.Log
 import androidx.databinding.Bindable
-import androidx.navigation.NavController
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import pl.kossa.myflights.BR
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.ApiService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject

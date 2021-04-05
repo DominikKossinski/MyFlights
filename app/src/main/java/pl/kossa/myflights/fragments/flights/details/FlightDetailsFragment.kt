@@ -8,11 +8,18 @@ import pl.kossa.myflights.architecture.BaseFragment
 @AndroidEntryPoint
 class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel>() {
 
-    override val layoutId = R.layout.fragmen_flight_details
+    override val layoutId = R.layout.fragment_flight_details
     override val viewModel: FlightDetailsViewModel by viewModels()
 
 
     override fun setOnClickListeners() {
         //TODO
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchFlight()
+    }
+
+
 }
