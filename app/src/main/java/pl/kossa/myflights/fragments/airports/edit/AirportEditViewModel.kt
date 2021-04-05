@@ -3,20 +3,19 @@ package pl.kossa.myflights.fragments.airports.edit
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
 import pl.kossa.myflights.BR
-import pl.kossa.myflights.api.ApiService
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.requests.AirportRequest
+import pl.kossa.myflights.api.services.AirportsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AirportEditViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val apiService: ApiService,
+    savedStateHandle: SavedStateHandle,
+    private val airportsService: AirportsService,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -59,7 +58,7 @@ class AirportEditViewModel @Inject constructor(
 
     private fun fetchAirport() {
         makeRequest({
-            apiService.airportsService.getAirportById(airportId)
+            airportsService.getAirportById(airportId)
         }) { it ->
             airportLiveData.value = it
         }
@@ -69,7 +68,7 @@ class AirportEditViewModel @Inject constructor(
         makeRequest({
             //TODO image and data
             val request = AirportRequest(name, "", "", "", "", null)
-            apiService.airportsService.putAirport(airportId, request)
+            airportsService.putAirport(airportId, request)
         }) {
             navigateBack()
         }

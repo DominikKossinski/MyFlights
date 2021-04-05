@@ -5,16 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.ApiService
 import pl.kossa.myflights.api.models.Airport
+import pl.kossa.myflights.api.services.AirportsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AirportDetailsViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val apiService: ApiService,
+    savedStateHandle: SavedStateHandle,
+    private val airportsService: AirportsService,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -42,7 +42,7 @@ class AirportDetailsViewModel @Inject constructor(
 
     fun fetchAirport() {
         makeRequest({
-            apiService.airportsService.getAirportById(airportId)
+            airportsService.getAirportById(airportId)
         }) { it ->
             airportLiveData.value = it
         }
@@ -54,7 +54,7 @@ class AirportDetailsViewModel @Inject constructor(
 
     fun deleteAirport() {
         makeRequest({
-            apiService.airportsService.deleteAirort(airportId)
+            airportsService.deleteAirort(airportId)
         }
         ) {
             toastError.value = R.string.airport_deleted
