@@ -1,13 +1,13 @@
 package pl.kossa.myflights.fragments.airplanes.add
 
-import androidx.databinding.Bindable
 import dagger.hilt.android.lifecycle.HiltViewModel
-import pl.kossa.myflights.BR
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.requests.AirplaneRequest
 import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
-import pl.kossa.myflights.fragments.airplanes.AirplanesFragmentDirections
+import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
@@ -18,60 +18,50 @@ class AirplaneAddViewModel @Inject constructor(
 ) :
     BaseViewModel(preferencesHelper) {
 
+    private val _airplaneName = MutableStateFlow("")
+    private val _maxSpeed = MutableStateFlow(0)
+    private val _weight = MutableStateFlow(0)
 
-    @get:Bindable
-    var name = ""
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.name)
-            }
-        }
+    val isAddButtonEnabled = combine(_airplaneName, _maxSpeed, _weight) { name, speed, weight ->
+        return@combine name.isNotBlank()
+                && 1 <= speed && speed <= 500
+                && 1 <= weight && weight <= 500
+                && !(isLoadingData.value ?: true)
+    }
 
-    @get:Bindable
-    var nameError: Int? = null
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.nameError)
-            }
-        }
+    val nameError = MutableStateFlow<Int?>(null)
 
-    @get:Bindable
-    var maxSpeed: String? = null
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.maxSpeed)
-            }
-        }
+    internal fun setAirplaneName(name: String) {
+        _airplaneName.value = name
+    }
 
-    @get:Bindable
-    var weight: String? = null
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.weight)
-            }
-        }
+    internal  fun setMaxSpeed(maxSpeed: Int) {
+        _maxSpeed.value = maxSpeed
+    }
 
+    internal fun setWeight(weight: Int) {
+        _weight.value = weight
+    }
 
     fun postAirplane() {
-        nameError = null
+        nameError.value = null
+        val name = _airplaneName.value
+        val maxSpeed = _maxSpeed.value
+        val weight = _weight.value
         if (name.isBlank()) {
-            nameError = R.string.error_empty_name
+            nameError.value = R.string.error_empty_name
             return
         }
         makeRequest({//TODO image
-            val request = AirplaneRequest(name, maxSpeed?.toInt(), weight?.toInt(), null)
-           airplanesService.postAirplane(request)
+            val request = AirplaneRequest(name, maxSpeed, weight, null)
+            airplanesService.postAirplane(request)
         }) { it ->
             navigateToDetails(it.entityId)
         }
     }
 
-    private fun navigateToDetails(airplaneId: Int) {
+    private fun navigateToDetails(airplaneId: String) {
         navigateBack()
-        navDirectionLiveData.value = AirplanesFragmentDirections.goToAirplaneDetails(airplaneId)
+        navDirectionLiveData.value = MainFragmentDirections.goToAirplaneDetails(airplaneId)
     }
 }

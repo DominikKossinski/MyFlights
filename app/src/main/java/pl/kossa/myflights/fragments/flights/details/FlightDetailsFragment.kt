@@ -4,11 +4,11 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseFragment
+import pl.kossa.myflights.databinding.FragmentFlightDetailsBinding
 
 @AndroidEntryPoint
-class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel>() {
+class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFlightDetailsBinding>() {
 
-    override val layoutId = R.layout.fragment_flight_details
     override val viewModel: FlightDetailsViewModel by viewModels()
 
 

@@ -5,36 +5,42 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import dagger.hilt.EntryPoint
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_airport_details.*
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirportDetailsBinding
+import pl.kossa.myflights.fragments.airports.runways.adapter.RunwaysAdapter
 
 @AndroidEntryPoint
-class AirportDetailsFragment : BaseFragment<AirportDetailsViewModel>() {
+class AirportDetailsFragment :
+    BaseFragment<AirportDetailsViewModel, FragmentAirportDetailsBinding>() {
 
-    override val layoutId = R.layout.fragment_airport_details
 
     override val viewModel: AirportDetailsViewModel by viewModels()
+
+    private val runwaysAdapter = RunwaysAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
-
+        setupRecyclerView()
     }
 
     private fun setupToolbar() {
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             viewModel.navigateBack()
         }
-        toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setOnMenuItemClickListener {
             val id = it.itemId
             onMenuItemClick(id)
         }
+    }
+
+    private fun setupRecyclerView() {
+        binding.runwaysRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.runwaysRecyclerView.adapter = runwaysAdapter
     }
 
     override fun onResume() {
@@ -45,15 +51,29 @@ class AirportDetailsFragment : BaseFragment<AirportDetailsViewModel>() {
     override fun setObservers() {
         super.setObservers()
         viewModel.airportLiveData.observe(viewLifecycleOwner) {
-            viewModel.airport = it
+            setupAirportData(it)
         }
         viewModel.isLoadingData.observe(viewLifecycleOwner) {
-            airportSwipeRefresh.isRefreshing = it
+            binding.airportSwipeRefresh.isRefreshing = it
         }
     }
 
     override fun setOnClickListeners() {
+        binding.airportSwipeRefresh.setOnRefreshListener {
+            viewModel.fetchAirport()
+        }
+        binding.addRunwayButton.setOnClickListener {
+            viewModel.navigateToRunwayAdd()
+        }
+    }
 
+    private fun setupAirportData(airport: Airport) {
+        binding.airportNameTextView.text = airport.name
+        binding.airportCityTextView.text = airport.city
+        Log.d("MyLog","Runways: ${airport.runways}")
+        runwaysAdapter.items.clear()
+        runwaysAdapter.items.addAll(airport.runways)
+        runwaysAdapter.notifyDataSetChanged()
     }
 
     private fun onMenuItemClick(id: Int): Boolean {

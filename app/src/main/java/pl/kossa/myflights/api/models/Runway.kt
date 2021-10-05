@@ -2,7 +2,7 @@ package pl.kossa.myflights.api.models
 
 data class Runway(
 
-    val runwayId: Int,
+    val runwayId: String,
 
     val name: String,
 

@@ -1,6 +1,5 @@
 package pl.kossa.myflights.fragments.airports.details
 
-import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,27 +17,13 @@ class AirportDetailsViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-    private val airportId = savedStateHandle.get<Int>("airportId")!!
+    private val airportId = savedStateHandle.get<String>("airportId")!!
 
     init {
         fetchAirport()
     }
 
     val airportLiveData = MutableLiveData<Airport>()
-
-    var airport: Airport? = null
-        set(value) {
-            field = value
-            notifyChange()
-        }
-
-    @get:Bindable
-    val airportName
-        get() = airport?.name ?: ""
-
-    @get:Bindable
-    val city
-        get() = airport?.city ?: ""
 
     fun fetchAirport() {
         makeRequest({
@@ -49,16 +34,20 @@ class AirportDetailsViewModel @Inject constructor(
     }
 
     fun navigateToAirportEdit() {
-    navDirectionLiveData.value =  AirportDetailsFragmentDirections.goToAirportEdit(airportId)
+        navDirectionLiveData.value = AirportDetailsFragmentDirections.goToAirportEdit(airportId)
     }
 
     fun deleteAirport() {
         makeRequest({
-            airportsService.deleteAirort(airportId)
+            airportsService.deleteAirport(airportId)
         }
         ) {
             toastError.value = R.string.airport_deleted
             navigateBack()
         }
+    }
+
+    fun navigateToRunwayAdd() {
+        navDirectionLiveData.value = AirportDetailsFragmentDirections.goToRunwayAdd(airportId)
     }
 }

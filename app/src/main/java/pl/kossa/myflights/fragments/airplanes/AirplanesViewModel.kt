@@ -1,13 +1,12 @@
 package pl.kossa.myflights.fragments.airplanes
 
-import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import pl.kossa.myflights.BR
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
@@ -20,21 +19,12 @@ class AirplanesViewModel @Inject constructor(
     val airplanesList = MutableLiveData<List<Airplane>>()
 
     fun fetchAirplanes() {
-        makeRequest(airplanesService::getAllAirplanes) {
+        makeRequest(airplanesService::getAirplanes) {
             airplanesList.value = it
         }
     }
 
-    @get:Bindable
-    var noAirplanesVisibility = false
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.noAirplanesVisibility)
-            }
-        }
-
-    fun deleteAirplane(airplaneId: Int) {
+    fun deleteAirplane(airplaneId: String) {
         makeRequest({ airplanesService.deleteAirplane(airplaneId) }) {
             toastError.value = R.string.airplane_deleted
             fetchAirplanes()
@@ -42,10 +32,10 @@ class AirplanesViewModel @Inject constructor(
     }
 
     fun navigateToAddAirplane() {
-        navDirectionLiveData.value = AirplanesFragmentDirections.goToAirplaneAdd()
+        navDirectionLiveData.value = MainFragmentDirections.goToAirplaneAdd()
     }
 
-    fun navigateToAirplaneDetails(airplaneId: Int) {
-        navDirectionLiveData.value = AirplanesFragmentDirections.goToAirplaneDetails(airplaneId)
+    fun navigateToAirplaneDetails(airplaneId: String) {
+        navDirectionLiveData.value = MainFragmentDirections.goToAirplaneDetails(airplaneId)
     }
 }

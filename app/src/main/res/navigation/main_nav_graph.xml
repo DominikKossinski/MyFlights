@@ -3,36 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/airportsFragment">
+    app:startDestination="@id/mainFragment">
 
     <fragment
-        android:id="@+id/flightsFragment"
-        android:name="pl.kossa.myflights.fragments.flights.FlightsFragment"
-        android:label="FlightsFragment"
-        tools:layout="@layout/fragment_flights">
+        android:id="@+id/mainFragment"
+        android:name="pl.kossa.myflights.fragments.main.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main">
 
-        <action
-            android:id="@+id/goToFlightDetails"
-            app:destination="@id/flightDetailsFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/flightDetailsFragment"
-        android:name="pl.kossa.myflights.fragments.flights.details.FlightDetailsFragment"
-        android:label="FlightDetailsFragment"
-        tools:layout="@layout/fragment_flight_details">
-
-        <argument
-            android:name="flightId"
-            app:argType="integer" />
-    </fragment>
-
-
-    <fragment
-        android:id="@+id/airplanesFragment"
-        android:name="pl.kossa.myflights.fragments.airplanes.AirplanesFragment"
-        android:label="AirplanesFragment"
-        tools:layout="@layout/fragment_airplanes">
 
         <action
             android:id="@+id/goToAirplaneAdd"
@@ -43,8 +21,92 @@
             android:id="@+id/goToAirplaneDetails"
             app:destination="@id/airplaneDetailsFragment" />
 
+
+        <action
+            android:id="@+id/goToAirportAdd"
+            app:destination="@id/airportAddFragment" />
+
+
+        <action
+            android:id="@+id/goToAirportDetails"
+            app:destination="@id/airportDetailsFragment" />
+
+
+        <action
+            android:id="@+id/goToFlightDetails"
+            app:destination="@id/flightDetailsFragment" />
+
+        <action
+            android:id="@+id/goToFlightAdd"
+            app:destination="@id/flightAddFragment" />
+
     </fragment>
 
+    <fragment
+        android:id="@+id/flightDetailsFragment"
+        android:name="pl.kossa.myflights.fragments.flights.details.FlightDetailsFragment"
+        android:label="FlightDetailsFragment"
+        tools:layout="@layout/fragment_flight_details">
+
+        <argument
+            android:name="flightId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/flightAddFragment"
+        android:name="pl.kossa.myflights.fragments.flights.add.FlightAddFragment"
+        android:label="FlightAddFragment"
+        tools:layout="@layout/fragment_flight_add">
+
+
+        <action
+            android:id="@+id/goToAirplaneSelect"
+            app:destination="@id/airplaneSelectFragment" />
+
+        <action
+            android:id="@+id/goToAirportSelect"
+            app:destination="@id/airportSelectFragment" />
+
+        <action
+            android:id="@+id/goToRunwaySelect"
+            app:destination="@id/runwaySelectFragment" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/airplaneSelectFragment"
+        android:name="pl.kossa.myflights.fragments.flights.select.airplane.AirplaneSelectFragment"
+        android:label="AirplaneSelectFragment"
+        tools:layout="@layout/fragment_airplane_select" />
+
+    <fragment
+        android:id="@+id/airportSelectFragment"
+        android:name="pl.kossa.myflights.fragments.flights.select.airport.AirportSelectFragment"
+        android:label="AirportSelectFragment"
+        tools:layout="@layout/fragment_airport_select">
+
+        <argument
+            android:name="key"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/runwaySelectFragment"
+        android:name="pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment"
+        android:label="RunwaySelectFragment"
+        tools:layout="@layout/fragment_runway_select">
+
+        <argument
+            android:name="key"
+            app:argType="string" />
+
+        <argument
+            android:name="airportId"
+            app:argType="string" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/airplaneEditFragment"
@@ -54,7 +116,7 @@
 
         <argument
             android:name="airplaneId"
-            app:argType="integer" />
+            app:argType="string" />
 
     </fragment>
 
@@ -72,7 +134,7 @@
 
         <argument
             android:name="airplaneId"
-            app:argType="integer" />
+            app:argType="string" />
 
         <action
             android:id="@+id/goToAirplaneEdit"
@@ -80,31 +142,22 @@
 
     </fragment>
 
-    <action
-        android:id="@+id/goToAirplanes"
-        app:destination="@id/airplanesFragment" />
+    <!--    <fragment-->
+    <!--        android:id="@+id/airportsFragment"-->
+    <!--        android:name="pl.kossa.myflights.fragments.airports.AirportsFragment"-->
+    <!--        android:label="AirportsFragment"-->
+    <!--        tools:layout="@layout/fragment_airports">-->
+
+    <!--        <action-->
+    <!--            android:id="@+id/goToAirportAdd"-->
+    <!--            app:destination="@id/airportAddFragment" />-->
 
 
-    <action
-        android:id="@+id/goToAirports"
-        app:destination="@id/airportsFragment" />
+    <!--        <action-->
+    <!--            android:id="@+id/goToAirportDetails"-->
+    <!--            app:destination="@id/airportDetailsFragment" />-->
 
-    <fragment
-        android:id="@+id/airportsFragment"
-        android:name="pl.kossa.myflights.fragments.airports.AirportsFragment"
-        android:label="AirportsFragment"
-        tools:layout="@layout/fragment_airports">
-
-        <action
-            android:id="@+id/goToAirportAdd"
-            app:destination="@id/airportAddFragment" />
-
-
-        <action
-            android:id="@+id/goToAirportDetails"
-            app:destination="@id/airportDetailsFragment" />
-
-    </fragment>
+    <!--    </fragment>-->
 
 
     <fragment
@@ -115,7 +168,7 @@
 
         <argument
             android:name="airportId"
-            app:argType="integer" />
+            app:argType="string" />
 
     </fragment>
 
@@ -133,17 +186,28 @@
 
         <argument
             android:name="airportId"
-            app:argType="integer" />
+            app:argType="string" />
 
         <action
             android:id="@+id/goToAirportEdit"
             app:destination="@id/airportEditFragment" />
 
+        <action
+            android:id="@+id/goToRunwayAdd"
+            app:destination="@id/runwayAddFragment" />
+
     </fragment>
 
-    <action
-        android:id="@+id/goToFlights"
-        app:destination="@id/flightsFragment" />
+    <fragment
+        android:id="@+id/runwayAddFragment"
+        android:name="pl.kossa.myflights.fragments.airports.runways.add.RunwayAddFragment"
+        android:label="RunwayAddFragment"
+        tools:layout="@layout/fragment_runway_add">
+
+        <argument
+            android:name="airportId"
+            app:argType="string" />
+    </fragment>
 
     <action
         android:id="@+id/goToLoginActivity"
@@ -154,7 +218,7 @@
 
     <activity
         android:id="@+id/loginActivity"
-        android:name="pl.kossa.myflights.activities.LoginActivity"
+        android:name="pl.kossa.myflights.activities.login.LoginActivity"
         android:label="LoginActivity"
         tools:layout="@layout/activity_login" />
 

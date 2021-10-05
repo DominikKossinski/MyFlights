@@ -3,7 +3,7 @@ package pl.kossa.myflights.api.models
 import java.util.*
 
 data class Flight(
-    val flightId: Int,
+    val flightId: String,
 
     val note: String?,
 
@@ -19,8 +19,11 @@ data class Flight(
 
     val airplane: Airplane,
 
+    val departureAirport: Airport,
+
     val departureRunway: Runway,
 
+    val arrivalAirport: Airport,
 
     val arrivalRunway: Runway
 )

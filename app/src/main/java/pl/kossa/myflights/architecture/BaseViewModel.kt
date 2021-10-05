@@ -1,8 +1,6 @@
 package pl.kossa.myflights.architecture
 
 import android.util.Log
-import androidx.databinding.Observable
-import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +15,7 @@ import retrofit2.Response
 
 abstract class BaseViewModel(
     private val preferencesHelper: PreferencesHelper
-) : ViewModel(), Observable {
+) : ViewModel() {
 
     protected val firebaseAuth = FirebaseAuth.getInstance()
 
@@ -29,23 +27,6 @@ abstract class BaseViewModel(
     val backLiveData = SingleLiveEvent<Unit>()
     val signOutLiveData = SingleLiveEvent<Unit>()
 
-    private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
-
-    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-        callbacks.add(callback)
-    }
-
-    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-        callbacks.remove(callback)
-    }
-
-    fun notifyChange() {
-        callbacks.notifyCallbacks(this, 0, null)
-    }
-
-    fun notifyPropertyChanged(fieldId: Int) {
-        callbacks.notifyCallbacks(this, fieldId, null)
-    }
 
     fun <T> makeRequest(request: suspend () -> Response<T>, onSuccess: (T) -> Unit) {
         viewModelScope.launch {
@@ -128,5 +109,11 @@ abstract class BaseViewModel(
 
     fun navigateBack() {
         backLiveData.value = Unit
+    }
+
+    fun signOut() {
+        firebaseAuth.signOut()
+        preferencesHelper.token = null
+        signOutLiveData.value = Unit
     }
 }

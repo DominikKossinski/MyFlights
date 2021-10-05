@@ -1,22 +1,21 @@
-package pl.kossa.myflights.activities
+package pl.kossa.myflights.activities.login
 
 import android.content.Intent
 import android.os.Bundle
-import pl.kossa.myflights.R
 import pl.kossa.myflights.activities.main.MainActivity
 import pl.kossa.myflights.architecture.BaseActivity
+import pl.kossa.myflights.databinding.ActivityLauncherBinding
 import java.lang.Thread.sleep
 
-class LauncherActivity : BaseActivity() {
+class LauncherActivity : BaseActivity<ActivityLauncherBinding>() {
 
-    override val layoutId: Int = R.layout.activity_launcher
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Thread(Runnable {
+        Thread {
             sleep(2000)
             openNextActivity()
-        }).start()
+        }.start()
     }
 
     private fun openNextActivity() {

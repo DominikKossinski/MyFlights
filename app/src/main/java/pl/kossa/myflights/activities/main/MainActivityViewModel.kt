@@ -14,14 +14,14 @@ class MainActivityViewModel @Inject constructor(
 
 
     fun goToAirplanes() {
-        navDirectionLiveData.value = MainNavGraphDirections.goToAirplanes()
+//        navDirectionLiveData.value = MainNavGraphDirections.goToAirplanes()
     }
 
     fun goToFlights() {
-        navDirectionLiveData.value = MainNavGraphDirections.goToFlights()
+//        navDirectionLiveData.value = MainNavGraphDirections.goToFlights()
     }
 
     fun goToAirports() {
-        navDirectionLiveData.value = MainNavGraphDirections.goToAirports()
+//        navDirectionLiveData.value = MainNavGraphDirections.goToAirports()
     }
 }

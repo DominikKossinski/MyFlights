@@ -9,20 +9,20 @@ import retrofit2.http.*
 interface AirplanesService {
 
     @GET("/api/airplanes")
-    suspend fun getAllAirplanes(): Response<List<Airplane>>
+    suspend fun getAirplanes(@Query("filter") filter: String = ""): Response<List<Airplane>>
 
     @GET("/api/airplanes/{airplaneId}")
-    suspend fun getAirplaneById(@Path("airplaneId") airplaneId: Int): Response<Airplane>
+    suspend fun getAirplaneById(@Path("airplaneId") airplaneId: String): Response<Airplane>
 
     @POST("/api/airplanes")
     suspend fun postAirplane(@Body airplaneRequest: AirplaneRequest): Response<CreatedResponse>
 
     @PUT("/api/airplanes/{airplaneId}")
     suspend fun putAirplane(
-        @Path("airplaneId") airplaneId: Int,
+        @Path("airplaneId") airplaneId: String,
         @Body airplaneRequest: AirplaneRequest
     ): Response<Void>
 
     @DELETE("/api/airplanes/{airplaneId}")
-    suspend fun deleteAirplane(@Path("airplaneId") airplaneId: Int): Response<Void>
+    suspend fun deleteAirplane(@Path("airplaneId") airplaneId: String): Response<Void>
 }

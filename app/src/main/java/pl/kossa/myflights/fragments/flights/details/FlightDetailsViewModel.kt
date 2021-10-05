@@ -1,6 +1,5 @@
 package pl.kossa.myflights.fragments.flights.details
 
-import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,7 +23,7 @@ class FlightDetailsViewModel @Inject constructor(
     var flight: Flight? = null
         set(value) {
             field = value
-            notifyChange()
+
         }
 
     fun fetchFlight() {
@@ -36,7 +35,7 @@ class FlightDetailsViewModel @Inject constructor(
     }
 
 
-    @get:Bindable
+
     val arrivalAirport
         get() = flight?.arrivalRunway?.airport?.name ?: ""
 }
