@@ -4,18 +4,15 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_airplane_details.*
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplaneDetailsBinding
 
 @AndroidEntryPoint
-class AirplaneDetailsFragment : BaseFragment<AirplaneDetailsViewModel>() {
-
-    override val layoutId = R.layout.fragment_airplane_details
+class AirplaneDetailsFragment :
+    BaseFragment<AirplaneDetailsViewModel, FragmentAirplaneDetailsBinding>() {
 
     override val viewModel: AirplaneDetailsViewModel by viewModels()
 
@@ -25,10 +22,10 @@ class AirplaneDetailsFragment : BaseFragment<AirplaneDetailsViewModel>() {
     }
 
     private fun setupToolbar() {
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             viewModel.navigateBack()
         }
-        toolbar.setOnMenuItemClickListener {
+        binding.toolbar.setOnMenuItemClickListener {
             val id = it.itemId
             onMenuItemClick(id)
         }
@@ -42,15 +39,19 @@ class AirplaneDetailsFragment : BaseFragment<AirplaneDetailsViewModel>() {
     override fun setObservers() {
         super.setObservers()
         viewModel.airplaneLiveData.observe(viewLifecycleOwner) {
-            viewModel.airplane = it
+            setupAirplaneData(it)
         }
         viewModel.isLoadingData.observe(viewLifecycleOwner) {
-            airplaneSwipeRefresh.isRefreshing = it
+            binding.airplaneSwipeRefresh.isRefreshing = it
         }
     }
 
     override fun setOnClickListeners() {
+        //TODO
+    }
 
+    private fun setupAirplaneData(airplane: Airplane) {
+        //TODO
     }
 
     private fun onMenuItemClick(id: Int): Boolean {

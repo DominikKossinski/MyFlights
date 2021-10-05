@@ -1,10 +1,8 @@
 package pl.kossa.myflights.fragments.airports.edit
 
-import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
-import pl.kossa.myflights.BR
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.requests.AirportRequest
 import pl.kossa.myflights.api.services.AirportsService
@@ -19,7 +17,7 @@ class AirportEditViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-    private val airportId = savedStateHandle.get<Int>("airportId")!!
+    private val airportId = savedStateHandle.get<String>("airportId")!!
 
     init {
         fetchAirport()
@@ -34,24 +32,22 @@ class AirportEditViewModel @Inject constructor(
                 name = value.name
                 //TODO set values
             }
-            notifyChange()
+
         }
 
-    @get:Bindable
+
     var name = ""
         set(value) {
             if (field != value) {
                 field = value
-                notifyPropertyChanged(BR.airplaneName)
             }
         }
 
-    @get:Bindable
+
     var nameError: Int? = null
         set(value) {
             if (field != value) {
                 field = value
-                notifyPropertyChanged(BR.nameError)
             }
         }
 

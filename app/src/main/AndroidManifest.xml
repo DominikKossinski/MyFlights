@@ -16,10 +16,9 @@
         android:usesCleartextTraffic="true">
 
         <activity
-            android:name=".activities.main.MainActivity"
-            android:theme="@style/AppThemeDrawer" />
-        <activity android:name=".activities.LoginActivity" />
-        <activity android:name=".activities.LauncherActivity">
+            android:name=".activities.main.MainActivity"/>
+        <activity android:name=".activities.login.LoginActivity" />
+        <activity android:name=".activities.login.LauncherActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -4,13 +4,21 @@
     <group>
         <item
             android:id="@+id/actionFlights"
+            android:icon="@drawable/ic_flight"
             android:title="@string/flights" />
         <item
             android:id="@+id/actionAirplanes"
+            android:icon="@drawable/ic_airplane"
             android:title="@string/airplanes" />
 
         <item
-            android:id="@+id/actionAiports"
+            android:id="@+id/actionAirports"
+            android:icon="@drawable/ic_airport"
             android:title="@string/airports" />
+
+        <item
+            android:id="@+id/actionProfile"
+            android:icon="@drawable/ic_profile"
+            android:title="@string/profile" />
     </group>
 </menu>

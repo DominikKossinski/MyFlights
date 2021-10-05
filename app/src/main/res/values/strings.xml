@@ -24,6 +24,9 @@
     <string name="email_resended">Wysłano ponownie wiadomość</string>
     <string name="flights">Flights</string>
 
+    <!--CreateAccountFragment-->
+    <string name="accept_regulations">Akceptuję regulamin</string>
+
 
     <!--AirplanesFragment-->
     <string name="airplanes">Airplanes</string>
@@ -40,6 +43,12 @@
     <!--AirplaneDetailsFragment-->
     <string name="airport_delete_question_info">Are you sure to delete this airport? The operation is irreversible.</string>
 
+    <!--RunwayAddFragment-->
+    <string name="runway_name">Runway name</string>
+    <string name="runway_length">Runway length</string>
+    <string name="runway_heading">Runway heading</string>
+    <string name="runway_ils_frequency">Runway ILS frequency</string>
+    <string name="add_runway">Add runway</string>
 
     <!--AirplaneAddFragment-->
     <string name="airplane_name">Airplane name</string>
@@ -49,11 +58,29 @@
     <!--AirplaneDetailsFragment-->
     <string name="airplane_delete_question_info">Are you sure to delete this airplane? The operation is irreversible.</string>
 
+    <!--FlightsFragment-->
+    <string name="no_flights_info">You have no flights.\nClick add button to add new flight.</string>
+
+    <!--FlightAddFragment-->
+    <string name="departure_airport">Departure airport</string>
+    <string name="departure_runway">Departure runway</string>
+    <string name="arrival_airport">Arrival airport</string>
+    <string name="arrival_runway">Arrival runway</string>
+
+    <!--VIEWS-->
+
     <!--Common-->
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
+    <string name="back">Back</string>
+    <string name="profile">Profile</string>
+    <string name="sign_out">Sign out</string>
+    <string name="change">Change</string>
+    <string name="select">Select</string>
+    <string name="airport">Airport</string>
+    <string name="airplane">Airplane</string>
 
     <!--Errors-->
     <string name="error_empty_name">Name can\'t be empty</string>
@@ -63,4 +90,5 @@
     <string name="airport_towerFrequency">Tower Frequency</string>
     <string name="airport_save">Save Airport</string>
     <string name="airport_name">Airport name</string>
+    <string name="add_airplane">Add Airplane</string>
 </resources>

@@ -1,7 +1,7 @@
 package pl.kossa.myflights.api.models
 
 data class Airplane(
-    val airplaneId: Int,
+    val airplaneId: String,
 
     val name: String,
 

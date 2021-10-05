@@ -1,14 +1,14 @@
 package pl.kossa.myflights.fragments.createAccount
 
 import android.util.Log
-import androidx.databinding.Bindable
-import androidx.navigation.NavController
+import android.util.Patterns
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import dagger.hilt.android.lifecycle.HiltViewModel
-import pl.kossa.myflights.BR
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -19,84 +19,58 @@ class CreateAccountViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-    @Bindable
-    var createAccountButtonEnabled = false
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.createAccountButtonEnabled)
-            }
-        }
+    private val _email = MutableStateFlow("")
+    private val _password = MutableStateFlow("")
+    private val _confirmPassword = MutableStateFlow("")
+    private val _regulationsAccepted = MutableStateFlow(false)
+    val isCreateAccountButtonEnabled = combine(
+        _email,
+        _password,
+        _confirmPassword,
+        _regulationsAccepted
+    ) { email, password, confirmPassword, regulationsAccepted ->
+        return@combine email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank()
+                && (isLoadingData.value?.not() ?: true)
+                && Patterns.EMAIL_ADDRESS.matcher(email).matches()
+                && regulationsAccepted
+    }
+    val emailError = MutableStateFlow<Int?>(null)
+    val passwordError = MutableStateFlow<Int?>(null)
 
-    @Bindable
-    var email = ""
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.email)
-                setCreateAccountButtonEnabled()
-            }
-        }
+    internal  fun setEmail(email:String) {
+        _email.value = email
+    }
 
-    @Bindable
-    var password = ""
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.password)
-                setCreateAccountButtonEnabled()
-            }
-        }
+    internal fun setPassword(password: String) {
+        _password.value = password
+    }
 
-    @Bindable
-    var confirmedPassword = ""
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.confirmedPassword)
-                setCreateAccountButtonEnabled()
-            }
-        }
+    internal fun setConfirmPassword(confirmPassword: String) {
+        _confirmPassword.value = confirmPassword
+    }
 
-    @Bindable
-    var emailError: Int? = null
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.emailError)
-            }
-        }
-
-    @Bindable
-    var passwordError: Int? = null
-        set(value) {
-            if (field != value) {
-                field = value
-                notifyPropertyChanged(BR.passwordError)
-            }
-        }
-
-
-    private fun setCreateAccountButtonEnabled() {
-        createAccountButtonEnabled =
-            email.isNotBlank() && password.isNotBlank() && confirmedPassword.isNotBlank() && isLoadingData.value?.not() ?: true
+    internal fun setRegulationsAccepted(regulationsAccepted: Boolean) {
+        _regulationsAccepted.value = regulationsAccepted
     }
 
     internal fun createAccount() {
-        emailError = null
-        passwordError = null
+        emailError.value = null
+        passwordError.value = null
         isLoadingData.value = true
+        val email = _email.value
+        val password = _password.value
+        val confirmPassword = _confirmPassword.value
         when {
             email.isBlank() -> {
-                emailError = R.string.empty_email
+                emailError.value = R.string.empty_email
                 isLoadingData.value = false
             }
             password.isBlank() -> {
-                passwordError = R.string.empty_password
+                passwordError.value = R.string.empty_password
                 isLoadingData.value = false
             }
-            password != confirmedPassword -> {
-                passwordError = R.string.password_not_maches
+            password != confirmPassword -> {
+                passwordError.value = R.string.password_not_maches
                 isLoadingData.value = false
             }
             else -> {
@@ -116,18 +90,18 @@ class CreateAccountViewModel @Inject constructor(
                     isLoadingData.value = false
                     when (it) {
                         is FirebaseAuthWeakPasswordException -> {
-                            passwordError = R.string.to_weak_password
+                            passwordError.value = R.string.to_weak_password
                         }
                         is FirebaseAuthUserCollisionException -> {
-                            emailError = R.string.user_exists
+                            emailError.value = R.string.user_exists
                         }
                         is FirebaseAuthInvalidCredentialsException -> {
                             when {
                                 it.message?.contains("email") == true -> {
-                                    emailError = R.string.not_email_error
+                                    emailError.value = R.string.not_email_error
                                 }
                                 else -> {
-                                    Log.d("MyLog", "Creatind $it")
+                                    Log.d("MyLog", "Creating $it")
                                     toastError.value = R.string.unexpected_error
                                 }
                             }

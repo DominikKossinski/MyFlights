@@ -1,10 +1,19 @@
 package pl.kossa.myflights.fragments.airplanes.adapter
 
-import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airplane
-import pl.kossa.myflights.architecture.BaseBindingRvAdapter
+import pl.kossa.myflights.architecture.BaseRecyclerViewAdapter
+import pl.kossa.myflights.databinding.ElementAirplaneBinding
 
-class AirplanesAdapter : BaseBindingRvAdapter<Airplane>() {
+class AirplanesAdapter : BaseRecyclerViewAdapter<Airplane, ElementAirplaneBinding>() {
 
-    override val layoutId = R.layout.element_airplane
+    override fun onBindViewHolder(holder: BaseViewHolder<ElementAirplaneBinding>, position: Int) {
+        val airplane = items[position]
+        holder.binding.airplaneNameTextView.text = airplane.name
+        holder.binding.airplaneSpeedTextView.text = airplane.maxSpeed.toString()
+        holder.binding.root.setOnClickListener {
+            onClickListener?.invoke(airplane)
+        }
+    }
+
+
 }

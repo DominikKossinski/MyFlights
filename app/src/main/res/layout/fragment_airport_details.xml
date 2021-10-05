@@ -1,68 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <data>
 
-        <variable
-            name="viewModel"
-            type="pl.kossa.myflights.fragments.airports.details.AirportDetailsViewModel" />
-    </data>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/elevation"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_edit_delete"
+        app:navigationIcon="@drawable/ic_back" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/airportSwipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize">
 
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/colorPrimary"
-            android:elevation="@dimen/elevation"
-            app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/menu_edit_delete"
-            app:navigationIcon="@drawable/ic_back" />
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/airportSwipeRefresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="?actionBarSize">
+            android:layout_height="match_parent">
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/airportNameTextView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="@dimen/big_text_size"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="EPWA" />
 
 
-                <TextView
-                    android:id="@+id/airportNameTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@{viewModel.airportName}"
-                    android:textSize="@dimen/big_text_size"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="EPWA" />
+            <TextView
+                android:id="@+id/airportCityTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="@dimen/big_text_size"
+                app:layout_constraintTop_toBottomOf="@id/airportNameTextView"
+                tools:text="Warszawa" />
 
 
-                <TextView
-                    android:id="@+id/airportCityTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="@{viewModel.city}"
-                    android:textSize="@dimen/big_text_size"
-                    app:layout_constraintTop_toBottomOf="@id/airportNameTextView"
-                    tools:text="Warszawa" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/runwaysRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@id/addRunwayButton"
+                app:layout_constraintTop_toBottomOf="@id/airportCityTextView"
+                tools:listitem="@layout/element_runway" />
 
+            <Button
+                android:id="@+id/addRunwayButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Add Runway"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</layout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
