@@ -14,5 +14,5 @@ data class Runway(
 
     val imageUrl: String?,
 
-    val airport: Airport
+    val userId: String
 )

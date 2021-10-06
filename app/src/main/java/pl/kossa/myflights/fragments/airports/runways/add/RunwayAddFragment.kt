@@ -15,6 +15,12 @@ class RunwayAddFragment : BaseFragment<RunwayAddViewModel, FragmentRunwayAddBind
     override val viewModel: RunwayAddViewModel by viewModels()
 
     override fun setOnClickListeners() {
+        binding.saveAppBar.setBackOnClickListener {
+            viewModel.postRunway()
+        }
+        binding.saveAppBar.setBackOnClickListener {
+            viewModel.navigateBack()
+        }
         binding.addRunwayButton.setOnClickListener {
             viewModel.postRunway()
         }
@@ -23,12 +29,12 @@ class RunwayAddFragment : BaseFragment<RunwayAddViewModel, FragmentRunwayAddBind
             viewModel.setName(text)
         }
         binding.lengthTie.doOnTextChanged { text ->
-            text.toIntOrNull()?.let {
+            text.toIntOrNull().let {
                 viewModel.setLength(it)
             }
         }
         binding.headingTie.doOnTextChanged { text ->
-            text.toIntOrNull()?.let {
+            text.toIntOrNull().let {
                 viewModel.setHeading(it)
             }
         }
@@ -46,6 +52,7 @@ class RunwayAddFragment : BaseFragment<RunwayAddViewModel, FragmentRunwayAddBind
         lifecycleScope.launch {
             viewModel.isAddButtonEnabled.collect {
                 binding.addRunwayButton.isEnabled = it
+                binding.saveAppBar.isSaveIconEnabled = it
             }
         }
     }

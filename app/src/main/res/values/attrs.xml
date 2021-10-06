@@ -4,4 +4,13 @@
     <declare-styleable name="ElementSelectView">
         <attr name="elementName" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="ElementWithTagView">
+        <attr name="tagText" format="string" />
+        <attr name="valueText" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="DetailsAppBar">
+        <attr name="title" format="string"/>
+    </declare-styleable>
 </resources>

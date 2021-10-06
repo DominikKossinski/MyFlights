@@ -34,8 +34,4 @@ class FlightDetailsViewModel @Inject constructor(
         }
     }
 
-
-
-    val arrivalAirport
-        get() = flight?.arrivalRunway?.airport?.name ?: ""
 }
