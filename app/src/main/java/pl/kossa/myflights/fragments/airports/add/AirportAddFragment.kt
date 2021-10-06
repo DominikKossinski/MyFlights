@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirportAddBinding
@@ -16,6 +19,12 @@ class AirportAddFragment : BaseFragment<AirportAddViewModel, FragmentAirportAddB
     override val viewModel: AirportAddViewModel by viewModels()
 
     override fun setOnClickListeners() {
+        binding.saveAppBar.setBackOnClickListener {
+            viewModel.navigateBack()
+        }
+        binding.saveAppBar.setSaveOnClickListener {
+            viewModel.postAirport()
+        }
         binding.addButton.setOnClickListener {
             viewModel.postAirport()
         }
@@ -43,9 +52,13 @@ class AirportAddFragment : BaseFragment<AirportAddViewModel, FragmentAirportAddB
     }
 
     private fun collectFlow() {
-        //TODO
+        lifecycleScope.launch {
+            viewModel.isAddButtonEnabled.collect {
+                binding.addButton.isEnabled = it
+                binding.saveAppBar.isEnabled = it
+            }
+        }
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

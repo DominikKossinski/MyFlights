@@ -1,33 +1,38 @@
-package pl.kossa.myflights.fragments.airports.runways.add
+package pl.kossa.myflights.fragments.airports.runways.edit
 
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import pl.kossa.myflights.api.models.Runway
 import pl.kossa.myflights.api.requests.RunwayRequest
 import pl.kossa.myflights.api.services.RunwaysService
 import pl.kossa.myflights.architecture.BaseViewModel
-import pl.kossa.myflights.fragments.airports.details.AirportDetailsFragment
-import pl.kossa.myflights.fragments.airports.details.AirportDetailsFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
-class RunwayAddViewModel @Inject constructor(
+class RunwayEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val runwaysService: RunwaysService,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
     private val airportId = savedStateHandle.get<String>("airportId")!!
+    private val runwayId = savedStateHandle.get<String>("runwayId")!!
+    val runway = MutableStateFlow<Runway?>(null)
 
     private val _name = MutableStateFlow("")
-    private val _length = MutableStateFlow<Int?>(0)
-    private val _heading = MutableStateFlow<Int?>(0)
+    private val _length = MutableStateFlow<Int?>(null)
+    private val _heading = MutableStateFlow<Int?>(null)
     private val _ilsFrequency = MutableStateFlow<String?>(null)
-    val isAddButtonEnabled = combine(_name, _length, _heading) { name, length, heading ->
+    val isSaveButtonEnabled = combine(_name, _length, _heading) { name, length, heading ->
         if (heading == null || length == null) return@combine false
         return@combine name.isNotBlank() && 1 <= length && length <= 5_000 && 0 <= heading && heading <= 360
+    }
+
+    init {
+        fetchRunway()
     }
 
     fun setName(name: String) {
@@ -46,8 +51,14 @@ class RunwayAddViewModel @Inject constructor(
         _ilsFrequency.value = ilsFrequency
     }
 
-    fun postRunway() {
-        // TODO add image
+
+    fun fetchRunway() {
+        makeRequest({ runwaysService.getRunwayById(airportId, runwayId) }) { response ->
+            runway.value = response
+        }
+    }
+
+    fun putRunway() {
         val length = _length.value
         val heading = _heading.value
         if (length == null) {
@@ -59,14 +70,12 @@ class RunwayAddViewModel @Inject constructor(
             return
         }
         makeRequest({
-            runwaysService.postRunway(
-                airportId,
+            runwaysService.putRunway(
+                airportId, runwayId,
                 RunwayRequest(_name.value, length, heading, _ilsFrequency.value, null)
             )
-        }) { entity ->
+        }) {
             navigateBack()
-            navDirectionLiveData.value =
-                AirportDetailsFragmentDirections.goToRunwayDetails(airportId, entity.entityId)
         }
     }
 }

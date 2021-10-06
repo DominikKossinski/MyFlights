@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <pl.kossa.myflights.views.SaveAppBar
-        android:id="@+id/saveAppBar"
+        android:id="@+id/editAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
@@ -15,8 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/airport_name"
-        app:layout_constraintTop_toBottomOf="@id/saveAppBar">
+        android:hint="@string/runway_name"
+        app:layout_constraintTop_toBottomOf="@id/editAppBar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameTie"
@@ -29,94 +29,64 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/cityTil"
+        android:id="@+id/lengthTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/airport_city"
+        android:hint="@string/runway_length"
         app:layout_constraintTop_toBottomOf="@id/nameTil">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/cityTie"
+            android:id="@+id/lengthTie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/headingTil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="@string/runway_heading"
+        app:layout_constraintTop_toBottomOf="@id/lengthTil">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/headingTie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ilsFrequencyTil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="@string/runway_ils_frequency"
+        app:layout_constraintTop_toBottomOf="@id/headingTil">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ilsFrequencyTie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/icaoCodeTil"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/saveRunwayButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/airport_icao_code"
-        app:layout_constraintTop_toBottomOf="@id/cityTil">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/icaoCodeTie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:maxLength="4" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/towerFrequencyTil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/airport_towerFrequency"
-        app:layout_constraintTop_toBottomOf="@id/icaoCodeTil">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/towerFrequencyTie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="text"
-            android:maxLength="7" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/groundFrequencyTil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/airport_groundFrequency"
-        app:layout_constraintTop_toBottomOf="@id/towerFrequencyTil">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/groundFrequencyTie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:maxLength="7" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/airport_save"
+        android:text="@string/save_runway"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-    <ProgressBar
-        android:id="@+id/loadingProgressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

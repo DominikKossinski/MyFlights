@@ -43,12 +43,21 @@
     <!--AirplaneDetailsFragment-->
     <string name="airport_delete_question_info">Are you sure to delete this airport? The operation is irreversible.</string>
 
+    <!--RunwayDetailsFragment-->
+    <string name="runway_deleted">Runway has been deleted.</string>
+    <string name="runway_delete_question_info">Are you sure to delete this runway? The operation is irreversible.</string>
+
+
+
     <!--RunwayAddFragment-->
     <string name="runway_name">Runway name</string>
     <string name="runway_length">Runway length</string>
     <string name="runway_heading">Runway heading</string>
     <string name="runway_ils_frequency">Runway ILS frequency</string>
     <string name="add_runway">Add runway</string>
+
+    <!--RunwayEditFragment-->
+    <string name="save_runway">Save runway</string>
 
     <!--AirplaneAddFragment-->
     <string name="airplane_name">Airplane name</string>
@@ -81,11 +90,12 @@
     <string name="select">Select</string>
     <string name="airport">Airport</string>
     <string name="airplane">Airplane</string>
+    <string name="runway">Runway</string>
 
     <!--Errors-->
     <string name="error_empty_name">Name can\'t be empty</string>
     <string name="airport_city">City</string>
-    <string name="airport_icaoShortcut">ICAO</string>
+    <string name="airport_icao_code">ICAO</string>
     <string name="airport_groundFrequency">Ground Frequency</string>
     <string name="airport_towerFrequency">Tower Frequency</string>
     <string name="airport_save">Save Airport</string>

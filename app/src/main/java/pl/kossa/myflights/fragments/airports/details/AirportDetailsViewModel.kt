@@ -50,4 +50,9 @@ class AirportDetailsViewModel @Inject constructor(
     fun navigateToRunwayAdd() {
         navDirectionLiveData.value = AirportDetailsFragmentDirections.goToRunwayAdd(airportId)
     }
+
+    fun navigateToRunwayDetails(runwayId: String) {
+        navDirectionLiveData.value =
+            AirportDetailsFragmentDirections.goToRunwayDetails(airportId, runwayId)
+    }
 }

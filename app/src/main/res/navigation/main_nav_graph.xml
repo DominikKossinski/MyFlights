@@ -193,8 +193,48 @@
             app:destination="@id/airportEditFragment" />
 
         <action
+            android:id="@+id/goToRunwayDetails"
+            app:destination="@id/runwayDetailsFragment" />
+
+        <action
             android:id="@+id/goToRunwayAdd"
             app:destination="@id/runwayAddFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/runwayDetailsFragment"
+        android:name="pl.kossa.myflights.fragments.airports.runways.details.RunwayDetailsFragment"
+        android:label="RunwayDetailsFragment"
+        tools:layout="@layout/fragment_runway_details">
+
+        <argument
+            android:name="airportId"
+            app:argType="string" />
+
+        <argument
+            android:name="runwayId"
+            app:argType="string" />
+
+        <action
+            android:id="@+id/goToRunwayEdit"
+            app:destination="@id/runwayEditFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/runwayEditFragment"
+        android:name="pl.kossa.myflights.fragments.airports.runways.edit.RunwayEditFragment"
+        android:label="RunwayEditFragment"
+        tools:layout="@layout/fragment_runway_edit">
+
+        <argument
+            android:name="airportId"
+            app:argType="string" />
+
+        <argument
+            android:name="runwayId"
+            app:argType="string" />
 
     </fragment>
 

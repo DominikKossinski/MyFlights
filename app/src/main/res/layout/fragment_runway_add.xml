@@ -4,13 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <pl.kossa.myflights.views.SaveAppBar
+        android:id="@+id/saveAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="@string/runway_name"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/saveAppBar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameTie"
@@ -70,7 +76,7 @@
             android:id="@+id/ilsFrequencyTie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
+            android:imeOptions="actionDone"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -79,7 +85,7 @@
         android:id="@+id/addRunwayButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_runway"
         android:layout_margin="16dp"
+        android:text="@string/add_runway"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

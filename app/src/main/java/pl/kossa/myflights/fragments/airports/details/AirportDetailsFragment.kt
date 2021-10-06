@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,16 +30,21 @@ class AirportDetailsFragment :
     }
 
     private fun setupToolbar() {
-        binding.toolbar.setNavigationOnClickListener {
+        binding.detailsAppbar.setBackOnClickListener {
             viewModel.navigateBack()
         }
-        binding.toolbar.setOnMenuItemClickListener {
-            val id = it.itemId
-            onMenuItemClick(id)
+        binding.detailsAppbar.setEditOnClickListener {
+            viewModel.navigateToAirportEdit()
+        }
+        binding.detailsAppbar.setDeleteOnClickListener {
+            showDeleteDialog()
         }
     }
 
     private fun setupRecyclerView() {
+        runwaysAdapter.setOnItemClickListener {
+            viewModel.navigateToRunwayDetails(it.runwayId)
+        }
         binding.runwaysRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.runwaysRecyclerView.adapter = runwaysAdapter
     }
@@ -68,20 +74,16 @@ class AirportDetailsFragment :
     }
 
     private fun setupAirportData(airport: Airport) {
-        binding.airportNameTextView.text = airport.name
-        binding.airportCityTextView.text = airport.city
-        Log.d("MyLog","Runways: ${airport.runways}")
+        binding.nameEwt.valueText = airport.name
+        binding.cityEwt.valueText = airport.name
+        binding.icaoCodeEwt.valueText = airport.icaoCode
+        binding.towerFrequencyEwt.isVisible = airport.towerFrequency != null
+        binding.towerFrequencyEwt.valueText = airport.towerFrequency ?: ""
+        binding.groundFrequencyEwt.isVisible = airport.groundFrequency != null
+        binding.groundFrequencyEwt.valueText = airport.groundFrequency ?: ""
         runwaysAdapter.items.clear()
         runwaysAdapter.items.addAll(airport.runways)
         runwaysAdapter.notifyDataSetChanged()
-    }
-
-    private fun onMenuItemClick(id: Int): Boolean {
-        when (id) {
-            R.id.actionDelete -> showDeleteDialog()
-            R.id.actionEdit -> viewModel.navigateToAirportEdit()
-        }
-        return true
     }
 
     private fun showDeleteDialog() {
