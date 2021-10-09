@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment
 import pl.kossa.myflights.utils.PreferencesHelper
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +28,9 @@ class FlightAddViewModel @Inject constructor(
 
     val arrivalRunwayId = MutableStateFlow("")
     val arrivalRunwayName = MutableStateFlow("")
+
+    val departureDate = MutableStateFlow<Date?>(null)
+    val arrivalDate = MutableStateFlow<Date?>(null)
 
     fun navigateToAirplaneSelect() {
         navDirectionLiveData.value = FlightAddFragmentDirections.goToAirplaneSelect()

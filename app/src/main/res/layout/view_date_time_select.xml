@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/blue"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <TextView
-        android:id="@+id/elementTv"
+        android:id="@+id/dateTimeTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -16,33 +17,36 @@
         tools:text="Element" />
 
     <TextView
-        android:id="@+id/elementNameTv"
-        android:layout_width="0dp"
+        android:id="@+id/dateTv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:textSize="@dimen/big_text_size"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/elementChangeTv"
+        app:layout_constraintEnd_toStartOf="@id/timeTv"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elementTv"
-        tools:text="Airbus A380" />
+        app:layout_constraintTop_toBottomOf="@id/dateTimeTv"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="13.07.2021" />
 
     <TextView
-        android:id="@+id/elementChangeTv"
+        android:id="@+id/timeTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/change"
-        android:textColor="@color/blue"
+        android:layout_margin="16dp"
+        android:textSize="@dimen/big_text_size"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@id/elementNameTv"
+        app:layout_constraintStart_toEndOf="@id/dateTv"
+        app:layout_constraintTop_toBottomOf="@id/dateTimeTv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/elementNameTv" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible"
+        tools:text="11:30" />
 
 
     <TextView
-        android:id="@+id/elementSelectTv"
+        android:id="@+id/dateTimeSelectTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -51,7 +55,8 @@
         android:textSize="@dimen/big_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/elementTv" />
+        app:layout_constraintTop_toBottomOf="@id/dateTimeTv"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </merge>

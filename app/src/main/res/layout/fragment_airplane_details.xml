@@ -5,15 +5,11 @@
     android:layout_height="match_parent">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <pl.kossa.myflights.views.DetailsAppBar
+        android:id="@+id/detailsAppbar"
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/colorPrimary"
-        android:elevation="@dimen/elevation"
-        app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/menu_edit_delete"
-        app:navigationIcon="@drawable/ic_back" />
+        android:layout_height="wrap_content"
+        app:title="@string/airplane" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/airplaneSwipeRefresh"
@@ -26,13 +22,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <TextView
+            <pl.kossa.myflights.views.ElementWithTagView
+                android:id="@+id/nameEwt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.airplaneName}"
-                android:textSize="@dimen/big_text_size"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_margin="16dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tagText="@string/airplane_name" />
+
+            <pl.kossa.myflights.views.ElementWithTagView
+                android:id="@+id/maxSpeedEtw"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:layout_constraintTop_toBottomOf="@id/nameEwt"
+                app:tagText="@string/airplane_max_speed" />
+
+            <pl.kossa.myflights.views.ElementWithTagView
+                android:id="@+id/weightEwt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:layout_constraintTop_toBottomOf="@id/maxSpeedEtw"
+                app:tagText="@string/airplane_weight" />
+
+            <!--TODO image-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

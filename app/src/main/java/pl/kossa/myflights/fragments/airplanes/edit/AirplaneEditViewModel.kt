@@ -3,6 +3,9 @@ package pl.kossa.myflights.fragments.airplanes.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.requests.AirplaneRequest
 import pl.kossa.myflights.api.services.AirplanesService
@@ -19,79 +22,57 @@ class AirplaneEditViewModel @Inject constructor(
 ) : BaseViewModel(preferencesHelper) {
 
     private val airplaneId = savedStateHandle.get<String>("airplaneId")!!
+    private val _airplaneName = MutableStateFlow("")
+    private val _maxSpeed = MutableStateFlow<Int?>(null)
+    private val _weight = MutableStateFlow<Int?>(null)
+    val airplane = MutableStateFlow<Airplane?>(null)
 
-    init {
-        fetchAirplane()
+    val isSaveButtonEnabled = combine(_airplaneName, _maxSpeed, _weight) { name, speed, weight ->
+        if (speed == null || weight == null) return@combine false
+        return@combine name.isNotBlank()
+                && 1 <= speed && speed <= 500
+                && 1 <= weight && weight <= 500
+                && !(isLoadingData.value ?: true)
     }
 
-    val airplaneLiveData = MutableLiveData<Airplane>()
+    internal fun setAirplaneName(name: String) {
+        _airplaneName.value = name
+    }
 
-    var airplane: Airplane? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                name = value.name
-                maxSpeed = if (value.maxSpeed != null) value.maxSpeed.toString() else null
-                weight = if (value.weight != null) value.weight.toString() else null
-            }
+    internal fun setMaxSpeed(maxSpeed: Int?) {
+        _maxSpeed.value = maxSpeed
+    }
 
-        }
-
-
-    var name = ""
-        set(value) {
-            if (field != value) {
-                field = value
-            }
-        }
-
-
-    var nameError: Int? = null
-        set(value) {
-            if (field != value) {
-                field = value
-            }
-        }
-
-
-
-    var maxSpeed: String? = null
-        set(value) {
-            if (field != value) {
-                field = value
-            }
-        }
-
-
-    var weight: String? = null
-        set(value) {
-            if (field != value) {
-                field = value
-            }
-        }
+    internal fun setWeight(weight: Int?) {
+        _weight.value = weight
+    }
 
     private fun fetchAirplane() {
         makeRequest({
             airplanesService.getAirplaneById(airplaneId)
         }) { it ->
-            airplaneLiveData.value = it
+            airplane.value = it
         }
     }
 
-    fun saveAirplane() {
+    init {
+        fetchAirplane()
+    }
+
+
+    fun putAirplane() {
         makeRequest({
             //TODO image
-            val request = AirplaneRequest(name, maxSpeed?.toInt(), weight?.toInt(), null)
+            val request = AirplaneRequest(
+                _airplaneName.value,
+                _maxSpeed.value,
+                _weight.value,
+                null
+            )
             airplanesService.putAirplane(airplaneId, request)
         }) {
             navigateBack()
         }
     }
-
-    private fun navigateToAirplaneDetails() {
-        navigateBack()
-        navDirectionLiveData.value = MainFragmentDirections.goToAirplaneDetails(airplaneId)
-    }
-
 
 }

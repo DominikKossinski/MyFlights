@@ -19,10 +19,11 @@ class AirplaneAddViewModel @Inject constructor(
     BaseViewModel(preferencesHelper) {
 
     private val _airplaneName = MutableStateFlow("")
-    private val _maxSpeed = MutableStateFlow(0)
-    private val _weight = MutableStateFlow(0)
+    private val _maxSpeed = MutableStateFlow<Int?>(null)
+    private val _weight = MutableStateFlow<Int?>(null)
 
     val isAddButtonEnabled = combine(_airplaneName, _maxSpeed, _weight) { name, speed, weight ->
+        if (speed == null || weight == null) return@combine false
         return@combine name.isNotBlank()
                 && 1 <= speed && speed <= 500
                 && 1 <= weight && weight <= 500
@@ -35,11 +36,11 @@ class AirplaneAddViewModel @Inject constructor(
         _airplaneName.value = name
     }
 
-    internal  fun setMaxSpeed(maxSpeed: Int) {
+    internal  fun setMaxSpeed(maxSpeed: Int?) {
         _maxSpeed.value = maxSpeed
     }
 
-    internal fun setWeight(weight: Int) {
+    internal fun setWeight(weight: Int?) {
         _weight.value = weight
     }
 

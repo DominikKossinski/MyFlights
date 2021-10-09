@@ -4,13 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <pl.kossa.myflights.views.SaveAppBar
+        android:id="@+id/saveAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/name_til"
+        android:id="@+id/nameTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="@string/airplane_name"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/saveAppBar">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nameTie"
@@ -22,12 +29,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/maxSpeedTextInputLayout"
+        android:id="@+id/maxSpeedTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/max_speed"
-        app:layout_constraintTop_toBottomOf="@id/name_til">
+        android:hint="@string/airplane_max_speed"
+        app:layout_constraintTop_toBottomOf="@id/nameTil">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/maxSpeedTie"
@@ -43,8 +50,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/weight"
-        app:layout_constraintTop_toBottomOf="@id/maxSpeedTextInputLayout">
+        android:hint="@string/airplane_weight"
+        app:layout_constraintTop_toBottomOf="@id/maxSpeedTil">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/weightTie"

@@ -40,13 +40,9 @@
     <string name="airport_delete_question">Are you sure to delete this airport?</string>
     <string name="airport_deleted">Airport has been deleted.</string>
 
-    <!--AirplaneDetailsFragment-->
-    <string name="airport_delete_question_info">Are you sure to delete this airport? The operation is irreversible.</string>
-
     <!--RunwayDetailsFragment-->
     <string name="runway_deleted">Runway has been deleted.</string>
     <string name="runway_delete_question_info">Are you sure to delete this runway? The operation is irreversible.</string>
-
 
 
     <!--RunwayAddFragment-->
@@ -59,10 +55,13 @@
     <!--RunwayEditFragment-->
     <string name="save_runway">Save runway</string>
 
+    <!--AirplaneDetailsFragment-->
+    <string name="airport_delete_question_info">Are you sure to delete this airport? The operation is irreversible.</string>
+
     <!--AirplaneAddFragment-->
     <string name="airplane_name">Airplane name</string>
-    <string name="max_speed">Max speed</string>
-    <string name="weight">Weight</string>
+    <string name="airplane_max_speed">Max speed</string>
+    <string name="airplane_weight">Weight</string>
 
     <!--AirplaneDetailsFragment-->
     <string name="airplane_delete_question_info">Are you sure to delete this airplane? The operation is irreversible.</string>
@@ -75,6 +74,9 @@
     <string name="departure_runway">Departure runway</string>
     <string name="arrival_airport">Arrival airport</string>
     <string name="arrival_runway">Arrival runway</string>
+    <string name="flight_distance">Flight distance</string>
+    <string name="departure_time">Departure time (Z)</string>
+    <string name="arrival_time">Arrival time (Z)</string>
 
     <!--VIEWS-->
 
@@ -94,6 +96,12 @@
 
     <!--Errors-->
     <string name="error_empty_name">Name can\'t be empty</string>
+    <string name="error_departure_in_future">Departure can\'t be in future</string>
+    <string name="error_departure_after_arrival">Departure can\'t be after arrival</string>
+    <string name="error_arrival_in_future">Arrival can\'t be in future</string>
+    <string name="error_arrival_before_departure">Arrival can\'t be before departure</string>
+
+
     <string name="airport_city">City</string>
     <string name="airport_icao_code">ICAO</string>
     <string name="airport_groundFrequency">Ground Frequency</string>
@@ -101,4 +109,5 @@
     <string name="airport_save">Save Airport</string>
     <string name="airport_name">Airport name</string>
     <string name="add_airplane">Add Airplane</string>
+
 </resources>

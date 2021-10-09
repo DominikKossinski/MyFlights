@@ -4,50 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <pl.kossa.myflights.views.SaveAppBar
+        android:id="@+id/saveAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/name_til"
+        android:id="@+id/nameTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="@string/airplane_name"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/saveAppBar">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameTie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@={viewModel.name}" />
+            android:imeOptions="actionNext"
+            android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/maxSpeedTextInputLayout"
+        android:id="@+id/maxSpeedTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/max_speed"
-        app:layout_constraintTop_toBottomOf="@id/name_til">
+        android:hint="@string/airplane_max_speed"
+        app:layout_constraintTop_toBottomOf="@id/nameTil">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/maxSpeedTie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="@={viewModel.maxSpeed}" />
+            android:imeOptions="actionNext"
+            android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/weightTextInputLayout"
+        android:id="@+id/weightTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="@string/weight"
-        app:layout_constraintTop_toBottomOf="@id/maxSpeedTextInputLayout">
+        android:hint="@string/airplane_weight"
+        app:layout_constraintTop_toBottomOf="@id/maxSpeedTil">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/weightTie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="@={viewModel.weight}" />
+            android:imeOptions="actionDone"
+            android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/save"
-        app:layout_constraintTop_toBottomOf="@id/weightTextInputLayout" />
+        app:layout_constraintTop_toBottomOf="@id/weightTil" />
 
     <ProgressBar
         android:id="@+id/loadingProgressBar"
@@ -67,4 +77,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
