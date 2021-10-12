@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_background_day_night">
 
 
     <ImageView
@@ -15,17 +16,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/appNameMyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/app_name_my"
+        android:textSize="@dimen/app_name_text_size"
+        app:layout_constraintEnd_toStartOf="@id/appNameFlightsTextView"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoImageView" />
+
+    <TextView
+        android:id="@+id/appNameFlightsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/app_name_flights"
+        android:textAllCaps="true"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/app_name_text_size"
+        app:layout_constraintBaseline_toBaselineOf="@id/appNameMyTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/appNameMyTextView" />
+
+
+
 
     <TextView
         android:id="@+id/infoTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/middle_text_size"
+        android:fontFamily="@font/poppins_medium"
         android:text="@string/email_resend_info"
         app:layout_constraintBottom_toTopOf="@id/resendButton"
-        app:layout_constraintTop_toTopOf="@+id/logoImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/appNameMyTextView" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/BlackButton"
         android:id="@+id/resendButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,7 +67,8 @@
         android:text="@string/resend"
         app:layout_constraintBottom_toTopOf="@id/loginButton" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/BlackButton"
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
