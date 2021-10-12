@@ -44,8 +44,6 @@
         app:layout_constraintStart_toEndOf="@id/appNameMyTextView" />
 
 
-
-
     <TextView
         android:id="@+id/infoTextView"
         android:layout_width="match_parent"
