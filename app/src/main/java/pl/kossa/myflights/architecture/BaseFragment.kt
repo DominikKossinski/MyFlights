@@ -57,7 +57,17 @@ abstract class BaseFragment<out VM : BaseViewModel, VB : ViewBinding> : Fragment
             }
         }
         viewModel.backLiveData.observe(viewLifecycleOwner) {
-            Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment).popBackStack()
+            when(findNavController().graph.id) {
+                R.id.main_nav_graph -> {
+                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment).popBackStack()
+                }
+                R.id.lists_nav_graph -> {
+                    Navigation.findNavController(requireActivity(), R.id.listsNavHostFragment).popBackStack()
+                }
+                R.id.login_nav_graph -> {
+                    Navigation.findNavController(requireActivity(), R.id.login_nav_host_fragment).popBackStack()
+                }
+            }
         }
         viewModel.signOutLiveData.observe(viewLifecycleOwner) {
             when (findNavController().graph.id) {

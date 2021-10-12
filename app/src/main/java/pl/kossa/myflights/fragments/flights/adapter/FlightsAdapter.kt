@@ -8,6 +8,8 @@ class FlightsAdapter : BaseRecyclerViewAdapter<Flight, ElementFlightBinding>() {
 
     override fun onBindViewHolder(holder: BaseViewHolder<ElementFlightBinding>, position: Int) {
         val flight = items[position]
+        holder.binding.flightRouteTv.text =
+            "${flight.departureAirport.icaoCode}-${flight.arrivalAirport.icaoCode}" // TODO format from resources
         holder.binding.root.setOnClickListener {
             onClickListener?.invoke(flight)
         }

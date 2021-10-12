@@ -18,7 +18,10 @@ class CreateAccountFragment : BaseFragment<CreateAccountViewModel, FragmentCreat
     override val viewModel: CreateAccountViewModel by viewModels()
 
     override fun setOnClickListeners() {
-        binding.backButton.setOnClickListener {
+        binding.regulationsTv.setOnClickListener {
+            //TODO show regulations
+        }
+        binding.backTv.setOnClickListener {
             viewModel.navigateBack()
         }
         binding.createAccountButton.setOnClickListener {

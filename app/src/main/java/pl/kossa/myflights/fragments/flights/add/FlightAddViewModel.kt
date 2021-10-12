@@ -3,34 +3,91 @@ package pl.kossa.myflights.fragments.flights.add
 import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import pl.kossa.myflights.api.requests.FlightRequest
+import pl.kossa.myflights.api.services.FlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.fragments.flights.FlightsFragmentDirections
 import pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment
+import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class FlightAddViewModel @Inject constructor(
+    private val flightsService: FlightsService,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-    val airplaneName = MutableStateFlow("")
-    val airplaneId = MutableStateFlow("")
+    private val _airplaneId = MutableStateFlow("")
+    val _airplaneName = MutableStateFlow("")
 
-    val departureAirportId = MutableStateFlow("")
-    val departureAirportName = MutableStateFlow("")
+    private val _departureAirportId = MutableStateFlow("")
+    val _departureAirportName = MutableStateFlow("")
 
-    val departureRunwayId = MutableStateFlow("")
-    val departureRunwayName = MutableStateFlow("")
+    private val _departureRunwayId = MutableStateFlow("")
+    val _departureRunwayName = MutableStateFlow("")
 
-    val arrivalAirportId = MutableStateFlow("")
-    val arrivalAirportName = MutableStateFlow("")
+    private val _arrivalAirportId = MutableStateFlow("")
+    val _arrivalAirportName = MutableStateFlow("")
 
-    val arrivalRunwayId = MutableStateFlow("")
-    val arrivalRunwayName = MutableStateFlow("")
+    private val _arrivalRunwayId = MutableStateFlow("")
+    val _arrivalRunwayName = MutableStateFlow("")
 
-    val departureDate = MutableStateFlow<Date?>(null)
-    val arrivalDate = MutableStateFlow<Date?>(null)
+    val _departureDate = MutableStateFlow<Date?>(null)
+    val _arrivalDate = MutableStateFlow<Date?>(null)
+
+    private val _distance = MutableStateFlow<Int?>(null)
+    private val _note = MutableStateFlow("")
+
+    private val _airplaneAndAirportsOk = combine(
+        _airplaneId,
+        _departureAirportId,
+        _departureRunwayId,
+        _arrivalAirportId,
+        _arrivalRunwayId
+    ) { airplaneId, departureAirportId, departureRunwayId, arrivalAirportId, arrivalRunwayId ->
+        return@combine airplaneId.isNotBlank() && departureAirportId.isNotBlank() &&
+                departureRunwayId.isNotBlank() && arrivalAirportId.isNotBlank() &&
+                arrivalRunwayId.isNotBlank()
+    }
+    val isAddButtonEnabled = combine(
+        _airplaneAndAirportsOk,
+        _departureDate,
+        _arrivalDate
+    ) { airplaneAndAirportsOk, departureDate, arrivalDate ->
+        return@combine airplaneAndAirportsOk && departureDate != null && arrivalDate != null && departureDate.time <= arrivalDate.time
+    }
+
+    fun postFlight() {
+        val departureDate = _departureDate.value
+        val arrivalDate = _arrivalDate.value
+        if (departureDate == null || arrivalDate == null) return // TODO diplay error
+        makeRequest({
+            flightsService.postFlight(
+                FlightRequest(
+                    _note.value,
+                    _distance.value,
+                    null, // TODO image
+                    departureDate,
+                    arrivalDate,
+                    _airplaneId.value,
+                    _departureAirportId.value,
+                    _departureRunwayId.value,
+                    _arrivalAirportId.value,
+                    _arrivalRunwayId.value
+                )
+            )
+        }) { response ->
+            navigateToFlightDetails(response.entityId)
+        }
+    }
+
+    private fun navigateToFlightDetails(flightId: String) {
+        navigateBack()
+        navDirectionLiveData.value = MainFragmentDirections.goToFlightDetails(flightId)
+    }
 
     fun navigateToAirplaneSelect() {
         navDirectionLiveData.value = FlightAddFragmentDirections.goToAirplaneSelect()
@@ -43,14 +100,42 @@ class FlightAddViewModel @Inject constructor(
     fun navigateToRunwaySelect(key: String) {
         val airportId = when (key) {
             RunwaySelectFragment.ARRIVAL_RUNWAY_KEY -> {
-                arrivalAirportId.value
+                _arrivalAirportId.value
             }
             RunwaySelectFragment.DEPARTURE_RUNWAY_KEY -> {
-                departureAirportId.value
+                _departureAirportId.value
             }
             else -> null
         }
         navDirectionLiveData.value =
             airportId?.let { FlightAddFragmentDirections.goToRunwaySelect(key, airportId) }
+    }
+
+    fun setAirplaneId(airplaneId: String) {
+        _airplaneId.value = airplaneId
+    }
+
+    fun setDepartureAirportId(airportId: String) {
+        _departureAirportId.value = airportId
+    }
+
+    fun setDepartureRunwayId(runwayId: String) {
+        _departureRunwayId.value = runwayId
+    }
+
+    fun setArrivalAirportId(airportId: String) {
+        _arrivalAirportId.value = airportId
+    }
+
+    fun setArrivalRunwayId(runwayId: String) {
+        _arrivalRunwayId.value = runwayId
+    }
+
+    fun setNote(note: String) {
+        _note.value = note
+    }
+
+    fun setDistance(distance: Int?) {
+        _distance.value = distance
     }
 }

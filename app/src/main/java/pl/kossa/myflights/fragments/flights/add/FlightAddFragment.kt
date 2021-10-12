@@ -32,6 +32,7 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         setFragmentResultListeners()
     }
 
+
     override fun setOnClickListeners() {
         binding.airplaneSelectView.setOnElementSelectListener {
             viewModel.navigateToAirplaneSelect()
@@ -52,13 +53,13 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         }
 
         binding.departureDts.setOnSelectClickListener {
-            val currentDate = viewModel.departureDate.value?.let {
+            val currentDate = viewModel._departureDate.value?.let {
                 val year = it.extractYear()
                 val month = it.extractMonth0()
                 val day = it.extractDayOfMonth()
                 Triple(year, month, day)
             }
-            val currentTime = viewModel.departureDate.value?.let {
+            val currentTime = viewModel._departureDate.value?.let {
                 val hour = it.extractHour()
                 val minute = it.extractMinute()
                 Pair(hour, minute)
@@ -66,49 +67,49 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
             DateTimePicker(currentDate, currentTime) { year, month, day, hourOfDay, minute ->
                 val dateStr = "%02d.%02d.%04d %02d:%02d".format(day, month, year, hourOfDay, minute)
                 val date = dateStr.toDateTime()
-                viewModel.departureDate.value =
-                    verifyDepartureDate(date, viewModel.arrivalDate.value)
+                viewModel._departureDate.value =
+                    verifyDepartureDate(date, viewModel._arrivalDate.value)
             }.show(parentFragmentManager)
         }
         binding.departureDts.setOnDateClickListener {
-            val currentDate = viewModel.departureDate.value?.let {
+            val currentDate = viewModel._departureDate.value?.let {
                 val year = it.extractYear()
                 val month = it.extractMonth0()
                 val day = it.extractDayOfMonth()
                 Triple(year, month, day)
             }
-            val hourAndMinute = viewModel.departureDate.value?.toTimeString()
+            val hourAndMinute = viewModel._departureDate.value?.toTimeString()
             DatePicker(currentDate) { year, month, day ->
                 val dateStr = "%04d.%02d.%02d ".format(day, month, year) + hourAndMinute
                 val date = dateStr.toDateTime()
-                viewModel.departureDate.value =
-                    verifyDepartureDate(date, viewModel.arrivalDate.value)
+                viewModel._departureDate.value =
+                    verifyDepartureDate(date, viewModel._arrivalDate.value)
             }.show(parentFragmentManager, DatePicker.TAG)
         }
         binding.departureDts.setOnTimeClickListener {
-            val currentTime = viewModel.departureDate.value?.let {
+            val currentTime = viewModel._departureDate.value?.let {
                 val hour = it.extractHour()
                 val minute = it.extractMinute()
                 Pair(hour, minute)
             }
-            val day = viewModel.departureDate.value?.toDateString()
+            val day = viewModel._departureDate.value?.toDateString()
             TimePicker(currentTime) { hourOfDay, minute ->
                 val dateStr = day + " %02d:%02d".format(hourOfDay, minute)
                 val date = dateStr.toDateTime()
-                viewModel.departureDate.value =
-                    verifyDepartureDate(date, viewModel.arrivalDate.value)
+                viewModel._departureDate.value =
+                    verifyDepartureDate(date, viewModel._arrivalDate.value)
             }.show(parentFragmentManager, TimePicker.TAG)
         }
 
 
         binding.arrivalDts.setOnSelectClickListener {
-            val currentDate = viewModel.arrivalDate.value?.let {
+            val currentDate = viewModel._arrivalDate.value?.let {
                 val year = it.extractYear()
                 val month = it.extractMonth0()
                 val day = it.extractDayOfMonth()
                 Triple(year, month, day)
             }
-            val currentTime = viewModel.arrivalDate.value?.let {
+            val currentTime = viewModel._arrivalDate.value?.let {
                 val hour = it.extractHour()
                 val minute = it.extractMinute()
                 Pair(hour, minute)
@@ -116,38 +117,56 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
             DateTimePicker(currentDate, currentTime) { year, month, day, hourOfDay, minute ->
                 val dateStr = "%02d.%02d.%04d %02d:%02d".format(day, month, year, hourOfDay, minute)
                 val date = dateStr.toDateTime()
-                viewModel.arrivalDate.value =
-                    verifyArrivalDate(date, viewModel.departureDate.value)
+                viewModel._arrivalDate.value =
+                    verifyArrivalDate(date, viewModel._departureDate.value)
             }.show(parentFragmentManager)
         }
         binding.arrivalDts.setOnDateClickListener {
-            val currentDate = viewModel.arrivalDate.value?.let {
+            val currentDate = viewModel._arrivalDate.value?.let {
                 val year = it.extractYear()
                 val month = it.extractMonth0()
                 val day = it.extractDayOfMonth()
                 Triple(year, month, day)
             }
-            val hourAndMinute = viewModel.arrivalDate.value?.toTimeString()
+            val hourAndMinute = viewModel._arrivalDate.value?.toTimeString()
             DatePicker(currentDate) { year, month, day ->
                 val dateStr = "%04d.%02d.%02d ".format(day, month, year) + hourAndMinute
                 val date = dateStr.toDateTime()
-                viewModel.arrivalDate.value =
-                    verifyArrivalDate(date, viewModel.departureDate.value)
+                viewModel._arrivalDate.value =
+                    verifyArrivalDate(date, viewModel._departureDate.value)
             }.show(parentFragmentManager, DatePicker.TAG)
         }
         binding.arrivalDts.setOnTimeClickListener {
-            val currentTime = viewModel.arrivalDate.value?.let {
+            val currentTime = viewModel._arrivalDate.value?.let {
                 val hour = it.extractHour()
                 val minute = it.extractMinute()
                 Pair(hour, minute)
             }
-            val day = viewModel.arrivalDate.value?.toDateString()
+            val day = viewModel._arrivalDate.value?.toDateString()
             TimePicker(currentTime) { hourOfDay, minute ->
                 val dateStr = day + " %02d:%02d".format(hourOfDay, minute)
                 val date = dateStr.toDateTime()
-                viewModel.arrivalDate.value =
-                    verifyArrivalDate(date, viewModel.departureDate.value)
+                viewModel._arrivalDate.value =
+                    verifyArrivalDate(date, viewModel._departureDate.value)
             }.show(parentFragmentManager, TimePicker.TAG)
+        }
+
+        binding.noteTie.doOnTextChanged {
+            viewModel.setNote(it)
+        }
+
+        binding.distanceTie.doOnTextChanged {
+            it.toIntOrNull().let { distance -> viewModel.setDistance(distance) }
+        }
+
+        binding.saveAppBar.setBackOnClickListener {
+            viewModel.navigateBack()
+        }
+        binding.saveAppBar.setSaveOnClickListener {
+            viewModel.postFlight()
+        }
+        binding.addFlightButton.setOnClickListener {
+            viewModel.postFlight()
         }
     }
 
@@ -163,8 +182,8 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         ) { _, bundle ->
             val airplaneId = bundle.getString(AirplaneSelectFragment.AIRPLANE_ID_KEY, "")
             val name = bundle.getString(AirplaneSelectFragment.AIRPLANE_NAME_KEY, "")
-            viewModel.airplaneId.value = airplaneId
-            viewModel.airplaneName.value = name
+            viewModel.setAirplaneId(airplaneId)
+            viewModel._airplaneName.value = name
         }
 
         parentFragmentManager.setFragmentResultListener(
@@ -174,12 +193,12 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
             val airportId = bundle.getString(AirportSelectFragment.AIRPORT_ID_KEY, "")
             val airportName = bundle.getString(AirportSelectFragment.AIRPORT_NAME_KEY, "")
             val icaoCode = bundle.getString(AirportSelectFragment.AIRPORT_ICAO_CODE_KEY, "")
-            viewModel.departureAirportId.value = airportId
-            viewModel.departureAirportName.value = "$airportName ($icaoCode)"
+            viewModel.setDepartureAirportId(airportId)
+            viewModel._departureAirportName.value = "$airportName ($icaoCode)"
 
             binding.departureRunwaySelectView.isVisible = airportId.isNotBlank()
-            viewModel.departureRunwayId.value = ""
-            viewModel.departureRunwayName.value = ""
+            viewModel.setDepartureRunwayId("")
+            viewModel._departureRunwayName.value = ""
         }
 
         parentFragmentManager.setFragmentResultListener(
@@ -188,8 +207,8 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         ) { _, bundle ->
             val runwayId = bundle.getString(RunwaySelectFragment.RUNWAY_ID_KEY, "")
             val runwayName = bundle.getString(RunwaySelectFragment.RUNWAY_NAME_KEY, "")
-            viewModel.departureRunwayId.value = runwayId
-            viewModel.departureRunwayName.value = runwayName
+            viewModel.setDepartureRunwayId(runwayId)
+            viewModel._departureRunwayName.value = runwayName
         }
 
         parentFragmentManager.setFragmentResultListener(
@@ -199,12 +218,12 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
             val airportId = bundle.getString(AirportSelectFragment.AIRPORT_ID_KEY, "")
             val airportName = bundle.getString(AirportSelectFragment.AIRPORT_NAME_KEY, "")
             val icaoCode = bundle.getString(AirportSelectFragment.AIRPORT_ICAO_CODE_KEY, "")
-            viewModel.arrivalAirportId.value = airportId
-            viewModel.arrivalAirportName.value = "$airportName ($icaoCode)"
+            viewModel.setArrivalAirportId(airportId)
+            viewModel._arrivalAirportName.value = "$airportName ($icaoCode)"
 
             binding.arrivalRunwaySelectView.isVisible = airportId.isNotBlank()
-            viewModel.arrivalRunwayId.value = ""
-            viewModel.arrivalRunwayName.value = ""
+            viewModel.setArrivalRunwayId("")
+            viewModel._arrivalRunwayName.value = ""
         }
 
         parentFragmentManager.setFragmentResultListener(
@@ -213,48 +232,54 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         ) { _, bundle ->
             val runwayId = bundle.getString(RunwaySelectFragment.RUNWAY_ID_KEY, "")
             val runwayName = bundle.getString(RunwaySelectFragment.RUNWAY_NAME_KEY, "")
-            viewModel.arrivalRunwayId.value = runwayId
-            viewModel.arrivalRunwayName.value = runwayName
+            viewModel.setArrivalRunwayId(runwayId)
+            viewModel._arrivalRunwayName.value = runwayName
         }
 
     }
 
     private fun collectFlow() {
         lifecycleScope.launch {
-            viewModel.airplaneName.collect {
+            viewModel._airplaneName.collect {
                 binding.airplaneSelectView.elementName = it
             }
         }
         lifecycleScope.launch {
-            viewModel.departureAirportName.collect {
+            viewModel._departureAirportName.collect {
                 binding.departureAirportSelectView.elementName = it
                 binding.departureRunwaySelectView.isVisible = it.isNotBlank()
             }
         }
         lifecycleScope.launch {
-            viewModel.departureRunwayName.collect {
+            viewModel._departureRunwayName.collect {
                 binding.departureRunwaySelectView.elementName = it
             }
         }
         lifecycleScope.launch {
-            viewModel.arrivalAirportName.collect {
+            viewModel._arrivalAirportName.collect {
                 binding.arrivalAirportSelectView.elementName = it
                 binding.arrivalRunwaySelectView.isVisible = it.isNotBlank()
             }
         }
         lifecycleScope.launch {
-            viewModel.arrivalRunwayName.collect {
+            viewModel._arrivalRunwayName.collect {
                 binding.arrivalRunwaySelectView.elementName = it
             }
         }
         lifecycleScope.launch {
-            viewModel.departureDate.collect {
+            viewModel._departureDate.collect {
                 binding.departureDts.date = it
             }
         }
         lifecycleScope.launch {
-            viewModel.arrivalDate.collect {
+            viewModel._arrivalDate.collect {
                 binding.arrivalDts.date = it
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.isAddButtonEnabled.collect {
+                binding.saveAppBar.isSaveIconEnabled = it
+                binding.addFlightButton.isEnabled = it
             }
         }
     }

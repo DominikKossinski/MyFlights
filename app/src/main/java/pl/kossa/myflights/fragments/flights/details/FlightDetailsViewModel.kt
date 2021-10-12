@@ -3,6 +3,8 @@ package pl.kossa.myflights.fragments.flights.details
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Flight
 import pl.kossa.myflights.api.services.FlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
@@ -16,21 +18,26 @@ class FlightDetailsViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-    private val fightId = savedStateHandle.get<Int>("flightId")!!
+    private val flightId = savedStateHandle.get<String>("flightId")!!
 
-    val flightLiveData = MutableLiveData<Flight>()
-
-    var flight: Flight? = null
-        set(value) {
-            field = value
-
-        }
+    val flightLiveData = MutableStateFlow<Flight?>(null)
 
     fun fetchFlight() {
         makeRequest({
-            flightsService.getFLightById(fightId)
+            flightsService.getFLightById(flightId)
         }) { it ->
             flightLiveData.value = it
+        }
+    }
+
+    fun navigateToFlightEdit() {
+        navDirectionLiveData.value = FlightDetailsFragmentDirections.goToFlightEdit(flightId)
+    }
+
+    fun deleteFlight() {
+        makeRequest({flightsService.deleteFlight(flightId)}) {
+            toastError.value = R.string.flight_deleted
+            navigateBack()
         }
     }
 

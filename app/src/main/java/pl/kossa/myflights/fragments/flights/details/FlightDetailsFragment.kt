@@ -1,5 +1,6 @@
 package pl.kossa.myflights.fragments.flights.details
 
+import android.app.AlertDialog
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
@@ -13,7 +14,15 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
 
 
     override fun setOnClickListeners() {
-        //TODO
+        binding.detailsAppbar.setBackOnClickListener {
+            viewModel.navigateBack()
+        }
+        binding.detailsAppbar.setEditOnClickListener {
+            viewModel.navigateToFlightEdit()
+        }
+        binding.detailsAppbar.setDeleteOnClickListener {
+            showDeleteDialog()
+        }
     }
 
     override fun onResume() {
@@ -21,5 +30,20 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
         viewModel.fetchFlight()
     }
 
+    private fun showDeleteDialog() {
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage(R.string.flight_delete_question_info)
+        builder.setPositiveButton(
+            R.string.delete
+        ) { dialog, _ ->
+            viewModel.deleteFlight()
+            dialog?.dismiss()
+        }
+        builder.setNegativeButton(R.string.cancel) { dialog, _ ->
+            dialog?.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
 
 }

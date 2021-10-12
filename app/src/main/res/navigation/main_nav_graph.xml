@@ -51,6 +51,10 @@
         <argument
             android:name="flightId"
             app:argType="string" />
+
+        <action
+            android:id="@+id/goToFlightEdit"
+            app:destination="@id/flightEditFragment" />
     </fragment>
 
     <fragment
@@ -59,6 +63,29 @@
         android:label="FlightAddFragment"
         tools:layout="@layout/fragment_flight_add">
 
+        <action
+            android:id="@+id/goToAirplaneSelect"
+            app:destination="@id/airplaneSelectFragment" />
+
+        <action
+            android:id="@+id/goToAirportSelect"
+            app:destination="@id/airportSelectFragment" />
+
+        <action
+            android:id="@+id/goToRunwaySelect"
+            app:destination="@id/runwaySelectFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/flightEditFragment"
+        android:name="pl.kossa.myflights.fragments.flights.edit.FlightEditFragment"
+        android:label="FlightEditFragment"
+        tools:layout="@layout/fragment_flight_edit">
+
+        <argument
+            android:name="flightId"
+            app:argType="string" />
 
         <action
             android:id="@+id/goToAirplaneSelect"

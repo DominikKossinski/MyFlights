@@ -2,6 +2,8 @@ package pl.kossa.myflights.hilt
 
 import android.content.Context
 import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,11 +42,18 @@ object AppModule {
     }
 
     @Provides
-    fun provideRetrofit(client: OkHttpClient): Retrofit {
+    fun provideGson(): Gson {
+        return GsonBuilder().apply {
+            setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        }.create()
+    }
+
+    @Provides
+    fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .client(client)
             .baseUrl("http://10.0.2.2:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 

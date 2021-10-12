@@ -3,7 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/login_nav_graph"
-    app:startDestination="@id/loginFragment">
+    app:startDestination="@id/preLoginFragment">
+
+    <fragment
+        android:id="@+id/preLoginFragment"
+        android:name="pl.kossa.myflights.fragments.prelogin.PreLoginFragment"
+        android:label="PreLoginFragment"
+        tools:layout="@layout/fragment_pre_login">
+
+        <action
+            android:id="@+id/goToLoginFragment"
+            app:destination="@id/loginFragment" />
+
+        <action
+            android:id="@+id/goToCreateAccount"
+            app:destination="@id/createAccountFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/loginFragment"

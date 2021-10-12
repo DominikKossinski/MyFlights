@@ -111,6 +111,14 @@
                     android:lines="4" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <Button
+                android:id="@+id/addFlightButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="ADD flight"
+                app:layout_constraintTop_toBottomOf="@id/noteTil" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.core.widget.NestedScrollView>
