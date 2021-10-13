@@ -4,70 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <pl.kossa.myflights.views.SaveAppBar
-        android:id="@+id/saveAppBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameTil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/airplane_name"
-        app:layout_constraintTop_toBottomOf="@id/saveAppBar">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameTie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="text" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/maxSpeedTil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/airplane_max_speed"
-        app:layout_constraintTop_toBottomOf="@id/nameTil">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/maxSpeedTie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionNext"
-            android:inputType="number" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/weightTil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/airplane_weight"
-        app:layout_constraintTop_toBottomOf="@id/maxSpeedTil">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/weightTie"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:imeOptions="actionDone"
-            android:inputType="number" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/save"
-        app:layout_constraintTop_toBottomOf="@id/weightTil" />
 
     <ProgressBar
         android:id="@+id/loadingProgressBar"
@@ -77,5 +13,90 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <pl.kossa.myflights.views.SaveAppBar
+        android:id="@+id/saveAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/airplaneIv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/ic_airplane_rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/saveAppBar"/>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nameTil"
+        style="@style/OutlinedTil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="@string/airplane_name"
+        app:layout_constraintTop_toBottomOf="@id/airplaneIv">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameTie"
+            style="@style/OutlinedTie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/maxSpeedTil"
+        style="@style/OutlinedTil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="@string/airplane_max_speed"
+        app:layout_constraintTop_toBottomOf="@id/nameTil">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/maxSpeedTie"
+            style="@style/OutlinedTie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/weightTil"
+        style="@style/OutlinedTil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="@string/airplane_weight"
+        app:layout_constraintTop_toBottomOf="@id/maxSpeedTil">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/weightTie"
+            style="@style/OutlinedTie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/BlackButton"
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/save"
+        app:layout_constraintTop_toBottomOf="@id/weightTil" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

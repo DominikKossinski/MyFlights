@@ -27,7 +27,6 @@ class RunwayDetailsFragment : BaseFragment<RunwayDetailsViewModel, FragmentRunwa
     }
 
     private fun setupAppBar() {
-        binding.detailsAppbar.title = getString(R.string.runway)
         binding.detailsAppbar.setBackOnClickListener {
             viewModel.navigateBack()
         }

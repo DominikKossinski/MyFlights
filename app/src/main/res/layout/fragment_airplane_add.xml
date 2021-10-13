@@ -11,15 +11,28 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/airplaneIv"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="64dp"
+        android:src="@drawable/ic_airplane_rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/saveAppBar"/>
+
+
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/OutlinedTil"
         android:id="@+id/nameTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="@string/airplane_name"
-        app:layout_constraintTop_toBottomOf="@id/saveAppBar">
+        app:layout_constraintTop_toBottomOf="@id/airplaneIv">
 
         <com.google.android.material.textfield.TextInputEditText
+            style="@style/OutlinedTie"
             android:id="@+id/nameTie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,6 +42,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/OutlinedTil"
         android:id="@+id/maxSpeedTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,6 +51,7 @@
         app:layout_constraintTop_toBottomOf="@id/nameTil">
 
         <com.google.android.material.textfield.TextInputEditText
+            style="@style/OutlinedTie"
             android:id="@+id/maxSpeedTie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,6 +61,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/OutlinedTil"
         android:id="@+id/weightTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,6 +70,7 @@
         app:layout_constraintTop_toBottomOf="@id/maxSpeedTil">
 
         <com.google.android.material.textfield.TextInputEditText
+            style="@style/OutlinedTie"
             android:id="@+id/weightTie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,7 +79,8 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/BlackButton"
         android:id="@+id/addButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

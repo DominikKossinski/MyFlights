@@ -32,13 +32,13 @@ class AirplaneDetailsFragment :
     }
 
     override fun setOnClickListeners() {
-        binding.detailsAppbar.setBackOnClickListener {
+        binding.backAppbar.setBackOnClickListener {
             viewModel.navigateBack()
         }
-        binding.detailsAppbar.setEditOnClickListener {
+        binding.editButton.setOnClickListener {
             viewModel.navigateToAirplaneEdit()
         }
-        binding.detailsAppbar.setDeleteOnClickListener {
+        binding.backAppbar.setDeleteOnClickListener {
             showDeleteDialog()
         }
 

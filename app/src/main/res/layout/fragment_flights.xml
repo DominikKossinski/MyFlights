@@ -4,7 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_background_day_night">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="32dp"
+        android:rotation="-25"
+        android:src="@drawable/ic_airplane"
+        android:translationZ="-1dp"
+        app:tint="@color/airplane_bg_color" />
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -16,7 +28,7 @@
             android:id="@+id/flightsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/element_flight"/>
+            tools:listitem="@layout/element_flight" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -29,11 +41,11 @@
         android:layout_margin="@dimen/default_margin"
         android:drawablePadding="8dp"
         android:text="@string/no_flights_info"
-        android:visibility="invisible"
         android:textAlignment="center"
         android:textSize="@dimen/big_text_size"
+        android:visibility="invisible"
         app:drawableBottomCompat="@mipmap/ic_launcher"
-        tools:visibility="visible"/>
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

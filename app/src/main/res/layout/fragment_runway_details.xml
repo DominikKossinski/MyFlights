@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <pl.kossa.myflights.views.DetailsAppBar
+    <pl.kossa.myflights.views.BackAppBar
         android:id="@+id/detailsAppbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -4,16 +4,8 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowDisablePreview">true</item>
-    </style>
-
-    <style name="LoginTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/white_background_day_night</item>
-        <item name="colorAccent">@color/white</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowDisablePreview">true</item>
     </style>
 

@@ -11,11 +11,6 @@ import pl.kossa.myflights.databinding.ViewSaveAppBarBinding
 class SaveAppBar(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
     private val binding = ViewSaveAppBarBinding.inflate(LayoutInflater.from(context), this)
-    var title = ""
-        set(value) {
-            field = value
-            binding.appBarTitle.text = value
-        }
     var isSaveIconEnabled = false
         set(value) {
             field = value
@@ -26,11 +21,8 @@ class SaveAppBar(context: Context, attrs: AttributeSet) : ConstraintLayout(conte
 
 
     init {
-        context.theme.obtainStyledAttributes(attrs, R.styleable.DetailsAppBar, 0, 0).apply {
-            title = getString(R.styleable.DetailsAppBar_title) ?: ""
-        }
-        binding.root.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary))
-        binding.backArrow.setOnClickListener {
+        binding.root.setBackgroundColor(ContextCompat.getColor(context, R.color.white_background_day_night))
+        binding.backTv.setOnClickListener {
             backOnClickListener?.invoke()
         }
         binding.saveIv.setOnClickListener {

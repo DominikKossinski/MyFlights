@@ -3,19 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?actionBarSize"
     android:background="@color/white_background_day_night"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
 
     <TextView
+        android:background="@drawable/transparent_ripple"
         android:id="@+id/backTv"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:drawablePadding="8dp"
         android:fontFamily="@font/poppins_light"
         android:text="@string/back"
+        android:gravity="center"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/black_day_night"
@@ -23,20 +25,20 @@
         app:drawableStartCompat="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Title" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <ImageView
-        android:id="@+id/saveIv"
+        android:id="@+id/deleteIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        app:tint="@color/black_day_night"
-        android:src="@drawable/ic_save"
+        android:background="@drawable/transparent_ripple"
+        android:src="@drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black_day_night" />
 
 
 </merge>
