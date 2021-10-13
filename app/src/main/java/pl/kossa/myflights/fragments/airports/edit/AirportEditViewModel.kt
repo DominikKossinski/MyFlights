@@ -3,6 +3,8 @@ package pl.kossa.myflights.fragments.airports.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.requests.AirportRequest
 import pl.kossa.myflights.api.services.AirportsService
@@ -19,55 +21,67 @@ class AirportEditViewModel @Inject constructor(
 
     private val airportId = savedStateHandle.get<String>("airportId")!!
 
+    private val _name = MutableStateFlow("")
+    private val _city = MutableStateFlow("")
+    private val _icaoCode = MutableStateFlow("")
+    private val _towerFrequency = MutableStateFlow("")
+    private val _groundFrequency = MutableStateFlow("")
+
+    val airport = MutableStateFlow<Airport?>(null)
+
+
+    val isSaveButtonEnabled = combine(_name, _city, _icaoCode) { name, city, icaoCode ->
+        return@combine name.isNotBlank() && city.isNotBlank() && icaoCode.isNotBlank()
+    }
+
+
     init {
         fetchAirport()
     }
-
-    val airportLiveData = MutableLiveData<Airport>()
-
-    var airport: Airport? = null
-        set(value) {
-            field = value
-            if (value != null) {
-                name = value.name
-                //TODO set values
-            }
-
-        }
-
-
-    var name = ""
-        set(value) {
-            if (field != value) {
-                field = value
-            }
-        }
-
-
-    var nameError: Int? = null
-        set(value) {
-            if (field != value) {
-                field = value
-            }
-        }
-
 
     private fun fetchAirport() {
         makeRequest({
             airportsService.getAirportById(airportId)
         }) { it ->
-            airportLiveData.value = it
+            airport.value = it
         }
     }
 
-    fun saveAirport() {
+    fun putAirport() {
+        val name = _name.value
+        val city = _city.value
+        val icaoCode = _icaoCode.value
+        val towerFrequency = _towerFrequency.value
+        val groundFrequency = _groundFrequency.value
+
         makeRequest({
             //TODO image and data
-            val request = AirportRequest(name, "", "", "", "", null)
+            val request =
+                AirportRequest(name, city, icaoCode, towerFrequency, groundFrequency, null)
             airportsService.putAirport(airportId, request)
         }) {
             navigateBack()
         }
+    }
+
+    fun setName(name: String) {
+        _name.value = name
+    }
+
+    fun setCity(city: String) {
+        _city.value = city
+    }
+
+    fun setIcaoCode(icaoCode: String) {
+        _icaoCode.value = icaoCode
+    }
+
+    fun setTowerFrequency(towerFrequency: String) {
+        _towerFrequency.value = towerFrequency
+    }
+
+    fun setGroundFrequency(groundFrequency: String) {
+        _groundFrequency.value = groundFrequency
     }
 
 

@@ -30,15 +30,17 @@ class AirportDetailsFragment :
     }
 
     private fun setupToolbar() {
-        binding.detailsAppbar.setBackOnClickListener {
+        binding.backAppbar.setBackOnClickListener {
             viewModel.navigateBack()
         }
-        binding.detailsAppbar.setEditOnClickListener {
-            viewModel.navigateToAirportEdit()
-        }
-        binding.detailsAppbar.setDeleteOnClickListener {
+        binding.backAppbar.setDeleteOnClickListener {
             showDeleteDialog()
         }
+
+        binding.editButton.setOnClickListener {
+            viewModel.navigateToAirportEdit()
+        }
+
     }
 
     private fun setupRecyclerView() {
@@ -75,7 +77,7 @@ class AirportDetailsFragment :
 
     private fun setupAirportData(airport: Airport) {
         binding.nameEwt.valueText = airport.name
-        binding.cityEwt.valueText = airport.name
+        binding.cityEwt.valueText = airport.city
         binding.icaoCodeEwt.valueText = airport.icaoCode
         binding.towerFrequencyEwt.isVisible = airport.towerFrequency != null
         binding.towerFrequencyEwt.valueText = airport.towerFrequency ?: ""

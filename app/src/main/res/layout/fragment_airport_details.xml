@@ -6,10 +6,9 @@
     android:layout_height="match_parent">
 
     <pl.kossa.myflights.views.BackAppBar
-        android:id="@+id/detailsAppbar"
+        android:id="@+id/backAppbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:title="@string/airport" />
+        android:layout_height="wrap_content"/>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/airportSwipeRefresh"
@@ -25,12 +24,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/airportIv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="64dp"
+                    android:src="@drawable/ic_airport_rounded"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
                 <pl.kossa.myflights.views.ElementWithTagView
                     android:id="@+id/nameEwt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/airportIv"
                     app:tagText="@string/airport_name" />
 
                 <pl.kossa.myflights.views.ElementWithTagView
@@ -74,13 +84,26 @@
                     app:layout_constraintTop_toBottomOf="@id/groundFrequencyEwt"
                     tools:listitem="@layout/element_runway" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/BlackButton"
                     android:id="@+id/addRunwayButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
                     android:text="Add Runway"
+                    app:layout_constraintTop_toBottomOf="@id/runwaysRecyclerView"
+                    />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/BlackButton"
+                    android:id="@+id/editButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@string/edit"
+                    app:layout_constraintTop_toBottomOf="@id/addRunwayButton"
                     app:layout_constraintBottom_toBottomOf="parent" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

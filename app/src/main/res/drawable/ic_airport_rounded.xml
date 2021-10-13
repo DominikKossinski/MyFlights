@@ -10,5 +10,5 @@
         android:top="4dp"
         android:right="4dp"
         android:bottom="4dp"
-        android:drawable="@drawable/ic_airplane_bg" />
+        android:drawable="@drawable/ic_airport_bg" />
 </layer-list>

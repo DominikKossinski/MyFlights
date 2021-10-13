@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/airplaneImage"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/recycler_view_icon_size"
+        android:layout_height="@dimen/recycler_view_icon_size"
         android:layout_margin="16dp"
         android:src="@drawable/ic_airplane_rounded"
         app:layout_constraintBottom_toBottomOf="parent"

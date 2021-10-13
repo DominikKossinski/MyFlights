@@ -10,9 +10,6 @@
         <attr name="valueText" format="string" />
     </declare-styleable>
 
-    <declare-styleable name="DetailsAppBar">
-        <attr name="title" format="string" />
-    </declare-styleable>
     <declare-styleable name="DateTimeSelectView">
         <attr name="dateTimeName" format="string" />
     </declare-styleable>

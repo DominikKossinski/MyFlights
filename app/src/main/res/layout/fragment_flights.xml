@@ -16,7 +16,7 @@
         android:rotation="-25"
         android:src="@drawable/ic_airplane"
         android:translationZ="-1dp"
-        app:tint="@color/airplane_bg_color" />
+        app:tint="@color/icon_bg_color" />
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
