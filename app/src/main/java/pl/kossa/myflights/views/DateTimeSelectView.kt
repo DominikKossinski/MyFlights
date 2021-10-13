@@ -17,8 +17,7 @@ class DateTimeSelectView(context: Context, attrs: AttributeSet) : ConstraintLayo
     val binding = ViewDateTimeSelectBinding.inflate(LayoutInflater.from(context), this)
 
     private var onSelectClickListener: (() -> Unit)? = null
-    private var onDateClickListener: (() -> Unit)? = null
-    private var onTimeClickListener: (() -> Unit)? = null
+//    private var onChangeClickListener: (() -> Unit)? = null
 
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.DateTimeSelectView, 0, 0).apply {
@@ -39,7 +38,8 @@ class DateTimeSelectView(context: Context, attrs: AttributeSet) : ConstraintLayo
     var date: Date? = null
         set(value) {
             field = value
-            binding.dateTimeSelectTv.isVisible = value == null
+            binding.dateTimeSelectButton.isVisible = value == null
+            binding.dateTimeChangeButton.isVisible = value != null
             binding.dateTv.isVisible = value != null
             binding.timeTv.isVisible = value != null
             value?.let {
@@ -49,26 +49,29 @@ class DateTimeSelectView(context: Context, attrs: AttributeSet) : ConstraintLayo
         }
 
     init {
-        binding.dateTimeSelectTv.setOnClickListener {
+        binding.dateTimeSelectButton.setOnClickListener {
             onSelectClickListener?.invoke()
         }
-        binding.dateTv.setOnClickListener {
-            onDateClickListener?.invoke()
+        binding.dateTimeChangeButton.setOnClickListener {
+            onSelectClickListener?.invoke()
         }
-        binding.timeTv.setOnClickListener {
-            onTimeClickListener?.invoke()
-        }
+//        binding.dateTv.setOnClickListener {
+//            onDateClickListener?.invoke()
+//        }
+//        binding.timeTv.setOnClickListener {
+//            onTimeClickListener?.invoke()
+//        }
     }
 
     fun setOnSelectClickListener(listener: (() -> Unit)?) {
         onSelectClickListener = listener
     }
 
-    fun setOnDateClickListener(listener: (() -> Unit)?) {
-        onDateClickListener = listener
-    }
-
-    fun setOnTimeClickListener(listener: (() -> Unit)?) {
-        onTimeClickListener = listener
-    }
+//    fun setOnDateClickListener(listener: (() -> Unit)?) {
+//        onDateClickListener = listener
+//    }
+//
+//    fun setOnTimeClickListener(listener: (() -> Unit)?) {
+//        onTimeClickListener = listener
+//    }
 }

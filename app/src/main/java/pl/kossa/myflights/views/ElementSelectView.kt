@@ -25,15 +25,15 @@ class ElementSelectView(context: Context, attrs: AttributeSet) : ConstraintLayou
             field = value
             binding.elementNameTv.text = value
             binding.elementNameTv.isVisible = value.isNotBlank()
-            binding.elementChangeTv.isVisible = value.isNotBlank()
-            binding.elementSelectTv.isVisible = value.isBlank()
+            binding.elementChangeButton.isVisible = value.isNotBlank()
+            binding.elementSelectButton.isVisible = value.isBlank()
         }
 
     init {
-        binding.elementSelectTv.setOnClickListener {
+        binding.elementSelectButton.setOnClickListener {
             onSelectListener?.invoke()
         }
-        binding.elementChangeTv.setOnClickListener {
+        binding.elementChangeButton.setOnClickListener {
             onSelectListener?.invoke()
         }
     }

@@ -20,13 +20,13 @@ class FlightDetailsViewModel @Inject constructor(
 
     private val flightId = savedStateHandle.get<String>("flightId")!!
 
-    val flightLiveData = MutableStateFlow<Flight?>(null)
+    val flight = MutableStateFlow<Flight?>(null)
 
     fun fetchFlight() {
         makeRequest({
             flightsService.getFLightById(flightId)
         }) { it ->
-            flightLiveData.value = it
+            flight.value = it
         }
     }
 
@@ -35,7 +35,7 @@ class FlightDetailsViewModel @Inject constructor(
     }
 
     fun deleteFlight() {
-        makeRequest({flightsService.deleteFlight(flightId)}) {
+        makeRequest({ flightsService.deleteFlight(flightId) }) {
             toastError.value = R.string.flight_deleted
             navigateBack()
         }

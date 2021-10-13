@@ -3,6 +3,7 @@ package pl.kossa.myflights.fragments.flights.select.airport
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -30,7 +31,10 @@ class AirportSelectFragment : BaseFragment<AirportSelectViewModel, FragmentAirpo
     }
 
     override fun setOnClickListeners() {
-        binding.searchEt.doOnTextChanged { text ->
+        binding.backAppbar.setBackOnClickListener {
+            viewModel.navigateBack()
+        }
+        binding.searchTie.doOnTextChanged { text ->
             viewModel.fetchAirports(text)
         }
     }
@@ -57,7 +61,7 @@ class AirportSelectFragment : BaseFragment<AirportSelectViewModel, FragmentAirpo
     private fun collectFlow() {
         lifecycleScope.launch {
             viewModel.airportsList.collect {
-                //TODO no airports info
+                binding.noAirportsTextView.isVisible = it.isEmpty()
                 adapter.items.clear()
                 adapter.items.addAll(it)
                 adapter.notifyDataSetChanged()

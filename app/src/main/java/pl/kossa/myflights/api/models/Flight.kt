@@ -11,9 +11,9 @@ data class Flight(
 
     val imageUrl: String?,
 
-    val startDate: Date,
+    val departureDate: Date,
 
-    val endDate: Date,
+    val arrivalDate: Date,
 
     val userId: String,
 

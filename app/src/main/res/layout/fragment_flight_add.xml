@@ -18,13 +18,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/flightIv"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="64dp"
+                android:src="@drawable/ic_flight_rounded"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
             <pl.kossa.myflights.views.ElementSelectView
                 android:id="@+id/airplaneSelectView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 app:elementName="@string/airplane"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/flightIv" />
 
 
             <pl.kossa.myflights.views.ElementSelectView
@@ -81,6 +92,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/distanceTil"
+                style="@style/OutlinedTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -89,6 +101,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/distanceTie"
+                    style="@style/OutlinedTie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionNext"
@@ -98,25 +111,32 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/noteTil"
+                style="@style/OutlinedTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
+                android:hint="@string/note"
                 app:layout_constraintTop_toBottomOf="@id/distanceTil">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/noteTie"
+                    style="@style/OutlinedTie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="top"
                     android:inputType="textMultiLine"
                     android:lines="4" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addFlightButton"
+                style="@style/BlackButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="ADD flight"
+                android:text="@string/add_flight"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/noteTil" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

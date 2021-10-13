@@ -1,7 +1,6 @@
 package pl.kossa.myflights.fragments.flights.add
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -16,10 +15,7 @@ import pl.kossa.myflights.exstensions.*
 import pl.kossa.myflights.fragments.flights.select.airplane.AirplaneSelectFragment
 import pl.kossa.myflights.fragments.flights.select.airport.AirportSelectFragment
 import pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment
-import pl.kossa.myflights.views.pickers.DatePicker
 import pl.kossa.myflights.views.pickers.DateTimePicker
-import pl.kossa.myflights.views.pickers.TimePicker
-import java.time.LocalTime
 import java.util.*
 
 @AndroidEntryPoint
@@ -71,36 +67,6 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
                     verifyDepartureDate(date, viewModel._arrivalDate.value)
             }.show(parentFragmentManager)
         }
-        binding.departureDts.setOnDateClickListener {
-            val currentDate = viewModel._departureDate.value?.let {
-                val year = it.extractYear()
-                val month = it.extractMonth0()
-                val day = it.extractDayOfMonth()
-                Triple(year, month, day)
-            }
-            val hourAndMinute = viewModel._departureDate.value?.toTimeString()
-            DatePicker(currentDate) { year, month, day ->
-                val dateStr = "%04d.%02d.%02d ".format(day, month, year) + hourAndMinute
-                val date = dateStr.toDateTime()
-                viewModel._departureDate.value =
-                    verifyDepartureDate(date, viewModel._arrivalDate.value)
-            }.show(parentFragmentManager, DatePicker.TAG)
-        }
-        binding.departureDts.setOnTimeClickListener {
-            val currentTime = viewModel._departureDate.value?.let {
-                val hour = it.extractHour()
-                val minute = it.extractMinute()
-                Pair(hour, minute)
-            }
-            val day = viewModel._departureDate.value?.toDateString()
-            TimePicker(currentTime) { hourOfDay, minute ->
-                val dateStr = day + " %02d:%02d".format(hourOfDay, minute)
-                val date = dateStr.toDateTime()
-                viewModel._departureDate.value =
-                    verifyDepartureDate(date, viewModel._arrivalDate.value)
-            }.show(parentFragmentManager, TimePicker.TAG)
-        }
-
 
         binding.arrivalDts.setOnSelectClickListener {
             val currentDate = viewModel._arrivalDate.value?.let {
@@ -120,35 +86,6 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
                 viewModel._arrivalDate.value =
                     verifyArrivalDate(date, viewModel._departureDate.value)
             }.show(parentFragmentManager)
-        }
-        binding.arrivalDts.setOnDateClickListener {
-            val currentDate = viewModel._arrivalDate.value?.let {
-                val year = it.extractYear()
-                val month = it.extractMonth0()
-                val day = it.extractDayOfMonth()
-                Triple(year, month, day)
-            }
-            val hourAndMinute = viewModel._arrivalDate.value?.toTimeString()
-            DatePicker(currentDate) { year, month, day ->
-                val dateStr = "%04d.%02d.%02d ".format(day, month, year) + hourAndMinute
-                val date = dateStr.toDateTime()
-                viewModel._arrivalDate.value =
-                    verifyArrivalDate(date, viewModel._departureDate.value)
-            }.show(parentFragmentManager, DatePicker.TAG)
-        }
-        binding.arrivalDts.setOnTimeClickListener {
-            val currentTime = viewModel._arrivalDate.value?.let {
-                val hour = it.extractHour()
-                val minute = it.extractMinute()
-                Pair(hour, minute)
-            }
-            val day = viewModel._arrivalDate.value?.toDateString()
-            TimePicker(currentTime) { hourOfDay, minute ->
-                val dateStr = day + " %02d:%02d".format(hourOfDay, minute)
-                val date = dateStr.toDateTime()
-                viewModel._arrivalDate.value =
-                    verifyArrivalDate(date, viewModel._departureDate.value)
-            }.show(parentFragmentManager, TimePicker.TAG)
         }
 
         binding.noteTie.doOnTextChanged {

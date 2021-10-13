@@ -17,6 +17,12 @@ interface FlightsService {
     @POST("/api/flights")
     suspend fun postFlight(@Body flightRequest: FlightRequest): Response<CreatedResponse>
 
+    @PUT("/api/flights/{flightId}")
+    suspend fun putFlight(
+        @Path("flightId") flightId: String,
+        @Body flightRequest: FlightRequest
+    ): Response<Void>
+
 
     @DELETE("/api/flights/{flightId}")
     suspend fun deleteFlight(@Path("flightId") flightId: String): Response<Void>

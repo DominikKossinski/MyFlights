@@ -4,25 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/blue"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <TextView
-        android:id="@+id/dateTimeTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Element" />
+        <TextView
+            android:id="@+id/dateTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:fontFamily="@font/poppins_light"
+            android:textColor="@color/black_day_night"
+            android:textSize="@dimen/middle_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Element" />
 
     <TextView
         android:id="@+id/dateTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:textSize="@dimen/big_text_size"
         android:visibility="gone"
+        android:textSize="@dimen/big_text_size"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintEnd_toStartOf="@id/timeTv"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dateTimeTv"
@@ -37,26 +41,40 @@
         android:layout_margin="16dp"
         android:textSize="@dimen/big_text_size"
         android:visibility="gone"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@id/dateTv"
-        app:layout_constraintTop_toBottomOf="@id/dateTimeTv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@id/dateTv"
+        app:layout_constraintEnd_toStartOf="@id/dateTimeChangeButton"
         tools:visibility="visible"
         tools:text="11:30" />
 
 
-    <TextView
-        android:id="@+id/dateTimeSelectTv"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/dateTimeChangeButton"
+        style="@style/PrimaryOutlinedButton"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/change"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBaseline_toBaselineOf="@id/timeTv"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/dateTimeSelectButton"
+        style="@style/PrimaryOutlinedButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/select"
-        android:textColor="@color/green"
-        android:textSize="@dimen/big_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dateTimeTv"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/dateTimeTv" />
+
 
 
 </merge>

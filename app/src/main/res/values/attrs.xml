@@ -13,4 +13,7 @@
     <declare-styleable name="DateTimeSelectView">
         <attr name="dateTimeName" format="string" />
     </declare-styleable>
+    <declare-styleable name="BackAppBar">
+        <attr name="deleteVisible" format="boolean"/>
+    </declare-styleable>
 </resources>

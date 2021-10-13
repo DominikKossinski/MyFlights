@@ -47,6 +47,10 @@
     <string name="airport_deleted">Airport has been deleted.</string>
     <string name="runways">Runways</string>
 
+    <!--AirportSelectFragment-->
+    <string name="search_airport">Name or ICAO</string>
+    <string name="no_airports_found">No airports found</string>
+
     <!--RunwayDetailsFragment-->
     <string name="runway_deleted">Runway has been deleted.</string>
     <string name="runway_delete_question_info">Are you sure to delete this runway? The operation is irreversible.</string>
@@ -62,6 +66,11 @@
     <!--RunwayEditFragment-->
     <string name="save_runway">Save runway</string>
 
+    <!--RunwaySelectFragment-->
+    <string name="select_runway">Select runway</string>
+    <string name="no_runways">No runways has been created</string>
+
+
     <!--AirplaneDetailsFragment-->
     <string name="airport_delete_question_info">Are you sure to delete this airport? The operation is irreversible.</string>
 
@@ -72,6 +81,10 @@
 
     <!--AirplaneDetailsFragment-->
     <string name="airplane_delete_question_info">Are you sure to delete this airplane? The operation is irreversible.</string>
+
+    <!--AirplaneSelectFragment-->
+    <string name="search_airplane">Airplane name</string>
+    <string name="no_airplanes_found">No airplanes found</string>
 
     <!--FlightsFragment-->
     <string name="no_flights_info">You have no flights.\nClick add button to add new flight.</string>
@@ -88,6 +101,8 @@
     <string name="flight_distance">Flight distance</string>
     <string name="departure_time">Departure time (Z)</string>
     <string name="arrival_time">Arrival time (Z)</string>
+    <string name="note">Note</string>
+    <string name="add_flight">Add flight</string>
 
     <!--VIEWS-->
 

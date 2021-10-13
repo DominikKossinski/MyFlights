@@ -3,6 +3,7 @@ package pl.kossa.myflights.fragments.flights.select.runway
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
@@ -24,12 +25,13 @@ class RunwaySelectFragment : BaseFragment<RunwaySelectViewModel, FragmentRunwayS
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("MyLog", "Runway args: $args")
         setupRecyclerView()
     }
 
     override fun setOnClickListeners() {
-        // TODO("Not yet implemented")
+        binding.backAppbar.setBackOnClickListener {
+            viewModel.navigateBack()
+        }
     }
 
     override fun setObservers() {
@@ -41,7 +43,7 @@ class RunwaySelectFragment : BaseFragment<RunwaySelectViewModel, FragmentRunwayS
         lifecycleScope.launch {
             viewModel.airport.collect {
                 it?.let {
-                    //TODO no runways info
+                    binding.noRunwaysTextView.isVisible = it.runways.isEmpty()
                     adapter.items.clear()
                     adapter.items.addAll(it.runways)
                     adapter.notifyDataSetChanged()
