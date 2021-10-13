@@ -27,15 +27,17 @@ class RunwayDetailsFragment : BaseFragment<RunwayDetailsViewModel, FragmentRunwa
     }
 
     private fun setupAppBar() {
-        binding.detailsAppbar.setBackOnClickListener {
+        binding.backAppbar.setBackOnClickListener {
             viewModel.navigateBack()
         }
-        binding.detailsAppbar.setEditOnClickListener {
-            viewModel.navigateToRunwayEdit()
-        }
-        binding.detailsAppbar.setDeleteOnClickListener {
+        binding.backAppbar.setDeleteOnClickListener {
             showDeleteDialog()
         }
+
+        binding.editButton.setOnClickListener {
+            viewModel.navigateToRunwayEdit()
+        }
+
     }
 
 

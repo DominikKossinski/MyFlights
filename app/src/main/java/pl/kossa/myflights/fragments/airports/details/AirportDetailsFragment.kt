@@ -73,6 +73,7 @@ class AirportDetailsFragment :
         binding.addRunwayButton.setOnClickListener {
             viewModel.navigateToRunwayAdd()
         }
+
     }
 
     private fun setupAirportData(airport: Airport) {
@@ -83,6 +84,8 @@ class AirportDetailsFragment :
         binding.towerFrequencyEwt.valueText = airport.towerFrequency ?: ""
         binding.groundFrequencyEwt.isVisible = airport.groundFrequency != null
         binding.groundFrequencyEwt.valueText = airport.groundFrequency ?: ""
+        binding.runwaysTv.isVisible = airport.runways.isNotEmpty()
+        binding.runwaysRecyclerView.isVisible = airport.runways.isNotEmpty()
         runwaysAdapter.items.clear()
         runwaysAdapter.items.addAll(airport.runways)
         runwaysAdapter.notifyDataSetChanged()

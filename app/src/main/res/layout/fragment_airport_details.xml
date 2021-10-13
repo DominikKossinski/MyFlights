@@ -76,12 +76,31 @@
                     app:layout_constraintTop_toBottomOf="@id/towerFrequencyEwt"
                     app:tagText="@string/airport_groundFrequency" />
 
+                <TextView
+                    android:id="@+id/runwaysTv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:textColor="@color/black_day_night"
+                    android:textSize="@dimen/middle_text_size"
+                    android:text="@string/runways"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/groundFrequencyEwt" />
+
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/runwaysRecyclerView"
+                    android:layout_margin="24dp"
+                    android:background="@drawable/element_background"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="1dp"
                     app:layout_constraintBottom_toTopOf="@id/addRunwayButton"
-                    app:layout_constraintTop_toBottomOf="@id/groundFrequencyEwt"
+                    app:layout_constraintTop_toBottomOf="@id/runwaysTv"
                     tools:listitem="@layout/element_runway" />
 
                 <androidx.appcompat.widget.AppCompatButton

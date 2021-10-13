@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:background="@drawable/transparent_ripple"
+        android:background="@drawable/ripple_transparent"
         android:id="@+id/backTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:background="@drawable/transparent_ripple"
+        android:background="@drawable/ripple_transparent"
         android:src="@drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
