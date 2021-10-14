@@ -1,15 +1,12 @@
-package pl.kossa.myflights.activities.main
+package pl.kossa.myflights.dialogs.coming
 
-import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
-import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(
+class ComingSoonViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(preferencesHelper) {
-
+): BaseViewModel(preferencesHelper) {
 }

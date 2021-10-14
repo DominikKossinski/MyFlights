@@ -104,7 +104,32 @@
     <string name="note">Note</string>
     <string name="add_flight">Add flight</string>
 
-    <!--VIEWS-->
+    <!--Profile-->
+    <string name="statistics">Statistics</string>
+    <string name="settings">Settings</string>
+    <string name="no_nick">No nick</string>
+
+    <!--Settings-->
+    <string name="change_nick">Change nick</string>
+    <string name="change_email">Change email</string>
+    <string name="change_password">Change password</string>
+    <string name="change_avatar">Change avatar</string>
+    <string name="delete_account">Delete account</string>
+
+    <!--ChangeNick-->
+    <string name="nick_changed">Your nick has been successfully changed</string>
+
+    <!--ChangeEmail-->
+    <string name="new_email">New email</string>
+    <string name="confirm_new_email">Confirm new email</string>
+
+    <!--ChangePassword-->
+    <string name="new_password">New password</string>
+    <string name="confirm_new_password">Confirm new password</string>
+    <string name="password_changed">Your password has been successfully changed</string>
+
+    <!--DeleteAccount-->
+    <string name="delete_account_question">Are you sure to delete account? The operation is irreversible and you will lose all your data.</string>
 
     <!--Common-->
     <string name="cancel">Cancel</string>
@@ -120,6 +145,8 @@
     <string name="airplane">Airplane</string>
     <string name="runway">Runway</string>
     <string name="flight">Flight</string>
+    <string name="nick">Nick</string>
+    <string name="coming_soon">Coming soon...</string>
 
     <!--Errors-->
     <string name="error_empty_name">Name can\'t be empty</string>

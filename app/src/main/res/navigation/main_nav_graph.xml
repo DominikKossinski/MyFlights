@@ -40,6 +40,10 @@
             android:id="@+id/goToFlightAdd"
             app:destination="@id/flightAddFragment" />
 
+        <action
+            android:id="@+id/goToSettings"
+            app:destination="@id/settingsFragment" />
+
     </fragment>
 
     <fragment
@@ -275,6 +279,74 @@
             android:name="airportId"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="pl.kossa.myflights.fragments.profile.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/goToChangeNick"
+            app:destination="@id/changeNickFragment" />
+
+        <action
+            android:id="@+id/goToChangeEmail"
+            app:destination="@id/changeEmailFragment" />
+
+        <action
+            android:id="@+id/goToChangePassword"
+            app:destination="@id/changePasswordFragment" />
+
+        <action
+            android:id="@+id/showAccountDeleteDialog"
+            app:destination="@id/accountDeleteDialog" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/changeNickFragment"
+        android:name="pl.kossa.myflights.fragments.profile.settings.nick.ChangeNickFragment"
+        android:label="ChangeNickFragment"
+        tools:layout="@layout/fragment_change_nick" />
+
+    <fragment
+        android:id="@+id/changeEmailFragment"
+        android:name="pl.kossa.myflights.fragments.profile.settings.email.ChangeEmailFragment"
+        android:label="ChangeEmailFragment"
+        tools:layout="@layout/fragment_change_email">
+
+        <action
+            android:id="@+id/goToEmailVerify"
+            app:destination="@id/emailVerifyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="pl.kossa.myflights.fragments.profile.settings.password.ChangePasswordFragment"
+        android:label="ChangePasswordFragment"
+        tools:layout="@layout/fragment_change_password" />
+
+    <fragment
+        android:id="@+id/emailVerifyFragment"
+        android:name="pl.kossa.myflights.fragments.profile.settings.email.verify.EmailVerifyFragment"
+        android:label="EmailVerifyFragmenr"
+        tools:layout="@layout/fragment_email_verify" />
+
+    <dialog
+        android:id="@+id/comingSoonBottomSheet"
+        android:name="pl.kossa.myflights.dialogs.coming.ComingSoonBottomSheet"
+        android:label="ComingSoonBottomSheet"
+        tools:layout="@layout/dialog_coming_soon" />
+
+    <dialog
+        android:id="@+id/accountDeleteDialog"
+        android:name="pl.kossa.myflights.dialogs.accountdelete.AccountDeleteDialog"
+        android:label="AccountDeleteDialog"
+        tools:layout="@layout/dialog_account_delete" />
+
+    <action
+        android:id="@+id/showComingSoonDialog"
+        app:destination="@id/comingSoonBottomSheet" />
 
     <action
         android:id="@+id/goToLoginActivity"

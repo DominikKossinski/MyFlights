@@ -10,11 +10,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import pl.kossa.myflights.api.models.Runway
-import pl.kossa.myflights.api.services.AirplanesService
-import pl.kossa.myflights.api.services.AirportsService
-import pl.kossa.myflights.api.services.FlightsService
-import pl.kossa.myflights.api.services.RunwaysService
+import pl.kossa.myflights.api.services.*
 import pl.kossa.myflights.utils.PreferencesHelper
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -75,5 +71,10 @@ object AppModule {
     @Provides
     fun provideRunwaysService(retrofit: Retrofit): RunwaysService {
         return retrofit.create(RunwaysService::class.java)
+    }
+
+    @Provides
+    fun provideUserService(retrofit: Retrofit): UserService {
+        return retrofit.create(UserService::class.java)
     }
 }
