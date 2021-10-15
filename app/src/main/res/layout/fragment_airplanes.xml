@@ -6,6 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="32dp"
+        android:rotation="-25"
+        android:src="@drawable/ic_airplane"
+        android:translationZ="-1dp"
+        app:tint="@color/icon_bg_color" />
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/airplanesSwipeRefresh"
@@ -16,7 +27,7 @@
             android:id="@+id/airplanesRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/element_airplane"/>
+            tools:listitem="@layout/element_airplane" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

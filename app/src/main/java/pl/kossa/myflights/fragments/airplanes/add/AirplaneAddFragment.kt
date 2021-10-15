@@ -18,6 +18,12 @@ class AirplaneAddFragment : BaseFragment<AirplaneAddViewModel, FragmentAirplaneA
     override val viewModel: AirplaneAddViewModel by viewModels()
 
     override fun setOnClickListeners() {
+        binding.saveAppBar.setBackOnClickListener {
+            viewModel.navigateBack()
+        }
+        binding.saveAppBar.setSaveOnClickListener {
+            viewModel.postAirplane()
+        }
         binding.addButton.setOnClickListener {
             viewModel.postAirplane()
         }
@@ -26,12 +32,12 @@ class AirplaneAddFragment : BaseFragment<AirplaneAddViewModel, FragmentAirplaneA
             viewModel.setAirplaneName(text)
         }
         binding.maxSpeedTie.doOnTextChanged { text ->
-            text.toIntOrNull()?.let {
+            text.toIntOrNull().let {
                 viewModel.setMaxSpeed(it)
             }
         }
         binding.weightTie.doOnTextChanged { text ->
-            text.toIntOrNull()?.let {
+            text.toIntOrNull().let {
                 viewModel.setWeight(it)
             }
         }
@@ -46,6 +52,7 @@ class AirplaneAddFragment : BaseFragment<AirplaneAddViewModel, FragmentAirplaneA
         lifecycleScope.launch {
             viewModel.isAddButtonEnabled.collect {
                 binding.addButton.isEnabled = it
+                binding.saveAppBar.isSaveIconEnabled = it
             }
         }
         lifecycleScope.launch {

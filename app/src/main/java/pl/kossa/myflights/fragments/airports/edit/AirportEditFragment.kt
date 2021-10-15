@@ -3,12 +3,14 @@ package pl.kossa.myflights.fragments.airports.edit
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import pl.kossa.myflights.R
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirportEditBinding
+import pl.kossa.myflights.exstensions.doOnTextChanged
 
 @AndroidEntryPoint
 class AirportEditFragment : BaseFragment<AirportEditViewModel, FragmentAirportEditBinding>() {
@@ -21,16 +23,58 @@ class AirportEditFragment : BaseFragment<AirportEditViewModel, FragmentAirportEd
         progressBar = binding.loadingProgressBar
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        viewModel.airportLiveData.observe(viewLifecycleOwner) {
-            viewModel.airport = it
+    override fun setOnClickListeners() {
+        binding.saveButton.setOnClickListener {
+            viewModel.putAirport()
+        }
+        binding.saveAppBar.setBackOnClickListener {
+            viewModel.navigateBack()
+        }
+        binding.saveAppBar.setSaveOnClickListener {
+            viewModel.putAirport()
+        }
+
+        binding.nameTie.doOnTextChanged { text ->
+            viewModel.setName(text)
+        }
+        binding.cityTie.doOnTextChanged { text ->
+            viewModel.setCity(text)
+        }
+        binding.icaoCodeTie.doOnTextChanged { text ->
+            viewModel.setIcaoCode(text)
+        }
+        binding.towerFrequencyTie.doOnTextChanged { text ->
+            viewModel.setTowerFrequency(text)
+        }
+        binding.groundFrequencyTie.doOnTextChanged { text ->
+            viewModel.setGroundFrequency(text)
         }
     }
 
-    override fun setOnClickListeners() {
-        binding.saveButton.setOnClickListener {
-            viewModel.saveAirport()
+    override fun setObservers() {
+        super.setObservers()
+        collectFlow()
+    }
+
+    private fun collectFlow() {
+        lifecycleScope.launch {
+            viewModel.isSaveButtonEnabled.collect {
+                binding.saveButton.isEnabled = it
+                binding.saveAppBar.isSaveIconEnabled = it
+            }
         }
+        lifecycleScope.launch {
+            viewModel.airport.collect {
+                it?.let { setupAirportData(it) }
+            }
+        }
+    }
+
+    private fun setupAirportData(airport: Airport) {
+        binding.nameTie.setText(airport.name)
+        binding.cityTie.setText(airport.city)
+        binding.icaoCodeTie.setText(airport.icaoCode)
+        binding.towerFrequencyTie.setText(airport.towerFrequency ?: "")
+        binding.groundFrequencyTie.setText(airport.groundFrequency ?: "")
     }
 }

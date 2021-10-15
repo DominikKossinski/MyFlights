@@ -30,15 +30,17 @@ class AirportDetailsFragment :
     }
 
     private fun setupToolbar() {
-        binding.detailsAppbar.setBackOnClickListener {
+        binding.backAppbar.setBackOnClickListener {
             viewModel.navigateBack()
         }
-        binding.detailsAppbar.setEditOnClickListener {
-            viewModel.navigateToAirportEdit()
-        }
-        binding.detailsAppbar.setDeleteOnClickListener {
+        binding.backAppbar.setDeleteOnClickListener {
             showDeleteDialog()
         }
+
+        binding.editButton.setOnClickListener {
+            viewModel.navigateToAirportEdit()
+        }
+
     }
 
     private fun setupRecyclerView() {
@@ -71,16 +73,19 @@ class AirportDetailsFragment :
         binding.addRunwayButton.setOnClickListener {
             viewModel.navigateToRunwayAdd()
         }
+
     }
 
     private fun setupAirportData(airport: Airport) {
         binding.nameEwt.valueText = airport.name
-        binding.cityEwt.valueText = airport.name
+        binding.cityEwt.valueText = airport.city
         binding.icaoCodeEwt.valueText = airport.icaoCode
         binding.towerFrequencyEwt.isVisible = airport.towerFrequency != null
         binding.towerFrequencyEwt.valueText = airport.towerFrequency ?: ""
         binding.groundFrequencyEwt.isVisible = airport.groundFrequency != null
         binding.groundFrequencyEwt.valueText = airport.groundFrequency ?: ""
+        binding.runwaysTv.isVisible = airport.runways.isNotEmpty()
+        binding.runwaysRecyclerView.isVisible = airport.runways.isNotEmpty()
         runwaysAdapter.items.clear()
         runwaysAdapter.items.addAll(airport.runways)
         runwaysAdapter.notifyDataSetChanged()

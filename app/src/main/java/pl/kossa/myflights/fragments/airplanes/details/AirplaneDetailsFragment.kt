@@ -16,21 +16,6 @@ class AirplaneDetailsFragment :
 
     override val viewModel: AirplaneDetailsViewModel by viewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupToolbar()
-    }
-
-    private fun setupToolbar() {
-        binding.toolbar.setNavigationOnClickListener {
-            viewModel.navigateBack()
-        }
-        binding.toolbar.setOnMenuItemClickListener {
-            val id = it.itemId
-            onMenuItemClick(id)
-        }
-    }
-
     override fun onResume() {
         super.onResume()
         viewModel.fetchAirplane()
@@ -47,19 +32,22 @@ class AirplaneDetailsFragment :
     }
 
     override fun setOnClickListeners() {
-        //TODO
+        binding.backAppbar.setBackOnClickListener {
+            viewModel.navigateBack()
+        }
+        binding.editButton.setOnClickListener {
+            viewModel.navigateToAirplaneEdit()
+        }
+        binding.backAppbar.setDeleteOnClickListener {
+            showDeleteDialog()
+        }
+
     }
 
     private fun setupAirplaneData(airplane: Airplane) {
-        //TODO
-    }
-
-    private fun onMenuItemClick(id: Int): Boolean {
-        when (id) {
-            R.id.actionDelete -> showDeleteDialog()
-            R.id.actionEdit -> viewModel.navigateToAirplaneEdit()
-        }
-        return true
+        binding.nameEwt.valueText = airplane.name
+        binding.maxSpeedEtw.valueText = airplane.maxSpeed?.toString() ?: ""
+        binding.weightEwt.valueText = airplane.weight?.toString() ?: ""
     }
 
     private fun showDeleteDialog() {

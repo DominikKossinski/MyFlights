@@ -26,7 +26,6 @@ class ElementWithTagView(context: Context, attrs: AttributeSet) : ConstraintLayo
         }
 
     init {
-        binding.root.background = ContextCompat.getDrawable(context, R.drawable.element_background)
         context.theme.obtainStyledAttributes(attrs, R.styleable.ElementWithTagView, 0, 0).apply {
             tagText = getString(R.styleable.ElementWithTagView_tagText) ?: ""
             valueText = getString(R.styleable.ElementWithTagView_valueText) ?: ""

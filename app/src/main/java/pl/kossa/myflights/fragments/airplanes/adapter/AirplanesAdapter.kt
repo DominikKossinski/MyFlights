@@ -9,7 +9,6 @@ class AirplanesAdapter : BaseRecyclerViewAdapter<Airplane, ElementAirplaneBindin
     override fun onBindViewHolder(holder: BaseViewHolder<ElementAirplaneBinding>, position: Int) {
         val airplane = items[position]
         holder.binding.airplaneNameTextView.text = airplane.name
-        holder.binding.airplaneSpeedTextView.text = airplane.maxSpeed.toString()
         holder.binding.root.setOnClickListener {
             onClickListener?.invoke(airplane)
         }

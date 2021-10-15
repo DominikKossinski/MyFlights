@@ -27,6 +27,7 @@ class RunwayAddViewModel @Inject constructor(
     private val _ilsFrequency = MutableStateFlow<String?>(null)
     val isAddButtonEnabled = combine(_name, _length, _heading) { name, length, heading ->
         if (heading == null || length == null) return@combine false
+        //TODO display errors
         return@combine name.isNotBlank() && 1 <= length && length <= 5_000 && 0 <= heading && heading <= 360
     }
 

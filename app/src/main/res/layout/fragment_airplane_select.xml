@@ -4,21 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/searchEt"
+    <pl.kossa.myflights.views.BackAppBar
+        android:id="@+id/backAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:deleteVisible="false"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchTil"
+        style="@style/OutlinedTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:hint="string/search_airplane"
-        android:inputType="text"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:hint="@string/search_airplane"
+        app:layout_constraintTop_toBottomOf="@id/backAppbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchTie"
+            style="@style/OutlinedTie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionDone"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/airplanesSwipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchEt">
+        app:layout_constraintTop_toBottomOf="@id/searchTil">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/airplanesRecyclerView"
@@ -26,5 +45,19 @@
             android:layout_height="match_parent" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/noAirplanesTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/no_airplanes_found"
+        android:textSize="@dimen/big_text_size"
+        android:textColor="@color/black_day_night"
+        app:layout_constraintBottom_toBottomOf="@id/airplanesSwipeRefresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/airplanesSwipeRefresh" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

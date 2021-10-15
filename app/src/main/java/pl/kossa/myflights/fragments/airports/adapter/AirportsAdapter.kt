@@ -9,8 +9,8 @@ class AirportsAdapter : BaseRecyclerViewAdapter<Airport, ElementAirportBinding>(
 
     override fun onBindViewHolder(holder: BaseViewHolder<ElementAirportBinding>, position: Int) {
         val airport = items[position]
-        holder.binding.airportNameTextView.text = airport.name
-        holder.binding.cityTextView.text = airport.city
+        holder.binding.nameTv.text = airport.name
+        holder.binding.icaoCodeTv.text = airport.icaoCode
         holder.binding.root.setOnClickListener {
             onClickListener?.invoke(airport)
         }

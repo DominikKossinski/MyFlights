@@ -1,19 +1,56 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
+
+    <pl.kossa.myflights.views.BackAppBar
+        android:id="@+id/backAppbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:deleteVisible="false"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/selectRunwayTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/select_runway"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/big_text_size"
+        app:layout_constraintTop_toBottomOf="@id/backAppbar" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/runwaysSwipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/selectRunwayTv">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/runwaysRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/element_runway"/>
+            tools:listitem="@layout/element_runway" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/noRunwaysTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/no_runways"
+        android:textAlignment="center"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/big_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/runwaysSwipeRefresh"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/runwaysSwipeRefresh" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

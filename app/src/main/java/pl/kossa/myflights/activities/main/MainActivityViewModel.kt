@@ -12,16 +12,4 @@ class MainActivityViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-
-    fun goToAirplanes() {
-//        navDirectionLiveData.value = MainNavGraphDirections.goToAirplanes()
-    }
-
-    fun goToFlights() {
-//        navDirectionLiveData.value = MainNavGraphDirections.goToFlights()
-    }
-
-    fun goToAirports() {
-//        navDirectionLiveData.value = MainNavGraphDirections.goToAirports()
-    }
 }

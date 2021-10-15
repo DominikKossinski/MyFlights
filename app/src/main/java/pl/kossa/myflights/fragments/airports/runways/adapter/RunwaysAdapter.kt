@@ -8,8 +8,8 @@ class RunwaysAdapter : BaseRecyclerViewAdapter<Runway, ElementRunwayBinding>() {
 
     override fun onBindViewHolder(holder: BaseViewHolder<ElementRunwayBinding>, position: Int) {
         val runway = items[position]
-        holder.binding.runwayNameTextView.text = runway.name
-        holder.binding.runwayIlsTextView.text = runway.ilsFrequency
+        holder.binding.nameTv.text = runway.name
+        holder.binding.ilsTv.text = runway.ilsFrequency
         holder.binding.root.setOnClickListener {
             onClickListener?.invoke(runway)
         }

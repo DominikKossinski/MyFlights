@@ -2,9 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white_background_day_night">
 
     <ImageView
+        android:id="@+id/logoImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/ic_launcher"
@@ -13,16 +15,51 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/appNameMyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/app_name_my"
+        android:textSize="@dimen/app_name_text_size"
+        app:layout_constraintBottom_toTopOf="@id/emailTil"
+        app:layout_constraintEnd_toStartOf="@id/appNameFlightsTextView"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoImageView" />
+
+    <TextView
+        android:id="@+id/appNameFlightsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/app_name_flights"
+        android:textAllCaps="true"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/app_name_text_size"
+        app:layout_constraintBaseline_toBaselineOf="@id/appNameMyTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/appNameMyTextView" />
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailTil"
+        style="@style/OutlinedTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:hint="@string/type_email"
-        app:layout_constraintBottom_toTopOf="@id/passwordTil">
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:hint="@string/email"
+        app:layout_constraintBottom_toTopOf="@id/passwordTil"
+        app:layout_constraintTop_toBottomOf="@id/appNameMyTextView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/emailTie"
+            style="@style/OutlinedTie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
@@ -33,16 +70,17 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordTil"
+        style="@style/OutlinedTil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:hint="@string/password"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailTil"
         app:passwordToggleEnabled="true">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordTie"
+            style="@style/OutlinedTie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:imeOptions="actionDone"
@@ -50,8 +88,9 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginButton"
+        style="@style/BlackButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -60,13 +99,31 @@
         android:text="@string/login"
         app:layout_constraintTop_toBottomOf="@id/passwordTil" />
 
-    <Button
-        android:id="@+id/createAccountButton"
+    <TextView
+        android:id="@+id/createAccountQuestionTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="@string/create_accout"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/dont_have_account"
+        android:textAlignment="center"
+        android:textColor="@color/black_day_night"
+        app:layout_constraintTop_toBottomOf="@id/loginButton" />
+
+    <TextView
+        android:id="@+id/createAccountTv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/register_now"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/middle_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/createAccountQuestionTv" />
+
 
     <ProgressBar
         android:id="@+id/loadingProgressBar"

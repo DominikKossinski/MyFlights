@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <pl.kossa.myflights.views.DetailsAppBar
-        android:id="@+id/detailsAppbar"
+    <pl.kossa.myflights.views.BackAppBar
+        android:id="@+id/backAppbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:title="@string/runway"/>
+        app:title="@string/runway" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/runwaySwipeRefresh"
@@ -17,49 +17,74 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <pl.kossa.myflights.views.ElementWithTagView
-                android:id="@+id/runwayNameEwtv"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tagText="@string/runway_name" />
+                android:layout_height="wrap_content">
 
-            <pl.kossa.myflights.views.ElementWithTagView
-                android:id="@+id/runwayLengthEwtv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:layout_constraintTop_toBottomOf="@id/runwayNameEwtv"
-                app:tagText="@string/runway_length" />
-
-
-            <pl.kossa.myflights.views.ElementWithTagView
-                android:id="@+id/runwayHeadingEwtv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:layout_constraintTop_toBottomOf="@id/runwayLengthEwtv"
-                app:tagText="@string/runway_heading" />
+                <ImageView
+                    android:id="@+id/runwayIv"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="64dp"
+                    android:src="@drawable/ic_runway"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-            <pl.kossa.myflights.views.ElementWithTagView
-                android:id="@+id/runwayIlsFrequencyEwtv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:layout_constraintTop_toBottomOf="@id/runwayHeadingEwtv"
-                app:tagText="@string/runway_ils_frequency" />
+                <pl.kossa.myflights.views.ElementWithTagView
+                    android:id="@+id/runwayNameEwtv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/runwayIv"
+                    app:tagText="@string/runway_name" />
 
-            <!--TODO approaches-->
-            <!--TODO image-->
+                <pl.kossa.myflights.views.ElementWithTagView
+                    android:id="@+id/runwayLengthEwtv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/runwayNameEwtv"
+                    app:tagText="@string/runway_length" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <pl.kossa.myflights.views.ElementWithTagView
+                    android:id="@+id/runwayHeadingEwtv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/runwayLengthEwtv"
+                    app:tagText="@string/runway_heading" />
+
+
+                <pl.kossa.myflights.views.ElementWithTagView
+                    android:id="@+id/runwayIlsFrequencyEwtv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/runwayHeadingEwtv"
+                    app:tagText="@string/runway_ils_frequency" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/editButton"
+                    style="@style/BlackButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@string/edit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/runwayIlsFrequencyEwtv" />
+                <!--TODO approaches-->
+                <!--TODO image-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

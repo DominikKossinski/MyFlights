@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <pl.kossa.myflights.views.SaveAppBar
+        android:id="@+id/saveAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/flightIv"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="64dp"
+                android:src="@drawable/ic_flight_rounded"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <pl.kossa.myflights.views.ElementSelectView
+                android:id="@+id/airplaneSelectView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:elementName="@string/airplane"
+                app:layout_constraintTop_toBottomOf="@id/flightIv" />
+
+
+            <pl.kossa.myflights.views.ElementSelectView
+                android:id="@+id/departureAirportSelectView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:elementName="@string/departure_airport"
+                app:layout_constraintTop_toBottomOf="@id/airplaneSelectView" />
+
+            <pl.kossa.myflights.views.ElementSelectView
+                android:id="@+id/departureRunwaySelectView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:visibility="gone"
+                app:elementName="@string/departure_runway"
+                app:layout_constraintTop_toBottomOf="@id/departureAirportSelectView" />
+
+
+            <pl.kossa.myflights.views.ElementSelectView
+                android:id="@+id/arrivalAirportSelectView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:elementName="@string/arrival_airport"
+                app:layout_constraintTop_toBottomOf="@id/departureRunwaySelectView" />
+
+            <pl.kossa.myflights.views.ElementSelectView
+                android:id="@+id/arrivalRunwaySelectView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:visibility="gone"
+                app:elementName="@string/arrival_runway"
+                app:layout_constraintTop_toBottomOf="@id/arrivalAirportSelectView" />
+
+            <pl.kossa.myflights.views.DateTimeSelectView
+                android:id="@+id/departureDts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:dateTimeName="@string/departure_time"
+                app:layout_constraintTop_toBottomOf="@id/arrivalRunwaySelectView" />
+
+            <pl.kossa.myflights.views.DateTimeSelectView
+                android:id="@+id/arrivalDts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:dateTimeName="@string/arrival_time"
+                app:layout_constraintTop_toBottomOf="@id/departureDts" />
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/distanceTil"
+                style="@style/OutlinedTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:hint="@string/flight_distance"
+                app:layout_constraintTop_toBottomOf="@id/arrivalDts">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/distanceTie"
+                    style="@style/OutlinedTie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/noteTil"
+                style="@style/OutlinedTil"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:hint="@string/note"
+                app:layout_constraintTop_toBottomOf="@id/distanceTil">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/noteTie"
+                    style="@style/OutlinedTie"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:lines="4" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/saveButton"
+                style="@style/BlackButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/noteTil" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

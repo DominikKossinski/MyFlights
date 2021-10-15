@@ -9,15 +9,17 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
+import pl.kossa.myflights.activities.main.MainActivity
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseFragment<out VM : BaseViewModel, VB : ViewBinding> : Fragment() {
+abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment() {
 
     protected abstract val viewModel: VM
 
@@ -57,7 +59,17 @@ abstract class BaseFragment<out VM : BaseViewModel, VB : ViewBinding> : Fragment
             }
         }
         viewModel.backLiveData.observe(viewLifecycleOwner) {
-            Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment).popBackStack()
+            when(findNavController().graph.id) {
+                R.id.main_nav_graph -> {
+                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment).popBackStack()
+                }
+                R.id.lists_nav_graph -> {
+                    Navigation.findNavController(requireActivity(), R.id.listsNavHostFragment).popBackStack()
+                }
+                R.id.login_nav_graph -> {
+                    Navigation.findNavController(requireActivity(), R.id.login_nav_host_fragment).popBackStack()
+                }
+            }
         }
         viewModel.signOutLiveData.observe(viewLifecycleOwner) {
             when (findNavController().graph.id) {
@@ -70,6 +82,7 @@ abstract class BaseFragment<out VM : BaseViewModel, VB : ViewBinding> : Fragment
                         .navigate(MainNavGraphDirections.goToLoginActivity())
                 }
             }
+            (activity as? MainActivity)?.finish()
         }
     }
 

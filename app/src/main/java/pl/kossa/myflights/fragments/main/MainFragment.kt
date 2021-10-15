@@ -16,7 +16,7 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
 
     override fun setOnClickListeners() {
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            val navController = binding.mainFragmentNavHostFragment.findNavController()
+            val navController = binding.listsNavHostFragment.findNavController()
             return@setOnNavigationItemSelectedListener when (it.itemId) {
                 R.id.actionAirplanes -> {
                     navController.navigate(viewModel.goToAirplanes())

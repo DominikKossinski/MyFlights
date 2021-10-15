@@ -8,6 +8,7 @@ import androidx.navigation.NavDirections
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.launch
+import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
 import pl.kossa.myflights.livedata.SingleLiveEvent
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -105,6 +106,10 @@ abstract class BaseViewModel(
             }
             isLoadingData.value = false
         }
+    }
+
+    fun showComingSoonDialog() {
+        navDirectionLiveData.value = MainNavGraphDirections.showComingSoonDialog()
     }
 
     fun navigateBack() {

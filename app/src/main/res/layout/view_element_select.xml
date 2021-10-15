@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
     <TextView
@@ -11,9 +11,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        tools:text="Element"
+        android:fontFamily="@font/poppins_light"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/middle_text_size"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Element" />
 
     <TextView
         android:id="@+id/elementNameTv"
@@ -22,33 +25,35 @@
         android:layout_margin="16dp"
         android:textSize="@dimen/big_text_size"
         android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@id/elementChangeTv"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintEnd_toStartOf="@id/elementChangeButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/elementTv"
         tools:text="Airbus A380" />
 
-    <TextView
-        android:id="@+id/elementChangeTv"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/elementChangeButton"
+        style="@style/PrimaryOutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:text="@string/change"
-        android:textColor="@color/blue"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/elementNameTv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/elementNameTv" />
 
 
-    <TextView
-        android:id="@+id/elementSelectTv"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/elementSelectButton"
+        style="@style/PrimaryOutlinedButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/select"
-        android:textColor="@color/green"
-        android:textSize="@dimen/big_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/elementTv" />

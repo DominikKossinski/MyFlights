@@ -22,7 +22,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
         binding.loginButton.setOnClickListener {
             viewModel.login()
         }
-        binding.createAccountButton.setOnClickListener {
+        binding.createAccountTv.setOnClickListener {
             viewModel.navigateToCreateAccount()
         }
         binding.emailTie.doOnTextChanged { text ->

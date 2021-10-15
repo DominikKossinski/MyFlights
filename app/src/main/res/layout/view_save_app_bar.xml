@@ -4,29 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
+    android:background="@color/white_background_day_night"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
-    <ImageView
-        android:id="@+id/backArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/appBarTitle"
+        android:id="@+id/backTv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/poppins_light"
+        android:text="@string/back"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/middle_text_size"
+        app:drawableStartCompat="@drawable/ic_back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/saveIv"
-        app:layout_constraintStart_toEndOf="@id/backArrow"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Title" />
 
@@ -36,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        app:tint="@color/black_day_night"
         android:src="@drawable/ic_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

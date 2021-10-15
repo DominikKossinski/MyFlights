@@ -16,14 +16,14 @@ class RunwayEditFragment : BaseFragment<RunwayEditViewModel, FragmentRunwayEditB
     override val viewModel: RunwayEditViewModel by viewModels()
 
     override fun setOnClickListeners() {
-        binding.saveRunwayButton.setOnClickListener {
+        binding.saveButton.setOnClickListener {
             viewModel.putRunway()
         }
-        binding.editAppBar.setSaveOnClickListener {
+        binding.saveAppBar.setSaveOnClickListener {
             viewModel.putRunway()
         }
 
-        binding.editAppBar.setBackOnClickListener {
+        binding.saveAppBar.setBackOnClickListener {
             viewModel.navigateBack()
         }
 
@@ -58,8 +58,8 @@ class RunwayEditFragment : BaseFragment<RunwayEditViewModel, FragmentRunwayEditB
         }
         lifecycleScope.launch {
             viewModel.isSaveButtonEnabled.collect {
-                binding.saveRunwayButton.isEnabled = it
-                binding.editAppBar.isSaveIconEnabled = it
+                binding.saveButton.isEnabled = it
+                binding.saveAppBar.isSaveIconEnabled = it
             }
         }
     }
