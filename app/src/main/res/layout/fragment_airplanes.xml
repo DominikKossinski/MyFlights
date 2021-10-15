@@ -43,7 +43,6 @@
         android:textAlignment="center"
         android:textSize="@dimen/big_text_size"
         android:visibility="invisible"
-        app:drawableBottomCompat="@mipmap/ic_launcher"
         tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

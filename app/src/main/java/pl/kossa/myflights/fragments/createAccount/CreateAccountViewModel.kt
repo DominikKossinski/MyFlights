@@ -9,15 +9,19 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import okhttp3.ResponseBody
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
+import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
+    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(preferencesHelper) {
+) : BaseViewModel(errorBodyConverter, preferencesHelper) {
 
     private val _email = MutableStateFlow("")
     private val _password = MutableStateFlow("")
@@ -30,7 +34,7 @@ class CreateAccountViewModel @Inject constructor(
         _regulationsAccepted
     ) { email, password, confirmPassword, regulationsAccepted ->
         return@combine email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank()
-                && (isLoadingData.value?.not() ?: true)
+                && isLoadingData.value.not()
                 && Patterns.EMAIL_ADDRESS.matcher(email).matches()
                 && regulationsAccepted
     }
@@ -79,10 +83,9 @@ class CreateAccountViewModel @Inject constructor(
                         navigateToEmailResend()
                     }?.addOnFailureListener {
                         when (it) {
-                            is FirebaseNetworkException -> toastError.value =
-                                R.string.no_internet_error
+                            is FirebaseNetworkException -> setToastError(R.string.error_no_internet)
                             else -> {
-                                toastError.value = R.string.unexpected_error
+                                setToastError(R.string.unexpected_error)
                             }
                         }
                     }
@@ -102,11 +105,11 @@ class CreateAccountViewModel @Inject constructor(
                                 }
                                 else -> {
                                     Log.d("MyLog", "Creating $it")
-                                    toastError.value = R.string.unexpected_error
+                                    setToastError(R.string.unexpected_error)
                                 }
                             }
                         }
-                        is FirebaseNetworkException -> toastError.value = R.string.no_internet_error
+                        is FirebaseNetworkException -> setToastError(R.string.error_no_internet)
                         else -> {
                             Log.d("MyLog", "Creating account exception: $it")
                         }

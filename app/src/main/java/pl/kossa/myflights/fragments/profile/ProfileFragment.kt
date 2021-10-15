@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.User
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentProfileBinding
 
@@ -34,12 +36,8 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         viewModel.fetchUser()
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        collectFlow()
-    }
-
-    private fun collectFlow() {
+    override fun collectFlow() {
+        super.collectFlow()
         lifecycleScope.launch {
             viewModel.user.collect {
                 it?.let { setupUserData(it) }
@@ -57,5 +55,19 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         } else ContextCompat.getColor(requireContext(), R.color.black_day_night)
         binding.nameTv.setTextColor(textColor)
         binding.emailTv.text = user.email
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+        }
     }
 }

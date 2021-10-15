@@ -8,12 +8,15 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseDialog
 import pl.kossa.myflights.databinding.DialogAccountDeleteBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged
 
 @AndroidEntryPoint
-class AccountDeleteDialog: BaseDialog<AccountDeleteViewModel, DialogAccountDeleteBinding>() {
+class AccountDeleteDialog : BaseDialog<AccountDeleteViewModel, DialogAccountDeleteBinding>() {
 
     override val viewModel: AccountDeleteViewModel by viewModels()
 
@@ -30,15 +33,13 @@ class AccountDeleteDialog: BaseDialog<AccountDeleteViewModel, DialogAccountDelet
         }
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        viewModel.isLoadingData.observe(viewLifecycleOwner) {
-            binding.progressBar.isVisible = it
+    override fun collectFlow() {
+        super.collectFlow()
+        lifecycleScope.launch {
+            viewModel.isLoadingData.collect {
+                binding.progressBar.isVisible = it
+            }
         }
-        collectFlow()
-    }
-
-    private fun collectFlow() {
         lifecycleScope.launch {
             viewModel.isDeleteButtonEnabled.collect {
                 binding.deleteButton.isEnabled = it
@@ -47,6 +48,23 @@ class AccountDeleteDialog: BaseDialog<AccountDeleteViewModel, DialogAccountDelet
         lifecycleScope.launch {
             viewModel.passwordError.collect {
                 binding.passwordTil.error = it?.let { getString(it) }
+            }
+        }
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when (apiError.code) {
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.navigateBack()
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.navigateBack()
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.navigateBack()
             }
         }
     }

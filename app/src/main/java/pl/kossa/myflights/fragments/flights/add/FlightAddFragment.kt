@@ -9,6 +9,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentFlightAddBinding
 import pl.kossa.myflights.exstensions.*
@@ -107,11 +109,6 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         }
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        collectFlow()
-    }
-
     private fun setFragmentResultListeners() {
         parentFragmentManager.setFragmentResultListener(
             AirplaneSelectFragment.AIRPLANE_KEY,
@@ -175,7 +172,8 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
 
     }
 
-    private fun collectFlow() {
+    override fun collectFlow() {
+        super.collectFlow()
         lifecycleScope.launch {
             viewModel._airplaneName.collect {
                 binding.airplaneSelectView.elementName = it
@@ -225,11 +223,11 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         return departure?.let {
             when {
                 arrival != null && departure.time > arrival.time -> {
-                    viewModel.toastError.value = R.string.error_departure_after_arrival
+                    viewModel.setToastError( R.string.error_departure_after_arrival)
                     arrival
                 }
                 departure.time > Date().time -> {
-                    viewModel.toastError.value = R.string.error_departure_in_future
+                    viewModel.setToastError( R.string.error_departure_in_future)
                     Date()
                 }
                 else -> {
@@ -243,16 +241,33 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         return arrival?.let {
             when {
                 departure != null && arrival.time < departure.time -> {
-                    viewModel.toastError.value = R.string.error_arrival_before_departure
+                    viewModel.setToastError( R.string.error_arrival_before_departure)
                     departure
                 }
                 arrival.time > Date().time -> {
-                    viewModel.toastError.value = R.string.error_arrival_in_future
+                    viewModel.setToastError( R.string.error_arrival_in_future)
                     Date()
                 }
                 else -> {
                     arrival
                 }
+            }
+        }
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.navigateBack()
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.navigateBack()
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.navigateBack()
             }
         }
     }

@@ -7,7 +7,10 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airport
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirportEditBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged
@@ -51,12 +54,8 @@ class AirportEditFragment : BaseFragment<AirportEditViewModel, FragmentAirportEd
         }
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        collectFlow()
-    }
-
-    private fun collectFlow() {
+    override fun collectFlow() {
+        super.collectFlow()
         lifecycleScope.launch {
             viewModel.isSaveButtonEnabled.collect {
                 binding.saveButton.isEnabled = it
@@ -76,5 +75,23 @@ class AirportEditFragment : BaseFragment<AirportEditViewModel, FragmentAirportEd
         binding.icaoCodeTie.setText(airport.icaoCode)
         binding.towerFrequencyTie.setText(airport.towerFrequency ?: "")
         binding.groundFrequencyTie.setText(airport.groundFrequency ?: "")
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.NOT_FOUND.code -> {
+                viewModel.setToastError( R.string.error_airport_not_found)
+            }
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+        }
+        viewModel.navigateBack()
     }
 }

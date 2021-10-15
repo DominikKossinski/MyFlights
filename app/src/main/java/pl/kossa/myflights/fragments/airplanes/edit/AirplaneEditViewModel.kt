@@ -5,21 +5,25 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import okhttp3.ResponseBody
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.requests.AirplaneRequest
+import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
+import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class AirplaneEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val airplanesService: AirplanesService,
+    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(preferencesHelper) {
+) : BaseViewModel(errorBodyConverter, preferencesHelper) {
 
     private val airplaneId = savedStateHandle.get<String>("airplaneId")!!
     private val _airplaneName = MutableStateFlow("")
@@ -32,7 +36,7 @@ class AirplaneEditViewModel @Inject constructor(
         return@combine name.isNotBlank()
                 && 1 <= speed && speed <= 500
                 && 1 <= weight && weight <= 500
-                && !(isLoadingData.value ?: true)
+                && !isLoadingData.value
     }
 
     internal fun setAirplaneName(name: String) {

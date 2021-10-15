@@ -10,8 +10,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
+import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.*
 import pl.kossa.myflights.utils.PreferencesHelper
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -20,20 +23,21 @@ import retrofit2.converter.gson.GsonConverterFactory
 object AppModule {
 
     @Provides
-    fun preferencesHelper(@ApplicationContext applicationContext: Context): PreferencesHelper {
+    fun providePreferencesHelper(@ApplicationContext applicationContext: Context): PreferencesHelper {
         return PreferencesHelper(applicationContext)
     }
 
     @Provides
-    fun provideOkHttpClient(preferencesHelper: PreferencesHelper): OkHttpClient {
+    fun provideOkHttpClient(
+        preferencesHelper: PreferencesHelper
+    ): OkHttpClient {
         return OkHttpClient.Builder().addInterceptor { chain ->
-            val newRequest = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer ${preferencesHelper.token}")
-                .build()
-            Log.d("MyLog", "Token: ${preferencesHelper.token}")
-//        TODO handling errors
-            Log.d("MyLog", "$newRequest")
-            chain.proceed(newRequest)
+                val newRequest = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer ${preferencesHelper.token}")
+                    .build()
+                Log.d("MyLog", "Token: ${preferencesHelper.token}")
+                Log.d("MyLog", "$newRequest")
+                chain.proceed(newRequest)
         }.build()
     }
 
@@ -76,5 +80,10 @@ object AppModule {
     @Provides
     fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    fun provideErrorConverter(retrofit: Retrofit): Converter<ResponseBody, ApiErrorBody> {
+        return retrofit.responseBodyConverter(ApiErrorBody::class.java, arrayOf())
     }
 }

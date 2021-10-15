@@ -2,12 +2,14 @@ package pl.kossa.myflights.fragments.airplanes.add
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplaneAddBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged
@@ -43,12 +45,9 @@ class AirplaneAddFragment : BaseFragment<AirplaneAddViewModel, FragmentAirplaneA
         }
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        collectFlow()
-    }
 
-    private fun collectFlow() {
+    override fun collectFlow() {
+        super.collectFlow()
         lifecycleScope.launch {
             viewModel.isAddButtonEnabled.collect {
                 binding.addButton.isEnabled = it
@@ -60,6 +59,23 @@ class AirplaneAddFragment : BaseFragment<AirplaneAddViewModel, FragmentAirplaneA
                 binding.nameTil.error = it?.let {
                     getString(it)
                 }
+            }
+        }
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.navigateBack()
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.navigateBack()
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.navigateBack()
             }
         }
     }

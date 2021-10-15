@@ -7,11 +7,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
+import pl.kossa.myflights.architecture.BaseSwipeDeleteCallback
 import pl.kossa.myflights.databinding.FragmentFlightsBinding
 import pl.kossa.myflights.fragments.flights.adapter.FlightsAdapter
 
@@ -19,6 +24,38 @@ import pl.kossa.myflights.fragments.flights.adapter.FlightsAdapter
 class FlightsFragment : BaseFragment<FlightsViewModel, FragmentFlightsBinding>() {
 
     override val viewModel: FlightsViewModel by viewModels()
+
+    private val swipeDeleteCallback by lazy {
+        object : BaseSwipeDeleteCallback(requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                val item = adapter.items[position]
+                adapter.items.remove(item)
+                adapter.notifyItemRemoved(position)
+                val snackbar = Snackbar.make(
+                    binding.coordinatorLayout,
+                    R.string.airport_delete_question,
+                    Snackbar.LENGTH_LONG
+                )
+                snackbar.setAction(R.string.cancel) {
+                    snackbar.dismiss()
+                    adapter.items.add(position, item)
+                    adapter.notifyItemInserted(position)
+                }
+                snackbar.addCallback(object : Snackbar.Callback() {
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                        super.onDismissed(transientBottomBar, event)
+                        if (event == DISMISS_EVENT_TIMEOUT) {
+                            viewModel.deleteFlight(item.flightId)
+                        }
+                    }
+                })
+                snackbar.show()
+            }
+
+        }
+    }
+
 
     private val adapter = FlightsAdapter()
 
@@ -36,15 +73,13 @@ class FlightsFragment : BaseFragment<FlightsViewModel, FragmentFlightsBinding>()
         setupRecyclerView()
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        viewModel.isLoadingData.observe(viewLifecycleOwner) {
-            binding.flightsSwipeRefresh.isRefreshing = it
+    override fun collectFlow() {
+        super.collectFlow()
+        lifecycleScope.launch {
+            viewModel.isLoadingData.collect {
+                binding.flightsSwipeRefresh.isRefreshing = it
+            }
         }
-        collectFlow()
-    }
-
-    private fun collectFlow() {
         lifecycleScope.launch {
             viewModel.flightsList.collect {
                 binding.noFlightsTextView.isVisible = it.isEmpty()
@@ -61,9 +96,25 @@ class FlightsFragment : BaseFragment<FlightsViewModel, FragmentFlightsBinding>()
         }
         binding.flightsRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.flightsRecyclerView.adapter = adapter
-//    TODO    val itemTouchHelper = ItemTouchHelper(swipeDeleteCallback)
-//        itemTouchHelper.attachToRecyclerView(binding.flightsRecyclerView)
+        val itemTouchHelper = ItemTouchHelper(swipeDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(binding.flightsRecyclerView)
     }
 
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.NOT_FOUND.code -> {
+                viewModel.setToastError( R.string.error_flight_not_found)
+            }
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+        }
+    }
 
 }
