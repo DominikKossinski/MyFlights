@@ -5,12 +5,17 @@ import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.architecture.BaseSwipeDeleteCallback
 import pl.kossa.myflights.databinding.FragmentAirportsBinding
@@ -70,14 +75,20 @@ class AirportsFragment : BaseFragment<AirportsViewModel, FragmentAirportsBinding
 
     override fun setObservers() {
         super.setObservers()
-        viewModel.isLoadingData.observe(viewLifecycleOwner) {
-            binding.airportsSwipeRefresh.isRefreshing = it
-        }
         viewModel.airportsList.observe(viewLifecycleOwner) {
             binding.noAirportsTextView.isVisible = it.isEmpty()
             adapter.items.clear()
             adapter.items.addAll(it)
             adapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun collectFlow() {
+        super.collectFlow()
+        lifecycleScope.launch {
+            viewModel.isLoadingData.collect {
+                binding.airportsSwipeRefresh.isRefreshing = it
+            }
         }
     }
 
@@ -94,5 +105,26 @@ class AirportsFragment : BaseFragment<AirportsViewModel, FragmentAirportsBinding
     override fun onResume() {
         super.onResume()
         viewModel.fetchAirports()
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when (apiError.code) {
+            HttpCode.NOT_FOUND.code -> {
+                viewModel.setToastError( R.string.error_airport_not_found)
+            }
+            HttpCode.BAD_REQUEST.code -> {
+                viewModel.setToastError( R.string.error_airport_exists_in_flights)
+                viewModel.fetchAirports()
+            }
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+        }
     }
 }

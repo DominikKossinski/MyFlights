@@ -14,7 +14,6 @@
     <string name="no_user_error">No user</string>
     <string name="not_email_error">It is not an email</string>
     <string name="wrong_password_error">Wrong password</string>
-    <string name="no_internet_error">No internet</string>
     <string name="unexpected_error">Unexpected error</string>
     <string name="confirm_password">Type password again</string>
     <string name="create_account">Create account</string>
@@ -149,11 +148,23 @@
     <string name="coming_soon">Coming soon...</string>
 
     <!--Errors-->
-    <string name="error_empty_name">Name can\'t be empty</string>
-    <string name="error_departure_in_future">Departure can\'t be in future</string>
-    <string name="error_departure_after_arrival">Departure can\'t be after arrival</string>
-    <string name="error_arrival_in_future">Arrival can\'t be in future</string>
-    <string name="error_arrival_before_departure">Arrival can\'t be before departure</string>
+    <string name="error_empty_name">Name can\'t be empty.</string>
+    <string name="error_departure_in_future">Departure can\'t be in future.</string>
+    <string name="error_departure_after_arrival">Departure can\'t be after arrival.</string>
+    <string name="error_arrival_in_future">Arrival can\'t be in future.</string>
+    <string name="error_arrival_before_departure">Arrival can\'t be before departure.</string>
+
+    <string name="error_airplane_not_found">Airplane not found.</string>
+    <string name="error_airport_not_found">Airport not found.</string>
+    <string name="error_runway_not_found">Runway not found.</string>
+    <string name="error_flight_not_found">Flight not found.</string>
+
+    <string name="error_airplane_exists_in_flights">Airplane can\'t be deleted. It exists in flights.</string>
+    <string name="error_airport_exists_in_flights">Airport can\'t be deleted. It exists in flights.</string>
+    <string name="error_runway_exists_in_flights">Runway can\'t be deleted. It exists in flights.</string>
+    <string name="error_forbidden">Forbidden.</string>
+    <string name="error_no_internet">No internet.</string>
+    <string name="error_no_connection_to_server">No connection to server.</string>
 
 
     <string name="airport_city">City</string>

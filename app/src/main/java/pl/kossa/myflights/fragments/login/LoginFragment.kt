@@ -9,6 +9,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentLoginBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged
@@ -33,12 +36,8 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
         }
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        collectFlow()
-    }
-
-    private fun collectFlow() {
+    override fun collectFlow() {
+        super.collectFlow()
         lifecycleScope.launch {
             viewModel.isLoginButtonEnabled.collect {
                 binding.loginButton.isEnabled = it
@@ -66,5 +65,19 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         progressBar = binding.loadingProgressBar
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+        }
     }
 }

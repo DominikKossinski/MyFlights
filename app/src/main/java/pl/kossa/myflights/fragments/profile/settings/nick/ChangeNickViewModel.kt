@@ -2,22 +2,24 @@ package pl.kossa.myflights.fragments.profile.settings.nick
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.transform
+import okhttp3.ResponseBody
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
+import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
+import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class ChangeNickViewModel @Inject constructor(
     private val userService: UserService,
+    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(preferencesHelper) {
+) : BaseViewModel(errorBodyConverter, preferencesHelper) {
 
     private val _nick = MutableStateFlow("")
     val user = MutableStateFlow<User?>(null)
@@ -44,7 +46,7 @@ class ChangeNickViewModel @Inject constructor(
                 )
             )
         }) {
-            toastError.value = R.string.nick_changed
+            setToastError(R.string.nick_changed)
             navigateBack()
         }
     }

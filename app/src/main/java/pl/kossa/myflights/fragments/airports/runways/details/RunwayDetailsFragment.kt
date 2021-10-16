@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Runway
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentRunwayDetailsBinding
 
@@ -40,16 +42,13 @@ class RunwayDetailsFragment : BaseFragment<RunwayDetailsViewModel, FragmentRunwa
 
     }
 
-
-    override fun setObservers() {
-        super.setObservers()
-        viewModel.isLoadingData.observe(viewLifecycleOwner) {
-            binding.runwaySwipeRefresh.isRefreshing = it
+    override fun collectFlow() {
+        super.collectFlow()
+        lifecycleScope.launch {
+            viewModel.isLoadingData.collect {
+                binding.runwaySwipeRefresh.isRefreshing = it
+            }
         }
-        collectFlow()
-    }
-
-    private fun collectFlow() {
         lifecycleScope.launch {
             viewModel.runway.collect {
                 it?.let { setupRunwayData(it) }
@@ -86,5 +85,29 @@ class RunwayDetailsFragment : BaseFragment<RunwayDetailsViewModel, FragmentRunwa
     override fun onResume() {
         super.onResume()
         viewModel.fetchRunway()
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.BAD_REQUEST.code -> {
+                viewModel.setToastError( R.string.error_runway_exists_in_flights)
+            }
+            HttpCode.NOT_FOUND.code -> {
+                viewModel.setToastError( R.string.error_runway_not_found)
+                viewModel.navigateBack()
+            }
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.navigateBack()
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.navigateBack()
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.navigateBack()
+            }
+        }
     }
 }

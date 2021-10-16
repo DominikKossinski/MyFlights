@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airplane
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplaneEditBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged
@@ -23,13 +25,8 @@ class AirplaneEditFragment : BaseFragment<AirplaneEditViewModel, FragmentAirplan
         progressBar = binding.loadingProgressBar
     }
 
-
-    override fun setObservers() {
-        super.setObservers()
-        collectFlow()
-    }
-
-    private fun collectFlow() {
+    override fun collectFlow() {
+        super.collectFlow()
         lifecycleScope.launch {
             viewModel.airplane.collect {
                 it?.let { setupAirplaneData(it)}
@@ -67,5 +64,23 @@ class AirplaneEditFragment : BaseFragment<AirplaneEditViewModel, FragmentAirplan
         binding.nameTie.setText(airplane.name)
         binding.maxSpeedTie.setText(airplane.maxSpeed?.toString() ?: "")
         binding.weightTie.setText(airplane.weight?.toString() ?: "")
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.NOT_FOUND.code -> {
+                viewModel.setToastError( R.string.error_airplane_not_found)
+            }
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+        }
+        viewModel.navigateBack()
     }
 }

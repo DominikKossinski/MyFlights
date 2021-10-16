@@ -1,15 +1,21 @@
 package pl.kossa.myflights.fragments.airplanes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.architecture.BaseSwipeDeleteCallback
 import pl.kossa.myflights.databinding.FragmentAirplanesBinding
@@ -68,15 +74,22 @@ class AirplanesFragment : BaseFragment<AirplanesViewModel, FragmentAirplanesBind
 
     override fun setObservers() {
         super.setObservers()
-        viewModel.isLoadingData.observe(viewLifecycleOwner) {
-            binding.airplanesSwipeRefresh.isRefreshing = it
-        }
         viewModel.airplanesList.observe(viewLifecycleOwner) {
             binding.noAirplanesTextView.isVisible = it.isEmpty()
             adapter.items.clear()
             adapter.items.addAll(it)
             adapter.notifyDataSetChanged()
         }
+    }
+
+    override fun collectFlow() {
+        super.collectFlow()
+        lifecycleScope.launch {
+            viewModel.isLoadingData.collect {
+                binding.airplanesSwipeRefresh.isRefreshing = it
+            }
+        }
+
     }
 
     private fun setupRecyclerView() {
@@ -92,6 +105,28 @@ class AirplanesFragment : BaseFragment<AirplanesViewModel, FragmentAirplanesBind
     override fun onResume() {
         super.onResume()
         viewModel.fetchAirplanes()
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        Log.d("MyLog", "Handling error $apiError")
+        when(apiError.code) {
+            HttpCode.NOT_FOUND.code -> {
+                viewModel.setToastError(R.string.error_airplane_not_found)
+            }
+            HttpCode.BAD_REQUEST.code -> {
+                viewModel.setToastError( R.string.error_airplane_exists_in_flights)
+                viewModel.fetchAirplanes()
+            }
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError(R.string.unexpected_error)
+            }
+        }
     }
 
 }

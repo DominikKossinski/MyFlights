@@ -2,6 +2,7 @@ package pl.kossa.myflights.fragments.profile.statistics
 
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentStatisticsBinding
 
@@ -11,6 +12,10 @@ class StatisticsFragment : BaseFragment<StatisticsViewModel, FragmentStatisticsB
     override val viewModel: StatisticsViewModel by viewModels()
 
     override fun setOnClickListeners() {
+        //TODO
+    }
+
+    override fun handleApiError(apiError: ApiError) {
         //TODO
     }
 }

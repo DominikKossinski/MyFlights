@@ -2,6 +2,9 @@ package pl.kossa.myflights.fragments.emailresend
 
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentEmailResendBinding
 
@@ -16,6 +19,20 @@ class EmailResendFragment : BaseFragment<EmailResendViewModel, FragmentEmailRese
         }
         binding.loginButton.setOnClickListener {
             viewModel.navigateToLogin()
+        }
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
         }
     }
 }

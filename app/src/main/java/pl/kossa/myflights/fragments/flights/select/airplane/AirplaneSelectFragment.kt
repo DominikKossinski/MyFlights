@@ -10,6 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplaneSelectBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged
@@ -50,15 +53,13 @@ class AirplaneSelectFragment :
         }
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        viewModel.isLoadingData.observe(viewLifecycleOwner) {
-            binding.airplanesSwipeRefresh.isRefreshing = it
+    override fun collectFlow() {
+        super.collectFlow()
+        lifecycleScope.launch {
+            viewModel.isLoadingData.collect {
+                binding.airplanesSwipeRefresh.isRefreshing = it
+            }
         }
-        collectFlow()
-    }
-
-    private fun collectFlow() {
         lifecycleScope.launch {
             viewModel.airplanesList.collect {
                 binding.noAirplanesTextView.isVisible = it.isEmpty()
@@ -67,6 +68,21 @@ class AirplaneSelectFragment :
                 adapter.notifyDataSetChanged()
             }
         }
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when (apiError.code) {
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+        }
+        viewModel.navigateBack()
     }
 
     companion object {

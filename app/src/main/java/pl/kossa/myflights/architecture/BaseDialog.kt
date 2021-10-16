@@ -5,12 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
 import pl.kossa.myflights.activities.main.MainActivity
+import pl.kossa.myflights.api.responses.ApiError
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment() {
@@ -40,6 +44,7 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
+        collectFlow()
     }
 
     protected open fun setObservers() {
@@ -84,6 +89,18 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
             }
             (activity as? MainActivity)?.finish()
         }
+    }
+
+    protected open fun collectFlow() {
+        lifecycleScope.launch {
+            viewModel.apiErrorFlow.collect {
+                it?.let { handleApiError(it) }
+            }
+        }
+    }
+
+    protected open fun handleApiError(apiError: ApiError) {
+        viewModel.setToastError( R.string.unexpected_error)
     }
 
 }

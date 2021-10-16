@@ -8,6 +8,9 @@ import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentCreateAccountBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged
@@ -44,12 +47,8 @@ class CreateAccountFragment : BaseFragment<CreateAccountViewModel, FragmentCreat
         }
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        collectFlow()
-    }
-
-    private fun collectFlow() {
+    override fun collectFlow() {
+        super.collectFlow()
         lifecycleScope.launch {
             viewModel.isCreateAccountButtonEnabled.collect {
                 binding.createAccountButton.isEnabled = it
@@ -79,6 +78,20 @@ class CreateAccountFragment : BaseFragment<CreateAccountViewModel, FragmentCreat
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         progressBar = binding.loadingProgressBar
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+        }
     }
 
 

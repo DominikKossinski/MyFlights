@@ -4,9 +4,14 @@ import android.app.AlertDialog
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airplane
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplaneDetailsBinding
 
@@ -26,8 +31,14 @@ class AirplaneDetailsFragment :
         viewModel.airplaneLiveData.observe(viewLifecycleOwner) {
             setupAirplaneData(it)
         }
-        viewModel.isLoadingData.observe(viewLifecycleOwner) {
-            binding.airplaneSwipeRefresh.isRefreshing = it
+    }
+
+    override fun collectFlow() {
+        super.collectFlow()
+        lifecycleScope.launch {
+            viewModel.isLoadingData.collect {
+                binding.airplaneSwipeRefresh.isRefreshing = it
+            }
         }
     }
 
@@ -64,6 +75,27 @@ class AirplaneDetailsFragment :
         }
         val dialog = builder.create()
         dialog.show()
+    }
+
+    override fun handleApiError(apiError: ApiError) {
+        when (apiError.code) {
+            HttpCode.BAD_REQUEST.code -> {
+                viewModel.setToastError( R.string.error_airplane_exists_in_flights)
+            }
+            HttpCode.NOT_FOUND.code -> {
+                viewModel.setToastError( R.string.error_airplane_not_found)
+            }
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+        }
+        viewModel.navigateBack()
     }
 
 }

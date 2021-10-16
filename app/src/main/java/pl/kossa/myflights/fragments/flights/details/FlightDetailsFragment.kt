@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Flight
+import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentFlightDetailsBinding
 import pl.kossa.myflights.exstensions.toDateString
@@ -37,12 +39,8 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
         viewModel.fetchFlight()
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        collectFlow()
-    }
-
-    private fun collectFlow() {
+    override fun collectFlow() {
+        super.collectFlow()
         lifecycleScope.launch {
             viewModel.flight.collect {
                 it?.let{ setupFlightData(it)}
@@ -83,4 +81,20 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
         dialog.show()
     }
 
+    override fun handleApiError(apiError: ApiError) {
+        when(apiError.code) {
+            HttpCode.NOT_FOUND.code -> {
+                viewModel.setToastError( R.string.error_flight_not_found)
+            }
+            HttpCode.INTERNAL_SERVER_ERROR.code -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+            HttpCode.FORBIDDEN.code -> {
+                viewModel.setToastError( R.string.error_forbidden)
+            }
+            else -> {
+                viewModel.setToastError( R.string.unexpected_error)
+            }
+        }
+    }
 }

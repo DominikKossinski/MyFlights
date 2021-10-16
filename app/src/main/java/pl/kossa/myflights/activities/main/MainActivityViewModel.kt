@@ -1,15 +1,17 @@
 package pl.kossa.myflights.activities.main
 
-import androidx.navigation.NavController
 import dagger.hilt.android.lifecycle.HiltViewModel
-import pl.kossa.myflights.MainNavGraphDirections
+import okhttp3.ResponseBody
+import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
+import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel @Inject constructor(
+    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(preferencesHelper) {
+) : BaseViewModel(errorBodyConverter, preferencesHelper) {
 
 }

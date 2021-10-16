@@ -7,13 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
 import pl.kossa.myflights.activities.main.MainActivity
+import pl.kossa.myflights.api.responses.ApiError
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseBottomSheet<VM: BaseViewModel, VB: ViewBinding>: BottomSheetDialogFragment() {
@@ -42,6 +46,7 @@ abstract class BaseBottomSheet<VM: BaseViewModel, VB: ViewBinding>: BottomSheetD
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
+        collectFlow()
     }
 
     protected open fun setObservers() {
@@ -86,6 +91,18 @@ abstract class BaseBottomSheet<VM: BaseViewModel, VB: ViewBinding>: BottomSheetD
             }
             (activity as? MainActivity)?.finish()
         }
+    }
+
+    protected open fun collectFlow() {
+        lifecycleScope.launch {
+            viewModel.apiErrorFlow.collect {
+                it?.let { handleApiError(it) }
+            }
+        }
+    }
+
+    protected open fun handleApiError(apiError: ApiError) {
+        viewModel.setToastError( R.string.unexpected_error)
     }
 
 }

@@ -3,19 +3,23 @@ package pl.kossa.myflights.fragments.airports.details
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import okhttp3.ResponseBody
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airport
+import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.AirportsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
+import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class AirportDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val airportsService: AirportsService,
+    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(preferencesHelper) {
+) : BaseViewModel(errorBodyConverter, preferencesHelper) {
 
     private val airportId = savedStateHandle.get<String>("airportId")!!
 
@@ -42,7 +46,7 @@ class AirportDetailsViewModel @Inject constructor(
             airportsService.deleteAirport(airportId)
         }
         ) {
-            toastError.value = R.string.airport_deleted
+            setToastError(R.string.airport_deleted)
             navigateBack()
         }
     }

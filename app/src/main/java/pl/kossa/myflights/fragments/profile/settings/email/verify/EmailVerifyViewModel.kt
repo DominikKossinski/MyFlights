@@ -2,27 +2,28 @@ package pl.kossa.myflights.fragments.profile.settings.email.verify
 
 import com.google.firebase.FirebaseNetworkException
 import dagger.hilt.android.lifecycle.HiltViewModel
+import okhttp3.ResponseBody
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.emailresend.EmailResendFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
+import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class EmailVerifyViewModel @Inject constructor(
+    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-): BaseViewModel(preferencesHelper) {
+) : BaseViewModel(errorBodyConverter, preferencesHelper) {
 
     fun resendEmail() {
         firebaseAuth.currentUser?.sendEmailVerification()?.addOnSuccessListener {
-            toastError.value = R.string.email_resended
+            setToastError(R.string.email_resended)
         }?.addOnFailureListener {
             when (it) {
-                is FirebaseNetworkException -> toastError.value =
-                    R.string.no_internet_error
-                else -> {
-                    toastError.value = R.string.unexpected_error
-                }
+                is FirebaseNetworkException -> setToastError(R.string.error_no_internet)
+                else -> setToastError(R.string.unexpected_error)
             }
         }
     }

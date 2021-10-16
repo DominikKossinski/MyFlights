@@ -7,18 +7,22 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import okhttp3.ResponseBody
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.User
+import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
+import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountDeleteViewModel @Inject constructor(
     private val userService: UserService,
+    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(preferencesHelper) {
+) : BaseViewModel(errorBodyConverter, preferencesHelper) {
 
     private val user = MutableStateFlow<User?>(null)
     private val _password = MutableStateFlow("")
@@ -57,11 +61,11 @@ class AccountDeleteViewModel @Inject constructor(
                         passwordError.value = R.string.wrong_password_error
                     }
                     is FirebaseNetworkException -> {
-                        toastError.value = R.string.no_internet_error
+                        setToastError(R.string.error_no_internet)
                     }
                     else -> {
                         Log.d("MyLog", "Login exception$it")
-                        toastError.value = R.string.unexpected_error
+                        setToastError(R.string.unexpected_error)
                         navigateBack()
                     }
                 }

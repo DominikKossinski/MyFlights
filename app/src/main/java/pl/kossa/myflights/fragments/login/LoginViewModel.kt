@@ -9,15 +9,19 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import okhttp3.ResponseBody
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
+import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(preferencesHelper) {
+) : BaseViewModel(errorBodyConverter, preferencesHelper) {
 
 
     private val _email = MutableStateFlow("")
@@ -70,36 +74,36 @@ class LoginViewModel @Inject constructor(
                             resendVerificationEmail()
                         }
                     }.addOnFailureListener {
-                    when (it) {
-                        is FirebaseAuthInvalidUserException -> {
-                            emailError.value = R.string.no_user_error
-                            _password.value = ""
-                        }
-                        is FirebaseAuthInvalidCredentialsException -> {
-                            when {
-                                it.message?.contains("email") == true -> {
-                                    emailError.value = R.string.not_email_error
-                                }
-                                it.message?.contains("password") == true -> {
-                                    passwordError.value = R.string.wrong_password_error
-                                }
-                                else -> {
-                                    Log.d("MyLog", "Login exception$it")
-                                    toastError.value = R.string.unexpected_error
+                        when (it) {
+                            is FirebaseAuthInvalidUserException -> {
+                                emailError.value = R.string.no_user_error
+                                _password.value = ""
+                            }
+                            is FirebaseAuthInvalidCredentialsException -> {
+                                when {
+                                    it.message?.contains("email") == true -> {
+                                        emailError.value = R.string.not_email_error
+                                    }
+                                    it.message?.contains("password") == true -> {
+                                        passwordError.value = R.string.wrong_password_error
+                                    }
+                                    else -> {
+                                        Log.d("MyLog", "Login exception$it")
+                                        setToastError(R.string.unexpected_error)
+                                    }
                                 }
                             }
-                        }
-                        is FirebaseNetworkException -> {
-                            toastError.value = R.string.no_internet_error
-                        }
-                        else -> {
-                            Log.d("MyLog", "Login exception$it")
-                            toastError.value = R.string.unexpected_error
-                        }
+                            is FirebaseNetworkException -> {
+                                setToastError(R.string.error_no_internet)
+                            }
+                            else -> {
+                                Log.d("MyLog", "Login exception$it")
+                                setToastError(R.string.unexpected_error)
+                            }
 
+                        }
+                        isLoadingData.value = false
                     }
-                    isLoadingData.value = false
-                }
             }
         }
     }
@@ -109,11 +113,8 @@ class LoginViewModel @Inject constructor(
             navigateToResendEmail()
         }?.addOnFailureListener {
             when (it) {
-                is FirebaseNetworkException -> toastError.value =
-                    R.string.no_internet_error
-                else -> {
-                    toastError.value = R.string.unexpected_error
-                }
+                is FirebaseNetworkException -> setToastError(R.string.error_no_internet)
+                else -> setToastError(R.string.unexpected_error)
             }
         }
     }
