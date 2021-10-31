@@ -14,9 +14,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AirportSelectViewModel @Inject constructor(
     private val airportsService: AirportsService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     val airportsList = MutableStateFlow<List<Airport>>(emptyList())
 
@@ -25,8 +24,11 @@ class AirportSelectViewModel @Inject constructor(
     }
 
     fun fetchAirports(text: String) {
-        makeRequest({airportsService.getAirports(text)}) { it ->
-            airportsList.value = it
+        makeRequest {
+            val response = airportsService.getAirports(text)
+            response.body?.let {
+                airportsList.value = it
+            }
         }
     }
 }

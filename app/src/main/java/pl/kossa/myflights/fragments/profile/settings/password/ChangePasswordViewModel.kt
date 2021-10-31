@@ -21,9 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
     private val userService: UserService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val _password = MutableStateFlow("")
     val passwordError = MutableStateFlow<Int?>(null)
@@ -62,7 +61,7 @@ class ChangePasswordViewModel @Inject constructor(
                 firebaseAuth.currentUser?.updatePassword(_newPassword.value)
                     ?.addOnSuccessListener {
                         isLoadingData.value = false
-                        setToastError(R.string.password_changed)
+                        setToastMessage(R.string.password_changed)
                         navigateBack()
                     }
                     ?.addOnFailureListener {
@@ -72,7 +71,7 @@ class ChangePasswordViewModel @Inject constructor(
                                 newPasswordError.value = R.string.to_weak_password
                             }
                             else -> {
-                                setToastError(R.string.unexpected_error)
+                                setToastMessage(R.string.unexpected_error)
                                 navigateBack()
                             }
                         }
@@ -85,11 +84,11 @@ class ChangePasswordViewModel @Inject constructor(
                         passwordError.value = R.string.wrong_password_error
                     }
                     is FirebaseNetworkException -> {
-                        setToastError(R.string.error_no_internet)
+                        setToastMessage(R.string.error_no_internet)
                     }
                     else -> {
                         Log.d("MyLog", "Login exception$it")
-                        setToastError(R.string.unexpected_error)
+                        setToastMessage(R.string.unexpected_error)
                         navigateBack()
                     }
 
@@ -99,8 +98,9 @@ class ChangePasswordViewModel @Inject constructor(
     }
 
     fun fetchUser() {
-        makeRequest(userService::getUser) {
-            _user.value = it
+        makeRequest {
+            val response = userService.getUser()
+            response.body?.let { _user.value = it }
         }
     }
 

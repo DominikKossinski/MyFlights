@@ -59,15 +59,15 @@ class RunwayAddFragment : BaseFragment<RunwayAddViewModel, FragmentRunwayAddBind
     override fun handleApiError(apiError: ApiError) {
         when(apiError.code) {
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
                 viewModel.navigateBack()
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.setToastMessage( R.string.error_forbidden)
                 viewModel.navigateBack()
             }
             else -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
                 viewModel.navigateBack()
             }
         }

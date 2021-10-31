@@ -1,6 +1,5 @@
 package pl.kossa.myflights.fragments.flights.details
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,19 +17,17 @@ import javax.inject.Inject
 class FlightDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val flightsService: FlightsService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val flightId = savedStateHandle.get<String>("flightId")!!
 
     val flight = MutableStateFlow<Flight?>(null)
 
     fun fetchFlight() {
-        makeRequest({
-            flightsService.getFLightById(flightId)
-        }) { it ->
-            flight.value = it
+        makeRequest {
+            val response = flightsService.getFLightById(flightId)
+            response.body?.let { flight.value = it  }
         }
     }
 
@@ -39,8 +36,9 @@ class FlightDetailsViewModel @Inject constructor(
     }
 
     fun deleteFlight() {
-        makeRequest({ flightsService.deleteFlight(flightId) }) {
-            setToastError(R.string.flight_deleted)
+        makeRequest {
+            flightsService.deleteFlight(flightId)
+            setToastMessage(R.string.flight_deleted)
             navigateBack()
         }
     }

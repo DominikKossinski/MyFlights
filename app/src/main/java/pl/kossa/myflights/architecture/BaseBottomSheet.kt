@@ -1,12 +1,9 @@
 package pl.kossa.myflights.architecture
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -102,7 +99,7 @@ abstract class BaseBottomSheet<VM: BaseViewModel, VB: ViewBinding>: BottomSheetD
     }
 
     protected open fun handleApiError(apiError: ApiError) {
-        viewModel.setToastError( R.string.unexpected_error)
+        viewModel.setToastMessage( R.string.unexpected_error)
     }
 
 }

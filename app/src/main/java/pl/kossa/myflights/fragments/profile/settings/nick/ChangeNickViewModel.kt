@@ -17,9 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeNickViewModel @Inject constructor(
     private val userService: UserService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val _nick = MutableStateFlow("")
     val user = MutableStateFlow<User?>(null)
@@ -32,21 +31,21 @@ class ChangeNickViewModel @Inject constructor(
     }
 
     fun fetchUser() {
-        makeRequest(userService::getUser) {
-            user.value = it
+        makeRequest {
+            val response = userService.getUser()
+            response.body?.let { user.value = it }
         }
     }
 
     fun putUser() {
-        makeRequest({
+        makeRequest {
             userService.putUser(
                 UserRequest(
                     _nick.value,
                     null // TODO image
                 )
             )
-        }) {
-            setToastError(R.string.nick_changed)
+            setToastMessage(R.string.nick_changed)
             navigateBack()
         }
     }

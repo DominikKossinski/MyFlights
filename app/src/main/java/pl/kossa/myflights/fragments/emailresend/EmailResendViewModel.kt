@@ -12,18 +12,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EmailResendViewModel @Inject constructor(
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
 
     fun resendEmail() {
         firebaseAuth.currentUser?.sendEmailVerification()?.addOnSuccessListener {
-            setToastError(R.string.email_resended)
+            setToastMessage(R.string.email_resended)
         }?.addOnFailureListener {
             when (it) {
-                is FirebaseNetworkException -> setToastError(R.string.error_no_internet)
-                else -> setToastError(R.string.unexpected_error)
+                is FirebaseNetworkException -> setToastMessage(R.string.error_no_internet)
+                else -> setToastMessage(R.string.unexpected_error)
             }
         }
     }

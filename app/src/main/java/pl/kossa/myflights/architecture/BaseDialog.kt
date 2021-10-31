@@ -100,7 +100,7 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
     }
 
     protected open fun handleApiError(apiError: ApiError) {
-        viewModel.setToastError( R.string.unexpected_error)
+        viewModel.setToastMessage( R.string.unexpected_error)
     }
 
 }

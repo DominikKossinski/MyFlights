@@ -19,9 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateAccountViewModel @Inject constructor(
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val _email = MutableStateFlow("")
     private val _password = MutableStateFlow("")
@@ -83,9 +82,9 @@ class CreateAccountViewModel @Inject constructor(
                         navigateToEmailResend()
                     }?.addOnFailureListener {
                         when (it) {
-                            is FirebaseNetworkException -> setToastError(R.string.error_no_internet)
+                            is FirebaseNetworkException -> setToastMessage(R.string.error_no_internet)
                             else -> {
-                                setToastError(R.string.unexpected_error)
+                                setToastMessage(R.string.unexpected_error)
                             }
                         }
                     }
@@ -105,11 +104,11 @@ class CreateAccountViewModel @Inject constructor(
                                 }
                                 else -> {
                                     Log.d("MyLog", "Creating $it")
-                                    setToastError(R.string.unexpected_error)
+                                    setToastMessage(R.string.unexpected_error)
                                 }
                             }
                         }
-                        is FirebaseNetworkException -> setToastError(R.string.error_no_internet)
+                        is FirebaseNetworkException -> setToastMessage(R.string.error_no_internet)
                         else -> {
                             Log.d("MyLog", "Creating account exception: $it")
                         }

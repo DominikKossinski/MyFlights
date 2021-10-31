@@ -46,6 +46,9 @@
     <string name="airport_deleted">Airport has been deleted.</string>
     <string name="runways">Runways</string>
 
+    <!--AirportDetailsFragment-->
+    <string name="no_ils">No ILS</string>
+
     <!--AirportSelectFragment-->
     <string name="search_airport">Name or ICAO</string>
     <string name="no_airports_found">No airports found</string>

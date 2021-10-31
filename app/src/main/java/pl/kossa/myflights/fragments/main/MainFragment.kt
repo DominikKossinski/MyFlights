@@ -1,8 +1,6 @@
 package pl.kossa.myflights.fragments.main
 
-import android.util.Log
 import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.navigation.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
@@ -44,13 +42,13 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
     override fun handleApiError(apiError: ApiError) {
         when(apiError.code) {
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.setToastMessage( R.string.error_forbidden)
             }
             else -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
             }
         }
     }

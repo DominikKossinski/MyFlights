@@ -20,9 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AccountDeleteViewModel @Inject constructor(
     private val userService: UserService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val user = MutableStateFlow<User?>(null)
     private val _password = MutableStateFlow("")
@@ -37,8 +36,9 @@ class AccountDeleteViewModel @Inject constructor(
     }
 
     private fun fetchUser() {
-        makeRequest(userService::getUser) {
-            user.value = it
+        makeRequest {
+            val response = userService.getUser()
+            user.value = response.body
         }
     }
 
@@ -48,7 +48,8 @@ class AccountDeleteViewModel @Inject constructor(
         val credential = EmailAuthProvider.getCredential(email, _password.value)
         firebaseAuth.currentUser?.reauthenticate(credential)
             ?.addOnSuccessListener {
-                makeRequest(userService::deleteUser) {
+                makeRequest {
+                    userService.deleteUser()
                     isLoadingData.value = false
                     firebaseAuth.currentUser?.delete()
                     signOut()
@@ -61,11 +62,11 @@ class AccountDeleteViewModel @Inject constructor(
                         passwordError.value = R.string.wrong_password_error
                     }
                     is FirebaseNetworkException -> {
-                        setToastError(R.string.error_no_internet)
+                        setToastMessage(R.string.error_no_internet)
                     }
                     else -> {
                         Log.d("MyLog", "Login exception$it")
-                        setToastError(R.string.unexpected_error)
+                        setToastMessage(R.string.unexpected_error)
                         navigateBack()
                     }
                 }

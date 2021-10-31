@@ -17,9 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AirportAddViewModel @Inject constructor(
     private val airportsService: AirportsService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
 
     private val _name = MutableStateFlow("")
@@ -72,12 +71,11 @@ class AirportAddViewModel @Inject constructor(
         val towerFrequency = _towerFrequency.value
         val groundFrequency = _groundFrequency.value
         //TODO add data
-        makeRequest({
+        makeRequest {
             val request =
                 AirportRequest(name, city, icaoCode, towerFrequency, groundFrequency, null)
-            airportsService.postAirport(request)
-        }) { it ->
-            navigateToDetails(it.entityId)
+            val response = airportsService.postAirport(request)
+            response.body?.let { navigateToDetails(it.entityId) }
         }
     }
 

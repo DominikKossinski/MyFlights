@@ -2,7 +2,6 @@ package pl.kossa.myflights.fragments.login
 
 import android.util.Log
 import android.util.Patterns
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -19,9 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
 
     private val _email = MutableStateFlow("")
@@ -89,16 +87,16 @@ class LoginViewModel @Inject constructor(
                                     }
                                     else -> {
                                         Log.d("MyLog", "Login exception$it")
-                                        setToastError(R.string.unexpected_error)
+                                        setToastMessage(R.string.unexpected_error)
                                     }
                                 }
                             }
                             is FirebaseNetworkException -> {
-                                setToastError(R.string.error_no_internet)
+                                setToastMessage(R.string.error_no_internet)
                             }
                             else -> {
                                 Log.d("MyLog", "Login exception$it")
-                                setToastError(R.string.unexpected_error)
+                                setToastMessage(R.string.unexpected_error)
                             }
 
                         }
@@ -113,8 +111,8 @@ class LoginViewModel @Inject constructor(
             navigateToResendEmail()
         }?.addOnFailureListener {
             when (it) {
-                is FirebaseNetworkException -> setToastError(R.string.error_no_internet)
-                else -> setToastError(R.string.unexpected_error)
+                is FirebaseNetworkException -> setToastMessage(R.string.error_no_internet)
+                else -> setToastMessage(R.string.unexpected_error)
             }
         }
     }

@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -112,7 +111,7 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment() {
 
     protected open fun collectFlow() {
         lifecycleScope.launch {
-            viewModel.toastError.collect {
+            viewModel.toastMessage.collect {
                 Log.d("MyLog", "Collecting error: $it")
                 it?.let {
                     Toast.makeText(context, it, Toast.LENGTH_LONG).show()

@@ -21,9 +21,8 @@ import javax.inject.Inject
 class AirplaneEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val airplanesService: AirplanesService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val airplaneId = savedStateHandle.get<String>("airplaneId")!!
     private val _airplaneName = MutableStateFlow("")
@@ -52,10 +51,9 @@ class AirplaneEditViewModel @Inject constructor(
     }
 
     private fun fetchAirplane() {
-        makeRequest({
-            airplanesService.getAirplaneById(airplaneId)
-        }) { it ->
-            airplane.value = it
+        makeRequest {
+            val response = airplanesService.getAirplaneById(airplaneId)
+            response.body?.let { airplane.value = it }
         }
     }
 
@@ -65,7 +63,7 @@ class AirplaneEditViewModel @Inject constructor(
 
 
     fun putAirplane() {
-        makeRequest({
+        makeRequest {
             //TODO image
             val request = AirplaneRequest(
                 _airplaneName.value,
@@ -74,7 +72,6 @@ class AirplaneEditViewModel @Inject constructor(
                 null
             )
             airplanesService.putAirplane(airplaneId, request)
-        }) {
             navigateBack()
         }
     }

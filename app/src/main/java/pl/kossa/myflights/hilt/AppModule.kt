@@ -11,6 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.ResponseBody
+import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.*
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -32,12 +33,12 @@ object AppModule {
         preferencesHelper: PreferencesHelper
     ): OkHttpClient {
         return OkHttpClient.Builder().addInterceptor { chain ->
-                val newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer ${preferencesHelper.token}")
-                    .build()
-                Log.d("MyLog", "Token: ${preferencesHelper.token}")
-                Log.d("MyLog", "$newRequest")
-                chain.proceed(newRequest)
+            val newRequest = chain.request().newBuilder()
+                .addHeader("Authorization", "Bearer ${preferencesHelper.token}")
+                .build()
+            Log.d("MyLog", "Token: ${preferencesHelper.token}")
+            Log.d("MyLog", "$newRequest")
+            chain.proceed(newRequest)
         }.build()
     }
 
@@ -53,9 +54,11 @@ object AppModule {
         return Retrofit.Builder()
             .client(client)
             .baseUrl("http://10.0.2.2:8080/")
+            .addCallAdapterFactory(ApiResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
+
 
     @Provides
     fun provideFlightsService(retrofit: Retrofit): FlightsService {
@@ -82,8 +85,4 @@ object AppModule {
         return retrofit.create(UserService::class.java)
     }
 
-    @Provides
-    fun provideErrorConverter(retrofit: Retrofit): Converter<ResponseBody, ApiErrorBody> {
-        return retrofit.responseBodyConverter(ApiErrorBody::class.java, arrayOf())
-    }
 }

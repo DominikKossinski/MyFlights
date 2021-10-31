@@ -18,23 +18,20 @@ import javax.inject.Inject
 class AirplaneDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val airplanesService: AirplanesService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val airplaneId = savedStateHandle.get<String>("airplaneId")!!
-    val airplaneLiveData = MutableLiveData<Airplane>()
+    val airplane = MutableLiveData<Airplane>()
 
     init {
         fetchAirplane()
     }
 
     fun fetchAirplane() {
-        makeRequest({
-            Log.d("MyLog", "AirplaneId: $airplaneId")
-            airplanesService.getAirplaneById(airplaneId)
-        }) { it ->
-            airplaneLiveData.value = it
+        makeRequest {
+            val response = airplanesService.getAirplaneById(airplaneId)
+            response.body?.let { airplane.value = it }
         }
     }
 
@@ -43,11 +40,9 @@ class AirplaneDetailsViewModel @Inject constructor(
     }
 
     fun deleteAirplane() {
-        makeRequest({
+        makeRequest {
             airplanesService.deleteAirplane(airplaneId)
-        }
-        ) {
-            setToastError(R.string.airplane_deleted)
+            setToastMessage(R.string.airplane_deleted)
         }
     }
 }

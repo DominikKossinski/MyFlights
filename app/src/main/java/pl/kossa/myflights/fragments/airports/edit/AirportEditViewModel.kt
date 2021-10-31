@@ -19,9 +19,8 @@ import javax.inject.Inject
 class AirportEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val airportsService: AirportsService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val airportId = savedStateHandle.get<String>("airportId")!!
 
@@ -44,10 +43,9 @@ class AirportEditViewModel @Inject constructor(
     }
 
     private fun fetchAirport() {
-        makeRequest({
-            airportsService.getAirportById(airportId)
-        }) { it ->
-            airport.value = it
+        makeRequest {
+            val response = airportsService.getAirportById(airportId)
+            response.body?.let { airport.value = it }
         }
     }
 
@@ -58,12 +56,11 @@ class AirportEditViewModel @Inject constructor(
         val towerFrequency = _towerFrequency.value
         val groundFrequency = _groundFrequency.value
 
-        makeRequest({
+        makeRequest{
             //TODO image and data
             val request =
                 AirportRequest(name, city, icaoCode, towerFrequency, groundFrequency, null)
             airportsService.putAirport(airportId, request)
-        }) {
             navigateBack()
         }
     }

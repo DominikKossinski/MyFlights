@@ -15,9 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val userService: UserService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     val user = MutableStateFlow<User?>(null)
 
@@ -26,8 +25,11 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun fetchUser() {
-        makeRequest(userService::getUser) { response ->
-            user.value = response
+        makeRequest {
+            val response = userService.getUser()
+            response.body?.let {
+                user.value = it
+            }
         }
     }
 
