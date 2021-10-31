@@ -111,20 +111,20 @@ class AirplanesFragment : BaseFragment<AirplanesViewModel, FragmentAirplanesBind
         Log.d("MyLog", "Handling error $apiError")
         when(apiError.code) {
             HttpCode.NOT_FOUND.code -> {
-                viewModel.setToastError(R.string.error_airplane_not_found)
+                viewModel.setToastMessage(R.string.error_airplane_not_found)
             }
             HttpCode.BAD_REQUEST.code -> {
-                viewModel.setToastError( R.string.error_airplane_exists_in_flights)
+                viewModel.setToastMessage( R.string.error_airplane_exists_in_flights)
                 viewModel.fetchAirplanes()
             }
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.setToastMessage( R.string.error_forbidden)
             }
             else -> {
-                viewModel.setToastError(R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
         }
     }

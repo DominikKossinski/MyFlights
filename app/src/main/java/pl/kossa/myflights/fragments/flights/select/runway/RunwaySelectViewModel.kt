@@ -16,9 +16,8 @@ import javax.inject.Inject
 class RunwaySelectViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val airportsService: AirportsService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-): BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val airportId = savedStateHandle.get<String>("airportId")!!
     val airport = MutableStateFlow<Airport?>(null)
@@ -28,10 +27,11 @@ class RunwaySelectViewModel @Inject constructor(
     }
 
     fun fetchAirplane() {
-        makeRequest({
-            airportsService.getAirportById(airportId)
-        }) { it ->
-            airport.value = it
+        makeRequest {
+            val response = airportsService.getAirportById(airportId)
+            response.body?.let {
+                airport.value = it
+            }
         }
     }
 

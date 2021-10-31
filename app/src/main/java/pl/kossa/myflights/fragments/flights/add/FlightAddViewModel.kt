@@ -20,9 +20,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FlightAddViewModel @Inject constructor(
     private val flightsService: FlightsService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val _airplaneId = MutableStateFlow("")
     val _airplaneName = MutableStateFlow("")
@@ -68,8 +67,8 @@ class FlightAddViewModel @Inject constructor(
         val departureDate = _departureDate.value
         val arrivalDate = _arrivalDate.value
         if (departureDate == null || arrivalDate == null) return // TODO diplay error
-        makeRequest({
-            flightsService.postFlight(
+        makeRequest {
+            val response = flightsService.postFlight(
                 FlightRequest(
                     _note.value,
                     _distance.value,
@@ -83,8 +82,7 @@ class FlightAddViewModel @Inject constructor(
                     _arrivalRunwayId.value
                 )
             )
-        }) { response ->
-            navigateToFlightDetails(response.entityId)
+            response.body?.let { navigateToFlightDetails(it.entityId) }
         }
     }
 

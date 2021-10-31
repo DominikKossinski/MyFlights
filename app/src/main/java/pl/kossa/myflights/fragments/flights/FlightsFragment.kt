@@ -103,16 +103,16 @@ class FlightsFragment : BaseFragment<FlightsViewModel, FragmentFlightsBinding>()
     override fun handleApiError(apiError: ApiError) {
         when(apiError.code) {
             HttpCode.NOT_FOUND.code -> {
-                viewModel.setToastError( R.string.error_flight_not_found)
+                viewModel.setToastMessage( R.string.error_flight_not_found)
             }
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.setToastMessage( R.string.error_forbidden)
             }
             else -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
             }
         }
     }

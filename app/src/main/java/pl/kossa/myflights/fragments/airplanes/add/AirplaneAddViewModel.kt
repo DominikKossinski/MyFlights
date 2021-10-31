@@ -17,9 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AirplaneAddViewModel @Inject constructor(
     private val airplanesService: AirplanesService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val _airplaneName = MutableStateFlow("")
     private val _maxSpeed = MutableStateFlow<Int?>(null)
@@ -39,7 +38,7 @@ class AirplaneAddViewModel @Inject constructor(
         _airplaneName.value = name
     }
 
-    internal  fun setMaxSpeed(maxSpeed: Int?) {
+    internal fun setMaxSpeed(maxSpeed: Int?) {
         _maxSpeed.value = maxSpeed
     }
 
@@ -56,11 +55,13 @@ class AirplaneAddViewModel @Inject constructor(
             nameError.value = R.string.error_empty_name
             return
         }
-        makeRequest({//TODO image
+        makeRequest {
+            //TODO image
             val request = AirplaneRequest(name, maxSpeed, weight, null)
-            airplanesService.postAirplane(request)
-        }) { it ->
-            navigateToDetails(it.entityId)
+            val response = airplanesService.postAirplane(request)
+            response.body?.let {
+                navigateToDetails(it.entityId)
+            }
         }
     }
 

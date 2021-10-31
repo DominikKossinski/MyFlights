@@ -19,9 +19,8 @@ import javax.inject.Inject
 class RunwayEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val runwaysService: RunwaysService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val airportId = savedStateHandle.get<String>("airportId")!!
     private val runwayId = savedStateHandle.get<String>("runwayId")!!
@@ -58,8 +57,9 @@ class RunwayEditViewModel @Inject constructor(
 
 
     fun fetchRunway() {
-        makeRequest({ runwaysService.getRunwayById(airportId, runwayId) }) { response ->
-            runway.value = response
+        makeRequest {
+            val response = runwaysService.getRunwayById(airportId, runwayId)
+            response.body?.let { runway.value = it }
         }
     }
 
@@ -74,12 +74,11 @@ class RunwayEditViewModel @Inject constructor(
             // TODO add error
             return
         }
-        makeRequest({
+        makeRequest {
             runwaysService.putRunway(
                 airportId, runwayId,
                 RunwayRequest(_name.value, length, heading, _ilsFrequency.value, null)
             )
-        }) {
             navigateBack()
         }
     }

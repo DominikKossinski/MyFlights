@@ -16,21 +16,22 @@ import javax.inject.Inject
 @HiltViewModel
 class AirportsViewModel @Inject constructor(
     private val airportsService: AirportsService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     val airportsList = MutableLiveData<List<Airport>>()
 
     fun fetchAirports() {
-        makeRequest(airportsService::getAirports) {
-            airportsList.value = it
+        makeRequest {
+            val response = airportsService.getAirports()
+            response.body?.let { airportsList.value = it }
         }
     }
 
     fun deleteAirport(airportId: String) {
-        makeRequest({ airportsService.deleteAirport(airportId) }) {
-            setToastError(R.string.airport_deleted)
+        makeRequest {
+            airportsService.deleteAirport(airportId)
+            setToastMessage(R.string.airport_deleted)
             fetchAirports()
         }
     }

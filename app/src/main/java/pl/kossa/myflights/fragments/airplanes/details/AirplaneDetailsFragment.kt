@@ -1,8 +1,6 @@
 package pl.kossa.myflights.fragments.airplanes.details
 
 import android.app.AlertDialog
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +26,7 @@ class AirplaneDetailsFragment :
 
     override fun setObservers() {
         super.setObservers()
-        viewModel.airplaneLiveData.observe(viewLifecycleOwner) {
+        viewModel.airplane.observe(viewLifecycleOwner) {
             setupAirplaneData(it)
         }
     }
@@ -80,19 +78,19 @@ class AirplaneDetailsFragment :
     override fun handleApiError(apiError: ApiError) {
         when (apiError.code) {
             HttpCode.BAD_REQUEST.code -> {
-                viewModel.setToastError( R.string.error_airplane_exists_in_flights)
+                viewModel.setToastMessage( R.string.error_airplane_exists_in_flights)
             }
             HttpCode.NOT_FOUND.code -> {
-                viewModel.setToastError( R.string.error_airplane_not_found)
+                viewModel.setToastMessage( R.string.error_airplane_not_found)
             }
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.setToastMessage( R.string.error_forbidden)
             }
             else -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
             }
         }
         viewModel.navigateBack()

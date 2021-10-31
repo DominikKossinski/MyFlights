@@ -223,11 +223,11 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         return departure?.let {
             when {
                 arrival != null && departure.time > arrival.time -> {
-                    viewModel.setToastError( R.string.error_departure_after_arrival)
+                    viewModel.setToastMessage( R.string.error_departure_after_arrival)
                     arrival
                 }
                 departure.time > Date().time -> {
-                    viewModel.setToastError( R.string.error_departure_in_future)
+                    viewModel.setToastMessage( R.string.error_departure_in_future)
                     Date()
                 }
                 else -> {
@@ -241,11 +241,11 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         return arrival?.let {
             when {
                 departure != null && arrival.time < departure.time -> {
-                    viewModel.setToastError( R.string.error_arrival_before_departure)
+                    viewModel.setToastMessage( R.string.error_arrival_before_departure)
                     departure
                 }
                 arrival.time > Date().time -> {
-                    viewModel.setToastError( R.string.error_arrival_in_future)
+                    viewModel.setToastMessage( R.string.error_arrival_in_future)
                     Date()
                 }
                 else -> {
@@ -258,15 +258,15 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
     override fun handleApiError(apiError: ApiError) {
         when(apiError.code) {
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
                 viewModel.navigateBack()
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.setToastMessage( R.string.error_forbidden)
                 viewModel.navigateBack()
             }
             else -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
                 viewModel.navigateBack()
             }
         }

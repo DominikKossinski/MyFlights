@@ -16,9 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FlightsViewModel @Inject constructor(
     private val flightsService: FlightsService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
 
     val flightsList = MutableStateFlow<List<Flight>>(emptyList())
@@ -28,8 +27,9 @@ class FlightsViewModel @Inject constructor(
     }
 
     fun fetchFlights() {
-        makeRequest(flightsService::getAllFlights) {
-            flightsList.value = it
+        makeRequest {
+            val response = flightsService.getAllFlights()
+            response.body?.let { flightsList.value = it }
         }
     }
 
@@ -42,8 +42,9 @@ class FlightsViewModel @Inject constructor(
     }
 
     fun deleteFlight(flightId: String) {
-        makeRequest({flightsService.deleteFlight(flightId)}) {
-            setToastError(R.string.flight_deleted)
+        makeRequest {
+            flightsService.deleteFlight(flightId)
+            setToastMessage(R.string.flight_deleted)
             fetchFlights()
         }
     }

@@ -2,11 +2,9 @@ package pl.kossa.myflights.fragments.login
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
@@ -70,13 +68,13 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
     override fun handleApiError(apiError: ApiError) {
         when(apiError.code) {
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastError( R.string.error_forbidden)
+                viewModel.setToastMessage( R.string.error_forbidden)
             }
             else -> {
-                viewModel.setToastError( R.string.unexpected_error)
+                viewModel.setToastMessage( R.string.unexpected_error)
             }
         }
     }

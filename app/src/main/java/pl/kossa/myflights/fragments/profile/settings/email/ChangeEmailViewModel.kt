@@ -6,7 +6,6 @@ import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -23,9 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeEmailViewModel @Inject constructor(
     private val userService: UserService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     val user = MutableStateFlow<User?>(null)
     private val _password = MutableStateFlow("")
@@ -51,8 +49,9 @@ class ChangeEmailViewModel @Inject constructor(
     }
 
     private fun fetchUser() {
-        makeRequest(userService::getUser) {
-            user.value = it
+        makeRequest {
+            val response = userService.getUser()
+            response.body?.let { user.value = it }
         }
     }
 
@@ -77,11 +76,11 @@ class ChangeEmailViewModel @Inject constructor(
                             isLoadingData.value = false
                             when (it) {
                                 is FirebaseNetworkException -> {
-                                    setToastError(R.string.error_no_internet)
+                                    setToastMessage(R.string.error_no_internet)
                                     navigateBack()
                                 }
                                 else -> {
-                                    setToastError(R.string.unexpected_error)
+                                    setToastMessage(R.string.unexpected_error)
                                 }
                             }
                         }
@@ -99,13 +98,13 @@ class ChangeEmailViewModel @Inject constructor(
                                     }
                                     else -> {
                                         Log.d("MyLog", "Creating $it")
-                                        setToastError(R.string.unexpected_error)
+                                        setToastMessage(R.string.unexpected_error)
                                         navigateBack()
                                     }
                                 }
                             }
                             else -> {
-                                setToastError(R.string.unexpected_error)
+                                setToastMessage(R.string.unexpected_error)
                                 navigateBack()
                             }
                         }
@@ -118,11 +117,11 @@ class ChangeEmailViewModel @Inject constructor(
                         passwordError.value = R.string.wrong_password_error
                     }
                     is FirebaseNetworkException -> {
-                        setToastError(R.string.error_no_internet)
+                        setToastMessage(R.string.error_no_internet)
                     }
                     else -> {
                         Log.d("MyLog", "Login exception$it")
-                        setToastError(R.string.unexpected_error)
+                        setToastMessage(R.string.unexpected_error)
                         navigateBack()
                     }
                 }

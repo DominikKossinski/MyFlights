@@ -17,9 +17,8 @@ import javax.inject.Inject
 class AirportDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val airportsService: AirportsService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val airportId = savedStateHandle.get<String>("airportId")!!
 
@@ -27,13 +26,12 @@ class AirportDetailsViewModel @Inject constructor(
         fetchAirport()
     }
 
-    val airportLiveData = MutableLiveData<Airport>()
+    val airport = MutableLiveData<Airport>()
 
     fun fetchAirport() {
-        makeRequest({
-            airportsService.getAirportById(airportId)
-        }) { it ->
-            airportLiveData.value = it
+        makeRequest {
+            val response = airportsService.getAirportById(airportId)
+            response.body?.let { airport.value = it }
         }
     }
 
@@ -42,11 +40,9 @@ class AirportDetailsViewModel @Inject constructor(
     }
 
     fun deleteAirport() {
-        makeRequest({
+        makeRequest {
             airportsService.deleteAirport(airportId)
-        }
-        ) {
-            setToastError(R.string.airport_deleted)
+            setToastMessage(R.string.airport_deleted)
             navigateBack()
         }
     }

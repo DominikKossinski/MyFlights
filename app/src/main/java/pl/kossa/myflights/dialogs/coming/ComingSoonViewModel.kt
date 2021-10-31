@@ -11,7 +11,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ComingSoonViewModel @Inject constructor(
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 }

@@ -1,5 +1,6 @@
 package pl.kossa.myflights.api.services
 
+import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.models.Runway
 import pl.kossa.myflights.api.requests.RunwayRequest
 import pl.kossa.myflights.api.responses.CreatedResponse
@@ -12,25 +13,25 @@ interface RunwaysService {
     suspend fun getRunwayById(
         @Path("airportId") airportId: String,
         @Path("runwayId") runwayId: String
-    ): Response<Runway>
+    ): ApiResponse<Runway>
 
     @POST("/api/airports/{airportId}/runways")
     suspend fun postRunway(
         @Path("airportId") airportId: String,
         @Body runwayRequest: RunwayRequest
-    ): Response<CreatedResponse>
+    ): ApiResponse<CreatedResponse>
 
     @PUT("/api/airports/{airportId}/runways/{runwayId}")
     suspend fun putRunway(
         @Path("airportId") airportId: String,
         @Path("runwayId") runwayId: String,
         @Body runwayRequest: RunwayRequest
-    ): Response<Void>
+    ): ApiResponse<Void>
 
     @DELETE("/api/airports/{airportId}/runways/{runwayId}")
     suspend fun deleteRunway(
         @Path("airportId") airportId: String,
         @Path("runwayId") runwayId: String
-    ): Response<Void>
+    ): ApiResponse<Void>
 
 }

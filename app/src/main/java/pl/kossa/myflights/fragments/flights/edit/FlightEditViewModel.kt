@@ -22,9 +22,8 @@ import javax.inject.Inject
 class FlightEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val flightsService: FlightsService,
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     private val flightId = savedStateHandle.get<String>("flightId")!!
     val flight = MutableStateFlow<Flight?>(null)
@@ -75,10 +74,9 @@ class FlightEditViewModel @Inject constructor(
     }
 
     fun fetchFlight() {
-        makeRequest({
-            flightsService.getFLightById(flightId)
-        }) { it ->
-            flight.value = it
+        makeRequest {
+            val response = flightsService.getFLightById(flightId)
+            response.body?.let { flight.value = it }
         }
     }
 
@@ -86,7 +84,7 @@ class FlightEditViewModel @Inject constructor(
         val departureDate = _departureDate.value
         val arrivalDate = _arrivalDate.value
         if (departureDate == null || arrivalDate == null) return // TODO diplay error
-        makeRequest({
+        makeRequest {
             flightsService.putFlight(
                 flightId,
                 FlightRequest(
@@ -102,7 +100,6 @@ class FlightEditViewModel @Inject constructor(
                     _arrivalRunwayId.value
                 )
             )
-        }) {
             navigateBack()
         }
     }

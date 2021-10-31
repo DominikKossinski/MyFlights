@@ -6,24 +6,22 @@ import okhttp3.ResponseBody
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.architecture.BaseViewModel
-import pl.kossa.myflights.fragments.emailresend.EmailResendFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
 import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class EmailVerifyViewModel @Inject constructor(
-    errorBodyConverter: Converter<ResponseBody, ApiErrorBody>,
     preferencesHelper: PreferencesHelper
-) : BaseViewModel(errorBodyConverter, preferencesHelper) {
+) : BaseViewModel(preferencesHelper) {
 
     fun resendEmail() {
         firebaseAuth.currentUser?.sendEmailVerification()?.addOnSuccessListener {
-            setToastError(R.string.email_resended)
+            setToastMessage(R.string.email_resended)
         }?.addOnFailureListener {
             when (it) {
-                is FirebaseNetworkException -> setToastError(R.string.error_no_internet)
-                else -> setToastError(R.string.unexpected_error)
+                is FirebaseNetworkException -> setToastMessage(R.string.error_no_internet)
+                else -> setToastMessage(R.string.unexpected_error)
             }
         }
     }
