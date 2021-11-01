@@ -28,7 +28,6 @@ class ApiResponseAdapterFactory : CallAdapter.Factory() {
 
         val errorBodyConverter =
             retrofit.nextResponseBodyConverter<ApiErrorBody>(null, ApiErrorBody::class.java, annotations)
-        Log.d("MyLog", "Call Adapter created")
         return ApiCallAdapter<Any>(successBodyType, errorBodyConverter)
     }
 }

@@ -49,7 +49,8 @@ abstract class BaseViewModel(
             isLoadingData.value = true
             try {
                 block.invoke()
-                isLoadingData.value = false
+            } catch (e: ApiServerException) {
+                apiErrorFlow.emit(e.apiError)
             } catch (e: UnauthorizedException) {
                 if (tokenRefreshed) {
                     firebaseAuth.signOut()
@@ -61,12 +62,8 @@ abstract class BaseViewModel(
                     }
                 }
             } catch (e: NoInternetException) {
-                isLoadingData.value = false
                 setToastMessage(R.string.error_no_internet)
-            } catch (e: ApiServerException) {
-                apiErrorFlow.emit(e.apiError)
             } catch (e: Exception) {
-                isLoadingData.value = false
                 when (e) {
                     is SocketTimeoutException, is UnknownHostException, is ConnectionShutdownException, is IOException -> {
                         e.printStackTrace()
@@ -76,6 +73,8 @@ abstract class BaseViewModel(
                         setToastMessage(R.string.unexpected_error)
                     }
                 }
+            } finally {
+                isLoadingData.value = false
             }
         }
     }

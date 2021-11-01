@@ -44,6 +44,10 @@
             android:id="@+id/goToSettings"
             app:destination="@id/settingsFragment" />
 
+        <action
+            android:id="@+id/showChangeAvatarBottomSheet"
+            app:destination="@id/changeAvatarBottomSheet" />
+
     </fragment>
 
     <fragment
@@ -280,6 +284,29 @@
             app:argType="string" />
     </fragment>
 
+    <dialog
+        android:id="@+id/changeAvatarBottomSheet"
+        android:name="pl.kossa.myflights.dialogs.avatar.ChangeAvatarBottomSheet"
+        android:label="ChangeAvatarBottomSheet"
+        tools:layout="@layout/dialog_change_avatar" >
+
+
+        <action
+            android:id="@+id/goToAcceptAvatar"
+            app:destination="@id/acceptAvatarFragment" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/acceptAvatarFragment"
+        android:name="pl.kossa.myflights.fragments.profile.avatar.AcceptAvatarFragment"
+        android:label="ChangeAvatarFragment"
+        tools:layout="@layout/fragment_accept_avatar">
+
+        <argument
+            android:name="imageUri"
+            app:argType="string" />
+    </fragment>
+
     <fragment
         android:id="@+id/settingsFragment"
         android:name="pl.kossa.myflights.fragments.profile.settings.SettingsFragment"
@@ -301,6 +328,7 @@
         <action
             android:id="@+id/showAccountDeleteDialog"
             app:destination="@id/accountDeleteDialog" />
+
     </fragment>
 
     <fragment
@@ -337,6 +365,7 @@
         android:name="pl.kossa.myflights.dialogs.coming.ComingSoonBottomSheet"
         android:label="ComingSoonBottomSheet"
         tools:layout="@layout/dialog_coming_soon" />
+
 
     <dialog
         android:id="@+id/accountDeleteDialog"

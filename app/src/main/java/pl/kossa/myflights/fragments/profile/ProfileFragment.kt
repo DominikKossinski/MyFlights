@@ -1,8 +1,12 @@
 package pl.kossa.myflights.fragments.profile
 
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -19,6 +23,9 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
     override val viewModel: ProfileViewModel by viewModels()
 
     override fun setOnClickListeners() {
+        binding.profileSwipeRefresh.setOnRefreshListener {
+            viewModel.fetchUser()
+        }
         binding.statsButton.setOnClickListener {
             //TODO statistics display
             viewModel.showComingSoonDialog()
@@ -28,6 +35,9 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
         }
         binding.signOutButton.setOnClickListener {
             viewModel.signOut()
+        }
+        binding.editAvatarIv.setOnClickListener {
+            viewModel.showChangeAccountBottomSheet()
         }
     }
 
@@ -39,7 +49,13 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
     override fun collectFlow() {
         super.collectFlow()
         lifecycleScope.launch {
+            viewModel.isLoadingData.collect {
+                binding.profileSwipeRefresh.isRefreshing = it
+            }
+        }
+        lifecycleScope.launch {
             viewModel.user.collect {
+                Log.d("MyLog", "Profile $it")
                 it?.let { setupUserData(it) }
             }
         }
@@ -50,6 +66,16 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
             getString(R.string.no_nick)
         } else user.nick
 
+        user.avatar?.let {
+            Glide.with(requireContext())
+                .load(it.url)
+                .transform(CircleCrop())
+                .placeholder(R.drawable.ic_profile)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(binding.profileIv)
+        } ?: binding.profileIv.setImageResource(R.drawable.ic_profile)
+
+
         val textColor = if (user.nick.isBlank()) {
             ContextCompat.getColor(requireContext(), R.color.color_delete)
         } else ContextCompat.getColor(requireContext(), R.color.black_day_night)
@@ -58,15 +84,15 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
     }
 
     override fun handleApiError(apiError: ApiError) {
-        when(apiError.code) {
+        when (apiError.code) {
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastMessage( R.string.error_forbidden)
+                viewModel.setToastMessage(R.string.error_forbidden)
             }
             else -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
         }
     }
