@@ -1,81 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profileSwipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/profileIv"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_profile"
-        app:layout_constraintBottom_toTopOf="@id/nameTv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-
-    <TextView
-        android:id="@+id/nameTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:fontFamily="@font/poppins_semibold"
-        android:textColor="@color/black_day_night"
-        android:textSize="@dimen/app_name_text_size"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintBottom_toTopOf="@id/emailTv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profileIv"
-        tools:text="Stefan" />
-
-    <TextView
-        android:id="@+id/emailTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:fontFamily="@font/poppins_medium"
-        android:textColor="@color/black_day_night"
-        android:textSize="@dimen/big_text_size"
-        app:layout_constrainedWidth="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nameTv"
-        app:layout_constraintBottom_toTopOf="@id/statsButton"
-        tools:text="test@test.pl" />
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/statsButton"
-        style="@style/BlackOutlinedButton"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/statistics"
-        app:layout_constraintBottom_toTopOf="@id/settingsButton"
-        app:layout_constraintTop_toBottomOf="@id/emailTv" />
+        android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/settingsButton"
-        style="@style/BlackOutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/settings"
-        app:layout_constraintBottom_toTopOf="@id/signOutButton"
-        app:layout_constraintTop_toBottomOf="@id/statsButton" />
+        <ImageView
+            android:id="@+id/profileIv"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/oval_primary"
+            android:src="@drawable/ic_profile"
+            app:layout_constraintBottom_toTopOf="@id/nameTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/signOutButton"
-        style="@style/BlackButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/sign_out"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/settingsButton" />
+        <ImageView
+            android:id="@+id/editAvatarIv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/oval_primary"
+            android:backgroundTint="@color/colorAccent"
+            android:padding="8dp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="@id/profileIv"
+            app:layout_constraintEnd_toEndOf="@id/profileIv"
+            app:tint="@color/black" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="@color/black_day_night"
+            android:textSize="@dimen/app_name_text_size"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@id/emailTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileIv"
+            tools:text="Stefan" />
+
+        <TextView
+            android:id="@+id/emailTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:fontFamily="@font/poppins_medium"
+            android:textColor="@color/black_day_night"
+            android:textSize="@dimen/big_text_size"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toTopOf="@id/statsButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameTv"
+            tools:text="test@test.pl" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/statsButton"
+            style="@style/BlackOutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/statistics"
+            app:layout_constraintBottom_toTopOf="@id/settingsButton"
+            app:layout_constraintTop_toBottomOf="@id/emailTv" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/settingsButton"
+            style="@style/BlackOutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/settings"
+            app:layout_constraintBottom_toTopOf="@id/signOutButton"
+            app:layout_constraintTop_toBottomOf="@id/statsButton" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/signOutButton"
+            style="@style/BlackButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/sign_out"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/settingsButton" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

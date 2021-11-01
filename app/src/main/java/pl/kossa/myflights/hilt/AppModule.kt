@@ -2,6 +2,8 @@ package pl.kossa.myflights.hilt
 
 import android.content.Context
 import android.util.Log
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -14,6 +16,7 @@ import okhttp3.ResponseBody
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.*
+import pl.kossa.myflights.glide.MyFlightsGlideModule
 import pl.kossa.myflights.utils.PreferencesHelper
 import retrofit2.Converter
 import retrofit2.Retrofit
@@ -59,7 +62,6 @@ object AppModule {
             .build()
     }
 
-
     @Provides
     fun provideFlightsService(retrofit: Retrofit): FlightsService {
         return retrofit.create(FlightsService::class.java)
@@ -83,6 +85,11 @@ object AppModule {
     @Provides
     fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
+    }
+
+    @Provides
+    fun provideImagesService(retrofit: Retrofit): ImagesService {
+        return retrofit.create(ImagesService::class.java)
     }
 
 }

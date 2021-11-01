@@ -1,20 +1,18 @@
-package pl.kossa.myflights.fragments.profile
+package pl.kossa.myflights.dialogs.avatar
 
 import android.net.Uri
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import okhttp3.ResponseBody
 import pl.kossa.myflights.api.models.User
-import pl.kossa.myflights.api.responses.ApiErrorBody
+import pl.kossa.myflights.api.requests.UserRequest
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
+class ChangeAvatarViewModel @Inject constructor(
     private val userService: UserService,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
@@ -28,17 +26,19 @@ class ProfileViewModel @Inject constructor(
     fun fetchUser() {
         makeRequest {
             val response = userService.getUser()
-            response.body?.let {
-                user.emit(it)
-            }
+            user.value = response.body
         }
     }
 
-    fun navigateToSettings() {
-        navDirectionLiveData.value = MainFragmentDirections.goToSettings()
+    fun deleteAvatar() {
+        makeRequest {
+            val nick = user.value?.nick ?: ""
+            userService.putUser(UserRequest(nick, null))
+            navigateBack()
+        }
     }
 
-    fun showChangeAccountBottomSheet() {
-        navDirectionLiveData.value = MainFragmentDirections.showChangeAvatarBottomSheet()
+    fun navigateToAcceptAvatar(uri: Uri) {
+        navDirectionLiveData.value = ChangeAvatarBottomSheetDirections.goToAcceptAvatar(uri.toString())
     }
 }

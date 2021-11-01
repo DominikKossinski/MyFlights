@@ -26,10 +26,6 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         binding.changePasswordButton.setOnClickListener {
             viewModel.navigateToChangePassword()
         }
-        binding.changeAvatarButton.setOnClickListener {
-            //TODO changing avatar
-            viewModel.showComingSoonDialog()
-        }
         binding.deleteAccountButton.setOnClickListener {
             viewModel.showAccountDeleteDialog()
         }

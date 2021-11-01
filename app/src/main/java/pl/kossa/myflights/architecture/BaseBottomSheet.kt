@@ -44,7 +44,10 @@ abstract class BaseBottomSheet<VM: BaseViewModel, VB: ViewBinding>: BottomSheetD
         super.onViewCreated(view, savedInstanceState)
         setObservers()
         collectFlow()
+        setOnClickListeners()
     }
+
+    protected open fun setOnClickListeners() {}
 
     protected open fun setObservers() {
         viewModel.navDirectionLiveData.observe(viewLifecycleOwner) {

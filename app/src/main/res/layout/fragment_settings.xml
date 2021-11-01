@@ -32,9 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/change_nick"
-        app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintBottom_toTopOf="@id/changeEmailButton"
-        app:layout_constraintTop_toBottomOf="@id/settingsTv" />
+        app:layout_constraintTop_toBottomOf="@id/settingsTv"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/changeEmailButton"
@@ -53,18 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/change_password"
-        app:layout_constraintBottom_toTopOf="@id/changeAvatarButton"
-        app:layout_constraintTop_toBottomOf="@id/changeEmailButton" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/changeAvatarButton"
-        style="@style/BlackOutlinedButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/change_avatar"
         app:layout_constraintBottom_toTopOf="@id/deleteAccountButton"
-        app:layout_constraintTop_toBottomOf="@id/changePasswordButton" />
+        app:layout_constraintTop_toBottomOf="@id/changeEmailButton" />
 
 
     <androidx.appcompat.widget.AppCompatButton
@@ -75,6 +65,6 @@
         android:layout_margin="16dp"
         android:text="@string/delete_account"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/changeAvatarButton" />
+        app:layout_constraintTop_toBottomOf="@id/changePasswordButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

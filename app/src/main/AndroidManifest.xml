@@ -3,6 +3,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".application.MyFlightsApp"
@@ -10,14 +12,18 @@
         android:icon="@drawable/ic_flight_rounded"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@drawable/ic_flight_rounded"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <meta-data
+            android:name="pl.kossa.myflights.glide.MyFlightsGlideModule"
+            android:value="AppGlideModule" />
+
         <activity android:name=".activities.main.MainActivity" />
-        <activity
-            android:name=".activities.login.LoginActivity"/>
+        <activity android:name=".activities.login.LoginActivity" />
         <activity
             android:name=".activities.login.LauncherActivity"
             android:exported="true">

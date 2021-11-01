@@ -7,8 +7,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 class PreferencesHelper(applicationContext: Context) {
 
     companion object {
-        private const val TOKEN = "TOKEN"
-        private const val PREFERENCES = "pl.kossa.myflights.prefs"
+        internal const val TOKEN = "TOKEN"
+        internal const val PREFERENCES = "pl.kossa.myflights.prefs"
     }
 
     private val preferences =

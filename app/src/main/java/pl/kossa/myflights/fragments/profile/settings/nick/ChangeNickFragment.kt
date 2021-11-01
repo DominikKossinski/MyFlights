@@ -32,7 +32,7 @@ class ChangeNickFragment : BaseFragment<ChangeNickViewModel, FragmentChangeNickB
     override fun collectFlow() {
         super.collectFlow()
         lifecycleScope.launch {
-            viewModel.user.collect {
+            viewModel._user.collect {
                 it?.let { binding.nickTie.setText(it.nick) }
             }
         }
