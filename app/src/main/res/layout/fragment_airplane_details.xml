@@ -18,6 +18,7 @@
         android:layout_marginTop="?actionBarSize">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScroolView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 

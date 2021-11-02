@@ -1,17 +1,15 @@
 package pl.kossa.myflights.fragments.airplanes.details
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import okhttp3.ResponseBody
+import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airplane
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -36,13 +34,14 @@ class AirplaneDetailsViewModel @Inject constructor(
     }
 
     fun navigateToAirplaneEdit() {
-        navDirectionLiveData.postValue(AirplaneDetailsFragmentDirections.goToAirplaneEdit(airplaneId))
+        navigate(AirplaneDetailsFragmentDirections.goToAirplaneEdit(airplaneId))
     }
 
     fun deleteAirplane() {
         makeRequest {
             airplanesService.deleteAirplane(airplaneId)
             setToastMessage(R.string.airplane_deleted)
+            navigateBack()
         }
     }
 }

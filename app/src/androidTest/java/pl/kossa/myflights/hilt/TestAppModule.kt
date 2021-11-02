@@ -9,17 +9,21 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.testing.TestInstallIn
 import okhttp3.OkHttpClient
-import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
 import pl.kossa.myflights.utils.PreferencesHelper
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-@InstallIn(SingletonComponent::class)
+
 @Module
-object AppModule {
+@TestInstallIn(
+    components = [SingletonComponent::class],
+    replaces = [AppModule::class]
+)
+object TestAppModule {
 
     @Provides
     fun providePreferencesHelper(@ApplicationContext applicationContext: Context): PreferencesHelper {
@@ -34,8 +38,8 @@ object AppModule {
             val newRequest = chain.request().newBuilder()
                 .addHeader("Authorization", "Bearer ${preferencesHelper.token}")
                 .build()
-//            Log.d("MyLog", "Token: ${preferencesHelper.token}")
-//            Log.d("MyLog", "$newRequest")
+            Log.d("MyLog", "Token: ${preferencesHelper.token}")
+            Log.d("MyLog", "$newRequest")
             chain.proceed(newRequest)
         }.build()
     }
@@ -51,7 +55,8 @@ object AppModule {
     fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .client(client)
-            .baseUrl("http://10.0.2.2:8080")
+//            .baseUrl("http://10.0.2.2:8080")
+            .baseUrl("http://127.0.0.1:8080")
             .addCallAdapterFactory(ApiResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

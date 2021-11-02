@@ -1,16 +1,12 @@
 package pl.kossa.myflights.fragments.profile
 
-import android.net.Uri
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import okhttp3.ResponseBody
 import pl.kossa.myflights.api.models.User
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,10 +31,10 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun navigateToSettings() {
-        navDirectionLiveData.value = MainFragmentDirections.goToSettings()
+        navigate           (MainFragmentDirections.goToSettings())
     }
 
     fun showChangeAccountBottomSheet() {
-        navDirectionLiveData.value = MainFragmentDirections.showChangeAvatarBottomSheet()
+        navigate           (MainFragmentDirections.showChangeAvatarBottomSheet())
     }
 }

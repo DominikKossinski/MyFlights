@@ -32,6 +32,12 @@ class AirplaneEditFragment : BaseFragment<AirplaneEditViewModel, FragmentAirplan
                 it?.let { setupAirplaneData(it)}
             }
         }
+        lifecycleScope.launch {
+            viewModel.isSaveButtonEnabled.collect {
+                binding.saveButton.isEnabled = it
+                binding.saveAppBar.isSaveIconEnabled = it
+            }
+        }
     }
 
     override fun setOnClickListeners() {

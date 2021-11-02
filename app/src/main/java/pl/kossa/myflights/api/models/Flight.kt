@@ -9,7 +9,7 @@ data class Flight(
 
     val distance: Int?,
 
-    val imageUrl: String?,
+    val image: Image?,
 
     val departureDate: Date,
 

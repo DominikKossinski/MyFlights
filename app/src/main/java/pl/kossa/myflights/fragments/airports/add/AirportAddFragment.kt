@@ -48,10 +48,11 @@ class AirportAddFragment : BaseFragment<AirportAddViewModel, FragmentAirportAddB
     }
 
     override fun collectFlow() {
+        super.collectFlow()
         lifecycleScope.launch {
             viewModel.isAddButtonEnabled.collect {
                 binding.addButton.isEnabled = it
-                binding.saveAppBar.isEnabled = it
+                binding.saveAppBar.isSaveIconEnabled = it
             }
         }
     }

@@ -1,16 +1,16 @@
 package pl.kossa.myflights.fragments.airports
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import okhttp3.ResponseBody
+import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airport
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.AirportsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,10 +37,10 @@ class AirportsViewModel @Inject constructor(
     }
 
     fun navigateToAddAirport() {
-        navDirectionLiveData.value = MainFragmentDirections.goToAirportAdd()
+        navigate(MainFragmentDirections.goToAirportAdd())
     }
 
     fun navigateToAirportDetails(airportId: String) {
-        navDirectionLiveData.value = MainFragmentDirections.goToAirportDetails(airportId)
+        navigate(MainFragmentDirections.goToAirportDetails(airportId))
     }
 }

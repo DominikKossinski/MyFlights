@@ -2,15 +2,12 @@ package pl.kossa.myflights.fragments.flights
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import okhttp3.ResponseBody
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Flight
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.FlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,11 +31,11 @@ class FlightsViewModel @Inject constructor(
     }
 
     fun navigateToAddFlight() {
-        navDirectionLiveData.value = MainFragmentDirections.goToFlightAdd()
+        navigate(MainFragmentDirections.goToFlightAdd())
     }
 
     fun navigateToFlightDetails(flightId: String) {
-        navDirectionLiveData.value = MainFragmentDirections.goToFlightDetails(flightId)
+        navigate(MainFragmentDirections.goToFlightDetails(flightId))
     }
 
     fun deleteFlight(flightId: String) {

@@ -48,34 +48,6 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
     }
 
     protected open fun setObservers() {
-        viewModel.navDirectionLiveData.observe(viewLifecycleOwner) {
-            when (findNavController().graph.id) {
-                R.id.main_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .navigate(it)
-                }
-                R.id.lists_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .navigate(it)
-                }
-                R.id.login_nav_graph -> {
-                    findNavController().navigate(it)
-                }
-            }
-        }
-        viewModel.backLiveData.observe(viewLifecycleOwner) {
-            when(findNavController().graph.id) {
-                R.id.main_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment).popBackStack()
-                }
-                R.id.lists_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.listsNavHostFragment).popBackStack()
-                }
-                R.id.login_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.login_nav_host_fragment).popBackStack()
-                }
-            }
-        }
         viewModel.signOutLiveData.observe(viewLifecycleOwner) {
             when (findNavController().graph.id) {
                 R.id.main_nav_graph -> {
@@ -95,6 +67,59 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
         lifecycleScope.launch {
             viewModel.apiErrorFlow.collect {
                 it?.let { handleApiError(it) }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.backFlow.collect {
+                it?.let {
+                    when (findNavController().graph.id) {
+                        R.id.main_nav_graph -> {
+                            Navigation.findNavController(
+                                requireActivity(),
+                                R.id.mainNavHostFragment
+                            )
+                                .popBackStack()
+                        }
+                        R.id.lists_nav_graph -> {
+                            Navigation.findNavController(
+                                requireActivity(),
+                                R.id.listsNavHostFragment
+                            )
+                                .popBackStack()
+                        }
+                        R.id.login_nav_graph -> {
+                            Navigation.findNavController(
+                                requireActivity(),
+                                R.id.login_nav_host_fragment
+                            ).popBackStack()
+                        }
+                    }
+                }
+            }
+        }
+        lifecycleScope.launch {
+            viewModel.getNavDirectionsFlow().collect {
+                it?.let {
+                    when (findNavController().graph.id) {
+                        R.id.main_nav_graph -> {
+                            Navigation.findNavController(
+                                requireActivity(),
+                                R.id.mainNavHostFragment
+                            )
+                                .navigate(it)
+                        }
+                        R.id.lists_nav_graph -> {
+                            Navigation.findNavController(
+                                requireActivity(),
+                                R.id.mainNavHostFragment
+                            )
+                                .navigate(it)
+                        }
+                        R.id.login_nav_graph -> {
+                            findNavController().navigate(it)
+                        }
+                    }
+                }
             }
         }
     }

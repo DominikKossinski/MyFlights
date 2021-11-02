@@ -11,7 +11,6 @@
         android:label="MainFragment"
         tools:layout="@layout/fragment_main">
 
-
         <action
             android:id="@+id/goToAirplaneAdd"
             app:destination="@id/airplaneAddFragment" />
@@ -21,16 +20,13 @@
             android:id="@+id/goToAirplaneDetails"
             app:destination="@id/airplaneDetailsFragment" />
 
-
         <action
             android:id="@+id/goToAirportAdd"
             app:destination="@id/airportAddFragment" />
 
-
         <action
             android:id="@+id/goToAirportDetails"
             app:destination="@id/airportDetailsFragment" />
-
 
         <action
             android:id="@+id/goToFlightDetails"
@@ -82,6 +78,11 @@
         <action
             android:id="@+id/goToRunwaySelect"
             app:destination="@id/runwaySelectFragment" />
+
+        <action
+            android:id="@+id/goToFlightDetails"
+            app:destination="@id/flightDetailsFragment"
+            app:popUpTo="@id/mainFragment" />
 
     </fragment>
 
@@ -159,7 +160,13 @@
         android:id="@+id/airplaneAddFragment"
         android:name="pl.kossa.myflights.fragments.airplanes.add.AirplaneAddFragment"
         android:label="AirplaneAddFragment"
-        tools:layout="@layout/fragment_airplane_add" />
+        tools:layout="@layout/fragment_airplane_add">
+
+        <action
+            android:id="@+id/goToAirplaneDetails"
+            app:destination="@id/airplaneDetailsFragment"
+            app:popUpTo="@id/mainFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/airplaneDetailsFragment"
@@ -211,7 +218,13 @@
         android:id="@+id/airportAddFragment"
         android:name="pl.kossa.myflights.fragments.airports.add.AirportAddFragment"
         android:label="AirportAddFragment"
-        tools:layout="@layout/fragment_airport_add" />
+        tools:layout="@layout/fragment_airport_add">
+
+        <action
+            android:id="@+id/goToAirportDetails"
+            app:destination="@id/airportDetailsFragment"
+            app:popUpTo="@id/mainFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/airportDetailsFragment"
@@ -288,7 +301,7 @@
         android:id="@+id/changeAvatarBottomSheet"
         android:name="pl.kossa.myflights.dialogs.avatar.ChangeAvatarBottomSheet"
         android:label="ChangeAvatarBottomSheet"
-        tools:layout="@layout/dialog_change_avatar" >
+        tools:layout="@layout/dialog_change_avatar">
 
 
         <action

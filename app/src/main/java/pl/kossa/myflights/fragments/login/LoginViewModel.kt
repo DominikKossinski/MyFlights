@@ -8,12 +8,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import okhttp3.ResponseBody
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -42,7 +39,7 @@ class LoginViewModel @Inject constructor(
     }
 
     fun navigateToCreateAccount() {
-        navDirectionLiveData.value = LoginFragmentDirections.goToCreateAccount()
+        navigate(LoginFragmentDirections.goToCreateAccount())
     }
 
     internal fun login() {
@@ -64,8 +61,7 @@ class LoginViewModel @Inject constructor(
                         if (firebaseAuth.currentUser != null && firebaseAuth.currentUser?.isEmailVerified ?: false) {
                             refreshToken {
                                 Log.d("MyLog", "Token Login: $it")
-                                navDirectionLiveData.value =
-                                    LoginFragmentDirections.goToMainActivity()
+                                navigate(LoginFragmentDirections.goToMainActivity())
                                 isLoadingData.value = false
                             }
                         } else {
@@ -118,6 +114,6 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun navigateToResendEmail() {
-        navDirectionLiveData.value = LoginFragmentDirections.goToEmailResend()
+        navigate(LoginFragmentDirections.goToEmailResend())
     }
 }

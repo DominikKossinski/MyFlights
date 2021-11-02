@@ -4,15 +4,11 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import okhttp3.ResponseBody
 import pl.kossa.myflights.api.requests.RunwayRequest
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.RunwaysService
 import pl.kossa.myflights.architecture.BaseViewModel
-import pl.kossa.myflights.fragments.airports.details.AirportDetailsFragment
 import pl.kossa.myflights.fragments.airports.details.AirportDetailsFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -69,9 +65,7 @@ class RunwayAddViewModel @Inject constructor(
             )
             navigateBack()
             response.body?.let {
-
-                navDirectionLiveData.value =
-                    AirportDetailsFragmentDirections.goToRunwayDetails(airportId, it.entityId)
+                navigate(AirportDetailsFragmentDirections.goToRunwayDetails(airportId, it.entityId))
             }
         }
     }

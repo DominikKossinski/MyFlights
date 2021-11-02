@@ -8,7 +8,7 @@ data class FlightRequest(
 
     val distance: Int?,
 
-    val image: Image?,
+    val imageId: String?,
 
     val departureDate: Date,
 
