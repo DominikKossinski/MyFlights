@@ -97,7 +97,7 @@ class AirplanesFlowTests {
 
     private fun editAirplane() {
         openSecondAirplaneDetails()
-        onView(withId(R.id.nestedScroolView)).perform(swipeUp())
+        onView(withId(R.id.nestedScrollView)).perform(swipeUp())
         onView(withId(R.id.editButton)).perform(click())
 
         onView(withId(R.id.nameTie))

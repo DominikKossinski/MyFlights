@@ -31,13 +31,12 @@ abstract class BaseViewModel(
 
     private var tokenRefreshed = false
 
-    val signOutLiveData = SingleLiveEvent<Unit>()
-
     val toastMessage = MutableSharedFlow<Int?>(0)
     val isLoadingData = MutableStateFlow(false)
     val apiErrorFlow = MutableStateFlow<ApiError?>(null)
-    private val navDirectionFlow = MutableSharedFlow<NavDirections?>(0)
-    val backFlow = MutableSharedFlow<Unit?>(0)
+    private val navDirectionFlow = MutableSharedFlow<NavDirections>(0)
+    val backFlow = MutableSharedFlow<Unit>(0)
+    val signOutFlow = MutableSharedFlow<Unit>(0)
 
 
     fun makeRequest(block: suspend () -> Unit) {
@@ -50,7 +49,7 @@ abstract class BaseViewModel(
             } catch (e: UnauthorizedException) {
                 if (tokenRefreshed) {
                     firebaseAuth.signOut()
-                    signOutLiveData.value = Unit
+                    signOutFlow.emit(Unit)
                 } else {
                     tokenRefreshed = true
                     refreshToken {
@@ -90,7 +89,9 @@ abstract class BaseViewModel(
                     setToastMessage(R.string.unexpected_error)
                     firebaseAuth.signOut()
                     preferencesHelper.token = null
-                    signOutLiveData.value = Unit
+                    viewModelScope.launch {
+                        signOutFlow.emit(Unit)
+                    }
                 }
             }
             isLoadingData.value = false
@@ -119,7 +120,9 @@ abstract class BaseViewModel(
     fun signOut() {
         firebaseAuth.signOut()
         preferencesHelper.token = null
-        signOutLiveData.value = Unit
+        viewModelScope.launch {
+            signOutFlow.emit(Unit)
+        }
     }
 
     fun setToastMessage(stringId: Int?) {

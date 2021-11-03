@@ -88,9 +88,9 @@ class AirportsFlowTests {
         onView(withId(R.id.towerFrequencyTie)).perform(typeText("102.125"), pressImeActionButton())
         onView(withId(R.id.groundFrequencyTie)).perform(typeText("119.25"), pressImeActionButton())
 
-        onView(withId(R.id.nestedScroolView)).perform(swipeUp())
+        onView(withId(R.id.nestedScrollView)).perform(swipeUp())
         onView(withId(R.id.addButton)).perform(click())
-        Thread.sleep(10_000)
+
         onView(withId(R.id.backTv)).perform(click())
     }
 
@@ -144,8 +144,7 @@ class AirportsFlowTests {
 
     private fun editAirport() {
         openSecondAirportDetails()
-        onView(withId(R.id.nestedScroolView)).perform(swipeUp())
-        Thread.sleep(5000)
+        onView(withId(R.id.nestedScrollView)).perform(swipeUp())
         onView(withId(R.id.editButton)).perform(click())
 
         onView(withId(R.id.nameTie))
@@ -155,70 +154,86 @@ class AirportsFlowTests {
         onView(withId(R.id.saveIv))
             .check(matches(isNotEnabled()))
         onView(withId(R.id.nameTie))
-            .perform(typeText("A321"))
+            .perform(typeText("Babimost"), pressImeActionButton())
         onView(withId(R.id.saveButton))
             .check(matches(isEnabled()))
         onView(withId(R.id.saveIv))
             .check(matches(isEnabled()))
 
 
-        onView(withId(R.id.maxSpeedTie))
-            .perform(replaceText(""))
-            .perform(typeText("750"))
-            .perform(closeSoftKeyboard())
+
+        onView(withId(R.id.cityTie)).perform(replaceText(""))
         onView(withId(R.id.saveButton))
             .check(matches(isNotEnabled()))
         onView(withId(R.id.saveIv))
             .check(matches(isNotEnabled()))
-        onView(withId(R.id.maxSpeedTie))
-            .perform(replaceText(""))
-            .perform(typeText("250"))
-            .perform(closeSoftKeyboard())
+        onView(withId(R.id.cityTie))
+            .perform(typeText("Zielona Gora"), pressImeActionButton())
         onView(withId(R.id.saveButton))
             .check(matches(isEnabled()))
         onView(withId(R.id.saveIv))
             .check(matches(isEnabled()))
 
-        onView(withId(R.id.weightTie))
-            .perform(replaceText(""))
-            .perform(typeText("750"))
-            .perform(closeSoftKeyboard())
+
+        onView(withId(R.id.icaoCodeTie)).perform(replaceText(""))
         onView(withId(R.id.saveButton))
             .check(matches(isNotEnabled()))
         onView(withId(R.id.saveIv))
             .check(matches(isNotEnabled()))
-        onView(withId(R.id.weightTie))
-            .perform(replaceText(""))
-            .perform(typeText("250"))
-            .perform(closeSoftKeyboard())
+        onView(withId(R.id.icaoCodeTie))
+            .perform(typeText("EPZG"), pressImeActionButton())
         onView(withId(R.id.saveButton))
             .check(matches(isEnabled()))
         onView(withId(R.id.saveIv))
             .check(matches(isEnabled()))
 
 
+        onView(withId(R.id.towerFrequencyTie))
+            .perform(replaceText(""))
+            .perform(typeText("104.125"), pressImeActionButton())
+        onView(withId(R.id.groundFrequencyTie))
+            .perform(replaceText(""))
+            .perform(typeText("115.25"), pressImeActionButton())
+
+        onView(withId(R.id.nestedScrollView)).perform(swipeUp())
         onView(withId(R.id.saveButton)).perform(click())
+
         onView(
             Matchers.allOf(
                 withId(R.id.valueTextView),
                 withParent(withId(R.id.nameEwt))
             )
         )
-            .check(matches(withText("A321")))
+            .check(matches(withText("Babimost")))
         onView(
             Matchers.allOf(
                 withId(R.id.valueTextView),
-                withParent(withId(R.id.maxSpeedEtw))
+                withParent(withId(R.id.cityEwt))
             )
         )
-            .check(matches(withText("250")))
+            .check(matches(withText("Zielona Gora")))
         onView(
             Matchers.allOf(
                 withId(R.id.valueTextView),
-                withParent(withId(R.id.weightEwt))
+                withParent(withId(R.id.icaoCodeEwt))
             )
         )
-            .check(matches(withText("250")))
+            .check(matches(withText("EPZG")))
+
+        onView(
+            Matchers.allOf(
+                withId(R.id.valueTextView),
+                withParent(withId(R.id.towerFrequencyEwt))
+            )
+        )
+            .check(matches(withText("104.125")))
+        onView(
+            Matchers.allOf(
+                withId(R.id.valueTextView),
+                withParent(withId(R.id.groundFrequencyEwt))
+            )
+        )
+            .check(matches(withText("115.25")))
     }
 
     private fun deleteAirport() {

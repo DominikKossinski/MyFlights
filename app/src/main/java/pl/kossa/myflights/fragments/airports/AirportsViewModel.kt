@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airport
@@ -19,7 +20,7 @@ class AirportsViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-    val airportsList = MutableLiveData<List<Airport>>()
+    val airportsList = MutableStateFlow<List<Airport>>(emptyList())
 
     fun fetchAirports() {
         makeRequest {

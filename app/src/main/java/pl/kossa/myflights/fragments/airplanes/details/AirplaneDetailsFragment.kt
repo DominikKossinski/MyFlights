@@ -24,18 +24,16 @@ class AirplaneDetailsFragment :
         viewModel.fetchAirplane()
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        viewModel.airplane.observe(viewLifecycleOwner) {
-            setupAirplaneData(it)
-        }
-    }
-
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 binding.airplaneSwipeRefresh.isRefreshing = it
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.airplane.collect {
+                it?.let {setupAirplaneData(it)}
             }
         }
     }

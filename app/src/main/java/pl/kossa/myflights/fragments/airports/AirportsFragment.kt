@@ -72,21 +72,20 @@ class AirportsFragment : BaseFragment<AirportsViewModel, FragmentAirportsBinding
         setupRecyclerView()
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        viewModel.airportsList.observe(viewLifecycleOwner) {
-            binding.noAirportsTextView.isVisible = it.isEmpty()
-            adapter.items.clear()
-            adapter.items.addAll(it)
-            adapter.notifyDataSetChanged()
-        }
-    }
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 binding.airportsSwipeRefresh.isRefreshing = it
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.airportsList.collect {
+                binding.noAirportsTextView.isVisible = it.isEmpty()
+                adapter.items.clear()
+                adapter.items.addAll(it)
+                adapter.notifyDataSetChanged()
             }
         }
     }

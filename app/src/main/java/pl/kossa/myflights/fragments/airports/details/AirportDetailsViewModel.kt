@@ -3,6 +3,7 @@ package pl.kossa.myflights.fragments.airports.details
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.services.AirportsService
@@ -23,7 +24,7 @@ class AirportDetailsViewModel @Inject constructor(
         fetchAirport()
     }
 
-    val airport = MutableLiveData<Airport>()
+    val airport = MutableStateFlow<Airport?>(null)
 
     fun fetchAirport() {
         makeRequest {

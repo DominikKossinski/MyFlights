@@ -60,18 +60,16 @@ class AirportDetailsFragment :
         viewModel.fetchAirport()
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        viewModel.airport.observe(viewLifecycleOwner) {
-            setupAirportData(it)
-        }
-    }
-
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 binding.airportSwipeRefresh.isRefreshing = it
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.airport.collect {
+                it?.let { setupAirportData(it) }
             }
         }
     }
@@ -83,7 +81,6 @@ class AirportDetailsFragment :
         binding.addRunwayButton.setOnClickListener {
             viewModel.navigateToRunwayAdd()
         }
-
     }
 
     private fun setupAirportData(airport: Airport) {
@@ -118,24 +115,24 @@ class AirportDetailsFragment :
     }
 
     override fun handleApiError(apiError: ApiError) {
-        when(apiError.code) {
+        when (apiError.code) {
             HttpCode.BAD_REQUEST.code -> {
-                viewModel.setToastMessage( R.string.error_airport_exists_in_flights)
+                viewModel.setToastMessage(R.string.error_airport_exists_in_flights)
             }
             HttpCode.NOT_FOUND.code -> {
-                viewModel.setToastMessage( R.string.error_airport_not_found)
+                viewModel.setToastMessage(R.string.error_airport_not_found)
                 viewModel.navigateBack()
             }
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
                 viewModel.navigateBack()
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastMessage( R.string.error_forbidden)
+                viewModel.setToastMessage(R.string.error_forbidden)
                 viewModel.navigateBack()
             }
             else -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
                 viewModel.navigateBack()
             }
         }

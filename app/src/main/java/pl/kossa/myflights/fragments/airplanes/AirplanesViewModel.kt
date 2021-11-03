@@ -2,6 +2,7 @@ package pl.kossa.myflights.fragments.airplanes
 
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.services.AirplanesService
@@ -16,7 +17,7 @@ class AirplanesViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-    val airplanesList = MutableLiveData<List<Airplane>>()
+    val airplanesList = MutableStateFlow<List<Airplane>>(emptyList())
 
     fun fetchAirplanes() {
         makeRequest {

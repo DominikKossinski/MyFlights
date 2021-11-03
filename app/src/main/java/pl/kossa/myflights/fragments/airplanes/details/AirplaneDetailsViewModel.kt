@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airplane
@@ -20,7 +21,7 @@ class AirplaneDetailsViewModel @Inject constructor(
 ) : BaseViewModel(preferencesHelper) {
 
     private val airplaneId = savedStateHandle.get<String>("airplaneId")!!
-    val airplane = MutableLiveData<Airplane>()
+    val airplane = MutableStateFlow<Airplane?>(null)
 
     init {
         fetchAirplane()
