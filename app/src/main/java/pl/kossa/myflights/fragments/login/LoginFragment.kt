@@ -36,12 +36,12 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoginButtonEnabled.collect {
                 binding.loginButton.isEnabled = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.emailError.collect {
                 binding.emailTil.error = it?.let {
                     binding.emailTie.setText("")
@@ -50,7 +50,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                 }
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.passwordError.collect {
                 binding.passwordTil.error = it?.let {
                     binding.passwordTie.setText("")

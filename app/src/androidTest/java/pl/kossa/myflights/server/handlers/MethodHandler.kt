@@ -5,6 +5,7 @@ import okhttp3.mockwebserver.MockResponse
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.models.Flight
+import pl.kossa.myflights.api.models.Runway
 import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.responses.CreatedResponse
 import pl.kossa.myflights.server.BasePath
@@ -13,6 +14,7 @@ import java.lang.Exception
 abstract class MethodHandler(
     protected val airplanes: ArrayList<Airplane>,
     protected val airports: ArrayList<Airport>,
+    protected val runways: ArrayList<Runway>,
     protected val flights: ArrayList<Flight>
 ) {
     protected val gson = GsonBuilder().apply {
@@ -36,6 +38,14 @@ abstract class MethodHandler(
             "/api/airports/[0-9]+/runways/[0-9]+".toRegex()
         } else "$basePath/[0-9]+".toRegex()
         return path.matches(regex)
+    }
+
+    protected fun extractAirportId(path: String): String {
+        return path.replace("/runways[/0-9]*".toRegex(), "").replace("/api/airports/", "")
+    }
+
+    protected fun extractRunwayId(path: String): String {
+        return path.replace("/api/airports/[0-9]+/runways/".toRegex(), "")
     }
 
     protected fun extractEntityId(path: String, basePath: String): String {

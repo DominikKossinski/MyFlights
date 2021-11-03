@@ -174,44 +174,44 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._airplaneName.collect {
                 binding.airplaneSelectView.elementName = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureAirportName.collect {
                 binding.departureAirportSelectView.elementName = it
                 binding.departureRunwaySelectView.isVisible = it.isNotBlank()
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureRunwayName.collect {
                 binding.departureRunwaySelectView.elementName = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalAirportName.collect {
                 binding.arrivalAirportSelectView.elementName = it
                 binding.arrivalRunwaySelectView.isVisible = it.isNotBlank()
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalRunwayName.collect {
                 binding.arrivalRunwaySelectView.elementName = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureDate.collect {
                 binding.departureDts.date = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalDate.collect {
                 binding.arrivalDts.date = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isAddButtonEnabled.collect {
                 binding.saveAppBar.isSaveIconEnabled = it
                 binding.addFlightButton.isEnabled = it

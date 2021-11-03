@@ -63,9 +63,8 @@ class RunwayAddViewModel @Inject constructor(
                 airportId,
                 RunwayRequest(_name.value, length, heading, _ilsFrequency.value, null)
             )
-            navigateBack()
             response.body?.let {
-                navigate(AirportDetailsFragmentDirections.goToRunwayDetails(airportId, it.entityId))
+                navigate(RunwayAddFragmentDirections.goToRunwayDetails(airportId, it.entityId))
             }
         }
     }

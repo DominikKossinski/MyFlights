@@ -35,17 +35,17 @@ class AccountDeleteDialog : BaseDialog<AccountDeleteViewModel, DialogAccountDele
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 binding.progressBar.isVisible = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isDeleteButtonEnabled.collect {
                 binding.deleteButton.isEnabled = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.passwordError.collect {
                 binding.passwordTil.error = it?.let { getString(it) }
             }

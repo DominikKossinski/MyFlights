@@ -12,6 +12,7 @@
 
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -108,7 +109,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/addRunwayButton"
+                android:id="@+id/addButton"
                 style="@style/BlackButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

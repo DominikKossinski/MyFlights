@@ -12,7 +12,7 @@ data class Runway(
 
     val ilsFrequency: String?,
 
-    val imageUrl: String?,
+    val image: Image?,
 
     val userId: String
 )

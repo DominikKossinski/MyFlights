@@ -38,7 +38,7 @@ class RunwaySelectFragment : BaseFragment<RunwaySelectViewModel, FragmentRunwayS
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.airport.collect {
                 it?.let {
                     binding.noRunwaysTextView.isVisible = it.runways.isEmpty()

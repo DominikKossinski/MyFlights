@@ -78,13 +78,11 @@ class AirplanesFlowTests {
         onView(withId(R.id.weightTie)).perform(typeText("200"), closeSoftKeyboard())
         onView(withId(R.id.addButton)).check(matches(isEnabled()))
         onView(withId(R.id.addButton)).perform(click())
-        Thread.sleep(2_000)
         onView(allOf(withId(R.id.backTv), withParent(withId(R.id.backAppbar)))).perform(click())
     }
 
     private fun openSecondAirplaneDetails() {
         addAirplane()
-        Thread.sleep(2_000)
         onView(withId(R.id.airplanesRecyclerView))
             .perform(actionOnItemAtPosition<RecyclerView.ViewHolder>(1, click()))
         onView(allOf(withId(R.id.valueTextView), withParent(withId(R.id.nameEwt))))

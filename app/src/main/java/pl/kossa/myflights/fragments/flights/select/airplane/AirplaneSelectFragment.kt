@@ -54,12 +54,12 @@ class AirplaneSelectFragment :
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 binding.airplanesSwipeRefresh.isRefreshing = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.airplanesList.collect {
                 binding.noAirplanesTextView.isVisible = it.isEmpty()
                 adapter.items.clear()

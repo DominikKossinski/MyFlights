@@ -5,13 +5,15 @@ import okhttp3.mockwebserver.MockResponse
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.models.Flight
+import pl.kossa.myflights.api.models.Runway
 import pl.kossa.myflights.server.BasePath
 
 class DeleteMethodHandler(
     airplanes: ArrayList<Airplane>,
     airports: ArrayList<Airport>,
+    runways: ArrayList<Runway>,
     flights: ArrayList<Flight>
-) : MethodHandler(airplanes, airports, flights) {
+) : MethodHandler(airplanes, airports, runways, flights) {
 
     override fun handleRequest(requestPath: String, body: String): MockResponse {
         val basePath = findBasePath(requestPath)
@@ -44,7 +46,18 @@ class DeleteMethodHandler(
                     ?: return notFoundResponse()
                 flights.remove(flight)
             }
-            BasePath.RUNWAYS -> TODO()
+            BasePath.RUNWAYS -> {
+                val airportId = extractAirportId(requestPath)
+                val runwayId = extractRunwayId(requestPath)
+                val f =
+                    flights.filter { it.departureRunway.runwayId == runwayId || it.arrivalRunway.runwayId == runwayId }
+                if(f.isNotEmpty()) return badRequestResponse()
+                val airport = airports.find { it.airportId == airportId } ?: return notFoundResponse()
+                val runway = airport.runways.find { it.runwayId == runwayId } ?: return notFoundResponse()
+                runways.remove(runway)
+                airports.remove(airport)
+                airports.add(airport.copy(runways = airport.runways.filter { it.runwayId != runwayId }))
+            }
         }
         return noContentResponse()
     }

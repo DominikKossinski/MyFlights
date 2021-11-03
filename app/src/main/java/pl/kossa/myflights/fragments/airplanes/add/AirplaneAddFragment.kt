@@ -48,13 +48,13 @@ class AirplaneAddFragment : BaseFragment<AirplaneAddViewModel, FragmentAirplaneA
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isAddButtonEnabled.collect {
                 binding.addButton.isEnabled = it
                 binding.saveAppBar.isSaveIconEnabled = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.nameError.collect {
                 binding.nameTil.error = it?.let {
                     getString(it)

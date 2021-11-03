@@ -295,6 +295,11 @@
         <argument
             android:name="airportId"
             app:argType="string" />
+
+        <action
+            android:id="@+id/goToRunwayDetails"
+            app:destination="@id/runwayDetailsFragment"
+            app:popUpTo="@id/airportDetailsFragment" />
     </fragment>
 
     <dialog

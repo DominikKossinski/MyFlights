@@ -47,22 +47,22 @@ class ChangeEmailFragment : BaseFragment<ChangeEmailViewModel, FragmentChangeEma
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isSaveButtonEnabled.collect {
                 binding.saveButton.isEnabled = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.user.collect {
                 it?.let { setupUserData(it) }
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.passwordError.collect {
                 binding.passwordTil.error = it?.let { getString(it) }
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.newEmailError.collect {
                 binding.newEmailTil.error = it?.let { getString(it) }
             }

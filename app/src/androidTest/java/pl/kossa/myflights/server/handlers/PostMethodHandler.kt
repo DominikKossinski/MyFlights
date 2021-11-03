@@ -1,23 +1,29 @@
 package pl.kossa.myflights.server.handlers
 
+import android.util.Log
 import okhttp3.mockwebserver.MockResponse
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.models.Flight
+import pl.kossa.myflights.api.models.Runway
 import pl.kossa.myflights.api.requests.AirplaneRequest
 import pl.kossa.myflights.api.requests.AirportRequest
 import pl.kossa.myflights.api.requests.FlightRequest
+import pl.kossa.myflights.api.requests.RunwayRequest
 import pl.kossa.myflights.api.responses.CreatedResponse
 import pl.kossa.myflights.server.BasePath
 
 class PostMethodHandler(
     airplanes: ArrayList<Airplane>,
     airports: ArrayList<Airport>,
+    runways: ArrayList<Runway>,
     flights: ArrayList<Flight>
-) : MethodHandler(airplanes, airports, flights) {
+) : MethodHandler(airplanes, airports, runways, flights) {
 
     override fun handleRequest(requestPath: String, body: String): MockResponse {
         val basePath = findBasePath(requestPath)
+        Log.d("MyLogServer", "POST")
+        Log.d("MyLogServer", "Path = $requestPath")
         val id = when (basePath) {
             BasePath.AIRPLANES -> {
                 val requestBody = gson.fromJson(body, AirplaneRequest::class.java)
@@ -27,7 +33,7 @@ class PostMethodHandler(
                     requestBody.name,
                     requestBody.maxSpeed,
                     requestBody.maxSpeed,
-                    requestBody.imageUrl,
+                    null, // TODO image
                     "1"
                 )
                 airplanes.add(airplane)
@@ -85,7 +91,31 @@ class PostMethodHandler(
                 flights.add(flight)
                 newId
             }
-            BasePath.RUNWAYS -> TODO()
+            BasePath.RUNWAYS -> {
+                val airportId = extractAirportId(requestPath)
+                val airport =
+                    airports.find { it.airportId == airportId } ?: return notFoundResponse()
+                val newId = (runways.last().runwayId.toInt() + 1).toString()
+                val requestBody = gson.fromJson(body, RunwayRequest::class.java)
+                val runway = Runway(
+                    newId,
+                    requestBody.name,
+                    requestBody.length,
+                    requestBody.heading,
+                    requestBody.ilsFrequency,
+                    null,
+                    "1"
+                )
+                airports.remove(airport)
+                val newRunways = arrayListOf<Runway>().apply {
+                    addAll(airport.runways)
+                    add(runway)
+                }
+                airports.add(airport.copy(runways = newRunways))
+                Log.d("MyLog", "Airports $airports")
+                runways.add(runway)
+                newId
+            }
         }
         return createdResponse(id)
     }
