@@ -1,11 +1,13 @@
 package pl.kossa.myflights.fragments.flights.edit
 
+import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Flight
 import pl.kossa.myflights.api.responses.ApiError
@@ -23,6 +25,11 @@ import java.util.*
 class FlightEditFragment : BaseFragment<FlightEditViewModel, FragmentFlightEditBinding>() {
 
     override val viewModel: FlightEditViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setFragmentResultListeners()
+    }
 
     override fun setOnClickListeners() {
         binding.airplaneSelectView.setOnElementSelectListener {
@@ -100,7 +107,6 @@ class FlightEditFragment : BaseFragment<FlightEditViewModel, FragmentFlightEditB
         binding.saveButton.setOnClickListener {
             viewModel.putFlight()
         }
-        setFragmentResultListeners()
     }
 
     private fun setFragmentResultListeners() {
@@ -170,7 +176,7 @@ class FlightEditFragment : BaseFragment<FlightEditViewModel, FragmentFlightEditB
         super.collectFlow()
        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.flight.collect {
-                it?.let{ setupFlightData(it)}
+                setupFlightData(it)
             }
         }
 

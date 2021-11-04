@@ -2,6 +2,7 @@ package pl.kossa.myflights.fragments.flights.edit
 
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.api.models.Flight
@@ -22,7 +23,7 @@ class FlightEditViewModel @Inject constructor(
 ) : BaseViewModel(preferencesHelper) {
 
     private val flightId = savedStateHandle.get<String>("flightId")!!
-    val flight = MutableStateFlow<Flight?>(null)
+    val flight = MutableSharedFlow<Flight>(0)
 
     private val _airplaneId = MutableStateFlow("")
     val _airplaneName = MutableStateFlow("")
@@ -72,7 +73,7 @@ class FlightEditViewModel @Inject constructor(
     fun fetchFlight() {
         makeRequest {
             val response = flightsService.getFLightById(flightId)
-            response.body?.let { flight.value = it }
+            response.body?.let { flight.emit(it) }
         }
     }
 

@@ -19,6 +19,7 @@ import pl.kossa.myflights.server.handlers.GetMethodHandler
 import pl.kossa.myflights.server.handlers.PostMethodHandler
 import pl.kossa.myflights.server.handlers.PutMethodHandler
 import java.lang.Exception
+import java.util.*
 
 class MyFlightsMockServer {
 
@@ -30,7 +31,7 @@ class MyFlightsMockServer {
 
     private val runways = arrayListOf(
         Runway("1", "11", 1250, 110, "114.5", null, "1"),
-        Runway("2", "150", 1250, 150, "114.5", null, "1")
+        Runway("2", "15", 1250, 150, "114.5", null, "1")
     )
 
     private val airports = arrayListOf(
@@ -45,7 +46,22 @@ class MyFlightsMockServer {
         )
     )
 
-    private val flights = arrayListOf<Flight>()
+    private val flights = arrayListOf<Flight>(
+        Flight(
+            "1",
+            "Note from flight",
+            1235,
+            null,
+            Date().apply { time -= 20 * 60 * 1_000 },
+            Date(),
+            "1",
+            airplanes[0],
+            airports[0],
+            runways[0],
+            airports[0],
+            runways[1]
+        )
+    )
 
     private val getMethodHandler = GetMethodHandler(airplanes, airports, runways, flights)
     private val postMethodHandler = PostMethodHandler(airplanes, airports, runways, flights)

@@ -104,7 +104,7 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         binding.saveAppBar.setSaveOnClickListener {
             viewModel.postFlight()
         }
-        binding.addFlightButton.setOnClickListener {
+        binding.addButton.setOnClickListener {
             viewModel.postFlight()
         }
     }
@@ -214,7 +214,7 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isAddButtonEnabled.collect {
                 binding.saveAppBar.isSaveIconEnabled = it
-                binding.addFlightButton.isEnabled = it
+                binding.addButton.isEnabled = it
             }
         }
     }

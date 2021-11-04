@@ -1,5 +1,6 @@
 package pl.kossa.myflights.server.handlers
 
+import android.util.Log
 import okhttp3.mockwebserver.MockResponse
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.models.Airport
@@ -7,6 +8,7 @@ import pl.kossa.myflights.api.models.Flight
 import pl.kossa.myflights.api.models.Runway
 import pl.kossa.myflights.api.requests.AirplaneRequest
 import pl.kossa.myflights.api.requests.AirportRequest
+import pl.kossa.myflights.api.requests.FlightRequest
 import pl.kossa.myflights.api.requests.RunwayRequest
 import pl.kossa.myflights.server.BasePath
 
@@ -72,7 +74,40 @@ class PutMethodHandler(
                 }
                 airports.add(airport.copy(runways = newRunways))
             }
-            BasePath.FLIGHTS -> TODO()
+            BasePath.FLIGHTS -> {
+                val flightId = extractEntityId(requestPath, basePath.path)
+                val requestBody = gson.fromJson(body, FlightRequest::class.java)
+                val flight = flights.find { it.flightId == flightId } ?: return notFoundResponse()
+                val airplane = airplanes.find { it.airplaneId == requestBody.airplaneId }
+                    ?: return notFoundResponse()
+                val departureAirport =
+                    airports.find { it.airportId == requestBody.departureAirportId }
+                        ?: return notFoundResponse()
+                val departureRunway =
+                    departureAirport.runways.find { it.runwayId == requestBody.departureRunwayId }
+                        ?: return notFoundResponse()
+
+                val arrivalAirport = airports.find { it.airportId == requestBody.arrivalAirportId }
+                    ?: return notFoundResponse()
+                val arrivalRunway =
+                    arrivalAirport.runways.find { it.runwayId == requestBody.arrivalRunwayId }
+                        ?: return notFoundResponse()
+                Log.d("MyLogServer", "Departure runway: $departureRunway")
+                flights.remove(flight)
+                flights.add(
+                    flight.copy(
+                        note = requestBody.note,
+                        distance = requestBody.distance,
+                        airplane = airplane,
+                        departureDate = requestBody.departureDate,
+                        arrivalDate = requestBody.arrivalDate,
+                        departureAirport = departureAirport,
+                        departureRunway = departureRunway,
+                        arrivalAirport = arrivalAirport,
+                        arrivalRunway = arrivalRunway
+                    )
+                )
+            }
         }
         return noContentResponse()
     }

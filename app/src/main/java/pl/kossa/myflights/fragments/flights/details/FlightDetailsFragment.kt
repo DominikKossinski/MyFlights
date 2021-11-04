@@ -97,4 +97,5 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
             }
         }
     }
+
 }

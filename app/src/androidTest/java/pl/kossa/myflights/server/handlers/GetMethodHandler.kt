@@ -46,7 +46,7 @@ class GetMethodHandler(
                             MockResponse()
                                 .setResponseCode(200)
                                 .setBody(gson.toJson(it))
-                        } ?: MockResponse().setResponseCode(404)
+                        } ?: notFoundResponse()
                     }
                     BasePath.AIRPLANES -> {
                         val airplane = airplanes.find { it.airplaneId == id }
@@ -54,7 +54,15 @@ class GetMethodHandler(
                             MockResponse()
                                 .setResponseCode(200)
                                 .setBody(gson.toJson(it))
-                        } ?: MockResponse().setResponseCode(404)
+                        } ?: notFoundResponse()
+                    }
+                    BasePath.FLIGHTS -> {
+                        val flight = flights.find { it.flightId == id }
+                        flight?.let {
+                            MockResponse()
+                                .setResponseCode(200)
+                                .setBody(gson.toJson(flight))
+                        } ?: notFoundResponse()
                     }
                     else -> MockResponse().setResponseCode(500)
                 }

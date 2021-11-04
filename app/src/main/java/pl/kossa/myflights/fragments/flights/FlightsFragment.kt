@@ -117,4 +117,8 @@ class FlightsFragment : BaseFragment<FlightsViewModel, FragmentFlightsBinding>()
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchFlights()
+    }
 }
