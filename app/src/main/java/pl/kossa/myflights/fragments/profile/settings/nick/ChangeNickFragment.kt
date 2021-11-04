@@ -31,12 +31,12 @@ class ChangeNickFragment : BaseFragment<ChangeNickViewModel, FragmentChangeNickB
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._user.collect {
                 it?.let { binding.nickTie.setText(it.nick) }
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isSaveButtonEnabled.collect {
                 binding.saveButton.isEnabled = it
             }

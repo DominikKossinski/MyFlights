@@ -1,11 +1,8 @@
 package pl.kossa.myflights.fragments.profile.settings
 
 import dagger.hilt.android.lifecycle.HiltViewModel
-import okhttp3.ResponseBody
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,18 +11,18 @@ class SettingsViewModel @Inject constructor(
 ) : BaseViewModel(preferencesHelper) {
 
     fun navigateToChangeNick() {
-        navDirectionLiveData.value = SettingsFragmentDirections.goToChangeNick()
+        navigate(SettingsFragmentDirections.goToChangeNick())
     }
 
     fun navigateToChangeEmail() {
-        navDirectionLiveData.value = SettingsFragmentDirections.goToChangeEmail()
+        navigate(SettingsFragmentDirections.goToChangeEmail())
     }
 
     fun navigateToChangePassword() {
-        navDirectionLiveData.value = SettingsFragmentDirections.goToChangePassword()
+        navigate(SettingsFragmentDirections.goToChangePassword())
     }
 
     fun showAccountDeleteDialog() {
-        navDirectionLiveData.value = SettingsFragmentDirections.showAccountDeleteDialog()
+        navigate(SettingsFragmentDirections.showAccountDeleteDialog())
     }
 }

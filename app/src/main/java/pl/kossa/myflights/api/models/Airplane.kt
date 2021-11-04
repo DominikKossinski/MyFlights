@@ -9,7 +9,7 @@ data class Airplane(
 
     val weight: Int?,
 
-    val imageUrl: String?,
+    val image: Image?,
 
     val userId: String
 )

@@ -2,8 +2,6 @@ package pl.kossa.myflights.hilt
 
 import android.content.Context
 import android.util.Log
-import com.bumptech.glide.annotation.GlideModule
-import com.bumptech.glide.module.AppGlideModule
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -12,13 +10,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
+import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.*
-import pl.kossa.myflights.glide.MyFlightsGlideModule
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -39,8 +34,8 @@ object AppModule {
             val newRequest = chain.request().newBuilder()
                 .addHeader("Authorization", "Bearer ${preferencesHelper.token}")
                 .build()
-            Log.d("MyLog", "Token: ${preferencesHelper.token}")
-            Log.d("MyLog", "$newRequest")
+//            Log.d("MyLog", "Token: ${preferencesHelper.token}")
+//            Log.d("MyLog", "$newRequest")
             chain.proceed(newRequest)
         }.build()
     }
@@ -56,7 +51,7 @@ object AppModule {
     fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .client(client)
-            .baseUrl("http://10.0.2.2:8080/")
+            .baseUrl("http://10.0.2.2:8080")
             .addCallAdapterFactory(ApiResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

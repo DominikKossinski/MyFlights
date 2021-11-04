@@ -39,7 +39,7 @@ class AcceptAvatarFragment : BaseFragment<AcceptAvatarViewModel, FragmentAcceptA
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isSaveButtonEnabled.collect {
                 binding.saveButton.isEnabled = it
             }

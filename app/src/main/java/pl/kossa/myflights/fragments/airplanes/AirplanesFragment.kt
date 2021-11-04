@@ -72,24 +72,22 @@ class AirplanesFragment : BaseFragment<AirplanesViewModel, FragmentAirplanesBind
         setupRecyclerView()
     }
 
-    override fun setObservers() {
-        super.setObservers()
-        viewModel.airplanesList.observe(viewLifecycleOwner) {
-            binding.noAirplanesTextView.isVisible = it.isEmpty()
-            adapter.items.clear()
-            adapter.items.addAll(it)
-            adapter.notifyDataSetChanged()
-        }
-    }
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 binding.airplanesSwipeRefresh.isRefreshing = it
             }
         }
-
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.airplanesList.collect {
+                binding.noAirplanesTextView.isVisible = it.isEmpty()
+                adapter.items.clear()
+                adapter.items.addAll(it)
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 
     private fun setupRecyclerView() {

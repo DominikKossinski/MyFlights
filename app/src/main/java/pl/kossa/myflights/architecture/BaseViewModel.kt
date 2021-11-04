@@ -9,20 +9,15 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
 import okhttp3.internal.http2.ConnectionShutdownException
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
 import pl.kossa.myflights.api.responses.ApiError
-import pl.kossa.myflights.api.responses.ApiErrorBody
-import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.livedata.SingleLiveEvent
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import java.io.IOException
 import java.lang.Exception
 import java.net.SocketTimeoutException
@@ -36,13 +31,13 @@ abstract class BaseViewModel(
 
     private var tokenRefreshed = false
 
-    val navDirectionLiveData = SingleLiveEvent<NavDirections>()
-    val backLiveData = SingleLiveEvent<Unit>()
-    val signOutLiveData = SingleLiveEvent<Unit>()
-
     val toastMessage = MutableSharedFlow<Int?>(0)
     val isLoadingData = MutableStateFlow(false)
     val apiErrorFlow = MutableStateFlow<ApiError?>(null)
+    private val navDirectionFlow = MutableSharedFlow<NavDirections>(0)
+    val backFlow = MutableSharedFlow<Unit>(0)
+    val signOutFlow = MutableSharedFlow<Unit>(0)
+
 
     fun makeRequest(block: suspend () -> Unit) {
         viewModelScope.launch {
@@ -54,7 +49,7 @@ abstract class BaseViewModel(
             } catch (e: UnauthorizedException) {
                 if (tokenRefreshed) {
                     firebaseAuth.signOut()
-                    signOutLiveData.value = Unit
+                    signOutFlow.emit(Unit)
                 } else {
                     tokenRefreshed = true
                     refreshToken {
@@ -94,7 +89,9 @@ abstract class BaseViewModel(
                     setToastMessage(R.string.unexpected_error)
                     firebaseAuth.signOut()
                     preferencesHelper.token = null
-                    signOutLiveData.value = Unit
+                    viewModelScope.launch {
+                        signOutFlow.emit(Unit)
+                    }
                 }
             }
             isLoadingData.value = false
@@ -102,17 +99,30 @@ abstract class BaseViewModel(
     }
 
     fun showComingSoonDialog() {
-        navDirectionLiveData.value = MainNavGraphDirections.showComingSoonDialog()
+        viewModelScope.launch {
+            navigate(MainNavGraphDirections.showComingSoonDialog())
+        }
+    }
+
+    protected fun navigate(action: NavDirections) {
+        viewModelScope.launch {
+            Log.d("MyLog", "${this@BaseViewModel::class.java} Emitting: $action")
+            navDirectionFlow.emit(action)
+        }
     }
 
     fun navigateBack() {
-        backLiveData.value = Unit
+        viewModelScope.launch {
+            backFlow.emit(Unit)
+        }
     }
 
     fun signOut() {
         firebaseAuth.signOut()
         preferencesHelper.token = null
-        signOutLiveData.value = Unit
+        viewModelScope.launch {
+            signOutFlow.emit(Unit)
+        }
     }
 
     fun setToastMessage(stringId: Int?) {
@@ -120,4 +130,6 @@ abstract class BaseViewModel(
             toastMessage.emit(stringId)
         }
     }
+
+    fun getNavDirectionsFlow() = navDirectionFlow
 }

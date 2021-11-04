@@ -19,12 +19,12 @@ class RunwayAddFragment : BaseFragment<RunwayAddViewModel, FragmentRunwayAddBind
 
     override fun setOnClickListeners() {
         binding.saveAppBar.setBackOnClickListener {
-            viewModel.postRunway()
-        }
-        binding.saveAppBar.setBackOnClickListener {
             viewModel.navigateBack()
         }
-        binding.addRunwayButton.setOnClickListener {
+        binding.saveAppBar.setSaveOnClickListener {
+            viewModel.postRunway()
+        }
+        binding.addButton.setOnClickListener {
             viewModel.postRunway()
         }
 
@@ -48,9 +48,9 @@ class RunwayAddFragment : BaseFragment<RunwayAddViewModel, FragmentRunwayAddBind
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isAddButtonEnabled.collect {
-                binding.addRunwayButton.isEnabled = it
+                binding.addButton.isEnabled = it
                 binding.saveAppBar.isSaveIconEnabled = it
             }
         }

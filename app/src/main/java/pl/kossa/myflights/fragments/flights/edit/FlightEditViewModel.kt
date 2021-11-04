@@ -2,19 +2,16 @@ package pl.kossa.myflights.fragments.flights.edit
 
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import okhttp3.ResponseBody
 import pl.kossa.myflights.api.models.Flight
 import pl.kossa.myflights.api.requests.FlightRequest
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.FlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.flights.add.FlightAddFragmentDirections
 import pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment
-import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import java.util.*
 import javax.inject.Inject
 
@@ -26,7 +23,7 @@ class FlightEditViewModel @Inject constructor(
 ) : BaseViewModel(preferencesHelper) {
 
     private val flightId = savedStateHandle.get<String>("flightId")!!
-    val flight = MutableStateFlow<Flight?>(null)
+    val flight = MutableSharedFlow<Flight>(0)
 
     private val _airplaneId = MutableStateFlow("")
     val _airplaneName = MutableStateFlow("")
@@ -76,7 +73,7 @@ class FlightEditViewModel @Inject constructor(
     fun fetchFlight() {
         makeRequest {
             val response = flightsService.getFLightById(flightId)
-            response.body?.let { flight.value = it }
+            response.body?.let { flight.emit(it) }
         }
     }
 
@@ -105,11 +102,11 @@ class FlightEditViewModel @Inject constructor(
     }
 
     fun navigateToAirplaneSelect() {
-        navDirectionLiveData.value = FlightAddFragmentDirections.goToAirplaneSelect()
+        navigate(FlightAddFragmentDirections.goToAirplaneSelect())
     }
 
     fun navigateToAirportSelect(key: String) {
-        navDirectionLiveData.value = FlightAddFragmentDirections.goToAirportSelect(key)
+        navigate(FlightAddFragmentDirections.goToAirportSelect(key))
     }
 
     fun navigateToRunwaySelect(key: String) {
@@ -122,8 +119,7 @@ class FlightEditViewModel @Inject constructor(
             }
             else -> null
         }
-        navDirectionLiveData.value =
-            airportId?.let { FlightAddFragmentDirections.goToRunwaySelect(key, airportId) }
+        airportId?.let { navigate(FlightAddFragmentDirections.goToRunwaySelect(key, airportId)) }
     }
 
     fun setAirplaneId(airplaneId: String) {

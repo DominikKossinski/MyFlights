@@ -75,12 +75,12 @@ class FlightsFragment : BaseFragment<FlightsViewModel, FragmentFlightsBinding>()
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 binding.flightsSwipeRefresh.isRefreshing = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.flightsList.collect {
                 binding.noFlightsTextView.isVisible = it.isEmpty()
                 adapter.items.clear()
@@ -117,4 +117,8 @@ class FlightsFragment : BaseFragment<FlightsViewModel, FragmentFlightsBinding>()
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchFlights()
+    }
 }

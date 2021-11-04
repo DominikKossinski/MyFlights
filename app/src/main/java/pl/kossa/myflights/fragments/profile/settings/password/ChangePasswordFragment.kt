@@ -46,17 +46,17 @@ class ChangePasswordFragment :
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isSaveButtonEnabled.collect {
                 binding.saveButton.isEnabled = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.passwordError.collect {
                 binding.passwordTil.error = it?.let { getString(it) }
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.newPasswordError.collect {
                 binding.newPasswordTil.error = it?.let { getString(it) }
             }

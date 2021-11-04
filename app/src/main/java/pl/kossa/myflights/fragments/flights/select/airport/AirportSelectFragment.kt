@@ -56,7 +56,7 @@ class AirportSelectFragment : BaseFragment<AirportSelectViewModel, FragmentAirpo
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.airportsList.collect {
                 binding.noAirportsTextView.isVisible = it.isEmpty()
                 adapter.items.clear()

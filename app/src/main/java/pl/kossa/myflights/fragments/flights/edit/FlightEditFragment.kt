@@ -1,11 +1,13 @@
 package pl.kossa.myflights.fragments.flights.edit
 
+import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Flight
 import pl.kossa.myflights.api.responses.ApiError
@@ -23,6 +25,11 @@ import java.util.*
 class FlightEditFragment : BaseFragment<FlightEditViewModel, FragmentFlightEditBinding>() {
 
     override val viewModel: FlightEditViewModel by viewModels()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setFragmentResultListeners()
+    }
 
     override fun setOnClickListeners() {
         binding.airplaneSelectView.setOnElementSelectListener {
@@ -100,7 +107,6 @@ class FlightEditFragment : BaseFragment<FlightEditViewModel, FragmentFlightEditB
         binding.saveButton.setOnClickListener {
             viewModel.putFlight()
         }
-        setFragmentResultListeners()
     }
 
     private fun setFragmentResultListeners() {
@@ -168,50 +174,50 @@ class FlightEditFragment : BaseFragment<FlightEditViewModel, FragmentFlightEditB
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.flight.collect {
-                it?.let{ setupFlightData(it)}
+                setupFlightData(it)
             }
         }
 
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._airplaneName.collect {
                 binding.airplaneSelectView.elementName = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureAirportName.collect {
                 binding.departureAirportSelectView.elementName = it
                 binding.departureRunwaySelectView.isVisible = it.isNotBlank()
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureRunwayName.collect {
                 binding.departureRunwaySelectView.elementName = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalAirportName.collect {
                 binding.arrivalAirportSelectView.elementName = it
                 binding.arrivalRunwaySelectView.isVisible = it.isNotBlank()
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalRunwayName.collect {
                 binding.arrivalRunwaySelectView.elementName = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureDate.collect {
                 binding.departureDts.date = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalDate.collect {
                 binding.arrivalDts.date = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isAddButtonEnabled.collect {
                 binding.saveAppBar.isSaveIconEnabled = it
                 binding.saveButton.isEnabled = it

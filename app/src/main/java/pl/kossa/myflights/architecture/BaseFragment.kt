@@ -15,7 +15,6 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
 import pl.kossa.myflights.activities.main.MainActivity
@@ -38,53 +37,6 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment() {
         PreferencesHelper(requireActivity() as AppCompatActivity)
     }
 
-    protected open fun setObservers() {
-        viewModel.navDirectionLiveData.observe(viewLifecycleOwner) {
-            when (findNavController().graph.id) {
-                R.id.main_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .navigate(it)
-                }
-                R.id.lists_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .navigate(it)
-                }
-                R.id.login_nav_graph -> {
-                    findNavController().navigate(it)
-                }
-            }
-        }
-        viewModel.backLiveData.observe(viewLifecycleOwner) {
-            when (findNavController().graph.id) {
-                R.id.main_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .popBackStack()
-                }
-                R.id.lists_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.listsNavHostFragment)
-                        .popBackStack()
-                }
-                R.id.login_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.login_nav_host_fragment)
-                        .popBackStack()
-                }
-            }
-        }
-        viewModel.signOutLiveData.observe(viewLifecycleOwner) {
-            when (findNavController().graph.id) {
-                R.id.main_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .navigate(MainNavGraphDirections.goToLoginActivity())
-                }
-                R.id.lists_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .navigate(MainNavGraphDirections.goToLoginActivity())
-                }
-            }
-            (activity as? MainActivity)?.finish()
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -105,12 +57,81 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setOnClickListeners()
-        setObservers()
         collectFlow()
     }
 
     protected open fun collectFlow() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.signOutFlow.collect {
+                when (findNavController().graph.id) {
+                    R.id.main_nav_graph -> {
+                        Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
+                            .navigate(MainNavGraphDirections.goToLoginActivity())
+                    }
+                    R.id.lists_nav_graph -> {
+                        Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
+                            .navigate(MainNavGraphDirections.goToLoginActivity())
+                    }
+                }
+                (activity as? MainActivity)?.finish()
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.backFlow.collect {
+                Log.d("MyLog", "Collecting back navigation")
+                when (findNavController().graph.id) {
+                    R.id.main_nav_graph -> {
+                        Navigation.findNavController(
+                            requireActivity(),
+                            R.id.mainNavHostFragment
+                        )
+                            .popBackStack()
+                    }
+                    R.id.lists_nav_graph -> {
+                        Navigation.findNavController(
+                            requireActivity(),
+                            R.id.listsNavHostFragment
+                        )
+                            .popBackStack()
+                    }
+                    R.id.login_nav_graph -> {
+                        Navigation.findNavController(
+                            requireActivity(),
+                            R.id.login_nav_host_fragment
+                        ).popBackStack()
+                    }
+                }
+
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.getNavDirectionsFlow().collect {
+                Log.d("MyLog", "Collecting navigation")
+                Log.d("MyLog", "${findNavController().currentDestination?.label}")
+                when (findNavController().graph.id) {
+                    R.id.main_nav_graph -> {
+                        Log.d("MyLog", "MainGraph $it")
+                        Navigation.findNavController(
+                            requireActivity(),
+                            R.id.mainNavHostFragment
+                        )
+                            .navigate(it)
+                    }
+                    R.id.lists_nav_graph -> {
+                        Log.d("MyLog", "ListGraph $it")
+                        Navigation.findNavController(
+                            requireActivity(),
+                            R.id.mainNavHostFragment
+                        )
+                            .navigate(it)
+                    }
+                    R.id.login_nav_graph -> {
+                        findNavController().navigate(it)
+                    }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.toastMessage.collect {
                 Log.d("MyLog", "Collecting error: $it")
                 it?.let {
@@ -119,12 +140,12 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment() {
             }
 
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 progressBar?.isVisible = it
             }
         }
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.apiErrorFlow.collect {
                 it?.let { handleApiError(it) }
             }

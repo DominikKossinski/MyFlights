@@ -50,12 +50,12 @@ class RunwayEditFragment : BaseFragment<RunwayEditViewModel, FragmentRunwayEditB
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.runway.collect {
                 it?.let { setupRunwayData(it) }
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isSaveButtonEnabled.collect {
                 binding.saveButton.isEnabled = it
                 binding.saveAppBar.isSaveIconEnabled = it

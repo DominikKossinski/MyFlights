@@ -17,7 +17,7 @@ import pl.kossa.myflights.activities.main.MainActivity
 import pl.kossa.myflights.api.responses.ApiError
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseBottomSheet<VM: BaseViewModel, VB: ViewBinding>: BottomSheetDialogFragment() {
+abstract class BaseBottomSheet<VM : BaseViewModel, VB : ViewBinding> : BottomSheetDialogFragment() {
 
     protected lateinit var binding: VB
 
@@ -42,67 +42,87 @@ abstract class BaseBottomSheet<VM: BaseViewModel, VB: ViewBinding>: BottomSheetD
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
         collectFlow()
         setOnClickListeners()
     }
 
     protected open fun setOnClickListeners() {}
 
-    protected open fun setObservers() {
-        viewModel.navDirectionLiveData.observe(viewLifecycleOwner) {
-            when (findNavController().graph.id) {
-                R.id.main_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .navigate(it)
-                }
-                R.id.lists_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .navigate(it)
-                }
-                R.id.login_nav_graph -> {
-                    findNavController().navigate(it)
-                }
-            }
-        }
-        viewModel.backLiveData.observe(viewLifecycleOwner) {
-            when(findNavController().graph.id) {
-                R.id.main_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment).popBackStack()
-                }
-                R.id.lists_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.listsNavHostFragment).popBackStack()
-                }
-                R.id.login_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.login_nav_host_fragment).popBackStack()
-                }
-            }
-        }
-        viewModel.signOutLiveData.observe(viewLifecycleOwner) {
-            when (findNavController().graph.id) {
-                R.id.main_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .navigate(MainNavGraphDirections.goToLoginActivity())
-                }
-                R.id.lists_nav_graph -> {
-                    Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
-                        .navigate(MainNavGraphDirections.goToLoginActivity())
-                }
-            }
-            (activity as? MainActivity)?.finish()
-        }
-    }
-
     protected open fun collectFlow() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.signOutFlow.collect {
+                when (findNavController().graph.id) {
+                    R.id.main_nav_graph -> {
+                        Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
+                            .navigate(MainNavGraphDirections.goToLoginActivity())
+                    }
+                    R.id.lists_nav_graph -> {
+                        Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
+                            .navigate(MainNavGraphDirections.goToLoginActivity())
+                    }
+                }
+                (activity as? MainActivity)?.finish()
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.apiErrorFlow.collect {
                 it?.let { handleApiError(it) }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.backFlow.collect {
+                when (findNavController().graph.id) {
+                    R.id.main_nav_graph -> {
+                        Navigation.findNavController(
+                            requireActivity(),
+                            R.id.mainNavHostFragment
+                        )
+                            .popBackStack()
+                    }
+                    R.id.lists_nav_graph -> {
+                        Navigation.findNavController(
+                            requireActivity(),
+                            R.id.listsNavHostFragment
+                        )
+                            .popBackStack()
+                    }
+                    R.id.login_nav_graph -> {
+                        Navigation.findNavController(
+                            requireActivity(),
+                            R.id.login_nav_host_fragment
+                        ).popBackStack()
+                    }
+                }
+
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.getNavDirectionsFlow().collect {
+                when (findNavController().graph.id) {
+                    R.id.main_nav_graph -> {
+                        Navigation.findNavController(
+                            requireActivity(),
+                            R.id.mainNavHostFragment
+                        )
+                            .navigate(it)
+                    }
+                    R.id.lists_nav_graph -> {
+                        Navigation.findNavController(
+                            requireActivity(),
+                            R.id.mainNavHostFragment
+                        )
+                            .navigate(it)
+                    }
+                    R.id.login_nav_graph -> {
+                        findNavController().navigate(it)
+                    }
+                }
             }
         }
     }
 
     protected open fun handleApiError(apiError: ApiError) {
-        viewModel.setToastMessage( R.string.unexpected_error)
+        viewModel.setToastMessage(R.string.unexpected_error)
     }
 
 }

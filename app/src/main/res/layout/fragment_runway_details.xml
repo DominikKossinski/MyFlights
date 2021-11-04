@@ -18,6 +18,7 @@
         android:layout_marginTop="?actionBarSize">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -37,7 +38,7 @@
 
 
                 <pl.kossa.myflights.views.ElementWithTagView
-                    android:id="@+id/runwayNameEwtv"
+                    android:id="@+id/nameEwt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
@@ -45,29 +46,29 @@
                     app:tagText="@string/runway_name" />
 
                 <pl.kossa.myflights.views.ElementWithTagView
-                    android:id="@+id/runwayLengthEwtv"
+                    android:id="@+id/lengthEwt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/runwayNameEwtv"
+                    app:layout_constraintTop_toBottomOf="@id/nameEwt"
                     app:tagText="@string/runway_length" />
 
 
                 <pl.kossa.myflights.views.ElementWithTagView
-                    android:id="@+id/runwayHeadingEwtv"
+                    android:id="@+id/headingEwt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/runwayLengthEwtv"
+                    app:layout_constraintTop_toBottomOf="@id/lengthEwt"
                     app:tagText="@string/runway_heading" />
 
 
                 <pl.kossa.myflights.views.ElementWithTagView
-                    android:id="@+id/runwayIlsFrequencyEwtv"
+                    android:id="@+id/ilsFrequencyEwt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/runwayHeadingEwtv"
+                    app:layout_constraintTop_toBottomOf="@id/headingEwt"
                     app:tagText="@string/runway_ils_frequency" />
 
                 <androidx.appcompat.widget.AppCompatButton
@@ -78,7 +79,7 @@
                     android:layout_margin="16dp"
                     android:text="@string/edit"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/runwayIlsFrequencyEwtv" />
+                    app:layout_constraintTop_toBottomOf="@id/ilsFrequencyEwt" />
                 <!--TODO approaches-->
                 <!--TODO image-->
 

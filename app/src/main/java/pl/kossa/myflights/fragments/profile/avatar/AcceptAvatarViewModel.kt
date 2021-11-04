@@ -10,7 +10,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
 import pl.kossa.myflights.api.services.ImagesService
@@ -53,9 +55,7 @@ class AcceptAvatarViewModel @Inject constructor(
             _filePath.value?.let {
                 val file = File(it)
                 val type = context.contentResolver.getType(imageUri)!!
-                val body = MultipartBody.create(MediaType.parse(type), file)
-                Log.d("MyLog", "File name ${file.name}")
-                val part = MultipartBody.Part.createFormData("image", file.name, body)
+                val part = MultipartBody.Part.createFormData("image", file.name,RequestBody.create(type.toMediaTypeOrNull()!!, file))
                 if(imageId != null) {
                     imagesService.putImage(imageId, part)
                 } else {

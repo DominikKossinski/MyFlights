@@ -27,9 +27,15 @@ class AirplaneEditFragment : BaseFragment<AirplaneEditViewModel, FragmentAirplan
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.airplane.collect {
                 it?.let { setupAirplaneData(it)}
+            }
+        }
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.isSaveButtonEnabled.collect {
+                binding.saveButton.isEnabled = it
+                binding.saveAppBar.isSaveIconEnabled = it
             }
         }
     }

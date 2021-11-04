@@ -56,12 +56,12 @@ class ChangeAvatarBottomSheet :
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.user.collect {
                 it?.let { binding.deleteButton.isVisible = it.avatar != null }
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 binding.progressBar.isVisible = it
             }

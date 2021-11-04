@@ -41,7 +41,7 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.flight.collect {
                 it?.let{ setupFlightData(it)}
             }
@@ -97,4 +97,5 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
             }
         }
     }
+
 }

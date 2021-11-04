@@ -56,13 +56,13 @@ class AirportEditFragment : BaseFragment<AirportEditViewModel, FragmentAirportEd
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isSaveButtonEnabled.collect {
                 binding.saveButton.isEnabled = it
                 binding.saveAppBar.isSaveIconEnabled = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.airport.collect {
                 it?.let { setupAirportData(it) }
             }

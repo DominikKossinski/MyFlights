@@ -42,12 +42,12 @@ class RunwayDetailsFragment : BaseFragment<RunwayDetailsViewModel, FragmentRunwa
 
     override fun collectFlow() {
         super.collectFlow()
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 binding.runwaySwipeRefresh.isRefreshing = it
             }
         }
-        lifecycleScope.launch {
+       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.runway.collect {
                 it?.let { setupRunwayData(it) }
             }
@@ -55,13 +55,13 @@ class RunwayDetailsFragment : BaseFragment<RunwayDetailsViewModel, FragmentRunwa
     }
 
     private fun setupRunwayData(runway: Runway) {
-        binding.runwayNameEwtv.valueText = runway.name
+        binding.nameEwt.valueText = runway.name
         //TODO add formatting
-        binding.runwayLengthEwtv.valueText = runway.length.toString()
+        binding.lengthEwt.valueText = runway.length.toString()
         //TODO formatting
-        binding.runwayHeadingEwtv.valueText = runway.heading.toString()
-        binding.runwayIlsFrequencyEwtv.isVisible = runway.ilsFrequency != null
-        binding.runwayIlsFrequencyEwtv.valueText = runway.ilsFrequency ?: ""
+        binding.headingEwt.valueText = runway.heading.toString()
+        binding.ilsFrequencyEwt.isVisible = runway.ilsFrequency != null
+        binding.ilsFrequencyEwt.valueText = runway.ilsFrequency ?: ""
     }
 
     private fun showDeleteDialog() {

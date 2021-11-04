@@ -3,14 +3,12 @@ package pl.kossa.myflights.fragments.airports.details
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
-import okhttp3.ResponseBody
+import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Airport
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.AirportsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,7 +24,7 @@ class AirportDetailsViewModel @Inject constructor(
         fetchAirport()
     }
 
-    val airport = MutableLiveData<Airport>()
+    val airport = MutableStateFlow<Airport?>(null)
 
     fun fetchAirport() {
         makeRequest {
@@ -36,7 +34,7 @@ class AirportDetailsViewModel @Inject constructor(
     }
 
     fun navigateToAirportEdit() {
-        navDirectionLiveData.value = AirportDetailsFragmentDirections.goToAirportEdit(airportId)
+        navigate(AirportDetailsFragmentDirections.goToAirportEdit(airportId))
     }
 
     fun deleteAirport() {
@@ -48,11 +46,10 @@ class AirportDetailsViewModel @Inject constructor(
     }
 
     fun navigateToRunwayAdd() {
-        navDirectionLiveData.value = AirportDetailsFragmentDirections.goToRunwayAdd(airportId)
+        navigate(AirportDetailsFragmentDirections.goToRunwayAdd(airportId))
     }
 
     fun navigateToRunwayDetails(runwayId: String) {
-        navDirectionLiveData.value =
-            AirportDetailsFragmentDirections.goToRunwayDetails(airportId, runwayId)
+        navigate(AirportDetailsFragmentDirections.goToRunwayDetails(airportId, runwayId))
     }
 }
