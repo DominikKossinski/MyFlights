@@ -18,7 +18,7 @@ by server from [MyFlightsServer reposirory](https://github.com/DominikKossinski/
 </p>
 
 <h3 algin="center">Flights | Airplanes | Airports | Statistics</h3>
-<p algin="center">
+<p align="center">
   <img src="readme-assets/flights.gif?raw=true" width="100" />
   <img src="readme-assets/airplanes.gif?raw=true" width="100" /> 
   <img src="readme-assets/airports.gif?raw=true" width="100" /> 
