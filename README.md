@@ -10,7 +10,7 @@ by server from [MyFlightsServer reposirory](https://github.com/DominikKossinski/
 
 ###
 
-<h3 algin="center">Pre login | Login | Create Account</h3>
+<h3 align="center">Pre login | Login | Create Account</h3>
 <p align="center">
   <img src="readme-assets/pre-login.jpg" width="100" />
   <img src="readme-assets/login.jpg" width="100" /> 
@@ -25,7 +25,11 @@ by server from [MyFlightsServer reposirory](https://github.com/DominikKossinski/
   <img src="readme-assets/stats.gif?raw=true" width="100" />
 </p>
 
+### Features
 
+- MVVM architecture.
+- Swipe Delete in fragments displaing lists of airplanes, airports and flights.
+- Firebase authentication.
 
 ## Used dependencies
 
@@ -39,3 +43,4 @@ by server from [MyFlightsServer reposirory](https://github.com/DominikKossinski/
 - [Glide](https://github.com/bumptech/glide)
 - [Espresso](https://developer.android.com/training/testing/espresso)
 - [RuntimePermisson](https://github.com/florent37/RuntimePermission)
+- [Firebase](https://firebase.google.com/docs/android/setup)
