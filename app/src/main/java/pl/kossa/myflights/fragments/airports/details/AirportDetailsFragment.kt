@@ -87,9 +87,9 @@ class AirportDetailsFragment :
         binding.nameEwt.valueText = airport.name
         binding.cityEwt.valueText = airport.city
         binding.icaoCodeEwt.valueText = airport.icaoCode
-        binding.towerFrequencyEwt.isVisible = airport.towerFrequency != null
+        binding.towerFrequencyEwt.isVisible = !airport.towerFrequency.isNullOrBlank()
         binding.towerFrequencyEwt.valueText = airport.towerFrequency ?: ""
-        binding.groundFrequencyEwt.isVisible = airport.groundFrequency != null
+        binding.groundFrequencyEwt.isVisible = !airport.groundFrequency.isNullOrBlank()
         binding.groundFrequencyEwt.valueText = airport.groundFrequency ?: ""
         binding.runwaysTv.isVisible = airport.runways.isNotEmpty()
         binding.runwaysRecyclerView.isVisible = airport.runways.isNotEmpty()

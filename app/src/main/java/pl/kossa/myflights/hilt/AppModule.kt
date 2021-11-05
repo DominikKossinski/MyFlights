@@ -14,8 +14,10 @@ import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
 import pl.kossa.myflights.utils.PreferencesHelper
+import pl.kossa.myflights.utils.RetrofitDateSerializer
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -43,7 +45,7 @@ object AppModule {
     @Provides
     fun provideGson(): Gson {
         return GsonBuilder().apply {
-            setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+            registerTypeAdapter(Date::class.java, RetrofitDateSerializer())
         }.create()
     }
 
@@ -51,7 +53,7 @@ object AppModule {
     fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .client(client)
-            .baseUrl("http://10.0.2.2:8080")
+            .baseUrl("http://192.168.200.121:8080")
             .addCallAdapterFactory(ApiResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

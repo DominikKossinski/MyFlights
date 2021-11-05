@@ -37,6 +37,7 @@ class DateTimeSelectView(context: Context, attrs: AttributeSet) : ConstraintLayo
         }
     var date: Date? = null
         set(value) {
+
             field = value
             binding.dateTimeSelectButton.isVisible = value == null
             binding.dateTimeChangeButton.isVisible = value != null

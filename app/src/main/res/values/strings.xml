@@ -29,8 +29,8 @@
     <string name="flights">Flights</string>
 
     <!--CreateAccountFragment-->
-    <string name="accept">Akceptuję</string>
-    <string name="regulations">Regulamin</string>
+    <string name="accept">I accept</string>
+    <string name="regulations">the regulations</string>
 
 
     <!--AirplanesFragment-->
