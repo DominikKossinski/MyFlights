@@ -28,7 +28,7 @@ class AirplanesViewModel @Inject constructor(
 
     fun deleteAirplane(airplaneId: String) {
         makeRequest {
-            airplanesService.getAirplaneById(airplaneId)
+            airplanesService.deleteAirplane(airplaneId)
             setToastMessage(R.string.airplane_deleted)
             fetchAirplanes()
         }

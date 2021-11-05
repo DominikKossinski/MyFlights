@@ -8,6 +8,23 @@ by server from [MyFlightsServer reposirory](https://github.com/DominikKossinski/
 
 ## Demo
 
+###
+
+<h3 algin="center">Pre login | Login | Create Account</h3>
+<p align="center">
+  <img src="/readme-assets/pre-login.jpg" width="100" />
+  <img src="/readme-assets/login.jpg" width="100" /> 
+  <img src="/readme-assets/create-account.jpg" width="100" />
+</p>
+
+<h3 algin="center">Flights | Airplanes | Airports | Statistics</h3>
+<p algin="center">
+  <img src="/readme-assets/flights.gif?raw=true" width="100" />
+  <img src="/readme-assets/airplanes.gif?raw=true" width="100" /> 
+  <img src="/readme-assets/airports.gif?raw=true" width="100" /> 
+  <img src="/readme-assets/stats.gif?raw=true" width="100" />
+</p>
+
 
 
 ## Used dependencies

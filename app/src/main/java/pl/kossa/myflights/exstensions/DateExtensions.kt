@@ -11,6 +11,7 @@ fun Date.toDateString(): String {
 
 fun Date.toTimeString(): String {
     val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
+    formatter.timeZone = TimeZone.getTimeZone("UTC")
     return formatter.format(this)
 }
 
@@ -35,11 +36,13 @@ fun Date.extractDayOfMonth(): Int {
 
 fun Date.extractHour(): Int {
     val formatter = SimpleDateFormat("HH", Locale.getDefault())
+    formatter.timeZone = TimeZone.getTimeZone("UTC")
     return formatter.format(this).toInt()
 }
 
 fun Date.extractMinute(): Int {
     val formatter = SimpleDateFormat("mm", Locale.getDefault())
+    formatter.timeZone = TimeZone.getTimeZone("UTC")
     return formatter.format(this).toInt()
 }
 
