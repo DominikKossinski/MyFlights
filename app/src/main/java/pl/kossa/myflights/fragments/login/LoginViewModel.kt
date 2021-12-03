@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.R
+import pl.kossa.myflights.analytics.AnalyticsTracker
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
@@ -17,7 +18,6 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
-
 
     private val _email = MutableStateFlow("")
     private val _password = MutableStateFlow("")
@@ -61,7 +61,8 @@ class LoginViewModel @Inject constructor(
                         if (firebaseAuth.currentUser != null && firebaseAuth.currentUser?.isEmailVerified ?: false) {
                             refreshToken {
                                 Log.d("MyLog", "Token Login: $it")
-                                navigate(LoginFragmentDirections.goToMainActivity())
+                                analyticsTracker.setUserId(firebaseAuth.currentUser?.uid)
+                                navigate(LoginFragmentDirections.goToMainActivity(), true)
                                 isLoadingData.value = false
                             }
                         } else {

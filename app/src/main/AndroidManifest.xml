@@ -16,16 +16,16 @@
         android:roundIcon="@drawable/ic_flight_rounded"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:fullBackupContent="true">
 
         <meta-data
             android:name="pl.kossa.myflights.glide.MyFlightsGlideModule"
             android:value="AppGlideModule" />
 
         <activity android:name=".activities.main.MainActivity" />
-        <activity android:name=".activities.login.LoginActivity" />
         <activity
-            android:name=".activities.login.LauncherActivity"
+            android:name=".activities.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,6 +33,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        <activity-->
+<!--            android:name=".activities.launcher.LauncherActivity"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
     </application>
 

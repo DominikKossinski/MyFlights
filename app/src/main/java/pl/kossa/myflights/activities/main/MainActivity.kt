@@ -1,6 +1,7 @@
 package pl.kossa.myflights.activities.main
 
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.core.view.GravityCompat

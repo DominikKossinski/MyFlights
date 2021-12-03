@@ -11,6 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import pl.kossa.myflights.BuildConfig
+import pl.kossa.myflights.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -87,6 +88,11 @@ object AppModule {
     @Provides
     fun provideImagesService(retrofit: Retrofit): ImagesService {
         return retrofit.create(ImagesService::class.java)
+    }
+
+    @Provides
+    fun provideAnalyticsTracker(): AnalyticsTracker {
+        return AnalyticsTracker()
     }
 
 }
