@@ -48,3 +48,4 @@ The application is connected to Analytics and Crashlytics.
 - [Firebase](https://firebase.google.com/docs/android/setup)
 - [Analytics](https://firebase.google.com/docs/analytics)
 - [Crashlytics](https://firebase.google.com/docs/crashlytics/)
+- [FirebaseCloud Messaging](https://firebase.google.com/docs/cloud-messaging/)

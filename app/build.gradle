@@ -89,14 +89,17 @@ dependencies {
 
     //Crashlytics
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     //Performance
     implementation 'com.google.firebase:firebase-perf-ktx'
 
+    //Messaging
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
+
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'

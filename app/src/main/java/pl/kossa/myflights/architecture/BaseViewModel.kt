@@ -16,7 +16,10 @@ import pl.kossa.myflights.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
+import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.services.UserService
+import pl.kossa.myflights.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -27,9 +30,14 @@ abstract class BaseViewModel(
     private val preferencesHelper: PreferencesHelper
 ) : ViewModel() {
 
+    @Inject
+    protected lateinit var fcmUserService: UserService
 
     @Inject
     protected lateinit var analyticsTracker: AnalyticsTracker
+
+    @Inject
+    protected lateinit var fcmHandler: FCMHandler
 
     protected val firebaseAuth = FirebaseAuth.getInstance()
     protected val currentUser = firebaseAuth.currentUser
@@ -114,7 +122,7 @@ abstract class BaseViewModel(
         viewModelScope.launch {
             Log.d("MyLog", "${this@BaseViewModel::class.java} Emitting: $action")
             navDirectionFlow.emit(action)
-            if(finishActivity) {
+            if (finishActivity) {
                 activityFinishFlow.emit(Unit)
             }
         }
@@ -129,9 +137,13 @@ abstract class BaseViewModel(
     fun signOut() {
         firebaseAuth.signOut()
         analyticsTracker.setUserId(null)
-        preferencesHelper.token = null
-        viewModelScope.launch {
-            signOutFlow.emit(Unit)
+        fcmHandler.disableFCM {
+            makeRequest {
+                fcmUserService.putFcmToken(FcmRequest(null))
+                preferencesHelper.token = null
+                preferencesHelper.fcmToken = null
+                signOutFlow.emit(Unit)
+            }
         }
     }
 

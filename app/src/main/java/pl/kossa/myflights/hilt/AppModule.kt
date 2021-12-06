@@ -14,6 +14,7 @@ import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
+import pl.kossa.myflights.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
 import retrofit2.Retrofit
@@ -54,7 +55,7 @@ object AppModule {
     fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .client(client)
-            .baseUrl("http://192.168.200.121:8080")
+            .baseUrl("http://10.0.2.2:8080")
             .addCallAdapterFactory(ApiResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
@@ -93,6 +94,11 @@ object AppModule {
     @Provides
     fun provideAnalyticsTracker(): AnalyticsTracker {
         return AnalyticsTracker()
+    }
+
+    @Provides
+    fun provideFCMHandler(): FCMHandler {
+        return FCMHandler()
     }
 
 }

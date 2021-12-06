@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.R
-import pl.kossa.myflights.analytics.AnalyticsTracker
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
@@ -62,6 +61,7 @@ class LoginViewModel @Inject constructor(
                             refreshToken {
                                 Log.d("MyLog", "Token Login: $it")
                                 analyticsTracker.setUserId(firebaseAuth.currentUser?.uid)
+                                fcmHandler.enableFCM()
                                 navigate(LoginFragmentDirections.goToMainActivity(), true)
                                 isLoadingData.value = false
                             }
