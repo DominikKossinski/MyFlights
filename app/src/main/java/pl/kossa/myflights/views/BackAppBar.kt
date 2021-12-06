@@ -7,10 +7,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import pl.kossa.myflights.R
+import pl.kossa.myflights.databinding.ViewBackAppBarBinding
 
 class BackAppBar(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {
 
-    private val binding = pl.kossa.myflights.databinding.ViewBackAppBarBinding.inflate(LayoutInflater.from(context), this)
+    private val binding = ViewBackAppBarBinding.inflate(LayoutInflater.from(context), this)
 
     private var backOnClickListener: (() -> Unit)? = null
     private var deleteOnClickListener: (() -> Unit)? = null

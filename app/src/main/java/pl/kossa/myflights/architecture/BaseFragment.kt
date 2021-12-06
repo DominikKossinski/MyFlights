@@ -105,6 +105,11 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment() {
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.activityFinishFlow.collect {
+                requireActivity().finish()
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.getNavDirectionsFlow().collect {
                 Log.d("MyLog", "Collecting navigation")
                 Log.d("MyLog", "${findNavController().currentDestination?.label}")

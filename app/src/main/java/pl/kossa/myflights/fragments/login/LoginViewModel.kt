@@ -18,7 +18,6 @@ class LoginViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-
     private val _email = MutableStateFlow("")
     private val _password = MutableStateFlow("")
 
@@ -61,7 +60,9 @@ class LoginViewModel @Inject constructor(
                         if (firebaseAuth.currentUser != null && firebaseAuth.currentUser?.isEmailVerified ?: false) {
                             refreshToken {
                                 Log.d("MyLog", "Token Login: $it")
-                                navigate(LoginFragmentDirections.goToMainActivity())
+                                analyticsTracker.setUserId(firebaseAuth.currentUser?.uid)
+                                fcmHandler.enableFCM()
+                                navigate(LoginFragmentDirections.goToMainActivity(), true)
                                 isLoadingData.value = false
                             }
                         } else {

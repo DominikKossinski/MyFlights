@@ -6,6 +6,8 @@ Simple application that allows user to store his flights. User is able to define
 flights from one airport to another one using selected airplane. Application written in Kotlin uses api provided
 by server from [MyFlightsServer reposirory](https://github.com/DominikKossinski/MyFlightsServer).
 
+The application is connected to Analytics and Crashlytics.
+
 ## Demo
 
 ###
@@ -28,7 +30,7 @@ by server from [MyFlightsServer reposirory](https://github.com/DominikKossinski/
 ### Features
 
 - MVVM architecture.
-- Swipe Delete in fragments displaing lists of airplanes, airports and flights.
+- Swipe Delete in fragments displaying lists of airplanes, airports and flights.
 - Firebase authentication.
 
 ## Used dependencies
@@ -44,3 +46,6 @@ by server from [MyFlightsServer reposirory](https://github.com/DominikKossinski/
 - [Espresso](https://developer.android.com/training/testing/espresso)
 - [RuntimePermisson](https://github.com/florent37/RuntimePermission)
 - [Firebase](https://firebase.google.com/docs/android/setup)
+- [Analytics](https://firebase.google.com/docs/analytics)
+- [Crashlytics](https://firebase.google.com/docs/crashlytics/)
+- [FirebaseCloud Messaging](https://firebase.google.com/docs/cloud-messaging/)

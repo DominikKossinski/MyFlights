@@ -11,7 +11,6 @@ class ApiCallAdapter<S: Any>(
     private val successType: Type,
     private val errorBodyConverter: Converter<ResponseBody, ApiErrorBody>
 ) : CallAdapter<S, Call<ApiResponse<S>>>{
-
     override fun responseType(): Type = successType
 
     override fun adapt(call: Call<S>): Call<ApiResponse<S>> {
