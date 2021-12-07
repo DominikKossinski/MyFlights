@@ -12,28 +12,42 @@ import kotlinx.coroutines.launch
 import okhttp3.internal.http2.ConnectionShutdownException
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
+import pl.kossa.myflights.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
+import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.responses.ApiError
-import pl.kossa.myflights.livedata.SingleLiveEvent
+import pl.kossa.myflights.api.services.UserService
+import pl.kossa.myflights.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.io.IOException
-import java.lang.Exception
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import javax.inject.Inject
 
 abstract class BaseViewModel(
     private val preferencesHelper: PreferencesHelper
 ) : ViewModel() {
 
+    @Inject
+    protected lateinit var fcmUserService: UserService
+
+    @Inject
+    protected lateinit var analyticsTracker: AnalyticsTracker
+
+    @Inject
+    protected lateinit var fcmHandler: FCMHandler
+
     protected val firebaseAuth = FirebaseAuth.getInstance()
+    protected val currentUser = firebaseAuth.currentUser
 
     private var tokenRefreshed = false
 
     val toastMessage = MutableSharedFlow<Int?>(0)
     val isLoadingData = MutableStateFlow(false)
     val apiErrorFlow = MutableStateFlow<ApiError?>(null)
+    val activityFinishFlow = MutableSharedFlow<Unit>(0)
     private val navDirectionFlow = MutableSharedFlow<NavDirections>(0)
     val backFlow = MutableSharedFlow<Unit>(0)
     val signOutFlow = MutableSharedFlow<Unit>(0)
@@ -104,10 +118,13 @@ abstract class BaseViewModel(
         }
     }
 
-    protected fun navigate(action: NavDirections) {
+    protected fun navigate(action: NavDirections, finishActivity: Boolean = false) {
         viewModelScope.launch {
             Log.d("MyLog", "${this@BaseViewModel::class.java} Emitting: $action")
             navDirectionFlow.emit(action)
+            if (finishActivity) {
+                activityFinishFlow.emit(Unit)
+            }
         }
     }
 
@@ -119,9 +136,14 @@ abstract class BaseViewModel(
 
     fun signOut() {
         firebaseAuth.signOut()
-        preferencesHelper.token = null
-        viewModelScope.launch {
-            signOutFlow.emit(Unit)
+        analyticsTracker.setUserId(null)
+        fcmHandler.disableFCM {
+            makeRequest {
+                fcmUserService.putFcmToken(FcmRequest(null))
+                preferencesHelper.token = null
+                preferencesHelper.fcmToken = null
+                signOutFlow.emit(Unit)
+            }
         }
     }
 

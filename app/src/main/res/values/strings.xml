@@ -187,5 +187,6 @@
     <string name="airport_save">Save Airport</string>
     <string name="airport_name">Airport name</string>
     <string name="add_airplane">Add Airplane</string>
+    <string name="firebase_messaging_channel_id">FIREABASE_MESSAGING_CHANNEL</string>
 
 </resources>

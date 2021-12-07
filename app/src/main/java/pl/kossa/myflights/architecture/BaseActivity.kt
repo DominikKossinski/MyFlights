@@ -13,8 +13,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
 
     protected lateinit var binding: VB
 
-    protected val firebaseAuth = FirebaseAuth.getInstance()
-    protected val currentUser = firebaseAuth.currentUser
+//    protected val firebaseAuth = FirebaseAuth.getInstance()
+//    protected val currentUser = firebaseAuth.currentUser
 
     protected lateinit var preferencesHelper: PreferencesHelper
 
