@@ -2,6 +2,7 @@ package pl.kossa.myflights.fragments.profile.settings
 
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
+import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
@@ -25,6 +26,9 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         }
         binding.changePasswordButton.setOnClickListener {
             viewModel.navigateToChangePassword()
+        }
+        binding.aboutAppButton.setOnClickListener {
+            viewModel.navigateToAboutApp()
         }
         binding.deleteAccountButton.setOnClickListener {
             viewModel.showAccountDeleteDialog()

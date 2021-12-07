@@ -121,6 +121,7 @@
     <string name="change_email">Change email</string>
     <string name="change_password">Change password</string>
     <string name="change_avatar">Change avatar</string>
+    <string name="about_app">About App</string>
     <string name="delete_account">Delete account</string>
 
     <!--ChangeNick-->
@@ -134,6 +135,10 @@
     <string name="new_password">New password</string>
     <string name="confirm_new_password">Confirm new password</string>
     <string name="password_changed">Your password has been successfully changed</string>
+
+    <!--AboutApp-->
+    <string name="build_version">Build version</string>
+    <string name="build_date">Build date</string>
 
     <!--DeleteAccount-->
     <string name="delete_account_question">Are you sure to delete account? The operation is irreversible and you will lose all your data.</string>

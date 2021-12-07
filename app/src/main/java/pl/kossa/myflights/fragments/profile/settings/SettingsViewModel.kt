@@ -25,4 +25,8 @@ class SettingsViewModel @Inject constructor(
     fun showAccountDeleteDialog() {
         navigate(SettingsFragmentDirections.showAccountDeleteDialog())
     }
+
+    fun navigateToAboutApp() {
+        navigate(SettingsFragmentDirections.goToAboutApp())
+    }
 }

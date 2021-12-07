@@ -53,7 +53,7 @@ object AppModule {
     fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .client(client)
-            .baseUrl("http://192.168.200.121:8080")
+            .baseUrl(BuildConfig.SERVER_URL)
             .addCallAdapterFactory(ApiResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()

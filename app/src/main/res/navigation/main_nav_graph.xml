@@ -344,6 +344,10 @@
             app:destination="@id/changePasswordFragment" />
 
         <action
+            android:id="@+id/goToAboutApp"
+            app:destination="@id/aboutAppFragment" />
+
+        <action
             android:id="@+id/showAccountDeleteDialog"
             app:destination="@id/accountDeleteDialog" />
 
@@ -371,6 +375,12 @@
         android:name="pl.kossa.myflights.fragments.profile.settings.password.ChangePasswordFragment"
         android:label="ChangePasswordFragment"
         tools:layout="@layout/fragment_change_password" />
+
+    <fragment
+        android:id="@+id/aboutAppFragment"
+        android:name="pl.kossa.myflights.fragments.profile.settings.about_app.AboutAppFragment"
+        android:label="AboutAppFragment"
+        tools:layout="@layout/fragment_about_app" />
 
     <fragment
         android:id="@+id/emailVerifyFragment"
