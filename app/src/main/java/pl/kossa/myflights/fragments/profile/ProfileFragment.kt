@@ -23,6 +23,9 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
     override val viewModel: ProfileViewModel by viewModels()
 
     override fun setOnClickListeners() {
+        binding.backAppbar.setBackOnClickListener {
+            viewModel.navigateBack()
+        }
         binding.profileSwipeRefresh.setOnRefreshListener {
             viewModel.fetchUser()
         }

@@ -23,13 +23,6 @@
         android:label="FlightsFragment"
         tools:layout="@layout/fragment_flights" />
 
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="pl.kossa.myflights.fragments.profile.ProfileFragment"
-        android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
-
-
     <action
         android:id="@+id/goToFlights"
         app:destination="@id/flightsFragment" />
@@ -41,10 +34,6 @@
     <action
         android:id="@+id/goToAirports"
         app:destination="@id/airportsFragment" />
-
-    <action
-        android:id="@+id/goToProfile"
-        app:destination="@id/profileFragment" />
 
     <action
         android:id="@+id/goToLoginActivity"

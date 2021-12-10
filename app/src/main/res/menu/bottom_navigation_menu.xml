@@ -16,9 +16,14 @@
             android:icon="@drawable/ic_airport"
             android:title="@string/airports" />
 
+        <!--        <item-->
+        <!--            android:id="@+id/actionProfile"-->
+        <!--            android:icon="@drawable/ic_profile"-->
+        <!--            android:title="@string/profile" />-->
+
         <item
-            android:id="@+id/actionProfile"
-            android:icon="@drawable/ic_profile"
-            android:title="@string/profile" />
+            android:id="@+id/actionPlanedFlights"
+            android:icon="@drawable/ic_edit_calendar"
+            android:title="@string/planned_flights" />
     </group>
 </menu>

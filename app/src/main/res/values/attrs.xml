@@ -16,4 +16,7 @@
     <declare-styleable name="BackAppBar">
         <attr name="deleteVisible" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="LogoAppBar">
+        <attr name="profileVisible" format="boolean"/>
+    </declare-styleable>
 </resources>

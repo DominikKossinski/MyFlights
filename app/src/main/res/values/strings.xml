@@ -27,6 +27,7 @@
     <string name="user_exists">User already exists</string>
     <string name="email_resended">Wysłano ponownie wiadomość</string>
     <string name="flights">Flights</string>
+    <string name="planned_flights">Planned flights</string>
 
     <!--CreateAccountFragment-->
     <string name="accept">I accept</string>

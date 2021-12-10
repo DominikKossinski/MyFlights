@@ -37,13 +37,23 @@
             app:destination="@id/flightAddFragment" />
 
         <action
+            android:id="@+id/goToProfile"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="pl.kossa.myflights.fragments.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile"
+        android:label="ProfileFragment">
+
+        <action
             android:id="@+id/goToSettings"
             app:destination="@id/settingsFragment" />
 
         <action
             android:id="@+id/showChangeAvatarBottomSheet"
             app:destination="@id/changeAvatarBottomSheet" />
-
     </fragment>
 
     <fragment
