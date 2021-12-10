@@ -16,7 +16,9 @@ class MainViewModel @Inject constructor(
     fun goToAirplanes() = ListsNavGraphDirections.goToAirplanes()
 
     fun goToAirports() = ListsNavGraphDirections.goToAirports()
-    
+
+    fun goToPlannedFlights() = ListsNavGraphDirections.goToPlannedFlights()
+
     fun navigateToProfile() {
         navigate(MainFragmentDirections.goToProfile())
     }

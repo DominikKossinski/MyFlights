@@ -37,17 +37,25 @@ android {
             Properties localProperties = new Properties()
             localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
             def serverUrl = localProperties.getProperty('server_url') ?: "NoServerUrlFound"
+            def simbriefApiKey = localProperties.getProperty("simbrief_api_key") ?: ""
+            def simbriefUrl = localProperties.getProperty("simbrief_url") ?: ""
             buildConfigField "String", "SERVER_URL", serverUrl
             buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
             buildConfigField "String", "BUILD_ENV", "\"dev\""
+            buildConfigField "String", "SIMBRIEF_API_KEY", simbriefApiKey
+            buildConfigField "String", "SIMBRIEF_URL", simbriefUrl
         }
         release {
             Properties localProperties = new Properties()
             localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
             def serverUrl = localProperties.getProperty('server_url') ?: "NoServerUrlFound"
+            def simbriefApiKey = localProperties.getProperty("simbrief_api_key") ?: ""
+            def simbriefUrl = localProperties.getProperty("simbrief_url") ?: ""
             buildConfigField "String", "SERVER_URL", serverUrl
             buildConfigField "long", "BUILD_TIMESTAMP", System.currentTimeMillis() + "L"
             buildConfigField "String", "BUILD_ENV", "\"prod\""
+            buildConfigField "String", "SIMBRIEF_API_KEY", simbriefApiKey
+            buildConfigField "String", "SIMBRIEF_URL", simbriefUrl
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -118,10 +126,15 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
     //Retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:retrofit:2.7.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
     testImplementation "com.squareup.okhttp3:mockwebserver:4.9.0"
+    implementation ('com.squareup.retrofit2:converter-simplexml:2.4.0') {
+        exclude group: 'xpp3', module: 'xpp3'
+        exclude group: 'stax', module: 'stax-api'
+        exclude group: 'stax', module: 'stax'
+    }
 
     androidTestImplementation "com.squareup.okhttp3:mockwebserver:4.9.0"
 

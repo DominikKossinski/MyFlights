@@ -138,7 +138,6 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment() {
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.toastMessage.collect {
-                Log.d("MyLog", "Collecting error: $it")
                 it?.let {
                     Toast.makeText(context, it, Toast.LENGTH_LONG).show()
                 }

@@ -19,9 +19,9 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
     override val viewModel: MainViewModel by viewModels()
 
     override fun setOnClickListeners() {
-        lifecycleScope.launch {
-            Log.d("MyLog", "Md5: ${md5Simbrief("KJFKKBOSa320")}")
-        }
+//        lifecycleScope.launch {
+//            Log.d("MyLog", "Md5: ${md5Simbrief("KJFKKBOSa320")}")
+//        }
         binding.logoAppBar.setOnProfileClickListener {
             viewModel.navigateToProfile()
         }
@@ -41,8 +41,8 @@ class MainFragment : BaseFragment<MainViewModel, FragmentMainBinding>() {
                     true
                 }
                 R.id.actionPlanedFlights -> {
-                    viewModel.showComingSoonDialog()
-                    false
+                    navController.navigate(viewModel.goToPlannedFlights())
+                    true
                 }
                 else -> false
             }

@@ -10,4 +10,9 @@
             127.0.0.1
         </domain>
     </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">
+            www.simbrief.com
+        </domain>
+    </domain-config>
 </network-security-config>

@@ -1,7 +1,6 @@
 package pl.kossa.myflights.hilt
 
 import android.content.Context
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -14,12 +13,20 @@ import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
+import pl.kossa.myflights.api.simbrief.SimbriefService
 import pl.kossa.myflights.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import java.util.*
+import javax.inject.Qualifier
+
+@Qualifier
+annotation class MyFlightServer
+@Qualifier
+annotation class Simbrief
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -52,6 +59,7 @@ object AppModule {
     }
 
     @Provides
+    @MyFlightServer
     fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
             .client(client)
@@ -62,32 +70,32 @@ object AppModule {
     }
 
     @Provides
-    fun provideFlightsService(retrofit: Retrofit): FlightsService {
+    fun provideFlightsService(@MyFlightServer retrofit: Retrofit): FlightsService {
         return retrofit.create(FlightsService::class.java)
     }
 
     @Provides
-    fun provideAirportsService(retrofit: Retrofit): AirportsService {
+    fun provideAirportsService(@MyFlightServer retrofit: Retrofit): AirportsService {
         return retrofit.create(AirportsService::class.java)
     }
 
     @Provides
-    fun provideAirplanesService(retrofit: Retrofit): AirplanesService {
+    fun provideAirplanesService(@MyFlightServer retrofit: Retrofit): AirplanesService {
         return retrofit.create(AirplanesService::class.java)
     }
 
     @Provides
-    fun provideRunwaysService(retrofit: Retrofit): RunwaysService {
+    fun provideRunwaysService(@MyFlightServer retrofit: Retrofit): RunwaysService {
         return retrofit.create(RunwaysService::class.java)
     }
 
     @Provides
-    fun provideUserService(retrofit: Retrofit): UserService {
+    fun provideUserService(@MyFlightServer retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 
     @Provides
-    fun provideImagesService(retrofit: Retrofit): ImagesService {
+    fun provideImagesService(@MyFlightServer retrofit: Retrofit): ImagesService {
         return retrofit.create(ImagesService::class.java)
     }
 
@@ -101,4 +109,24 @@ object AppModule {
         return FCMHandler()
     }
 
+}
+
+@InstallIn(SingletonComponent::class)
+@Module
+object SimbriefModule {
+
+    @Provides
+    @Simbrief
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.SIMBRIEF_URL)
+            .addCallAdapterFactory(ApiResponseAdapterFactory())
+            .addConverterFactory(SimpleXmlConverterFactory.create())
+            .build()
+    }
+
+    @Provides
+    fun provideSimbriefService(@Simbrief retrofit: Retrofit): SimbriefService {
+        return retrofit.create(SimbriefService::class.java)
+    }
 }
