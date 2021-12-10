@@ -1,14 +1,10 @@
 package pl.kossa.myflights.fragments.airports
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Airport
-import pl.kossa.myflights.api.services.AirportsService
+import pl.kossa.myflights.api.server.models.Airport
+import pl.kossa.myflights.api.server.services.AirportsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper

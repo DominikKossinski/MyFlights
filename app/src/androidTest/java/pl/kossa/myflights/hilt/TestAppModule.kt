@@ -6,13 +6,12 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.testing.TestInstallIn
 import okhttp3.OkHttpClient
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
-import pl.kossa.myflights.api.services.*
+import pl.kossa.myflights.api.server.services.*
 import pl.kossa.myflights.utils.PreferencesHelper
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

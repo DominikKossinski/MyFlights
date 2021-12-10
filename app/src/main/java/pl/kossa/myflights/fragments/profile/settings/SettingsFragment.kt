@@ -2,10 +2,9 @@ package pl.kossa.myflights.fragments.profile.settings
 
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.responses.ApiError
-import pl.kossa.myflights.api.responses.HttpCode
+import pl.kossa.myflights.api.server.responses.ApiError
+import pl.kossa.myflights.api.server.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentSettingsBinding
 

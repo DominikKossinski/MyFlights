@@ -10,11 +10,10 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
 import pl.kossa.myflights.activities.main.MainActivity
-import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.server.responses.ApiError
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment() {

@@ -5,9 +5,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import pl.kossa.myflights.api.models.Flight
-import pl.kossa.myflights.api.requests.FlightRequest
-import pl.kossa.myflights.api.services.FlightsService
+import pl.kossa.myflights.api.server.models.Flight
+import pl.kossa.myflights.api.server.requests.FlightRequest
+import pl.kossa.myflights.api.server.services.FlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.flights.add.FlightAddFragmentDirections
 import pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment

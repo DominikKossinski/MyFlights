@@ -2,15 +2,14 @@ package pl.kossa.myflights.server.handlers
 
 import android.util.Log
 import okhttp3.mockwebserver.MockResponse
-import pl.kossa.myflights.api.models.Airplane
-import pl.kossa.myflights.api.models.Airport
-import pl.kossa.myflights.api.models.Flight
-import pl.kossa.myflights.api.models.Runway
-import pl.kossa.myflights.api.requests.AirplaneRequest
-import pl.kossa.myflights.api.requests.AirportRequest
-import pl.kossa.myflights.api.requests.FlightRequest
-import pl.kossa.myflights.api.requests.RunwayRequest
-import pl.kossa.myflights.api.responses.CreatedResponse
+import pl.kossa.myflights.api.server.models.Airplane
+import pl.kossa.myflights.api.server.models.Airport
+import pl.kossa.myflights.api.server.models.Flight
+import pl.kossa.myflights.api.server.models.Runway
+import pl.kossa.myflights.api.server.requests.AirplaneRequest
+import pl.kossa.myflights.api.server.requests.AirportRequest
+import pl.kossa.myflights.api.server.requests.FlightRequest
+import pl.kossa.myflights.api.server.requests.RunwayRequest
 import pl.kossa.myflights.server.BasePath
 
 class PostMethodHandler(

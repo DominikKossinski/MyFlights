@@ -2,12 +2,12 @@ package pl.kossa.myflights.server.handlers
 
 import com.google.gson.GsonBuilder
 import okhttp3.mockwebserver.MockResponse
-import pl.kossa.myflights.api.models.Airplane
-import pl.kossa.myflights.api.models.Airport
-import pl.kossa.myflights.api.models.Flight
-import pl.kossa.myflights.api.models.Runway
-import pl.kossa.myflights.api.responses.ApiErrorBody
-import pl.kossa.myflights.api.responses.CreatedResponse
+import pl.kossa.myflights.api.server.models.Airplane
+import pl.kossa.myflights.api.server.models.Airport
+import pl.kossa.myflights.api.server.models.Flight
+import pl.kossa.myflights.api.server.models.Runway
+import pl.kossa.myflights.api.server.responses.ApiErrorBody
+import pl.kossa.myflights.api.server.responses.CreatedResponse
 import pl.kossa.myflights.server.BasePath
 import java.lang.Exception
 

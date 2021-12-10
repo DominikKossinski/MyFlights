@@ -1,7 +1,7 @@
 package pl.kossa.myflights.api.call
 
 import okhttp3.ResponseBody
-import pl.kossa.myflights.api.responses.ApiErrorBody
+import pl.kossa.myflights.api.server.responses.ApiErrorBody
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Converter

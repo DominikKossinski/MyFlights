@@ -1,15 +1,12 @@
 package pl.kossa.myflights.fragments.airplanes.add
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.requests.AirplaneRequest
-import pl.kossa.myflights.api.services.AirplanesService
+import pl.kossa.myflights.api.server.requests.AirplaneRequest
+import pl.kossa.myflights.api.server.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
-import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 

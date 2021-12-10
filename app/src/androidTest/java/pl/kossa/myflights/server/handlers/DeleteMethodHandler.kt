@@ -2,10 +2,10 @@ package pl.kossa.myflights.server.handlers
 
 import android.util.Log
 import okhttp3.mockwebserver.MockResponse
-import pl.kossa.myflights.api.models.Airplane
-import pl.kossa.myflights.api.models.Airport
-import pl.kossa.myflights.api.models.Flight
-import pl.kossa.myflights.api.models.Runway
+import pl.kossa.myflights.api.server.models.Airplane
+import pl.kossa.myflights.api.server.models.Airport
+import pl.kossa.myflights.api.server.models.Flight
+import pl.kossa.myflights.api.server.models.Runway
 import pl.kossa.myflights.server.BasePath
 
 class DeleteMethodHandler(

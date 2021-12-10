@@ -13,8 +13,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.requests.FcmRequest
-import pl.kossa.myflights.api.services.UserService
+import pl.kossa.myflights.api.server.requests.FcmRequest
+import pl.kossa.myflights.api.server.services.UserService
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 

@@ -1,6 +1,6 @@
 package pl.kossa.myflights.fragments.airplanes.adapter
 
-import pl.kossa.myflights.api.models.Airplane
+import pl.kossa.myflights.api.server.models.Airplane
 import pl.kossa.myflights.architecture.BaseRecyclerViewAdapter
 import pl.kossa.myflights.databinding.ElementAirplaneBinding
 

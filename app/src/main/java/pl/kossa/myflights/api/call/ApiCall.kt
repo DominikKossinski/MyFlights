@@ -5,9 +5,9 @@ import okhttp3.Request
 import okhttp3.ResponseBody
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
-import pl.kossa.myflights.api.responses.ApiError
-import pl.kossa.myflights.api.responses.ApiErrorBody
-import pl.kossa.myflights.api.responses.HttpCode
+import pl.kossa.myflights.api.server.responses.ApiError
+import pl.kossa.myflights.api.server.responses.ApiErrorBody
+import pl.kossa.myflights.api.server.responses.HttpCode
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Converter

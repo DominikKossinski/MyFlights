@@ -2,7 +2,7 @@ package pl.kossa.myflights.fragments.planned_flights.plan
 
 import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
-import pl.kossa.myflights.api.simbrief.SimbriefService
+import pl.kossa.myflights.api.simbrief.services.SimbriefService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject

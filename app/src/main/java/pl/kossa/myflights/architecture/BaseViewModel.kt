@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Semaphore
 import okhttp3.internal.http2.ConnectionShutdownException
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
@@ -16,9 +17,9 @@ import pl.kossa.myflights.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
-import pl.kossa.myflights.api.requests.FcmRequest
-import pl.kossa.myflights.api.responses.ApiError
-import pl.kossa.myflights.api.services.UserService
+import pl.kossa.myflights.api.server.requests.FcmRequest
+import pl.kossa.myflights.api.server.responses.ApiError
+import pl.kossa.myflights.api.server.services.UserService
 import pl.kossa.myflights.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.io.IOException
@@ -43,6 +44,7 @@ abstract class BaseViewModel(
     protected val currentUser = firebaseAuth.currentUser
 
     private var tokenRefreshed = false
+    private var semaphore = Semaphore(1)
 
     val toastMessage = MutableSharedFlow<Int?>(0)
     val isLoadingData = MutableStateFlow(false)
@@ -61,7 +63,10 @@ abstract class BaseViewModel(
             } catch (e: ApiServerException) {
                 apiErrorFlow.emit(e.apiError)
             } catch (e: UnauthorizedException) {
+                Log.d("MyLog", "")
+                semaphore.acquire()
                 if (tokenRefreshed) {
+                    semaphore.release()
                     firebaseAuth.signOut()
                     signOutFlow.emit(Unit)
                 } else {
@@ -93,8 +98,12 @@ abstract class BaseViewModel(
     protected fun refreshToken(onSuccess: () -> Unit) {
         firebaseAuth.currentUser?.getIdToken(true)?.addOnSuccessListener {
             preferencesHelper.token = it.token
+            Log.d("MyLog", "New token")
+            tokenRefreshed = false
+            semaphore.release()
             onSuccess()
         }?.addOnFailureListener {
+            semaphore.release()
             when (it) {
                 is FirebaseNetworkException -> {
                     setToastMessage(R.string.error_no_internet)

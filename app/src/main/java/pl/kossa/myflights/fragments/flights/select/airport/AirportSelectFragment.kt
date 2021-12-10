@@ -9,10 +9,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.responses.ApiError
-import pl.kossa.myflights.api.responses.HttpCode
+import pl.kossa.myflights.api.server.responses.ApiError
+import pl.kossa.myflights.api.server.responses.HttpCode
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirportSelectBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged

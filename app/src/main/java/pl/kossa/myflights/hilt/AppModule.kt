@@ -12,8 +12,8 @@ import okhttp3.OkHttpClient
 import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
-import pl.kossa.myflights.api.services.*
-import pl.kossa.myflights.api.simbrief.SimbriefService
+import pl.kossa.myflights.api.server.services.*
+import pl.kossa.myflights.api.simbrief.services.SimbriefService
 import pl.kossa.myflights.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer

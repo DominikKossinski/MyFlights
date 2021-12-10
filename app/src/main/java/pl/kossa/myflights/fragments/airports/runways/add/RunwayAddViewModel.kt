@@ -4,10 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import pl.kossa.myflights.api.requests.RunwayRequest
-import pl.kossa.myflights.api.services.RunwaysService
+import pl.kossa.myflights.api.server.requests.RunwayRequest
+import pl.kossa.myflights.api.server.services.RunwaysService
 import pl.kossa.myflights.architecture.BaseViewModel
-import pl.kossa.myflights.fragments.airports.details.AirportDetailsFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 

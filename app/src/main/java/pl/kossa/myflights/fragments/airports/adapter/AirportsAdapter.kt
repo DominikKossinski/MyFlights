@@ -1,8 +1,7 @@
 package pl.kossa.myflights.fragments.airports.adapter
 
-import pl.kossa.myflights.api.models.Airport
+import pl.kossa.myflights.api.server.models.Airport
 import pl.kossa.myflights.architecture.BaseRecyclerViewAdapter
-import pl.kossa.myflights.databinding.ElementAirplaneBinding
 import pl.kossa.myflights.databinding.ElementAirportBinding
 
 class AirportsAdapter : BaseRecyclerViewAdapter<Airport, ElementAirportBinding>() {

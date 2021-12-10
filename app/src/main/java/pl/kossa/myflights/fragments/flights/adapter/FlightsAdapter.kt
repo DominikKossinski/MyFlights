@@ -1,6 +1,6 @@
 package pl.kossa.myflights.fragments.flights.adapter
 
-import pl.kossa.myflights.api.models.Flight
+import pl.kossa.myflights.api.server.models.Flight
 import pl.kossa.myflights.architecture.BaseRecyclerViewAdapter
 import pl.kossa.myflights.databinding.ElementFlightBinding
 import pl.kossa.myflights.exstensions.toDateString

@@ -1,13 +1,11 @@
 package pl.kossa.myflights.fragments.airports.add
 
-import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import pl.kossa.myflights.api.requests.AirportRequest
-import pl.kossa.myflights.api.services.AirportsService
+import pl.kossa.myflights.api.server.requests.AirportRequest
+import pl.kossa.myflights.api.server.services.AirportsService
 import pl.kossa.myflights.architecture.BaseViewModel
-import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 

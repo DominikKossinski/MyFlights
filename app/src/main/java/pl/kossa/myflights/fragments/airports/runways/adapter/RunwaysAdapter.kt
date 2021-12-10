@@ -1,7 +1,7 @@
 package pl.kossa.myflights.fragments.airports.runways.adapter
 
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Runway
+import pl.kossa.myflights.api.server.models.Runway
 import pl.kossa.myflights.architecture.BaseRecyclerViewAdapter
 import pl.kossa.myflights.databinding.ElementRunwayBinding
 

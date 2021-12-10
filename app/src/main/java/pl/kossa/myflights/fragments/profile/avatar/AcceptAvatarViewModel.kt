@@ -2,21 +2,19 @@ package pl.kossa.myflights.fragments.profile.avatar
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import pl.kossa.myflights.api.models.User
-import pl.kossa.myflights.api.requests.UserRequest
-import pl.kossa.myflights.api.services.ImagesService
-import pl.kossa.myflights.api.services.UserService
+import pl.kossa.myflights.api.server.models.User
+import pl.kossa.myflights.api.server.requests.UserRequest
+import pl.kossa.myflights.api.server.services.ImagesService
+import pl.kossa.myflights.api.server.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.io.File

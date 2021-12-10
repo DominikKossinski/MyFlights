@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
 import pl.kossa.myflights.activities.main.MainActivity
-import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.api.server.responses.ApiError
 import java.lang.reflect.ParameterizedType
 
 abstract class BaseBottomSheet<VM : BaseViewModel, VB : ViewBinding> : BottomSheetDialogFragment() {

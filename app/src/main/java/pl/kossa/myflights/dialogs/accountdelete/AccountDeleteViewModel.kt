@@ -7,14 +7,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import okhttp3.ResponseBody
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.User
-import pl.kossa.myflights.api.responses.ApiErrorBody
-import pl.kossa.myflights.api.services.UserService
+import pl.kossa.myflights.api.server.models.User
+import pl.kossa.myflights.api.server.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel

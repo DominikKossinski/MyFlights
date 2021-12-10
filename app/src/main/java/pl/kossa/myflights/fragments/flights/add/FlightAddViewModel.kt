@@ -3,11 +3,10 @@ package pl.kossa.myflights.fragments.flights.add
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import pl.kossa.myflights.api.requests.FlightRequest
-import pl.kossa.myflights.api.services.FlightsService
+import pl.kossa.myflights.api.server.requests.FlightRequest
+import pl.kossa.myflights.api.server.services.FlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment
-import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.util.*
 import javax.inject.Inject
