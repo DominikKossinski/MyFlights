@@ -144,6 +144,13 @@
     <!--DeleteAccount-->
     <string name="delete_account_question">Are you sure to delete account? The operation is irreversible and you will lose all your data.</string>
 
+    <!--OFPDetails-->
+    <string name="origin">Origin</string>
+    <string name="destination">Destination</string>
+    <string name="route">Route</string>
+    <string name="alternate">Alternate</string>
+    <string name="alternate_route">Alternate route</string>
+
     <!--Common-->
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
@@ -160,6 +167,7 @@
     <string name="flight">Flight</string>
     <string name="nick">Nick</string>
     <string name="coming_soon">Coming soon...</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
 
     <!--Errors-->
     <string name="error_empty_name">Name can\'t be empty.</string>

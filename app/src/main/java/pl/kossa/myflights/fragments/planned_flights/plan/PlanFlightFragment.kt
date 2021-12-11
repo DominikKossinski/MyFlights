@@ -15,7 +15,7 @@ class PlanFlightFragment : BaseFragment<PlanFlightViewModel, FragmentPlanFlightB
 
     override fun setOnClickListeners() {
         binding.fetchFlightButton.setOnClickListener {
-            viewModel.fetchOFP()
+            viewModel.navigateToOFPDetails()
         }
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.webViewClient = WebViewClient()

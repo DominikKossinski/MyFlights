@@ -22,23 +22,41 @@
         tools:text="Nazwa" />
 
 
-    <TextView
-        android:id="@+id/valueTextView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
         android:layout_marginBottom="16dp"
         android:background="@drawable/element_background"
-        android:fontFamily="@font/poppins_semibold"
-        android:padding="8dp"
-        android:gravity="center_vertical"
-        android:textColor="@color/colorPrimary"
-        android:textSize="@dimen/big_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tagTextView"
-        tools:text="Wartosc" />
+        app:layout_constraintTop_toBottomOf="@id/tagTextView">
 
+        <TextView
+            android:id="@+id/valueTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/big_text_size"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@id/copyIv"
+            tools:text="Wartosc" />
+
+        <ImageView
+            android:id="@+id/copyIv"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="8dp"
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_content_copy" />
+
+    </RelativeLayout>
 
 </merge>

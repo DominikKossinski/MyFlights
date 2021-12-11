@@ -8,15 +8,16 @@
     <declare-styleable name="ElementWithTagView">
         <attr name="tagText" format="string" />
         <attr name="valueText" format="string" />
+        <attr name="isCopyVisible" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="DateTimeSelectView">
         <attr name="dateTimeName" format="string" />
     </declare-styleable>
     <declare-styleable name="BackAppBar">
-        <attr name="deleteVisible" format="boolean"/>
+        <attr name="deleteVisible" format="boolean" />
     </declare-styleable>
     <declare-styleable name="LogoAppBar">
-        <attr name="profileVisible" format="boolean"/>
+        <attr name="profileVisible" format="boolean" />
     </declare-styleable>
 </resources>

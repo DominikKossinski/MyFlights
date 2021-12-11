@@ -13,6 +13,7 @@ import retrofit2.Callback
 import retrofit2.Converter
 import retrofit2.Response
 import java.io.IOException
+import java.lang.Exception
 import java.lang.UnsupportedOperationException
 
 class ApiCall<S : Any>(
@@ -37,7 +38,10 @@ class ApiCall<S : Any>(
                             val apiErrorBody = response.errorBody()?.let { errorConverter.convert(it) }
                             ApiError(response.code(), apiErrorBody)
                         } catch (e: IOException) {
-                            ApiError(HttpCode.INTERNAL_SERVER_ERROR.code, null)
+                            ApiError(response.code(), null)
+                        } catch (e: Exception) {
+                            Log.e("MyLog", "ErrorBody: ${response.errorBody()?.string()}")
+                            ApiError(response.code(), null)
                         }
                         callback.onFailure(this@ApiCall, ApiServerException(apiError))
                     }

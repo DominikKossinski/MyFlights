@@ -39,13 +39,17 @@
         <action
             android:id="@+id/goToProfile"
             app:destination="@id/profileFragment" />
+
+        <action
+            android:id="@+id/goToOFPDetailsFragment"
+            app:destination="@id/ofpDetailsFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/profileFragment"
         android:name="pl.kossa.myflights.fragments.profile.ProfileFragment"
-        tools:layout="@layout/fragment_profile"
-        android:label="ProfileFragment">
+        android:label="ProfileFragment"
+        tools:layout="@layout/fragment_profile">
 
         <action
             android:id="@+id/goToSettings"
@@ -395,8 +399,23 @@
     <fragment
         android:id="@+id/emailVerifyFragment"
         android:name="pl.kossa.myflights.fragments.profile.settings.email.verify.EmailVerifyFragment"
-        android:label="EmailVerifyFragmenr"
+        android:label="EmailVerifyFragment"
         tools:layout="@layout/fragment_email_verify" />
+
+    <fragment
+        android:id="@+id/ofpDetailsFragment"
+        android:name="pl.kossa.myflights.fragments.planned_flights.ofp.OFPDetailsFragment"
+        android:label="OFPDetailsFragment"
+        tools:layout="@layout/fragment_ofp_details">
+
+        <argument
+            android:name="timestamp"
+            app:argType="long" />
+
+        <argument
+            android:name="md5"
+            app:argType="string" />
+    </fragment>
 
     <dialog
         android:id="@+id/comingSoonBottomSheet"
