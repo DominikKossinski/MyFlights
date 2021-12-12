@@ -180,6 +180,7 @@
     <string name="error_airport_not_found">Airport not found.</string>
     <string name="error_runway_not_found">Runway not found.</string>
     <string name="error_flight_not_found">Flight not found.</string>
+    <string name="error_ofp_not_found">OFP not found.</string>
 
     <string name="error_airplane_exists_in_flights">Airplane can\'t be deleted. It exists in flights.</string>
     <string name="error_airport_exists_in_flights">Airport can\'t be deleted. It exists in flights.</string>

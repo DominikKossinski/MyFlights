@@ -14,7 +14,7 @@ class PlanFlightViewModel @Inject constructor(
 ) : BaseViewModel(preferencesHelper) {
 
     fun navigateToOFPDetails() {
-        navigate(MainFragmentDirections.goToOFPDetailsFragment(1639227145, "1A4303D4A7"))
+        navigate(MainFragmentDirections.goToOFPDetailsFragment(1639340653, "1A4303D4A7"))
     }
 
 }

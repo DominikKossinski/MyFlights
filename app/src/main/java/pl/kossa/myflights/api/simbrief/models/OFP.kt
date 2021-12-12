@@ -3,6 +3,7 @@ package pl.kossa.myflights.api.simbrief.models
 import org.simpleframework.xml.Element
 import org.simpleframework.xml.ElementList
 import org.simpleframework.xml.Root
+import org.simpleframework.xml.convert.Convert
 
 @Root(name = "OFP", strict = false)
 data class OFP @JvmOverloads constructor(

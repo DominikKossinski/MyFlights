@@ -9,10 +9,15 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import org.simpleframework.xml.convert.Registry
+import org.simpleframework.xml.convert.RegistryStrategy
+import org.simpleframework.xml.core.Persister
 import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.server.services.*
+import pl.kossa.myflights.api.simbrief.models.Alternate
+import pl.kossa.myflights.api.simbrief.models.AlternateConverter
 import pl.kossa.myflights.api.simbrief.services.SimbriefService
 import pl.kossa.myflights.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -100,6 +105,11 @@ object AppModule {
     }
 
     @Provides
+    fun provideOFPsService(@MyFlightServer retrofit: Retrofit): OFPsService {
+        return retrofit.create(OFPsService::class.java)
+    }
+
+    @Provides
     fun provideAnalyticsTracker(): AnalyticsTracker {
         return AnalyticsTracker()
     }
@@ -118,10 +128,14 @@ object SimbriefModule {
     @Provides
     @Simbrief
     fun provideRetrofit(): Retrofit {
+        val registry = Registry()
+        val strategy  = RegistryStrategy(registry)
+        val serializer = Persister(strategy)
+        registry.bind(Alternate::class.java, AlternateConverter::class.java)
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SIMBRIEF_URL)
             .addCallAdapterFactory(ApiResponseAdapterFactory())
-            .addConverterFactory(SimpleXmlConverterFactory.create())
+            .addConverterFactory(SimpleXmlConverterFactory.create(serializer))
             .build()
     }
 

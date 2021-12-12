@@ -63,7 +63,6 @@ abstract class BaseViewModel(
             } catch (e: ApiServerException) {
                 apiErrorFlow.emit(e.apiError)
             } catch (e: UnauthorizedException) {
-                Log.d("MyLog", "")
                 semaphore.acquire()
                 if (tokenRefreshed) {
                     semaphore.release()

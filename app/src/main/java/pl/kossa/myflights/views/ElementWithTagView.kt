@@ -26,6 +26,7 @@ class ElementWithTagView(context: Context, attrs: AttributeSet) : ConstraintLayo
         set(value) {
             field = value
             binding.valueTextView.text = value
+            binding.root.isVisible = value.isNotBlank()
         }
 
     var isCopyVisible = false
