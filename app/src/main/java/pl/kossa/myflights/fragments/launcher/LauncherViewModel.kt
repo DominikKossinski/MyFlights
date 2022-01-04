@@ -7,7 +7,8 @@ import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
-class LauncherViewModel @Inject constructor(preferencesHelper: PreferencesHelper) : BaseViewModel(preferencesHelper) {
+class LauncherViewModel @Inject constructor(preferencesHelper: PreferencesHelper) :
+    BaseViewModel(preferencesHelper) {
 
     fun openNextActivity() {
         Log.d("MyLog", "Current user: $currentUser")

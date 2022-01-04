@@ -109,6 +109,12 @@ dependencies {
     //Messaging
     implementation 'com.google.firebase:firebase-messaging-ktx'
 
+    //DynamicLinks
+    implementation 'com.google.firebase:firebase-dynamic-links-ktx'
+
+    //GSM
+    implementation 'com.google.android.gms:play-services-basement:18.0.0'
+
 
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'

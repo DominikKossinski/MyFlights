@@ -9,9 +9,9 @@ import pl.kossa.myflights.databinding.FragmentLauncherBinding
 import java.lang.Thread.sleep
 
 @AndroidEntryPoint
-class LauncherFragment: BaseFragment<LauncherViewModel, FragmentLauncherBinding>() {
+class LauncherFragment : BaseFragment<LauncherViewModel, FragmentLauncherBinding>() {
 
-    override val viewModel: LauncherViewModel  by viewModels()
+    override val viewModel: LauncherViewModel by viewModels()
 
     override fun setOnClickListeners() {
         Thread {

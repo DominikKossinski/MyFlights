@@ -34,12 +34,12 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        val notification = remoteMessage.notification
         val data = remoteMessage.data
         val deepLink = data["deepLink"]
-        notification?.let {
-            showNotification(notification.title ?: "", notification.body ?: "", deepLink)
-        }
+        val title = data["title"]
+        val body = data["body"]
+        Log.d("MyLog", "DeepLink: $deepLink")
+        showNotification(title ?: "", body ?: "", deepLink)
     }
 
     override fun onNewToken(token: String) {
@@ -78,6 +78,7 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
         }
 
         with(NotificationManagerCompat.from(this)) {
+            Log.d("MyLog", "Title")
             notify(1, builder.build())
         }
     }

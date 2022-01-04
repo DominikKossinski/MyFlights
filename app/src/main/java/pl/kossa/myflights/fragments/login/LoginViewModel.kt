@@ -61,9 +61,10 @@ class LoginViewModel @Inject constructor(
                             refreshToken {
                                 Log.d("MyLog", "Token Login: $it")
                                 analyticsTracker.setUserId(firebaseAuth.currentUser?.uid)
-                                fcmHandler.enableFCM()
-                                navigate(LoginFragmentDirections.goToMainActivity(), true)
-                                isLoadingData.value = false
+                                fcmHandler.enableFCM {
+                                    navigate(LoginFragmentDirections.goToMainActivity(), true)
+                                    isLoadingData.value = false
+                                }
                             }
                         } else {
                             resendVerificationEmail()

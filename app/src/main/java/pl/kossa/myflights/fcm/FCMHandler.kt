@@ -4,14 +4,20 @@ import com.google.firebase.messaging.FirebaseMessaging
 
 class FCMHandler {
 
-    fun enableFCM() {
+    fun enableFCM(onSuccess: () -> Unit) {
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
+        FirebaseMessaging.getInstance().subscribeToTopic("all").addOnSuccessListener {
+            onSuccess.invoke()
+        }
+        //TODO handle error
     }
 
     fun disableFCM(onSuccess: () -> Unit) {
         FirebaseMessaging.getInstance().isAutoInitEnabled = false
         FirebaseMessaging.getInstance().deleteToken().addOnSuccessListener {
-            onSuccess.invoke()
+            FirebaseMessaging.getInstance().unsubscribeFromTopic("all").addOnSuccessListener {
+                onSuccess.invoke()
+            }
         }
     }
 }

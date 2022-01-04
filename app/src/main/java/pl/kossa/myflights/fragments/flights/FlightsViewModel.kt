@@ -19,10 +19,6 @@ class FlightsViewModel @Inject constructor(
 
     val flightsList = MutableStateFlow<List<Flight>>(emptyList())
 
-    init {
-        fetchFlights()
-    }
-
     fun fetchFlights() {
         makeRequest {
             val response = flightsService.getAllFlights()
