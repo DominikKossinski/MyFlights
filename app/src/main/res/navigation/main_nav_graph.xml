@@ -392,7 +392,20 @@
         android:id="@+id/comingSoonBottomSheet"
         android:name="pl.kossa.myflights.dialogs.coming.ComingSoonBottomSheet"
         android:label="ComingSoonBottomSheet"
-        tools:layout="@layout/dialog_coming_soon" />
+        tools:layout="@layout/dialog_coming_soon">
+
+
+        <deepLink
+            app:action="android.intent.action.VIEW"
+            app:mimeType="type/subtype"
+            app:uri="app://myflights.kossa.pl/?text={text}" />
+
+        <argument
+            android:name="text"
+            android:defaultValue="null"
+            app:argType="string"
+            app:nullable="true" />
+    </dialog>
 
 
     <dialog
