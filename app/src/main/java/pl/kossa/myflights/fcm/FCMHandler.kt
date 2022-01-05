@@ -6,9 +6,8 @@ class FCMHandler {
 
     fun enableFCM(onSuccess: () -> Unit) {
         FirebaseMessaging.getInstance().isAutoInitEnabled = true
-        FirebaseMessaging.getInstance().subscribeToTopic("all").addOnSuccessListener {
-            onSuccess.invoke()
-        }
+        FirebaseMessaging.getInstance().subscribeToTopic("all")
+        onSuccess.invoke()
         //TODO handle error
     }
 

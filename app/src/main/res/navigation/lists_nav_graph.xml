@@ -27,14 +27,7 @@
         android:id="@+id/profileFragment"
         android:name="pl.kossa.myflights.fragments.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile">
-
-        <deepLink
-            app:action="android.intent.action.VIEW"
-            app:mimeType="type/subtype"
-            app:uri="app://myflights.kossa.pl/" />
-
-    </fragment>
+        tools:layout="@layout/fragment_profile"/>
 
 
     <action
