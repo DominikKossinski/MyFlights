@@ -32,6 +32,7 @@ The application is connected to Analytics and Crashlytics.
 - MVVM architecture.
 - Swipe Delete in fragments displaying lists of airplanes, airports and flights.
 - Firebase authentication.
+- FCM with DeepLinks
 
 ## Used dependencies
 
