@@ -1,7 +1,6 @@
 package pl.kossa.myflights.hilt
 
 import android.content.Context
-import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -89,6 +88,11 @@ object AppModule {
     @Provides
     fun provideImagesService(retrofit: Retrofit): ImagesService {
         return retrofit.create(ImagesService::class.java)
+    }
+
+    @Provides
+    fun provideStatisticsService(retrofit: Retrofit): StatisticsService {
+        return retrofit.create(StatisticsService::class.java)
     }
 
     @Provides

@@ -31,10 +31,14 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun navigateToSettings() {
-        navigate           (MainFragmentDirections.goToSettings())
+        navigate(MainFragmentDirections.goToSettings())
     }
 
     fun showChangeAccountBottomSheet() {
-        navigate           (MainFragmentDirections.showChangeAvatarBottomSheet())
+        navigate(MainFragmentDirections.showChangeAvatarBottomSheet())
+    }
+
+    fun navigateToStatistics() {
+        navigate(MainFragmentDirections.goToStatistics())
     }
 }

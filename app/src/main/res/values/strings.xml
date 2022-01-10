@@ -143,6 +143,12 @@
     <!--DeleteAccount-->
     <string name="delete_account_question">Are you sure to delete account? The operation is irreversible and you will lose all your data.</string>
 
+    <!--Statistics-->
+    <string name="flight_hours">Flight hours</string>
+    <string name="favourite_airplane">Favourite airplane</string>
+    <string name="favourite_departure_airport">Favourite departure airport</string>
+    <string name="favourite_arrival_airport">Favourite arrival airport</string>
+
     <!--Common-->
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
@@ -188,5 +194,7 @@
     <string name="airport_name">Airport name</string>
     <string name="add_airplane">Add Airplane</string>
     <string name="firebase_messaging_channel_id">FIREABASE_MESSAGING_CHANNEL</string>
+
+    <string name="double_places_float_format" translatable="false">%.02f</string>
 
 </resources>

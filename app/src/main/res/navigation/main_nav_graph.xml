@@ -41,9 +41,12 @@
             app:destination="@id/settingsFragment" />
 
         <action
+            android:id="@+id/goToStatistics"
+            app:destination="@id/statisticsFragment" />
+
+        <action
             android:id="@+id/showChangeAvatarBottomSheet"
             app:destination="@id/changeAvatarBottomSheet" />
-
     </fragment>
 
     <fragment
@@ -385,8 +388,14 @@
     <fragment
         android:id="@+id/emailVerifyFragment"
         android:name="pl.kossa.myflights.fragments.profile.settings.email.verify.EmailVerifyFragment"
-        android:label="EmailVerifyFragmenr"
+        android:label="EmailVerifyFragment"
         tools:layout="@layout/fragment_email_verify" />
+
+    <fragment
+        android:id="@+id/statisticsFragment"
+        android:name="pl.kossa.myflights.fragments.profile.statistics.StatisticsFragment"
+        android:label="StatisticsFragment"
+        tools:layout="@layout/fragment_statistics" />
 
     <dialog
         android:id="@+id/comingSoonBottomSheet"
