@@ -27,8 +27,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
             viewModel.fetchUser()
         }
         binding.statsButton.setOnClickListener {
-            //TODO statistics display
-            viewModel.showComingSoonDialog()
+            viewModel.navigateToStatistics()
         }
         binding.settingsButton.setOnClickListener {
             viewModel.navigateToSettings()
