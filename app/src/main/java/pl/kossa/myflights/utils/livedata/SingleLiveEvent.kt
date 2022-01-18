@@ -1,4 +1,4 @@
-package pl.kossa.myflights.livedata
+package pl.kossa.myflights.utils.livedata
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

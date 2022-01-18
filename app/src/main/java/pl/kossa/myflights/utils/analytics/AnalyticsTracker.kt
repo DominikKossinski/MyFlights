@@ -1,4 +1,4 @@
-package pl.kossa.myflights.analytics
+package pl.kossa.myflights.utils.analytics
 
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
