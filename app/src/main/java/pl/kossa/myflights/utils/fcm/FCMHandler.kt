@@ -1,4 +1,4 @@
-package pl.kossa.myflights.fcm
+package pl.kossa.myflights.utils.fcm
 
 import com.google.firebase.messaging.FirebaseMessaging
 

@@ -12,14 +12,14 @@ import kotlinx.coroutines.launch
 import okhttp3.internal.http2.ConnectionShutdownException
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
-import pl.kossa.myflights.analytics.AnalyticsTracker
+import pl.kossa.myflights.utils.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
 import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.services.UserService
-import pl.kossa.myflights.fcm.FCMHandler
+import pl.kossa.myflights.utils.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.io.IOException
 import java.net.SocketTimeoutException
