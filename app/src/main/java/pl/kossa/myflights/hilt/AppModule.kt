@@ -1,6 +1,7 @@
 package pl.kossa.myflights.hilt
 
 import android.content.Context
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -37,7 +38,7 @@ object AppModule {
             val newRequest = chain.request().newBuilder()
                 .addHeader("Authorization", "Bearer ${preferencesHelper.token}")
                 .build()
-//            Log.d("MyLog", "Token: ${preferencesHelper.token}")
+            Log.d("MyLog", "Token: ${preferencesHelper.token}")
 //            Log.d("MyLog", "$newRequest")
             chain.proceed(newRequest)
         }.build()
