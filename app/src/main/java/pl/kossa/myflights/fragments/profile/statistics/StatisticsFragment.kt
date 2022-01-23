@@ -1,8 +1,15 @@
 package pl.kossa.myflights.fragments.profile.statistics
 
+import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import pl.kossa.myflights.R
@@ -10,7 +17,9 @@ import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.StatisticsResponse
 import pl.kossa.myflights.architecture.BaseFragment
 import pl.kossa.myflights.databinding.FragmentStatisticsBinding
-import kotlin.math.roundToInt
+import pl.kossa.myflights.exstensions.setupStatsChart
+import pl.kossa.myflights.utils.charts.IntValueFormatter
+import pl.kossa.myflights.utils.charts.StringLabelsFormatter
 
 @AndroidEntryPoint
 class StatisticsFragment : BaseFragment<StatisticsViewModel, FragmentStatisticsBinding>() {
@@ -42,20 +51,47 @@ class StatisticsFragment : BaseFragment<StatisticsViewModel, FragmentStatisticsB
     }
 
     private fun setupStatisticsData(statistics: StatisticsResponse) {
-        binding.flightHoursEtw.valueText = getString(R.string.double_places_float_format, statistics.flightHours)
+        binding.flightHoursEtw.valueText =
+            getString(R.string.double_places_float_format, statistics.flightHours)
 
         binding.favouriteAirplaneEtw.isVisible = statistics.favouriteAirplane != null
         binding.favouriteAirplaneEtw.valueText = statistics.favouriteAirplane?.name ?: ""
+
+
+        val textColor =
+            ContextCompat.getColor(requireContext(), R.color.black_day_night)
+
+
+        val airplanesEntries = statistics.top5Airplanes.mapIndexed { index, element ->
+            Log.d("MyLog", "Index: $index")
+            BarEntry(index.toFloat(), element.occurrences.toFloat())
+        }
+        val airplanesNames = statistics.top5Airplanes.map { it.item.name }
+        binding.topAirplanesBc.setupStatsChart(airplanesEntries, airplanesNames, textColor)
+
 
         binding.favouriteDepartureAirportEtw.isVisible =
             statistics.favouriteDepartureAirport != null
         binding.favouriteDepartureAirportEtw.valueText =
             statistics.favouriteDepartureAirport?.icaoCode ?: ""
+        val departuresEntries = statistics.top5DepartureAirports.mapIndexed { index, element ->
+            Log.d("MyLog", "Index: $index")
+            BarEntry(index.toFloat(), element.occurrences.toFloat())
+        }
+        val departuresNames = statistics.top5DepartureAirports.map { it.item.icaoCode }
+        binding.topDeparturesBc.setupStatsChart(departuresEntries, departuresNames, textColor)
 
 
         binding.favouriteArrivalAirportEtw.isVisible = statistics.favouriteArrivalAirport != null
         binding.favouriteArrivalAirportEtw.valueText =
             statistics.favouriteArrivalAirport?.icaoCode ?: ""
+        val arrivalsEntries = statistics.top5ArrivalAirports.mapIndexed { index, element ->
+            Log.d("MyLog", "Index: $index")
+            BarEntry(index.toFloat(), element.occurrences.toFloat())
+        }
+        val arrivalsNames = statistics.top5ArrivalAirports.map { it.item.icaoCode }
+        binding.topArrivalsBc.setupStatsChart(arrivalsEntries, arrivalsNames, textColor)
+
     }
 
     override fun handleApiError(apiError: ApiError) {
