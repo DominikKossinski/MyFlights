@@ -58,16 +58,11 @@ class StatisticsFragment : BaseFragment<StatisticsViewModel, FragmentStatisticsB
         binding.favouriteAirplaneEtw.valueText = statistics.favouriteAirplane?.name ?: ""
 
 
-        val textColor =
-            ContextCompat.getColor(requireContext(), R.color.black_day_night)
-
-
         val airplanesEntries = statistics.top5Airplanes.mapIndexed { index, element ->
-            Log.d("MyLog", "Index: $index")
             BarEntry(index.toFloat(), element.occurrences.toFloat())
         }
         val airplanesNames = statistics.top5Airplanes.map { it.item.name }
-        binding.topAirplanesBc.setupStatsChart(airplanesEntries, airplanesNames, textColor)
+        binding.topAirplanesBc.setupStatsChart(airplanesEntries, airplanesNames)
 
 
         binding.favouriteDepartureAirportEtw.isVisible =
@@ -75,22 +70,20 @@ class StatisticsFragment : BaseFragment<StatisticsViewModel, FragmentStatisticsB
         binding.favouriteDepartureAirportEtw.valueText =
             statistics.favouriteDepartureAirport?.icaoCode ?: ""
         val departuresEntries = statistics.top5DepartureAirports.mapIndexed { index, element ->
-            Log.d("MyLog", "Index: $index")
             BarEntry(index.toFloat(), element.occurrences.toFloat())
         }
         val departuresNames = statistics.top5DepartureAirports.map { it.item.icaoCode }
-        binding.topDeparturesBc.setupStatsChart(departuresEntries, departuresNames, textColor)
+        binding.topDeparturesBc.setupStatsChart(departuresEntries, departuresNames)
 
 
         binding.favouriteArrivalAirportEtw.isVisible = statistics.favouriteArrivalAirport != null
         binding.favouriteArrivalAirportEtw.valueText =
             statistics.favouriteArrivalAirport?.icaoCode ?: ""
         val arrivalsEntries = statistics.top5ArrivalAirports.mapIndexed { index, element ->
-            Log.d("MyLog", "Index: $index")
             BarEntry(index.toFloat(), element.occurrences.toFloat())
         }
         val arrivalsNames = statistics.top5ArrivalAirports.map { it.item.icaoCode }
-        binding.topArrivalsBc.setupStatsChart(arrivalsEntries, arrivalsNames, textColor)
+        binding.topArrivalsBc.setupStatsChart(arrivalsEntries, arrivalsNames)
 
     }
 
