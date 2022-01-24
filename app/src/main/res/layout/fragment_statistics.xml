@@ -51,24 +51,60 @@
                     app:tagText="@string/favourite_airplane"
                     tools:valueText="A380" />
 
+                <pl.kossa.myflights.views.ChartWithLabelView
+                    android:id="@+id/topAirplanesBc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/favouriteAirplaneEtw"
+                    app:tagText="@string/top_airplanes"
+                    tools:visibility="visible" />
+
                 <pl.kossa.myflights.views.ElementWithTagView
                     android:id="@+id/favouriteDepartureAirportEtw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/favouriteAirplaneEtw"
+                    app:layout_constraintTop_toBottomOf="@id/topAirplanesBc"
                     app:tagText="@string/favourite_departure_airport"
                     tools:valueText="EPWA" />
+
+                <pl.kossa.myflights.views.ChartWithLabelView
+                    android:id="@+id/topDeparturesBc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/favouriteDepartureAirportEtw"
+                    app:tagText="@string/top_departures"
+                    tools:visibility="visible" />
+
 
                 <pl.kossa.myflights.views.ElementWithTagView
                     android:id="@+id/favouriteArrivalAirportEtw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="16dp"
-                    app:layout_constraintTop_toBottomOf="@id/favouriteDepartureAirportEtw"
+                    app:layout_constraintTop_toBottomOf="@id/topDeparturesBc"
                     app:tagText="@string/favourite_arrival_airport"
                     tools:valueText="EPKT" />
 
+                <pl.kossa.myflights.views.ChartWithLabelView
+                    android:id="@+id/topArrivalsBc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/favouriteArrivalAirportEtw"
+                    app:tagText="@string/top_arrivals"
+                    tools:visibility="visible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

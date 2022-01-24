@@ -147,5 +147,8 @@ dependencies {
     //Permissions
     implementation 'com.github.florent37.RuntimePermission:runtime-permission-kotlin:v1.1.2'
 
+    //Charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 
 }
