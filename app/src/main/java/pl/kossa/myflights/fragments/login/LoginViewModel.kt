@@ -57,11 +57,12 @@ class LoginViewModel @Inject constructor(
             else -> {
                 firebaseAuth.signInWithEmailAndPassword(_email.value, _password.value)
                     .addOnSuccessListener {
-                        if (firebaseAuth.currentUser != null && firebaseAuth.currentUser?.isEmailVerified ?: false) {
+                        if (firebaseAuth.currentUser != null && firebaseAuth.currentUser?.isEmailVerified == true) {
                             refreshToken {
                                 Log.d("MyLog", "Token Login: $it")
                                 analyticsTracker.setUserId(firebaseAuth.currentUser?.uid)
                                 fcmHandler.enableFCM {
+                                    fcmHandler.refreshFCMToken()
                                     navigate(LoginFragmentDirections.goToMainActivity(), true)
                                     isLoadingData.value = false
                                 }

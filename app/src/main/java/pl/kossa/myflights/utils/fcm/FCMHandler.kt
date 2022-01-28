@@ -19,4 +19,10 @@ class FCMHandler {
             }
         }
     }
+
+    fun refreshFCMToken() {
+        FirebaseMessaging.getInstance().deleteToken().addOnSuccessListener {
+            FirebaseMessaging.getInstance().token
+        }
+    }
 }
