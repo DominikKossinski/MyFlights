@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.collectLatest
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
-import pl.kossa.myflights.architecture.BaseFragment
+import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.databinding.FragmentSettingsBinding
 
 @AndroidEntryPoint
@@ -63,8 +63,4 @@ class SettingsFragment : BaseFragment<SettingsViewModel, FragmentSettingsBinding
         viewModel.navigateBack()
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.fetchUser()
-    }
 }

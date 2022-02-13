@@ -1,28 +1,27 @@
-package pl.kossa.myflights.architecture
+package pl.kossa.myflights.architecture.dialogs
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
-import kotlinx.coroutines.flow.collect
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
 import pl.kossa.myflights.activities.main.MainActivity
 import pl.kossa.myflights.api.responses.ApiError
+import pl.kossa.myflights.architecture.BaseViewModel
 import java.lang.reflect.ParameterizedType
 
-abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment() {
+abstract class BaseBottomSheet<VM : BaseViewModel, VB : ViewBinding> : BottomSheetDialogFragment() {
 
     protected lateinit var binding: VB
 
     protected abstract val viewModel: VM
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,7 +43,10 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         collectFlow()
+        setOnClickListeners()
     }
+
+    protected open fun setOnClickListeners() {}
 
     protected open fun collectFlow() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -62,12 +64,12 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
                 (activity as? MainActivity)?.finish()
             }
         }
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.apiErrorFlow.collect {
                 it?.let { handleApiError(it) }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.backFlow.collect {
                 when (findNavController().graph.id) {
                     R.id.main_nav_graph -> {
@@ -91,6 +93,7 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
                         ).popBackStack()
                     }
                 }
+
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {

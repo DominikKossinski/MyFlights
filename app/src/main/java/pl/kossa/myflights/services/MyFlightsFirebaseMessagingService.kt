@@ -11,7 +11,6 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavDeepLink
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +45,11 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         preferencesHelper.fcmToken = token
         MainScope().launch {
-            userService.putFcmToken(FcmRequest(token))
+            try {
+                userService.putFcmToken(FcmRequest(token))
+            } catch (e: Exception) {
+
+            }
         }
     }
 
@@ -54,7 +57,7 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
         val channelId = getString(R.string.firebase_messaging_channel_id)
         val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
         val pendingIntent = deepLink?.let { link ->
-            PendingIntent.getActivity(this,0, Intent().apply {
+            PendingIntent.getActivity(this, 0, Intent().apply {
                 action = Intent.ACTION_VIEW
                 data = Uri.parse(link)
             }, PendingIntent.FLAG_ONE_SHOT)

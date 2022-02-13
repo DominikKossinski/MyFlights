@@ -3,6 +3,7 @@ package pl.kossa.myflights.api.call
 import android.util.Log
 import okhttp3.Request
 import okhttp3.ResponseBody
+import okio.Timeout
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
 import pl.kossa.myflights.api.responses.ApiError
@@ -13,7 +14,6 @@ import retrofit2.Callback
 import retrofit2.Converter
 import retrofit2.Response
 import java.io.IOException
-import java.lang.UnsupportedOperationException
 
 class ApiCall<S : Any>(
     private val delegate: Call<S>,
@@ -23,7 +23,7 @@ class ApiCall<S : Any>(
     override fun enqueue(callback: Callback<ApiResponse<S>>) {
         return delegate.enqueue(object : Callback<S> {
             override fun onResponse(call: Call<S>, response: Response<S>) {
-                Log.d("MyLog", "OnResponse $response")
+                Log.d("MyLog", "OnResponse ${call.request().method} $response")
                 if (response.isSuccessful) {
                     callback.onResponse(
                         this@ApiCall,
@@ -34,7 +34,8 @@ class ApiCall<S : Any>(
                         callback.onFailure(this@ApiCall, UnauthorizedException())
                     } else {
                         val apiError = try {
-                            val apiErrorBody = response.errorBody()?.let { errorConverter.convert(it) }
+                            val apiErrorBody =
+                                response.errorBody()?.let { errorConverter.convert(it) }
                             ApiError(response.code(), apiErrorBody)
                         } catch (e: IOException) {
                             ApiError(HttpCode.INTERNAL_SERVER_ERROR.code, null)
@@ -59,6 +60,8 @@ class ApiCall<S : Any>(
     override fun isCanceled() = delegate.isCanceled
 
     override fun cancel() = delegate.cancel()
+
+    override fun timeout(): Timeout = Timeout()
 
     override fun execute(): Response<ApiResponse<S>> {
         throw UnsupportedOperationException("Api does not support execute")

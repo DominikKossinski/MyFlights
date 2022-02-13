@@ -7,7 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.responses.ApiError
-import pl.kossa.myflights.architecture.BaseFragment
+import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.databinding.FragmentFillProfileBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged
 

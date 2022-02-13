@@ -21,11 +21,16 @@ class SettingsViewModel @Inject constructor(
         it != null && it.providerType == ProviderType.PASSWORD
     }
 
+    init {
+        fetchUser()
+    }
 
-    fun fetchUser() {
+    private fun fetchUser() {
         makeRequest {
-            val response = userService.getUser()
-            _user.value = response.body
+            if (currentUser != null) {
+                val response = userService.getUser()
+                _user.value = response.body
+            }
         }
     }
 

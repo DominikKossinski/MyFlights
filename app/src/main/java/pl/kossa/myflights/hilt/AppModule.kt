@@ -10,6 +10,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.Protocol
+import okhttp3.ResponseBody
 import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.utils.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
@@ -17,6 +19,7 @@ import pl.kossa.myflights.api.services.*
 import pl.kossa.myflights.utils.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -35,10 +38,11 @@ object AppModule {
         preferencesHelper: PreferencesHelper
     ): OkHttpClient {
         return OkHttpClient.Builder().addInterceptor { chain ->
+            val token = preferencesHelper.token
             val newRequest = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer ${preferencesHelper.token}")
+                .addHeader("Authorization", "Bearer ${token}")
                 .build()
-            Log.d("MyLog", "Token: ${preferencesHelper.token}")
+            Log.d("MyLog", "Token: ${token}")
 //            Log.d("MyLog", "$newRequest")
             chain.proceed(newRequest)
         }.build()

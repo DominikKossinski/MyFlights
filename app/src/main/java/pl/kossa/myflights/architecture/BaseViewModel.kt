@@ -6,21 +6,22 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import okhttp3.internal.http2.ConnectionShutdownException
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
-import pl.kossa.myflights.utils.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
 import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.services.UserService
-import pl.kossa.myflights.utils.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
+import pl.kossa.myflights.utils.analytics.AnalyticsTracker
+import pl.kossa.myflights.utils.fcm.FCMHandler
 import java.io.IOException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -54,12 +55,11 @@ abstract class BaseViewModel(
 
 
     fun makeRequest(block: suspend () -> Unit) {
-        viewModelScope.launch {
+        firebaseAuth.currentUser ?: return
+        viewModelScope.launch(Dispatchers.IO) {
             isLoadingData.value = true
             try {
                 block.invoke()
-            } catch (e: ApiServerException) {
-                apiErrorFlow.emit(e.apiError)
             } catch (e: UnauthorizedException) {
                 if (tokenRefreshed) {
                     firebaseAuth.signOut()
@@ -72,6 +72,8 @@ abstract class BaseViewModel(
                 }
             } catch (e: NoInternetException) {
                 setToastMessage(R.string.error_no_internet)
+            } catch (e: ApiServerException) {
+                apiErrorFlow.emit(e.apiError)
             } catch (e: Exception) {
                 when (e) {
                     is SocketTimeoutException, is UnknownHostException, is ConnectionShutdownException, is IOException -> {
@@ -101,11 +103,7 @@ abstract class BaseViewModel(
                 else -> {
                     Log.d("MyLog", "Token error: $it")
                     setToastMessage(R.string.unexpected_error)
-                    firebaseAuth.signOut()
-                    preferencesHelper.token = null
-                    viewModelScope.launch {
-                        signOutFlow.emit(Unit)
-                    }
+                    signOut()
                 }
             }
             isLoadingData.value = false
@@ -140,6 +138,8 @@ abstract class BaseViewModel(
         fcmHandler.disableFCM {
             makeRequest {
                 fcmUserService.putFcmToken(FcmRequest(null))
+            }
+            viewModelScope.launch {
                 preferencesHelper.token = null
                 preferencesHelper.fcmToken = null
                 signOutFlow.emit(Unit)
