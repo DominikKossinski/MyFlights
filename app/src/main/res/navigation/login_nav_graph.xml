@@ -54,6 +54,10 @@
         <action
             android:id="@+id/goToEmailResend"
             app:destination="@id/emailResendFragment" />
+
+        <action
+            android:id="@+id/goToFillProfile"
+            app:destination="@id/fillProfileFragment" />
     </fragment>
 
     <fragment
@@ -78,6 +82,17 @@
             app:destination="@id/loginFragment" />
     </fragment>
 
+
+    <fragment
+        android:id="@+id/fillProfileFragment"
+        android:name="pl.kossa.myflights.fragments.fill_profile.FillProfileFragment"
+        android:label="FillProfileFragment"
+        tools:layout="@layout/fragment_fill_profile">
+
+        <action
+            android:id="@+id/goToMainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
 
     <activity
         android:id="@+id/mainActivity"

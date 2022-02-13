@@ -1,7 +1,6 @@
 package pl.kossa.myflights.dialogs.avatar
 
 import android.net.Uri
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.api.models.User
@@ -33,12 +32,13 @@ class ChangeAvatarViewModel @Inject constructor(
     fun deleteAvatar() {
         makeRequest {
             val nick = user.value?.nick ?: ""
-            userService.putUser(UserRequest(nick, null))
+            val regulationsAccepted = user.value?.regulationsAccepted ?: false
+            userService.putUser(UserRequest(nick, null, regulationsAccepted))
             navigateBack()
         }
     }
 
     fun navigateToAcceptAvatar(uri: Uri) {
-        navigate           (ChangeAvatarBottomSheetDirections.goToAcceptAvatar(uri.toString()))
+        navigate(ChangeAvatarBottomSheetDirections.goToAcceptAvatar(uri.toString()))
     }
 }

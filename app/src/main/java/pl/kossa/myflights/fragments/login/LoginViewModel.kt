@@ -3,18 +3,21 @@ package pl.kossa.myflights.fragments.login
 import android.util.Log
 import android.util.Patterns
 import com.google.firebase.FirebaseNetworkException
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
+    private val userService: UserService,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -118,5 +121,29 @@ class LoginViewModel @Inject constructor(
 
     private fun navigateToResendEmail() {
         navigate(LoginFragmentDirections.goToEmailResend())
+    }
+
+    fun signInWithCredential(credential: AuthCredential) {
+        firebaseAuth.signInWithCredential(credential)
+            .addOnSuccessListener {
+                val isNew = it.additionalUserInfo?.isNewUser == true
+                refreshToken {
+                    makeRequest {
+                        val response = userService.getUser()
+                        val user = response.body!!
+                        Log.d("MyLog", "New User: $user")
+                        if (!user.regulationsAccepted || isNew) {
+                            navigate(LoginFragmentDirections.goToFillProfile())
+                        } else {
+                            navigate(LoginFragmentDirections.goToMainActivity(), true)
+                        }
+                    }
+                }
+            }
+            .addOnFailureListener {
+                setToastMessage(R.string.error_sign_in_with_google)
+                //TODO handle errors
+                throw it
+            }
     }
 }

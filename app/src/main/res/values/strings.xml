@@ -187,6 +187,7 @@
     <string name="error_forbidden">Forbidden.</string>
     <string name="error_no_internet">No internet.</string>
     <string name="error_no_connection_to_server">No connection to server.</string>
+    <string name="error_sign_in_with_google">Error by sign in with Google</string>
 
 
     <string name="airport_city">City</string>
