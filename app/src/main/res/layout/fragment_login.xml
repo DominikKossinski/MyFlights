@@ -107,7 +107,8 @@
                 android:text="@string/login"
                 app:layout_constraintTop_toBottomOf="@id/passwordTil" />
 
-            <com.google.android.gms.common.SignInButton
+
+            <pl.kossa.myflights.views.google.GoogleSignInButton
                 android:id="@+id/googleSignInButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

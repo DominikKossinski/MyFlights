@@ -168,6 +168,7 @@
     <string name="flight">Flight</string>
     <string name="nick">Nick</string>
     <string name="coming_soon">Coming soon...</string>
+    <string name="sign_in_with_google">Sign in with google</string>
 
     <!--Errors-->
     <string name="error_empty_name">Name can\'t be empty.</string>
