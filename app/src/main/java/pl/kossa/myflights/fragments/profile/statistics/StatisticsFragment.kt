@@ -1,25 +1,16 @@
 package pl.kossa.myflights.fragments.profile.statistics
 
-import android.util.Log
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.StatisticsResponse
-import pl.kossa.myflights.architecture.BaseFragment
+import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.databinding.FragmentStatisticsBinding
-import pl.kossa.myflights.exstensions.setupStatsChart
-import pl.kossa.myflights.utils.charts.IntValueFormatter
-import pl.kossa.myflights.utils.charts.StringLabelsFormatter
 
 @AndroidEntryPoint
 class StatisticsFragment : BaseFragment<StatisticsViewModel, FragmentStatisticsBinding>() {

@@ -11,10 +11,10 @@ class PreLoginViewModel @Inject constructor(
 ) : BaseViewModel(preferencesHelper) {
 
     fun navigateToLogin() {
-        navigate           (PreLoginFragmentDirections.goToLoginFragment())
+        navigate(PreLoginFragmentDirections.goToLoginFragment())
     }
 
     fun navigateToCrateAccount() {
-        navigate           (PreLoginFragmentDirections.goToCreateAccount())
+        navigate(PreLoginFragmentDirections.goToCreateAccount())
     }
 }

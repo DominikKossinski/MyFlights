@@ -2,14 +2,12 @@ package pl.kossa.myflights.fragments.profile.avatar
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -33,8 +31,7 @@ class AcceptAvatarViewModel @Inject constructor(
     val imageUri = Uri.parse(savedStateHandle.get<String>("imageUri")!!)!!
     val _user = MutableStateFlow<User?>(null)
     private val _filePath = MutableStateFlow<String?>(null)
-    val isSaveButtonEnabled = combine(_user, _filePath) {
-        user, filePath ->
+    val isSaveButtonEnabled = combine(_user, _filePath) { user, filePath ->
         return@combine user != null && filePath != null
     }
 
@@ -52,15 +49,27 @@ class AcceptAvatarViewModel @Inject constructor(
     fun saveAvatar(context: Context) {
         viewModelScope.launch {
             val imageId = _user.value?.avatar?.imageId
+            val nick = _user.value?.nick ?: ""
+            val regulationsAccepted = _user.value?.regulationsAccepted ?: false
             _filePath.value?.let {
                 val file = File(it)
                 val type = context.contentResolver.getType(imageUri)!!
-                val part = MultipartBody.Part.createFormData("image", file.name,RequestBody.create(type.toMediaTypeOrNull()!!, file))
-                if(imageId != null) {
+                val part = MultipartBody.Part.createFormData(
+                    "image",
+                    file.name,
+                    RequestBody.create(type.toMediaTypeOrNull()!!, file)
+                )
+                if (imageId != null) {
                     imagesService.putImage(imageId, part)
                 } else {
                     val response = imagesService.postImage(part)
-                    userService.putUser(UserRequest("Nick", response.body!!.entityId))
+                    userService.putUser(
+                        UserRequest(
+                            nick,
+                            response.body!!.entityId,
+                            regulationsAccepted
+                        )
+                    )
                 }
                 navigateBack()
             }

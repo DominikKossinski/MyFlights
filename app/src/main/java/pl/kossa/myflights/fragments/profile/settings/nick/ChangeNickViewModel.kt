@@ -39,7 +39,8 @@ class ChangeNickViewModel @Inject constructor(
             userService.putUser(
                 UserRequest(
                     _nick.value,
-                    _user.value?.avatar?.imageId
+                    _user.value?.avatar?.imageId,
+                    _user.value?.regulationsAccepted ?: false
                 )
             )
             setToastMessage(R.string.nick_changed)

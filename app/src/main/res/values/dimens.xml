@@ -8,4 +8,5 @@
     <dimen name="button_corners_radius">10dp</dimen>
     <dimen name="recycler_view_icon_size">50dp</dimen>
     <dimen name="logo_icon_size">100dp</dimen>
+    <dimen name="padding">8dp</dimen>
 </resources>

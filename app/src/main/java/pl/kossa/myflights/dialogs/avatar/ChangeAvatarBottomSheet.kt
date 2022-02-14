@@ -10,9 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.github.florent37.runtimepermission.kotlin.askPermission
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import pl.kossa.myflights.architecture.BaseBottomSheet
+import pl.kossa.myflights.architecture.dialogs.BaseBottomSheet
 import pl.kossa.myflights.databinding.DialogChangeAvatarBinding
 
 @AndroidEntryPoint

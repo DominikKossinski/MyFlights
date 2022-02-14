@@ -8,5 +8,14 @@ data class User(
 
     val email: String?,
 
-    val avatar: Image?
+    val avatar: Image?,
+
+    val regulationsAccepted: Boolean,
+
+    val providerType: ProviderType
 )
+
+enum class ProviderType{
+    PASSWORD,
+    GOOGLE
+}

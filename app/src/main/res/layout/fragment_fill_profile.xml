@@ -7,7 +7,8 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -28,10 +29,11 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/ic_flight_rounded"
-                app:layout_constraintBottom_toTopOf="@id/emailTil"
+                app:layout_constraintBottom_toTopOf="@id/appNameMyTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
                 android:id="@+id/appNameMyTextView"
@@ -41,7 +43,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="@string/app_name_my"
                 android:textSize="@dimen/app_name_text_size"
-                app:layout_constraintBottom_toTopOf="@id/emailTil"
+                app:layout_constraintBottom_toTopOf="@id/nickTil"
                 app:layout_constraintEnd_toStartOf="@id/appNameFlightsTextView"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,67 +65,25 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailTil"
+                android:id="@+id/nickTil"
                 style="@style/OutlinedTil"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:hint="@string/email"
-                app:layout_constraintBottom_toTopOf="@id/passwordTil"
+                android:hint="@string/nick"
+                app:layout_constraintBottom_toTopOf="@id/regulationsCheckBox"
                 app:layout_constraintTop_toBottomOf="@id/appNameMyTextView">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/emailTie"
-                    style="@style/OutlinedTie"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:inputType="text" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passwordTil"
-                style="@style/OutlinedTil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="@string/password"
-                app:layout_constraintTop_toBottomOf="@id/emailTil"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordTie"
-                    style="@style/OutlinedTie"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPassword"
-                    android:nextFocusDown="@id/confirmPasswordTie" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/confirmPasswordTil"
-                style="@style/OutlinedTil"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:hint="@string/confirm_password"
-                app:layout_constraintTop_toBottomOf="@id/passwordTil"
-                app:passwordToggleEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/confirmPasswordTie"
+                    android:id="@+id/nickTie"
                     style="@style/OutlinedTie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:imeOptions="actionDone"
-                    android:inputType="textPassword" />
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <CheckBox
                 android:id="@+id/regulationsCheckBox"
@@ -132,8 +92,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/accept"
+                app:layout_constraintBottom_toBottomOf="@id/createAccountButton"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/confirmPasswordTil" />
+                app:layout_constraintTop_toBottomOf="@id/nickTil" />
 
             <TextView
                 android:id="@+id/regulationsTv"
@@ -155,21 +116,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/create_account"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/regulationsCheckBox" />
 
-
-            <TextView
-                android:id="@+id/backTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:padding="8dp"
-                android:text="@string/back"
-                android:textColor="@color/black_day_night"
-                android:textSize="@dimen/big_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/createAccountButton" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
