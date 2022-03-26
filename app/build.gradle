@@ -61,19 +61,19 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
     androidTestImplementation "androidx.fragment:fragment-testing:1.4.1"
 
 
     // Kotlin
-    implementation "androidx.navigation:navigation-fragment-ktx:2.4.0"
-    implementation "androidx.navigation:navigation-ui-ktx:2.4.0"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
 
     // Feature module Support
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.4.0"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.4.1"
 
     // Testing Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:2.4.0"
+    androidTestImplementation "androidx.navigation:navigation-testing:2.4.1"
 
     //Material Components
     implementation 'com.google.android.material:material:1.5.0'
@@ -84,16 +84,19 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
 
     //Firebase
-    implementation platform('com.google.firebase:firebase-bom:29.0.1')
+    implementation platform('com.google.firebase:firebase-bom:29.3.0')
 
     //FirebaseCore
     implementation 'com.google.firebase:firebase-core'
+
+    //In app messaging
+    implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
 
     //Analytics
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     //Auth
-    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-auth:21.0.3'
 
     //Crashlytics
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
@@ -108,7 +111,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-dynamic-links-ktx'
 
     //GSM
-    implementation 'com.google.android.gms:play-services-basement:18.0.0'
+    implementation 'com.google.android.gms:play-services-basement:18.0.1'
 
 
     //Coroutines
