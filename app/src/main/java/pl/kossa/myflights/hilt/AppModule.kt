@@ -10,16 +10,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.Protocol
-import okhttp3.ResponseBody
 import pl.kossa.myflights.BuildConfig
-import pl.kossa.myflights.utils.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
-import pl.kossa.myflights.utils.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
-import retrofit2.Response
+import pl.kossa.myflights.utils.analytics.AnalyticsTracker
+import pl.kossa.myflights.utils.fcm.FCMHandler
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -98,6 +95,11 @@ object AppModule {
     @Provides
     fun provideStatisticsService(retrofit: Retrofit): StatisticsService {
         return retrofit.create(StatisticsService::class.java)
+    }
+
+    @Provides
+    fun provideSharedFlightsService(retrofit: Retrofit): SharedFlightsService {
+        return retrofit.create(SharedFlightsService::class.java)
     }
 
     @Provides

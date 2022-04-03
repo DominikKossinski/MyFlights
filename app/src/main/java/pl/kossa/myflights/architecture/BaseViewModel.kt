@@ -136,9 +136,6 @@ abstract class BaseViewModel(
         firebaseAuth.signOut()
         analyticsTracker.setUserId(null)
         fcmHandler.disableFCM {
-            makeRequest {
-                fcmUserService.putFcmToken(FcmRequest(null))
-            }
             viewModelScope.launch {
                 preferencesHelper.token = null
                 preferencesHelper.fcmToken = null

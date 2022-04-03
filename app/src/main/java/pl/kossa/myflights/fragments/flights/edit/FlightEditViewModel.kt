@@ -73,7 +73,7 @@ class FlightEditViewModel @Inject constructor(
     fun fetchFlight() {
         makeRequest {
             val response = flightsService.getFLightById(flightId)
-            response.body?.let { flight.emit(it) }
+            response.body?.let { flight.emit(it.flight) } // TODO
         }
     }
 
