@@ -15,7 +15,7 @@ interface SharedFlightsService {
     suspend fun getPendingSharedFlights(): ApiResponse<List<SharedFlightResponse>>
 
     @GET("/api/shared-flights/{sharedFlightId}")
-    suspend fun getSharedFlight(@Path("sharedFlight") sharedFlightId: String): ApiResponse<SharedFlight>
+    suspend fun getSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<SharedFlightResponse>
 
     @POST("/api/shared-flights/share/{flightId}")
     suspend fun shareFlight(@Path("flightId") flightId: String): ApiResponse<CreatedResponse>
@@ -30,5 +30,5 @@ interface SharedFlightsService {
     suspend fun deleteSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<Void>
 
     @DELETE("/api/shared-flights/resign/{sharedFlightId}")
-    suspend fun resignFromSharedFlight(@Path("sharedFlight") sharedFlightId: String): ApiResponse<Void>
+    suspend fun resignFromSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<Void>
 }

@@ -16,17 +16,28 @@ class ShareAppBar(context: Context, attrs: AttributeSet) : ConstraintLayout(cont
     private var backOnClickListener: (() -> Unit)? = null
     private var deleteOnClickListener: (() -> Unit)? = null
     private var shareOnClickListener: (() -> Unit)? = null
+    private var resignOnClickListener: (() -> Unit)? = null
 
-    var isDeleteIconVisible = true
+    var isShareVisible = false
+        set(value) {
+            field = value
+            binding.shareIv.isVisible = value
+        }
+    var isDeleteIconVisible = false
         set(value) {
             field = value
             binding.deleteIv.isVisible = value
+        }
+    var isResignVisible = false
+        set(value) {
+            field = value
+            binding.resignIv.isVisible = value
         }
 
 
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.BackAppBar, 0, 0).apply {
-            isDeleteIconVisible = getBoolean(R.styleable.BackAppBar_deleteVisible, true)
+            isDeleteIconVisible = getBoolean(R.styleable.BackAppBar_deleteVisible, false)
         }
         binding.root.setBackgroundColor(
             ContextCompat.getColor(
@@ -43,6 +54,9 @@ class ShareAppBar(context: Context, attrs: AttributeSet) : ConstraintLayout(cont
         binding.shareIv.setOnClickListener {
             shareOnClickListener?.invoke()
         }
+        binding.resignIv.setOnClickListener {
+            resignOnClickListener?.invoke()
+        }
     }
 
     fun setBackOnClickListener(listener: (() -> Unit)?) {
@@ -55,5 +69,9 @@ class ShareAppBar(context: Context, attrs: AttributeSet) : ConstraintLayout(cont
 
     fun setShareOnClickListener(listener: (() -> Unit)?) {
         shareOnClickListener = listener
+    }
+
+    fun setResignOnClickListener(listener: (() -> Unit)?) {
+        resignOnClickListener = listener
     }
 }

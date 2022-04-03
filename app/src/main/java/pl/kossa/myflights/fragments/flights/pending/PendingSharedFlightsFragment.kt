@@ -19,9 +19,14 @@ class PendingSharedFlightsFragment :
     private val adapter = PendingSharedFlightsAdapter()
 
     override fun setOnClickListeners() {
-        // TODO
         binding.backAppbar.setBackOnClickListener {
             viewModel.navigateBack()
+        }
+        binding.sharedFlightsSwipeRefresh.setOnRefreshListener {
+            viewModel.fetchPendingSharedFlights()
+        }
+        adapter.setOnItemClickListener {
+            viewModel.navigateToPendingSharedFlightDetails(it.sharedFlightId)
         }
         setupRecyclerView()
     }

@@ -136,7 +136,24 @@
         android:id="@+id/pendingSharedFlightsFragment"
         android:name="pl.kossa.myflights.fragments.flights.pending.PendingSharedFlightsFragment"
         android:label="PendingSharedFlightsFragment"
-        tools:layout="@layout/fragment_pending_shared_flights" />
+        tools:layout="@layout/fragment_pending_shared_flights">
+
+        <action
+            android:id="@+id/goToPendingSharedFlightsDetails"
+            app:destination="@id/pendingSharedFlightsDetailsFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/pendingSharedFlightsDetailsFragment"
+        android:name="pl.kossa.myflights.fragments.flights.pending.details.PendingSharedFlightDetailsFragment"
+        android:label="PendingSharedFlightDetailsFragment"
+        tools:layout="@layout/fragment_pending_shared_flight_details">
+
+        <argument
+            android:name="sharedFlightId"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/airplaneSelectFragment"

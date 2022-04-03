@@ -4,8 +4,9 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Flight
+import pl.kossa.myflights.api.responses.flights.FlightResponse
 import pl.kossa.myflights.api.services.FlightsService
+import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
@@ -14,17 +15,18 @@ import javax.inject.Inject
 class FlightDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val flightsService: FlightsService,
+    private val sharedFlightsService: SharedFlightsService,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
     private val flightId = savedStateHandle.get<String>("flightId")!!
 
-    val flight = MutableStateFlow<Flight?>(null)
+    val flightResponse = MutableStateFlow<FlightResponse?>(null)
 
     fun fetchFlight() {
         makeRequest {
             val response = flightsService.getFLightById(flightId)
-            response.body?.let { flight.value = it.flight } // TODO
+            response.body?.let { flightResponse.value = it } // TODO
         }
     }
 
@@ -40,8 +42,24 @@ class FlightDetailsViewModel @Inject constructor(
         }
     }
 
+    fun resignFromSharedFlight() {
+        flightResponse.value?.let {
+            it.sharedUsers.find { sharedUsers ->
+                sharedUsers.userData?.userId == currentUser?.uid
+            }?.let { shareData ->
+                makeRequest {
+                    sharedFlightsService.resignFromSharedFlight(shareData.sharedFlightId)
+                    //TODO toast
+                    navigateBack()
+                }
+            }
+        }
+    }
+
     fun navigateToFlightShareDialog() {
         navigate(FlightDetailsFragmentDirections.goToShareFlightDialog(flightId))
     }
+
+    fun isMyFlight(userId: String): Boolean = userId == currentUser?.uid
 
 }

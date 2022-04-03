@@ -1,8 +1,7 @@
 package pl.kossa.myflights.utils
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.google.firebase.auth.FirebaseAuth
 
 class PreferencesHelper(applicationContext: Context) {
 
@@ -14,6 +13,9 @@ class PreferencesHelper(applicationContext: Context) {
 
     private val preferences =
         applicationContext.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
+
+    val userId
+        get() = FirebaseAuth.getInstance().currentUser?.uid
 
     var token: String? = null
         get() {

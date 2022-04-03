@@ -27,16 +27,32 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/resignIv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/ripple_transparent"
+        android:src="@drawable/ic_resign"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/shareIv"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/black_day_night"
+        tools:visibility="visible" />
+
+    <ImageView
         android:id="@+id/shareIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:background="@drawable/ripple_transparent"
         android:src="@drawable/ic_share"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/deleteIv"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black_day_night" />
+        app:tint="@color/black_day_night"
+        tools:visibility="visible" />
 
 
     <ImageView
@@ -46,10 +62,12 @@
         android:layout_margin="16dp"
         android:background="@drawable/ripple_transparent"
         android:src="@drawable/ic_delete"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black_day_night" />
+        app:tint="@color/black_day_night"
+        tools:visibility="visible" />
 
 
 </merge>

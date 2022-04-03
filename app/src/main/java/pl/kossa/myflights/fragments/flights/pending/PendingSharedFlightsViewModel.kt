@@ -26,4 +26,12 @@ class PendingSharedFlightsViewModel @Inject constructor(
             response.body?.let { pendingSharedFlights.value = it }
         }
     }
+
+    fun navigateToPendingSharedFlightDetails(sharedFlightId: String) {
+        navigate(
+            PendingSharedFlightsFragmentDirections.goToPendingSharedFlightsDetails(
+                sharedFlightId
+            )
+        )
+    }
 }

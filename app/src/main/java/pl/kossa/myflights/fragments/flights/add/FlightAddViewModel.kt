@@ -139,7 +139,7 @@ class FlightAddViewModel @Inject constructor(
     fun navigateToSharedFlightScanQrCodeDialog() {
         makeRequest {
             Log.d("MyLog", "Scan qr code")
-            sharedFlightsService.joinSharedFlight("273dfbbb-e35d-415b-9745-650353f42db9")
+            sharedFlightsService.joinSharedFlight("573a9163-f85b-4b63-950d-8b1fde84ff2e")
             // tODO navigation
         }
     }

@@ -45,7 +45,9 @@ class PendingSharedFlightsAdapter :
                 )
             )
         }
-
+        holder.itemView.setOnClickListener {
+            onClickListener?.invoke(sharedFlight)
+        }
 
     }
 
