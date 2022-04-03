@@ -21,11 +21,14 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
 
 
     override fun setOnClickListeners() {
-        binding.backAppbar.setBackOnClickListener {
+        binding.shareAppbar.setBackOnClickListener {
             viewModel.navigateBack()
         }
-        binding.backAppbar.setDeleteOnClickListener {
+        binding.shareAppbar.setDeleteOnClickListener {
             showDeleteDialog()
+        }
+        binding.shareAppbar.setShareOnClickListener {
+            viewModel.navigateToFlightShareDialog()
         }
         binding.editButton.setOnClickListener { 
             viewModel.navigateToFlightEdit()

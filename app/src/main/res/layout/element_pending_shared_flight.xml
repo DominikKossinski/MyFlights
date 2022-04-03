@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/flightIv"
+        android:layout_width="@dimen/recycler_view_icon_size"
+        android:layout_height="@dimen/recycler_view_icon_size"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_flight_rounded"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/nickTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="2dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/poppins_bold"
+        android:maxLines="1"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/big_text_size"
+        app:layout_constraintBottom_toTopOf="@id/emailTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/flightIv"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="Nick"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/emailTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="2dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/poppins_light"
+        android:maxLines="1"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/middle_text_size"
+        app:layout_constraintBottom_toTopOf="@id/routeTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/flightIv"
+        app:layout_constraintTop_toBottomOf="@id/nickTv"
+        android:visibility="gone"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="test@test.pl"
+        tools:visibility="visible"/>
+
+
+    <TextView
+        android:id="@+id/routeTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="2dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/poppins_semibold"
+        android:maxLines="1"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/big_text_size"
+        app:layout_constraintBottom_toTopOf="@id/dateTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/flightIv"
+        app:layout_constraintTop_toBottomOf="@id/emailTv"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:text="EPWA-EPKT" />
+
+
+    <TextView
+        android:id="@+id/dateTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/poppins_medium"
+        android:maxLines="1"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/middle_text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/flightIv"
+        app:layout_constraintTop_toBottomOf="@id/routeTv"
+        tools:text="03.04.2022" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

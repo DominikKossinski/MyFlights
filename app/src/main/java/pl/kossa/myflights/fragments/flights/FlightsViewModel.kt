@@ -42,5 +42,9 @@ class FlightsViewModel @Inject constructor(
         }
     }
 
+    fun navigateToPendingFlights() {
+        navigate(MainFragmentDirections.goToPendingSharedFlightsFragment())
+    }
+
 
 }

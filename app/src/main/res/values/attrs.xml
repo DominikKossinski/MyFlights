@@ -22,4 +22,10 @@
     <declare-styleable name="ChartWithLabelView">
         <attr name="tagText" />
     </declare-styleable>
+    <declare-styleable name="SaveAppBar">
+        <attr name="isScanQrCodeVisible" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="NotificationAppBar">
+        <attr name="notificationVisible" format="boolean" />
+    </declare-styleable>
 </resources>

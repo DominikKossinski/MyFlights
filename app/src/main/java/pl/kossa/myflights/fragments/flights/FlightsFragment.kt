@@ -64,6 +64,9 @@ class FlightsFragment : BaseFragment<FlightsViewModel, FragmentFlightsBinding>()
         binding.fab.setOnClickListener {
             viewModel.navigateToAddFlight()
         }
+        binding.notificationAppBar.setNotificationOnClickListener {
+            viewModel.navigateToPendingFlights()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

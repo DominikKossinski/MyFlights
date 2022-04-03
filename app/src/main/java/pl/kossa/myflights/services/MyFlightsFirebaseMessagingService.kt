@@ -46,6 +46,7 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
         preferencesHelper.fcmToken = token
         MainScope().launch {
             try {
+                Log.d("MyLog", "New FCM token: $token")
                 userService.putFcmToken(FcmRequest(token))
             } catch (e: Exception) {
 

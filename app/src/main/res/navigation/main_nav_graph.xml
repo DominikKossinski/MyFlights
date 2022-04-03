@@ -47,6 +47,10 @@
         <action
             android:id="@+id/showChangeAvatarBottomSheet"
             app:destination="@id/changeAvatarBottomSheet" />
+
+        <action
+            android:id="@+id/goToPendingSharedFlightsFragment"
+            app:destination="@id/pendingSharedFlightsFragment" />
     </fragment>
 
     <fragment
@@ -62,6 +66,10 @@
         <action
             android:id="@+id/goToFlightEdit"
             app:destination="@id/flightEditFragment" />
+
+        <action
+            android:id="@+id/goToShareFlightDialog"
+            app:destination="@id/shareFlightDialog" />
     </fragment>
 
     <fragment
@@ -113,6 +121,22 @@
 
     </fragment>
 
+    <dialog
+        android:id="@+id/shareFlightDialog"
+        android:name="pl.kossa.myflights.fragments.flights.share.ShareFlightBottomSheet"
+        android:label="ShareFlightBottomSheet"
+        tools:layout="@layout/dialog_share_flight">
+
+        <argument
+            android:name="flightId"
+            app:argType="string" />
+    </dialog>
+
+    <fragment
+        android:id="@+id/pendingSharedFlightsFragment"
+        android:name="pl.kossa.myflights.fragments.flights.pending.PendingSharedFlightsFragment"
+        android:label="PendingSharedFlightsFragment"
+        tools:layout="@layout/fragment_pending_shared_flights" />
 
     <fragment
         android:id="@+id/airplaneSelectFragment"

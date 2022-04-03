@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <pl.kossa.myflights.views.SaveAppBar
+    <pl.kossa.myflights.views.appbars.SaveAppBar
         android:id="@+id/saveAppBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:isScanQrCodeVisible="true" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"

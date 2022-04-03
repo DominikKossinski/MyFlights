@@ -40,4 +40,8 @@ class FlightDetailsViewModel @Inject constructor(
         }
     }
 
+    fun navigateToFlightShareDialog() {
+        navigate(FlightDetailsFragmentDirections.goToShareFlightDialog(flightId))
+    }
+
 }

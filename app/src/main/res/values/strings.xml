@@ -152,6 +152,9 @@
     <string name="top_departures">Top departures</string>
     <string name="top_arrivals">Top arrivals</string>
 
+    <!--PendingSharedFlights-->
+    <string name="pending_shared_flight_user_format">%1$s (%2$s)</string>
+
     <!--Common-->
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>

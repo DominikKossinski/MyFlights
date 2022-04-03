@@ -1,13 +1,14 @@
 package pl.kossa.myflights.fragments.flights.add
 
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.api.requests.FlightRequest
 import pl.kossa.myflights.api.services.FlightsService
+import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment
-import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.util.*
 import javax.inject.Inject
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FlightAddViewModel @Inject constructor(
     private val flightsService: FlightsService,
+    private val sharedFlightsService: SharedFlightsService,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -132,5 +134,13 @@ class FlightAddViewModel @Inject constructor(
 
     fun setDistance(distance: Int?) {
         _distance.value = distance
+    }
+
+    fun navigateToSharedFlightScanQrCodeDialog() {
+        makeRequest {
+            Log.d("MyLog", "Scan qr code")
+            sharedFlightsService.joinSharedFlight("273dfbbb-e35d-415b-9745-650353f42db9")
+            // tODO navigation
+        }
     }
 }

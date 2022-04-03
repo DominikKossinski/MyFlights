@@ -3,12 +3,16 @@ package pl.kossa.myflights.api.services
 import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.models.SharedFlight
 import pl.kossa.myflights.api.responses.CreatedResponse
+import pl.kossa.myflights.api.responses.sharedflights.SharedFlightResponse
 import retrofit2.http.*
 
 interface SharedFlightsService {
 
     @GET("/api/shared-flights/")
     suspend fun getSharedFlights(): ApiResponse<List<SharedFlight>>
+
+    @GET("/api/shared-flights/pending")
+    suspend fun getPendingSharedFlights(): ApiResponse<List<SharedFlightResponse>>
 
     @GET("/api/shared-flights/{sharedFlightId}")
     suspend fun getSharedFlight(@Path("sharedFlight") sharedFlightId: String): ApiResponse<SharedFlight>
@@ -20,7 +24,7 @@ interface SharedFlightsService {
     suspend fun confirmSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<Void>
 
     @PUT("/api/shared-flights/join/{sharedFlightId}")
-    suspend fun joinSharedFlight(@Path("sharedFLightId") sharedFlightId: String): ApiResponse<Void>
+    suspend fun joinSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<Void>
 
     @DELETE("/api/shared-flights/{sharedFlightId}")
     suspend fun deleteSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<Void>

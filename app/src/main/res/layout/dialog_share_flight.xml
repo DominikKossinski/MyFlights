@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="string/share_flight"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/app_name_text_size"
+        app:layout_constraintBottom_toTopOf="@id/infoTv"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/infoTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_light"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/middle_text_size"
+        app:layout_constraintBottom_toTopOf="@id/qrIv"
+        app:layout_constraintTop_toBottomOf="@id/titleTv"
+        tools:text="Info text" />
+
+    <!--TODO display qr code-->
+    <ImageView
+        android:id="@+id/qrIv"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_margin="16dp"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/infoTv" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

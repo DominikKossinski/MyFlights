@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <pl.kossa.myflights.views.BackAppBar
-            android:id="@+id/backAppbar"
+        <pl.kossa.myflights.views.appbars.ShareAppBar
+            android:id="@+id/shareAppbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/flight" />
+            android:layout_height="wrap_content" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/flightSwipeRefresh"
@@ -124,15 +123,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
-                        android:layout_marginEnd="32dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
                         android:background="@drawable/ripple_bordered_transparent"
                         android:fontFamily="@font/poppins_light"
-                        tools:text="@string/note"
                         android:padding="8dp"
                         android:textColor="@color/black_day_night"
                         android:textSize="@dimen/middle_text_size"
-                        app:layout_constraintTop_toBottomOf="@id/noteTagTv" />
+                        app:layout_constraintTop_toBottomOf="@id/noteTagTv"
+                        tools:text="@string/note" />
 
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -140,8 +139,8 @@
                         style="@style/BlackButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/edit"
                         android:layout_margin="16dp"
+                        android:text="@string/edit"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/noteTv" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

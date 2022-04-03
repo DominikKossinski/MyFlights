@@ -3,48 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="?actionBarSize"
     android:background="@color/white_background_day_night"
     tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
 
 
     <TextView
-        android:id="@+id/backTv"
-        android:layout_width="0dp"
+        android:id="@+id/logoTv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:background="@drawable/ripple_transparent"
         android:drawablePadding="8dp"
-        android:fontFamily="@font/poppins_light"
-        android:text="@string/back"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:text="@string/app_name"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="@color/black_day_night"
         android:textSize="@dimen/middle_text_size"
-        app:drawableStartCompat="@drawable/ic_back"
+        app:drawableStartCompat="@drawable/ic_flight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/scanQrCodeIv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_scan_qr_code"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/saveIv"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black_day_night"
-        tools:visibility="visible" />
+        app:tint="@color/black_day_night" />
 
 
     <ImageView
-        android:id="@+id/saveIv"
+        android:id="@+id/notificationIv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_save"
+        android:background="@drawable/ripple_transparent"
+        android:src="@drawable/ic_notification"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"

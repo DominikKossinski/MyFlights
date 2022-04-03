@@ -28,10 +28,10 @@ class LoginFragment : GoogleAuthFragment<LoginViewModel, FragmentLoginBinding>()
             viewModel.navigateToCreateAccount()
         }
         binding.emailTie.doOnTextChanged { text ->
-            viewModel.setEmail(text)
+            viewModel.setEmail(text.trim())
         }
         binding.passwordTie.doOnTextChanged { text ->
-            viewModel.setPassword(text)
+            viewModel.setPassword(text.trim())
         }
         binding.googleSignInButton.setOnClickListener {
             launchGoogleSignInIntent()

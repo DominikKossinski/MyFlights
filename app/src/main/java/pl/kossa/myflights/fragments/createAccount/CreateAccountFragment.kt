@@ -30,13 +30,13 @@ class CreateAccountFragment : BaseFragment<CreateAccountViewModel, FragmentCreat
 
 
         binding.emailTie.doOnTextChanged { text ->
-            viewModel.setEmail(text)
+            viewModel.setEmail(text.trim())
         }
         binding.passwordTie.doOnTextChanged { text ->
-            viewModel.setPassword(text)
+            viewModel.setPassword(text.trim())
         }
         binding.confirmPasswordTie.doOnTextChanged { text ->
-            viewModel.setConfirmPassword(text)
+            viewModel.setConfirmPassword(text.trim())
         }
 
         binding.regulationsCheckBox.setOnCheckedChangeListener { _, isChecked ->
@@ -46,12 +46,12 @@ class CreateAccountFragment : BaseFragment<CreateAccountViewModel, FragmentCreat
 
     override fun collectFlow() {
         super.collectFlow()
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isCreateAccountButtonEnabled.collect {
                 binding.createAccountButton.isEnabled = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.emailError.collect {
                 binding.emailTil.error = it?.let {
                     binding.emailTie.setText("")
@@ -61,7 +61,7 @@ class CreateAccountFragment : BaseFragment<CreateAccountViewModel, FragmentCreat
                 }
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.passwordError.collect {
                 binding.passwordTil.error = it?.let {
                     binding.passwordTie.setText("")
@@ -78,15 +78,15 @@ class CreateAccountFragment : BaseFragment<CreateAccountViewModel, FragmentCreat
     }
 
     override fun handleApiError(apiError: ApiError) {
-        when(apiError.code) {
+        when (apiError.code) {
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastMessage( R.string.error_forbidden)
+                viewModel.setToastMessage(R.string.error_forbidden)
             }
             else -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
         }
     }

@@ -102,6 +102,9 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         binding.saveAppBar.setSaveOnClickListener {
             viewModel.postFlight()
         }
+        binding.saveAppBar.setScanQrCodeOnClickListener {
+            viewModel.navigateToSharedFlightScanQrCodeDialog()
+        }
         binding.addButton.setOnClickListener {
             viewModel.postFlight()
         }
