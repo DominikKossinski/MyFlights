@@ -39,13 +39,42 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <pl.kossa.myflights.views.OwnerElementWithTag
+                        android:id="@+id/ownerEtw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/flightIv" />
+
+                    <!--TODO texview-->
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sharedUsersCg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/ownerEtw" />
+
+                    <TextView
+                        android:id="@+id/seeAllTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/flight_details_see_all"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/middle_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sharedUsersCg" />
+
 
                     <pl.kossa.myflights.views.ElementWithTagView
                         android:id="@+id/airplaneEwtv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        app:layout_constraintTop_toBottomOf="@id/flightIv"
+                        app:layout_constraintTop_toBottomOf="@id/seeAllTv"
                         app:tagText="@string/airplane" />
 
                     <pl.kossa.myflights.views.ElementWithTagView
@@ -143,6 +172,7 @@
                         android:text="@string/edit"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/noteTv" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.core.widget.NestedScrollView>

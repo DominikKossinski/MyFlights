@@ -4,12 +4,15 @@ import android.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.Flight
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.api.responses.flights.FlightResponse
+import pl.kossa.myflights.api.responses.flights.ShareData
 import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.databinding.FragmentFlightDetailsBinding
 import pl.kossa.myflights.exstensions.toDateString
@@ -52,6 +55,7 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
                     setupFlightData(it.flight)
                     //TODO setup sharing data
                     setupAppBar(it)
+                    setupSharedUsersData(it.sharedUsers)
                 }
             }
         }
@@ -82,7 +86,39 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
         val isMyFlight = viewModel.isMyFlight(flightResponse.ownerData.userId)
         binding.shareAppbar.isDeleteIconVisible = isMyFlight
         binding.shareAppbar.isShareVisible = isMyFlight
+        binding.editButton.isVisible = isMyFlight
+
         binding.shareAppbar.isResignVisible = !isMyFlight
+
+        binding.ownerEtw.isMyFlight = isMyFlight
+        binding.ownerEtw.ownerEmail = flightResponse.ownerData.email
+        binding.ownerEtw.ownerNick = flightResponse.ownerData.nick
+        binding.ownerEtw.profileUrl = flightResponse.ownerData.avatar?.thumbnailUrl
+    }
+
+    private fun setupSharedUsersData(shareList: List<ShareData>) {
+        binding.sharedUsersCg.removeAllViews()
+        shareList.filter { it.isConfirmed }.forEach {
+            it.userData?.let { userData ->
+                val child = layoutInflater.inflate(R.layout.element_shared_user_chip, null)
+                val chip = child.findViewById<Chip>(R.id.chip)!!
+                chip.text = if (userData.nick.isNotBlank()) {
+                    userData.nick
+                } else {
+                    userData.email
+                }
+                userData.avatar?.thumbnailUrl?.let { url ->
+                    Glide.with(chip)
+                        .load(url)
+                        .submit(100, 100)
+                        .get()?.let { drawable ->
+                            chip.chipIcon = drawable
+                        }
+                }
+                binding.sharedUsersCg.addView(chip)
+            }
+
+        }
     }
 
     private fun showDeleteDialog() {

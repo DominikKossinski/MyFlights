@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chip"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:ellipsize="end"
+    android:fontFamily="@font/poppins_light"
+    android:maxEms="7"
+    android:maxLines="1"
+    android:textSize="@dimen/small_text_size"
+    app:chipBackgroundColor="@color/colorAccent"
+    app:chipEndPadding="5dp"
+    app:chipIcon="@drawable/ic_profile"
+    app:chipStartPadding="5dp"
+    app:textEndPadding="5dp"
+    app:textStartPadding="5dp"
+    tools:text="Nickaaaaaaaaaaaacncncncncnc" />
+
