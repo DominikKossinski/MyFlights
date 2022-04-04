@@ -52,10 +52,10 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.flightResponse.collect {
                 it?.let {
+                    val isMyFlight = viewModel.isMyFlight(it.ownerData.userId)
                     setupFlightData(it.flight)
-                    //TODO setup sharing data
-                    setupAppBar(it)
-                    setupSharedUsersData(it.sharedUsers)
+                    setupAppBar(it, isMyFlight)
+                    setupSharedUsersData(it.sharedUsers, isMyFlight)
                 }
             }
         }
@@ -82,8 +82,7 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
         binding.noteTv.text = flight.note ?: ""
     }
 
-    private fun setupAppBar(flightResponse: FlightResponse) {
-        val isMyFlight = viewModel.isMyFlight(flightResponse.ownerData.userId)
+    private fun setupAppBar(flightResponse: FlightResponse, isMyFlight: Boolean) {
         binding.shareAppbar.isDeleteIconVisible = isMyFlight
         binding.shareAppbar.isShareVisible = isMyFlight
         binding.editButton.isVisible = isMyFlight
@@ -96,15 +95,17 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
         binding.ownerEtw.profileUrl = flightResponse.ownerData.avatar?.thumbnailUrl
     }
 
-    private fun setupSharedUsersData(shareList: List<ShareData>) {
+    private fun setupSharedUsersData(shareList: List<ShareData>, isMyFlight: Boolean) {
         binding.sharedUsersCg.removeAllViews()
-        shareList.filter { it.isConfirmed }.forEach {
+        val anyUsers = shareList.any { it.userData != null && (it.isConfirmed || isMyFlight) }
+        binding.sharedUsersTv.isVisible = anyUsers
+        binding.sharedUsersCg.isVisible = anyUsers
+        binding.seeAllTv.isVisible = anyUsers
+        shareList.filter { it.isConfirmed && (it.isConfirmed || isMyFlight) }.forEach {
             it.userData?.let { userData ->
                 val child = layoutInflater.inflate(R.layout.element_shared_user_chip, null)
                 val chip = child.findViewById<Chip>(R.id.chip)!!
-                chip.text = if (userData.nick.isNotBlank()) {
-                    userData.nick
-                } else {
+                chip.text = userData.nick.ifBlank {
                     userData.email
                 }
                 userData.avatar?.thumbnailUrl?.let { url ->

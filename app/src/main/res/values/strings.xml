@@ -97,6 +97,7 @@
     <string name="flight_resign_question_info">Are you sure to resign from this shared flight? The operation is irreversible.</string>
     <string name="flight_details_see_all">See all</string>
     <string name="flight_details_owner">Owner</string>
+    <string name="flight_details_invited_users">Invited users</string>
 
     <!--FlightAddFragment-->
     <string name="departure_airport">Departure airport</string>
