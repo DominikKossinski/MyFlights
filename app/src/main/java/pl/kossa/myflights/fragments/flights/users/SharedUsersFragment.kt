@@ -18,7 +18,7 @@ class SharedUsersFragment : BaseFragment<SharedUsersViewModel, FragmentSharedUse
     private val adapter = SharedUsersAdapter()
 
     override fun setOnClickListeners() {
-        binding.backAppbar.setOnClickListener {
+        binding.backAppbar.setBackOnClickListener {
             viewModel.navigateBack()
         }
         binding.sharedUsersSwipeRefresh.setOnRefreshListener {
@@ -38,8 +38,10 @@ class SharedUsersFragment : BaseFragment<SharedUsersViewModel, FragmentSharedUse
             viewModel.flightResponse.collectLatest {
                 it?.let {
                     adapter.items.clear()
-                    adapter.items.addAll(it.sharedUsers)
-                    adapter.isMyFlight = viewModel.getUserId() == it.ownerData.userId
+                    val isMyFlight = viewModel.getUserId() == it.ownerData.userId
+                    adapter.isMyFlight = isMyFlight
+                    adapter.items.addAll(it.sharedUsers.filter { sU -> sU.isConfirmed || isMyFlight })
+                    adapter.notifyDataSetChanged()
                 }
             }
         }

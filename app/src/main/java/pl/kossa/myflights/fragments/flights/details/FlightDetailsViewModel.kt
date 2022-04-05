@@ -60,6 +60,10 @@ class FlightDetailsViewModel @Inject constructor(
         navigate(FlightDetailsFragmentDirections.goToShareFlightDialog(flightId))
     }
 
+    fun navigateToSharedUsers() {
+        navigate(FlightDetailsFragmentDirections.goToSharedUsersFragment(flightId))
+    }
+
     fun isMyFlight(userId: String): Boolean = userId == currentUser?.uid
 
 }

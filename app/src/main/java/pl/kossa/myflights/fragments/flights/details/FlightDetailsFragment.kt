@@ -40,6 +40,12 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
         binding.editButton.setOnClickListener {
             viewModel.navigateToFlightEdit()
         }
+        binding.seeAllTv.setOnClickListener {
+            viewModel.navigateToSharedUsers()
+        }
+        binding.sharedFlightSwipeRefresh.setOnRefreshListener {
+            viewModel.fetchFlight()
+        }
     }
 
     override fun onResume() {

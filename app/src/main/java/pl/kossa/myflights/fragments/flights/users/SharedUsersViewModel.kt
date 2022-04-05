@@ -1,6 +1,7 @@
 package pl.kossa.myflights.fragments.flights.users
 
 import androidx.lifecycle.SavedStateHandle
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.api.responses.flights.FlightResponse
 import pl.kossa.myflights.api.services.FlightsService
@@ -8,6 +9,7 @@ import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
+@HiltViewModel
 class SharedUsersViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val flightsService: FlightsService,

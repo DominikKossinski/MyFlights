@@ -70,6 +70,10 @@
         <action
             android:id="@+id/goToShareFlightDialog"
             app:destination="@id/shareFlightDialog" />
+
+        <action
+            android:id="@+id/goToSharedUsersFragment"
+            app:destination="@id/SharedUsersFragment" />
     </fragment>
 
     <fragment
@@ -131,6 +135,17 @@
             android:name="flightId"
             app:argType="string" />
     </dialog>
+
+    <fragment
+        android:id="@+id/SharedUsersFragment"
+        android:name="pl.kossa.myflights.fragments.flights.users.SharedUsersFragment"
+        android:label="SharedUsersFragment"
+        tools:layout="@layout/fragment_shared_users">
+
+        <argument
+            android:name="flightId"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/pendingSharedFlightsFragment"
