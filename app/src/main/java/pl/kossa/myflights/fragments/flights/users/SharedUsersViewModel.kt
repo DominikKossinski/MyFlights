@@ -18,11 +18,17 @@ class SharedUsersViewModel @Inject constructor(
 
     val flightResponse = MutableStateFlow<FlightResponse?>(null)
 
+    init {
+        fetchFlight()
+    }
+
     fun fetchFlight() {
         makeRequest {
             val response = flightsService.getFLightById(flightId)
             response.body?.let { flightResponse.value = it }
         }
     }
+
+    fun getUserId(): String? = currentUser?.uid
 
 }
