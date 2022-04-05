@@ -26,7 +26,7 @@ class FlightDetailsViewModel @Inject constructor(
     fun fetchFlight() {
         makeRequest {
             val response = flightsService.getFLightById(flightId)
-            response.body?.let { flightResponse.value = it } // TODO
+            response.body?.let { flightResponse.value = it }
         }
     }
 
