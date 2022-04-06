@@ -3,6 +3,7 @@ package pl.kossa.myflights.fragments.flights.join
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightJoinDetails
@@ -10,12 +11,14 @@ import pl.kossa.myflights.architecture.dialogs.BaseBottomSheet
 import pl.kossa.myflights.databinding.DialogJoinFlightBinding
 import pl.kossa.myflights.exstensions.toUTCDateTimeString
 
+@AndroidEntryPoint
 class JoinFlightBottomSheet : BaseBottomSheet<JoinFlightViewModel, DialogJoinFlightBinding>() {
 
     override val viewModel: JoinFlightViewModel by viewModels()
 
     override fun setOnClickListeners() {
         super.setOnClickListeners()
+        binding.ownerEtw.isMyFlight = false
         binding.cancelButton.setOnClickListener {
             viewModel.navigateBack()
         }

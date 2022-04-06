@@ -1,5 +1,7 @@
 package pl.kossa.myflights.fragments.flights.add
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -103,7 +105,11 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
             viewModel.postFlight()
         }
         binding.saveAppBar.setScanQrCodeOnClickListener {
-            viewModel.navigateToSharedFlightScanQrCodeDialog()
+            val uri =
+                Uri.parse("app://myflights.kossa.pl/join?sharedFlightId=6fdef91c-5001-4e14-a6da-fe09d6e363cb")
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+            // TODO viewModel.navigateToSharedFlightScanQrCodeDialog()
         }
         binding.addButton.setOnClickListener {
             viewModel.postFlight()
@@ -175,44 +181,44 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
 
     override fun collectFlow() {
         super.collectFlow()
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._airplaneName.collect {
                 binding.airplaneSelectView.elementName = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureAirportName.collect {
                 binding.departureAirportSelectView.elementName = it
                 binding.departureRunwaySelectView.isVisible = it.isNotBlank()
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureRunwayName.collect {
                 binding.departureRunwaySelectView.elementName = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalAirportName.collect {
                 binding.arrivalAirportSelectView.elementName = it
                 binding.arrivalRunwaySelectView.isVisible = it.isNotBlank()
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalRunwayName.collect {
                 binding.arrivalRunwaySelectView.elementName = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureDate.collect {
                 binding.departureDts.date = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalDate.collect {
                 binding.arrivalDts.date = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isAddButtonEnabled.collect {
                 binding.saveAppBar.isSaveIconEnabled = it
                 binding.addButton.isEnabled = it
@@ -224,11 +230,11 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         return departure?.let {
             when {
                 arrival != null && departure.time > arrival.time -> {
-                    viewModel.setToastMessage( R.string.error_departure_after_arrival)
+                    viewModel.setToastMessage(R.string.error_departure_after_arrival)
                     arrival
                 }
                 departure.time > Date().time -> {
-                    viewModel.setToastMessage( R.string.error_departure_in_future)
+                    viewModel.setToastMessage(R.string.error_departure_in_future)
                     Date()
                 }
                 else -> {
@@ -242,11 +248,11 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
         return arrival?.let {
             when {
                 departure != null && arrival.time < departure.time -> {
-                    viewModel.setToastMessage( R.string.error_arrival_before_departure)
+                    viewModel.setToastMessage(R.string.error_arrival_before_departure)
                     departure
                 }
                 arrival.time > Date().time -> {
-                    viewModel.setToastMessage( R.string.error_arrival_in_future)
+                    viewModel.setToastMessage(R.string.error_arrival_in_future)
                     Date()
                 }
                 else -> {
@@ -257,17 +263,17 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
     }
 
     override fun handleApiError(apiError: ApiError) {
-        when(apiError.code) {
+        when (apiError.code) {
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
                 viewModel.navigateBack()
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastMessage( R.string.error_forbidden)
+                viewModel.setToastMessage(R.string.error_forbidden)
                 viewModel.navigateBack()
             }
             else -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
                 viewModel.navigateBack()
             }
         }

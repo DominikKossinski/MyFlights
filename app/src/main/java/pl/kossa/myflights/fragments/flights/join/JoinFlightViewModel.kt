@@ -34,7 +34,7 @@ class JoinFlightViewModel @Inject constructor(
     fun joinSharedFlight() {
         makeRequest {
             sharedFlightsService.joinSharedFlight(sharedFlightId)
-            // TODO navigation
+            // TODO show confirmation waiting dialog
         }
     }
 }

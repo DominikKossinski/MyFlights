@@ -73,7 +73,7 @@
 
         <action
             android:id="@+id/goToSharedUsersFragment"
-            app:destination="@id/SharedUsersFragment" />
+            app:destination="@id/sharedUsersFragment" />
     </fragment>
 
     <fragment
@@ -137,7 +137,7 @@
     </dialog>
 
     <fragment
-        android:id="@+id/SharedUsersFragment"
+        android:id="@+id/sharedUsersFragment"
         android:name="pl.kossa.myflights.fragments.flights.users.SharedUsersFragment"
         android:label="SharedUsersFragment"
         tools:layout="@layout/fragment_shared_users">
@@ -158,6 +158,22 @@
             app:destination="@id/pendingSharedFlightsDetailsFragment" />
 
     </fragment>
+
+    <dialog
+        android:id="@+id/joinFlightDialog"
+        android:name="pl.kossa.myflights.fragments.flights.join.JoinFlightBottomSheet"
+        android:label="JoinFlightDialog"
+        tools:layout="@layout/dialog_join_flight">
+
+        <argument
+            android:name="sharedFlightId"
+            app:argType="string" />
+
+        <deepLink
+            app:action="android.intent.action.VIEW"
+            app:mimeType="type/subtype"
+            app:uri="app://myflights.kossa.pl/join?sharedFlightId={sharedFlightId}" />
+    </dialog>
 
     <fragment
         android:id="@+id/pendingSharedFlightsDetailsFragment"

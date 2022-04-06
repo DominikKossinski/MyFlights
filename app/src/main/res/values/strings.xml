@@ -156,6 +156,8 @@
     <string name="top_departures">Top departures</string>
     <string name="top_arrivals">Top arrivals</string>
 
+    <!--ShareFlight-->
+    <string name="share_flight_share_flight">Share Flight</string>
     <!--PendingSharedFlights-->
 
     <!--PendingSharedFlightDetails-->

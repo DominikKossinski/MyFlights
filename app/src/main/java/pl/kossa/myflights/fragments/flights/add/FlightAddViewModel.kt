@@ -1,5 +1,7 @@
 package pl.kossa.myflights.fragments.flights.add
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -139,7 +141,8 @@ class FlightAddViewModel @Inject constructor(
     fun navigateToSharedFlightScanQrCodeDialog() {
         makeRequest {
             Log.d("MyLog", "Scan qr code")
-            sharedFlightsService.joinSharedFlight("573a9163-f85b-4b63-950d-8b1fde84ff2e")
+
+//            sharedFlightsService.joinSharedFlight("573a9163-f85b-4b63-950d-8b1fde84ff2e")
             // tODO navigation
         }
     }

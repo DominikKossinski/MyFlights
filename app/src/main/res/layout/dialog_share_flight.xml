@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:fontFamily="@font/poppins_medium"
-        android:text="@string/share_flight"
+        android:text="@string/share_flight_share_flight"
         android:textColor="@color/black_day_night"
         android:textSize="@dimen/app_name_text_size"
         app:layout_constraintBottom_toTopOf="@id/infoTv"
