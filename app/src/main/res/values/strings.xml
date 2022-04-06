@@ -161,6 +161,10 @@
     <!--PendingSharedFlightDetails-->
     <string name="pending_shared_flight_confirmed">Shared flight confirmed</string>
 
+    <!--JoinFlight-->
+    <string name="join_flight_question">Do you want to join this flight?</string>
+    <string name="join_flight_route">Route</string>
+
 
     <!--Common-->
     <string name="cancel">Cancel</string>
@@ -182,6 +186,7 @@
     <string name="decline">Decline</string>
     <string name="confirm">Confirm</string>
     <string name="resign">Resign</string>
+    <string name="route_format">%1$s-%2$s</string>
 
     <!--Errors-->
     <string name="error_empty_name">Name can\'t be empty.</string>

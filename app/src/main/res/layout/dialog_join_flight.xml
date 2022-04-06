@@ -1,6 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/questionTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/join_flight_question"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/middle_text_size"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <pl.kossa.myflights.views.OwnerElementWithTag
+        android:id="@+id/ownerEtw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@id/questionTv" />
+
+
+    <pl.kossa.myflights.views.ElementWithTagView
+        android:id="@+id/routeEwtv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@id/ownerEtw"
+        app:tagText="@string/join_flight_route" />
+
+    <pl.kossa.myflights.views.ElementWithTagView
+        android:id="@+id/departureTimeEwtv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="@id/routeEwtv"
+        app:tagText="@string/departure_time" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/cancelButton"
+        style="@style/RedButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/cancel"
+        app:layout_constraintEnd_toStartOf="@id/confirmButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/departureTimeEwtv" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/confirmButton"
+        style="@style/BlackButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="@string/confirm"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/cancelButton"
+        app:layout_constraintTop_toBottomOf="@id/departureTimeEwtv" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

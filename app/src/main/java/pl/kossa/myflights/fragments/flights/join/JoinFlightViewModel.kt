@@ -18,7 +18,7 @@ class JoinFlightViewModel @Inject constructor(
 
     private val sharedFlightId = savedStateHandle.get<String>("sharedFlightId")!!
 
-    private val sharedFlightJoinDetails = MutableStateFlow<SharedFlightJoinDetails?>(null)
+    val sharedFlightJoinDetails = MutableStateFlow<SharedFlightJoinDetails?>(null)
 
     init {
         fetchSharedFlightJoinDetails()

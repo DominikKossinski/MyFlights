@@ -15,6 +15,12 @@ fun Date.toTimeString(): String {
     return formatter.format(this)
 }
 
+fun Date.toUTCDateTimeString(): String {
+    val formatter = SimpleDateFormat("dd.MM.yyyy' 'HH:mm", Locale.getDefault())
+    formatter.timeZone = TimeZone.getTimeZone("UTC")
+    return formatter.format(this)
+}
+
 fun Date.extractYear(): Int {
     val formatter = SimpleDateFormat("yyyy", Locale.getDefault())
     return formatter.format(this).toInt()
