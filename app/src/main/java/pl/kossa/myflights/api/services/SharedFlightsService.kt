@@ -4,6 +4,7 @@ import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.models.SharedFlight
 import pl.kossa.myflights.api.responses.CreatedResponse
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightResponse
+import pl.kossa.myflights.api.responses.sharedflights.SharedFlightJoinDetails
 import retrofit2.http.*
 
 interface SharedFlightsService {
@@ -31,4 +32,7 @@ interface SharedFlightsService {
 
     @DELETE("/api/shared-flights/resign/{sharedFlightId}")
     suspend fun resignFromSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<Void>
+
+    @GET("/api/shared-flights/join/{sharedFlightId}")
+    fun getSharedFlightJoinDetails(@Path("sharedFlightId")sharedFlightId: String): ApiResponse<SharedFlightJoinDetails>
 }
