@@ -1,5 +1,7 @@
 package pl.kossa.myflights.architecture.dialogs
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,20 +25,26 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
     protected abstract val viewModel: VM
 
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val vbType = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1]
+        val vbClass = vbType as Class<VB>
+        val method = vbClass.getMethod(
+            "inflate",
+            LayoutInflater::class.java
+        )
+        binding = method.invoke(null, LayoutInflater.from(context)) as VB
+        setupClickListeners()
+        return AlertDialog.Builder(requireContext())
+            .setView(binding.root)
+            .setCancelable(false)
+            .create()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val vbType = (javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[1]
-        val vbClass = vbType as Class<VB>
-        val method = vbClass.getMethod(
-            "inflate",
-            LayoutInflater::class.java,
-            ViewGroup::class.java,
-            Boolean::class.java
-        )
-        binding = method.invoke(null, inflater, container, false) as VB
         return binding.root
     }
 
@@ -44,6 +52,9 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
         super.onViewCreated(view, savedInstanceState)
         collectFlow()
     }
+
+
+    protected open fun setupClickListeners() {}
 
     protected open fun collectFlow() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -73,15 +84,13 @@ abstract class BaseDialog<VM : BaseViewModel, VB : ViewBinding> : DialogFragment
                         Navigation.findNavController(
                             requireActivity(),
                             R.id.mainNavHostFragment
-                        )
-                            .popBackStack()
+                        ).popBackStack()
                     }
                     R.id.lists_nav_graph -> {
                         Navigation.findNavController(
                             requireActivity(),
                             R.id.listsNavHostFragment
-                        )
-                            .popBackStack()
+                        ).popBackStack()
                     }
                     R.id.login_nav_graph -> {
                         Navigation.findNavController(

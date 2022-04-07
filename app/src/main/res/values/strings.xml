@@ -167,6 +167,10 @@
     <string name="join_flight_question">Do you want to join this flight?</string>
     <string name="join_flight_route">Route</string>
 
+    <!--JoinRequestSent-->
+    <string name="join_request_sent_title">Join request sent</string>
+    <string name="join_request_sent_info">Your join request has been sent. Now it\'s waiting for owner confirmation.</string>
+
 
     <!--Common-->
     <string name="cancel">Cancel</string>

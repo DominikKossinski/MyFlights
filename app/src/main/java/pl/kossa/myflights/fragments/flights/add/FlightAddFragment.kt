@@ -105,11 +105,12 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
             viewModel.postFlight()
         }
         binding.saveAppBar.setScanQrCodeOnClickListener {
-            val uri =
-                Uri.parse("app://myflights.kossa.pl/join?sharedFlightId=6fdef91c-5001-4e14-a6da-fe09d6e363cb")
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            startActivity(intent)
-            // TODO viewModel.navigateToSharedFlightScanQrCodeDialog()
+//            val uri =
+//                Uri.parse("app://myflights.kossa.pl/join?sharedFlightId=6fdef91c-5001-4e14-a6da-fe09d6e363cb")
+//            val intent = Intent(Intent.ACTION_VIEW, uri)
+//            startActivity(intent)
+//
+            viewModel.navigateToSharedFlightScanQrCodeDialog()
         }
         binding.addButton.setOnClickListener {
             viewModel.postFlight()

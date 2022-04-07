@@ -99,6 +99,10 @@
             app:destination="@id/flightDetailsFragment"
             app:popUpTo="@id/mainFragment" />
 
+        <action
+            android:id="@+id/goToJoinFlightDialog"
+            app:destination="@id/joinFlightDialog" />
+
     </fragment>
 
     <fragment
@@ -173,7 +177,18 @@
             app:action="android.intent.action.VIEW"
             app:mimeType="type/subtype"
             app:uri="app://myflights.kossa.pl/join?sharedFlightId={sharedFlightId}" />
+
+        <action
+            android:id="@+id/showJoinRequestSentDialog"
+            app:destination="@id/joinRequestSendDialog"
+            app:popUpTo="@id/mainFragment" />
     </dialog>
+
+    <dialog
+        android:id="@+id/joinRequestSendDialog"
+        android:name="pl.kossa.myflights.dialogs.request.JoinRequestSentDialog"
+        android:label="JoinRequestSentDialog"
+        tools:layout="@layout/dialog_join_request_sent" />
 
     <fragment
         android:id="@+id/pendingSharedFlightsDetailsFragment"
