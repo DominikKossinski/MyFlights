@@ -1,4 +1,4 @@
-package pl.kossa.myflights.fragments.flights.share
+package pl.kossa.myflights.dialogs.share
 
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -127,7 +127,7 @@
 
     <dialog
         android:id="@+id/shareFlightDialog"
-        android:name="pl.kossa.myflights.fragments.flights.share.ShareFlightBottomSheet"
+        android:name="pl.kossa.myflights.dialogs.share.ShareFlightBottomSheet"
         android:label="ShareFlightBottomSheet"
         tools:layout="@layout/dialog_share_flight">
 
@@ -161,7 +161,7 @@
 
     <dialog
         android:id="@+id/joinFlightDialog"
-        android:name="pl.kossa.myflights.fragments.flights.join.JoinFlightBottomSheet"
+        android:name="pl.kossa.myflights.dialogs.join.JoinFlightBottomSheet"
         android:label="JoinFlightDialog"
         tools:layout="@layout/dialog_join_flight">
 

@@ -1,4 +1,4 @@
-package pl.kossa.myflights.fragments.flights.join
+package pl.kossa.myflights.dialogs.join
 
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
