@@ -161,6 +161,9 @@
     <string name="share_flight_instruction">Share this QR code with your friends to enable them joining your flight:)</string>
     <string name="share_flight_uri_format">app://myflights.kossa.pl/join?sharedFlightId=%1$s</string>
 
+    <!--ScanQRCode-->
+    <string name="scan_qr_code_error">Error by processing image</string>
+
     <!--PendingSharedFlights-->
 
     <!--PendingSharedFlightDetails-->

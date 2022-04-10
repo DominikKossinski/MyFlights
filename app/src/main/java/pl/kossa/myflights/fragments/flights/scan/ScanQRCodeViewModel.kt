@@ -10,4 +10,8 @@ class ScanQRCodeViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ): BaseViewModel(preferencesHelper) {
 
+    fun navigateToJoinSharedFlight(sharedFlightId: String) {
+        navigate(ScanQRCodeFragmentDirections.goToJoinFlightDialog(sharedFlightId))
+    }
+
 }

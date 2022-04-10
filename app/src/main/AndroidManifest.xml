@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-feature android:name="android.hardware.camera"/>
+
     <application
         android:name=".application.MyFlightsApp"
         android:allowBackup="true"
@@ -28,7 +30,7 @@
             android:value="true" />
 
         <meta-data
-            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="barcode" />
 
         <meta-data

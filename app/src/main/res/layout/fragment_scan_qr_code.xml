@@ -11,7 +11,7 @@
         app:deleteVisible="false"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <SurfaceView
+    <androidx.camera.view.PreviewView
         android:id="@+id/qrCodeSv"
         android:layout_width="0dp"
         android:layout_height="0dp"

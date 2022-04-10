@@ -1,12 +1,12 @@
 package pl.kossa.myflights.fragments.flights.add
 
-import android.content.Intent
-import android.net.Uri
+import android.Manifest
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.github.florent37.runtimepermission.kotlin.askPermission
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.ApiError
@@ -105,12 +105,11 @@ class FlightAddFragment : BaseFragment<FlightAddViewModel, FragmentFlightAddBind
             viewModel.postFlight()
         }
         binding.saveAppBar.setScanQrCodeOnClickListener {
-//            val uri =
-//                Uri.parse("app://myflights.kossa.pl/join?sharedFlightId=6fdef91c-5001-4e14-a6da-fe09d6e363cb")
-//            val intent = Intent(Intent.ACTION_VIEW, uri)
-//            startActivity(intent)
-//
-            viewModel.navigateToSharedFlightScanQrCodeDialog()
+            askPermission(Manifest.permission.CAMERA) {
+                viewModel.navigateToScanQRCodeFragment()
+            }.onDeclined {
+                //TODO display info
+            }
         }
         binding.addButton.setOnClickListener {
             viewModel.postFlight()

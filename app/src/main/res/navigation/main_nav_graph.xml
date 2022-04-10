@@ -100,8 +100,8 @@
             app:popUpTo="@id/mainFragment" />
 
         <action
-            android:id="@+id/goToJoinFlightDialog"
-            app:destination="@id/joinFlightDialog" />
+            android:id="@+id/goToScanQRCodeFragment"
+            app:destination="@id/scanQRCodeFragment" />
 
     </fragment>
 
@@ -161,6 +161,18 @@
             android:id="@+id/goToPendingSharedFlightsDetails"
             app:destination="@id/pendingSharedFlightsDetailsFragment" />
 
+    </fragment>
+
+    <fragment
+        android:id="@+id/scanQRCodeFragment"
+        android:name="pl.kossa.myflights.fragments.flights.scan.ScanQRCodeFragment"
+        android:label="ScanQRCodeFragment"
+        tools:layout="@layout/fragment_scan_qr_code">
+
+        <action
+            android:id="@+id/goToJoinFlightDialog"
+            app:popUpTo="@id/flightAddFragment"
+            app:destination="@id/joinFlightDialog" />
     </fragment>
 
     <dialog
