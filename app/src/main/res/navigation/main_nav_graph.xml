@@ -190,6 +190,12 @@
             app:mimeType="type/subtype"
             app:uri="app://myflights.kossa.pl/join?sharedFlightId={sharedFlightId}" />
 
+        <deepLink
+            app:action="android.intent.action.VIEW"
+            app:mimeType="type/subtype"
+            app:uri="https://myflights.kossa.pl/join?sharedFlightId={sharedFlightId}" />
+
+
         <action
             android:id="@+id/showJoinRequestSentDialog"
             app:destination="@id/joinRequestSendDialog"

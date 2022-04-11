@@ -50,3 +50,10 @@ The application is connected to Analytics and Crashlytics.
 - [Analytics](https://firebase.google.com/docs/analytics)
 - [Crashlytics](https://firebase.google.com/docs/crashlytics/)
 - [Firebase Cloud Messaging](https://firebase.google.com/docs/cloud-messaging/)
+- [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links)
+- [ML-Kit Scanning Barcodes](https://developers.google.com/ml-kit/vision/barcode-scanning/android)
+- [QRGen](https://github.com/kenglxn/QRGen)
+
+## Other Sources
+
+- Scanning QR codes with ML-Kit - [Android Scanning Barcode By Arun Chandravanshi](https://github.com/arunk7839/BarcodeScannerExp)

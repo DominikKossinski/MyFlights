@@ -1,5 +1,6 @@
 package pl.kossa.myflights.dialogs.share
 
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
@@ -9,6 +10,7 @@ import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.dialogs.BaseBottomSheet
 import pl.kossa.myflights.databinding.DialogShareFlightBinding
 import pl.kossa.myflights.exstensions.dpToPx
+import java.net.URLEncoder
 
 @AndroidEntryPoint
 class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShareFlightBinding>() {
@@ -33,8 +35,15 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
 
     private fun setupSharedFlightId(sharedFlightId: String) {
         val size = requireContext().dpToPx(200f).toInt()
+        val appLink = getString(R.string.share_flight_uri_format, sharedFlightId)
+        val dynamicLink = getString(
+            R.string.share_flight_dynamic_link_format,
+            URLEncoder.encode(appLink, "utf-8")
+        )
+        Log.d("MyLog", "Link: $appLink")
+        Log.d("MyLog", "Dynamic link: $dynamicLink")
         val qrCodeBitmap =
-            QRCode.from(getString(R.string.share_flight_uri_format, sharedFlightId))
+            QRCode.from(dynamicLink)
                 .withSize(size, size)
                 .bitmap()
         binding.qrIv.setImageBitmap(qrCodeBitmap)

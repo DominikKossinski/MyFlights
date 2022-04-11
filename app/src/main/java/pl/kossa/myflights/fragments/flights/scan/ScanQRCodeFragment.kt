@@ -14,6 +14,7 @@ import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.databinding.FragmentScanQrCodeBinding
+import java.net.URLDecoder
 import java.util.concurrent.Executors
 
 @AndroidEntryPoint
@@ -87,7 +88,8 @@ class ScanQRCodeFragment : BaseFragment<ScanQRCodeViewModel, FragmentScanQrCodeB
             .addOnSuccessListener { barcodes ->
                 barcodes.firstOrNull()?.displayValue?.let { value ->
                     val uri = Uri.parse(value)
-                    val sharedFlightId = uri.getQueryParameter("sharedFlightId")
+                    val link = Uri.parse(URLDecoder.decode(uri.getQueryParameter("link"), "utf-8"))
+                    val sharedFlightId = link.getQueryParameter("sharedFlightId")
                     sharedFlightId?.let { viewModel.navigateToJoinSharedFlight(sharedFlightId) }
                 }
             }
