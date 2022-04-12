@@ -42,21 +42,19 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
         val deepLink = data["deepLink"]
         val title = data["title"] ?: ""
         val body = data["body"] ?: ""
-        Log.d("MyLog", "Data: $data")
         val notificationType = data["notificationType"]?.let {
             NotificationType.values().find { type -> type.name == it }
         }
-        Log.d("MyLog", "Notification type: $notificationType")
         when (notificationType) {
             NotificationType.USER_ACCEPTED_JOIN_REQUEST -> {
-
+                showAcceptedJoinRequestNotification(title, body, data)
             }
             NotificationType.USER_SEND_JOIN_REQUEST -> {
                 showJoinRequestNotification(title, body, data)
             }
             else -> {
                 Log.d("MyLog", "DeepLink: $deepLink")
-                showNotification(title ?: "", body ?: "", deepLink)
+                showNotification(title, body, deepLink)
             }
         }
     }
@@ -97,6 +95,29 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
         notify(preferencesHelper.nextJoinRequestNotificationId, channelId, notification)
     }
 
+    private fun showAcceptedJoinRequestNotification(
+        title: String,
+        body: String,
+        data: Map<String, String>
+    ) {
+        val flightId = data["flightId"]
+        val pendingIntent = flightId?.let {
+            NavDeepLinkBuilder(applicationContext)
+                .setGraph(R.navigation.main_nav_graph)
+                .setDestination(R.id.flightDetailsFragment)
+                .setComponentName(MainActivity::class.java)
+                .setArguments(Bundle().apply {
+                    putString("flightId", flightId)
+                })
+                .createPendingIntent()
+        }
+        val channelId = getString(R.string.firebase_messaging_channel_id)
+        val notification = createNotification(
+            channelId, title, body, pendingIntent
+        )
+        notify(preferencesHelper.nextAcceptedJoinRequestNotificationId, channelId, notification)
+    }
+
     private fun showNotification(title: String, message: String, deepLink: String?) {
         val channelId = getString(R.string.firebase_messaging_channel_id)
         val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
@@ -112,6 +133,7 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
             .setContentText(message)
             .setSound(sound)
             .setAutoCancel(true)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         pendingIntent?.let { builder.setContentIntent(pendingIntent) }

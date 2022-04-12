@@ -10,6 +10,7 @@ class PreferencesHelper(applicationContext: Context) {
         internal const val TOKEN = "TOKEN"
         private const val FCM_TOKEN = "FCM_TOKEN"
         private const val LAST_JOIN_REQUEST_NOTIFICATION_ID = "LAST_JOIN_REQUEST_NOTIFICATION_ID"
+        private const val LAST_ACCEPTED_JOIN_REQUEST_NOTIFICATION_ID = "LAST_ACCEPTED_JOIN_REQUEST_NOTIFICATION_ID"
         private const val MAX_NOTIFICATIONS = 5
     }
 
@@ -42,6 +43,14 @@ class PreferencesHelper(applicationContext: Context) {
             val lastValue = preferences.getInt(LAST_JOIN_REQUEST_NOTIFICATION_ID, 0)
             val nextValue = (lastValue + 1) % MAX_NOTIFICATIONS
             preferences.edit().putInt(LAST_JOIN_REQUEST_NOTIFICATION_ID, nextValue).apply()
+            return nextValue
+        }
+
+    val nextAcceptedJoinRequestNotificationId: Int
+        get() {
+            val lastValue = preferences.getInt(LAST_ACCEPTED_JOIN_REQUEST_NOTIFICATION_ID, 0)
+            val nextValue = (lastValue + 1) % MAX_NOTIFICATIONS
+            preferences.edit().putInt(LAST_ACCEPTED_JOIN_REQUEST_NOTIFICATION_ID, nextValue).apply()
             return nextValue
         }
 }
