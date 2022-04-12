@@ -1,5 +1,6 @@
 package pl.kossa.myflights.services
 
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -7,38 +8,57 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavDeepLinkBuilder
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
+import pl.kossa.myflights.activities.main.MainActivity
 import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.utils.PreferencesHelper
+import pl.kossa.myflights.utils.fcm.NotificationType
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
 
     @Inject
-    protected lateinit var userService: UserService
+    lateinit var userService: UserService
 
     @Inject
-    protected lateinit var preferencesHelper: PreferencesHelper
+    lateinit var preferencesHelper: PreferencesHelper
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         val data = remoteMessage.data
         val deepLink = data["deepLink"]
-        val title = data["title"]
-        val body = data["body"]
-        Log.d("MyLog", "DeepLink: $deepLink")
-        showNotification(title ?: "", body ?: "", deepLink)
+        val title = data["title"] ?: ""
+        val body = data["body"] ?: ""
+        Log.d("MyLog", "Data: $data")
+        val notificationType = data["notificationType"]?.let {
+            NotificationType.values().find { type -> type.name == it }
+        }
+        Log.d("MyLog", "Notification type: $notificationType")
+        when (notificationType) {
+            NotificationType.USER_ACCEPTED_JOIN_REQUEST -> {
+
+            }
+            NotificationType.USER_SEND_JOIN_REQUEST -> {
+                showJoinRequestNotification(title, body, data)
+            }
+            else -> {
+                Log.d("MyLog", "DeepLink: $deepLink")
+                showNotification(title ?: "", body ?: "", deepLink)
+            }
+        }
     }
 
     override fun onNewToken(token: String) {
@@ -52,6 +72,29 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
 
             }
         }
+    }
+
+    private fun showJoinRequestNotification(
+        title: String,
+        body: String,
+        data: Map<String, String>
+    ) {
+        val sharedFlightId = data["sharedFlightId"]
+        val pendingIntent = sharedFlightId?.let {
+            NavDeepLinkBuilder(applicationContext)
+                .setGraph(R.navigation.main_nav_graph)
+                .setDestination(R.id.pendingSharedFlightsDetailsFragment)
+                .setComponentName(MainActivity::class.java)
+                .setArguments(Bundle().apply {
+                    putString("sharedFlightId", sharedFlightId)
+                })
+                .createPendingIntent()
+        }
+        val channelId = getString(R.string.firebase_messaging_channel_id)
+        val notification = createNotification(
+            channelId, title, body, pendingIntent
+        )
+        notify(preferencesHelper.nextJoinRequestNotificationId, channelId, notification)
     }
 
     private fun showNotification(title: String, message: String, deepLink: String?) {
@@ -72,7 +115,10 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         pendingIntent?.let { builder.setContentIntent(pendingIntent) }
+        notify(1, channelId, builder.build())
+    }
 
+    private fun notify(id: Int, channelId: String, notification: Notification) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(channelId, channelId, importance)
@@ -82,9 +128,26 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
         }
 
         with(NotificationManagerCompat.from(this)) {
-            Log.d("MyLog", "Title")
-            notify(1, builder.build())
+            notify(id, notification)
         }
+    }
+
+    private fun createNotification(
+        channelId: String,
+        title: String,
+        body: String,
+        pendingIntent: PendingIntent?
+    ): Notification {
+        val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+        val builder = NotificationCompat.Builder(applicationContext, channelId)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(title)
+            .setContentText(body)
+            .setSound(sound)
+            .setAutoCancel(true)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        pendingIntent?.let { builder.setContentIntent(pendingIntent) }
+        return builder.build()
     }
 }
 

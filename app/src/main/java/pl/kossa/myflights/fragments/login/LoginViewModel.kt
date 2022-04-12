@@ -128,6 +128,10 @@ class LoginViewModel @Inject constructor(
             .addOnSuccessListener {
                 val isNew = it.additionalUserInfo?.isNewUser == true
                 refreshToken {
+                    analyticsTracker.setUserId(firebaseAuth.currentUser?.uid)
+                    fcmHandler.enableFCM {
+                        fcmHandler.refreshFCMToken()
+                    }
                     makeRequest {
                         val response = userService.getUser()
                         val user = response.body!!
