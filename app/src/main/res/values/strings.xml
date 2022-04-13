@@ -166,6 +166,7 @@
     <string name="scan_qr_code_error">Error by processing image</string>
 
     <!--PendingSharedFlights-->
+    <string name="pending_shared_flights_awaiting_owner_acceptation">Awaiting owner\'s acceptation</string>
 
     <!--PendingSharedFlightDetails-->
     <string name="pending_shared_flight_confirmed">Shared flight confirmed</string>

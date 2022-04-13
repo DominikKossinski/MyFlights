@@ -16,7 +16,9 @@ class PendingSharedFlightsFragment :
 
     override val viewModel: PendingSharedFlightsViewModel by viewModels()
 
-    private val adapter = PendingSharedFlightsAdapter()
+    private val adapter by lazy {
+        PendingSharedFlightsAdapter(viewModel.getUserId())
+    }
 
     override fun setOnClickListeners() {
         binding.backAppbar.setBackOnClickListener {
@@ -27,6 +29,12 @@ class PendingSharedFlightsFragment :
         }
         adapter.setOnItemClickListener {
             viewModel.navigateToPendingSharedFlightDetails(it.sharedFlightId)
+        }
+        adapter.setOnConfirmClickListener {
+            viewModel.confirmSharedFlight(it.sharedFlightId)
+        }
+        adapter.setOnDeclineClickListener {
+            viewModel.deleteSharedFlight(it.sharedFlightId)
         }
         setupRecyclerView()
     }

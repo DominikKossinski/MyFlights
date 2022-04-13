@@ -2,6 +2,7 @@ package pl.kossa.myflights.fragments.flights.pending
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightResponse
 import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
@@ -34,4 +35,21 @@ class PendingSharedFlightsViewModel @Inject constructor(
             )
         )
     }
+
+    fun deleteSharedFlight(sharedFlightId: String) {
+        makeRequest {
+            sharedFlightsService.deleteSharedFlight(sharedFlightId)
+            fetchPendingSharedFlights()
+        }
+    }
+
+    fun confirmSharedFlight(sharedFlightId: String) {
+        makeRequest {
+            sharedFlightsService.confirmSharedFlight(sharedFlightId)
+            setToastMessage(R.string.pending_shared_flight_confirmed)
+            fetchPendingSharedFlights()
+        }
+    }
+
+    fun getUserId(): String? = currentUser?.uid
 }
