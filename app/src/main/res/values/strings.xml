@@ -161,6 +161,8 @@
     <string name="share_flight_instruction">Share this QR code with your friends to enable them joining your flight:)</string>
     <string name="share_flight_dynamic_link_format">https://myflightsdev.page.link/?link=%1$s&amp;apn=pl.kossa.myflights</string>
     <string name="share_flight_uri_format">https://myflights.kossa.pl/join?sharedFlightId=%1$s</string>
+    <string name="share_flight_time_format">%1$02d:%2$02d</string>
+    <string name="share_flight_code_expired">Code expired</string>
 
     <!--ScanQRCode-->
     <string name="scan_qr_code_error">Error by processing image</string>

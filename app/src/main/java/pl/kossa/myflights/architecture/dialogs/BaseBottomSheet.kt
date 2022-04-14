@@ -1,9 +1,11 @@
 package pl.kossa.myflights.architecture.dialogs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -118,6 +120,15 @@ abstract class BaseBottomSheet<VM : BaseViewModel, VB : ViewBinding> : BottomShe
                     }
                 }
             }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.toastMessage.collect {
+                Log.d("MyLog", "Collecting error: $it")
+                it?.let {
+                    Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                }
+            }
+
         }
     }
 

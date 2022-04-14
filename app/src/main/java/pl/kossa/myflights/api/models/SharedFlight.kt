@@ -1,5 +1,7 @@
 package pl.kossa.myflights.api.models
 
+import java.util.*
+
 data class SharedFlight(
 
     val sharedFlightId: String,
@@ -10,6 +12,7 @@ data class SharedFlight(
 
     val sharedUserId: String?,
 
-    val isConfirmed: Boolean
+    val isConfirmed: Boolean,
 
+    val expiresAt: Date
 )
