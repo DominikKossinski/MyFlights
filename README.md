@@ -53,6 +53,7 @@ The application is connected to Analytics and Crashlytics.
 - [Firebase Dynamic Links](https://firebase.google.com/docs/dynamic-links)
 - [ML-Kit Scanning Barcodes](https://developers.google.com/ml-kit/vision/barcode-scanning/android)
 - [QRGen](https://github.com/kenglxn/QRGen)
+- [ProgressBars](https://stackoverflow.com/questions/46436065/how-to-create-diamond-progress-bar-android)
 
 ## Other Sources
 

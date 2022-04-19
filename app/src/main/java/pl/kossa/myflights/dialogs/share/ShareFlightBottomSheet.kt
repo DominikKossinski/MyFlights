@@ -21,23 +21,32 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
 
     override val viewModel: ShareFlightViewModel by viewModels()
 
+    private var timer: CountDownTimer? = null
+
+
+    override fun setOnClickListeners() {
+        super.setOnClickListeners()
+        binding.progressIv.isProgressVisible = false
+        binding.progressIv.max = 1_000
+    }
+
     override fun collectFlow() {
         super.collectFlow()
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collectLatest {
                 if (it) {
-                    binding.qrIv.setImageResource(R.drawable.progress_placeholder)
+                    binding.progressIv.setImageResource(R.drawable.progress_placeholder)
                 }
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.sharedFlightId.collectLatest {
-                it?.let { setupSharedFlightId(it) }
+            viewModel.sharedFlightFlow.collectLatest {
+                it?.let { setupSharedFlight(it) }
             }
         }
     }
 
-    private fun setupSharedFlightId(sharedFlight: SharedFlight) {
+    private fun setupSharedFlight(sharedFlight: SharedFlight) {
         val size = requireContext().dpToPx(200f).toInt()
         val appLink = getString(R.string.share_flight_uri_format, sharedFlight.sharedFlightId)
         val dynamicLink = getString(
@@ -50,10 +59,15 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
             QRCode.from(dynamicLink)
                 .withSize(size, size)
                 .bitmap()
-        binding.qrIv.setImageBitmap(qrCodeBitmap)
+        binding.progressIv.setImageBitmap(qrCodeBitmap)
         binding.timeTv.isVisible = true
-        val a = object : CountDownTimer(sharedFlight.expiresAt.time - Date().time, 1_000) {
+        binding.progressIv.isProgressVisible = true
+        timer = object : CountDownTimer(sharedFlight.expiresAt.time - Date().time, 200) {
             override fun onTick(millisUntilFinished: Long) {
+                val progress =
+                    (millisUntilFinished.toDouble() / 60_000.0 * 1_000.0).toInt()
+                Log.d("MyLog", "Progress: $progress $millisUntilFinished")
+                binding.progressIv.progress = progress
                 val minutes = millisUntilFinished / (60 * 1_000)
                 val seconds = (millisUntilFinished - minutes * (60 * 1_000)) / 1_000
                 binding.timeTv.text = getString(R.string.share_flight_time_format, minutes, seconds)
@@ -64,6 +78,19 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
                 viewModel.navigateBack()
             }
         }
-        a.start()
+        timer?.start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val sharedFlight = viewModel.sharedFlightFlow.value
+        sharedFlight?.let {
+            setupSharedFlight(it)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timer?.cancel()
     }
 }

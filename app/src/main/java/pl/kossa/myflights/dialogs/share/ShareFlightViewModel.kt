@@ -18,12 +18,12 @@ class ShareFlightViewModel @Inject constructor(
 
     private val flightId = savedStateHandle.get<String>("flightId")!!
 
-    val sharedFlightId = MutableStateFlow<SharedFlight?>(null)
+    val sharedFlightFlow = MutableStateFlow<SharedFlight?>(null)
 
     init {
         makeRequest {
             val response = sharedFlightsService.shareFlight(flightId)
-            sharedFlightId.value = response.body
+            sharedFlightFlow.value = response.body
         }
     }
 
