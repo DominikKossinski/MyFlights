@@ -16,11 +16,16 @@ class ShareFlightViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
+
     private val flightId = savedStateHandle.get<String>("flightId")!!
 
     val sharedFlightFlow = MutableStateFlow<SharedFlight?>(null)
 
     init {
+        fetchSharedFlight()
+    }
+
+    fun fetchSharedFlight() {
         makeRequest {
             val response = sharedFlightsService.shareFlight(flightId)
             sharedFlightFlow.value = response.body

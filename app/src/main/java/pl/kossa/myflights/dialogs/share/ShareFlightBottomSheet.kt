@@ -1,7 +1,6 @@
 package pl.kossa.myflights.dialogs.share
 
 import android.os.CountDownTimer
-import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +12,7 @@ import pl.kossa.myflights.api.models.SharedFlight
 import pl.kossa.myflights.architecture.dialogs.BaseBottomSheet
 import pl.kossa.myflights.databinding.DialogShareFlightBinding
 import pl.kossa.myflights.exstensions.dpToPx
+import pl.kossa.myflights.utils.timers.ProgressBarCountDownTimer
 import java.net.URLEncoder
 import java.util.*
 
@@ -22,7 +22,7 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
     override val viewModel: ShareFlightViewModel by viewModels()
 
     private var timer: CountDownTimer? = null
-
+    private var progressTimer: ProgressBarCountDownTimer? = null
 
     override fun setOnClickListeners() {
         super.setOnClickListeners()
@@ -53,8 +53,6 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
             R.string.share_flight_dynamic_link_format,
             URLEncoder.encode(appLink, "utf-8")
         )
-        Log.d("MyLog", "Link: $appLink")
-        Log.d("MyLog", "Dynamic link: $dynamicLink")
         val qrCodeBitmap =
             QRCode.from(dynamicLink)
                 .withSize(size, size)
@@ -62,12 +60,8 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
         binding.progressIv.setImageBitmap(qrCodeBitmap)
         binding.timeTv.isVisible = true
         binding.progressIv.isProgressVisible = true
-        timer = object : CountDownTimer(sharedFlight.expiresAt.time - Date().time, 200) {
+        timer = object : CountDownTimer(sharedFlight.expiresAt.time - Date().time, 1_000) {
             override fun onTick(millisUntilFinished: Long) {
-                val progress =
-                    (millisUntilFinished.toDouble() / 60_000.0 * 1_000.0).toInt()
-                Log.d("MyLog", "Progress: $progress $millisUntilFinished")
-                binding.progressIv.progress = progress
                 val minutes = millisUntilFinished / (60 * 1_000)
                 val seconds = (millisUntilFinished - minutes * (60 * 1_000)) / 1_000
                 binding.timeTv.text = getString(R.string.share_flight_time_format, minutes, seconds)
@@ -78,6 +72,9 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
                 viewModel.navigateBack()
             }
         }
+        progressTimer =
+            ProgressBarCountDownTimer(sharedFlight.expiresAt.time - Date().time, binding.progressIv)
+        progressTimer?.start()
         timer?.start()
     }
 
@@ -91,6 +88,7 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
 
     override fun onPause() {
         super.onPause()
+        progressTimer?.cancel()
         timer?.cancel()
     }
 }
