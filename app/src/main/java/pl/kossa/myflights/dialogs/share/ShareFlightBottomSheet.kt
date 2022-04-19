@@ -69,7 +69,9 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
 
             override fun onFinish() {
                 viewModel.setToastMessage(R.string.share_flight_code_expired)
-                viewModel.navigateBack()
+                binding.progressIv.isProgressVisible = false
+                binding.progressIv.setImageResource(R.drawable.progress_placeholder)
+                viewModel.fetchSharedFlight()
             }
         }
         progressTimer =
