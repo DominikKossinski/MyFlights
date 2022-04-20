@@ -17,6 +17,7 @@ import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
 import pl.kossa.myflights.utils.analytics.AnalyticsTracker
 import pl.kossa.myflights.utils.fcm.FCMHandler
+import pl.kossa.myflights.utils.language.UserLanguageManager
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -31,19 +32,27 @@ object AppModule {
     }
 
     @Provides
+    fun provideUserLanguageManager(): UserLanguageManager {
+        return UserLanguageManager()
+    }
+
+    @Provides
     fun provideOkHttpClient(
-        preferencesHelper: PreferencesHelper
+        preferencesHelper: PreferencesHelper,
+        userLanguageManager: UserLanguageManager
     ): OkHttpClient {
         return OkHttpClient.Builder().addInterceptor { chain ->
             val token = preferencesHelper.token
             val newRequest = chain.request().newBuilder()
                 .addHeader("Authorization", "Bearer ${token}")
+                .addHeader("Accept-Language", userLanguageManager.getCurrentLanguage())
                 .build()
             Log.d("MyLog", "Token: ${token}")
 //            Log.d("MyLog", "$newRequest")
             chain.proceed(newRequest)
         }.build()
     }
+
 
     @Provides
     fun provideGson(): Gson {
