@@ -66,14 +66,14 @@ dependencies {
 
 
     // Kotlin
-    implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
-    implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.2"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.2"
 
     // Feature module Support
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.4.1"
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.4.2"
 
     // Testing Navigation
-    androidTestImplementation "androidx.navigation:navigation-testing:2.4.1"
+    androidTestImplementation "androidx.navigation:navigation-testing:2.4.2"
 
     //Material Components
     implementation 'com.google.android.material:material:1.5.0'
@@ -126,7 +126,7 @@ dependencies {
 
 
     //Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt'
 
     //Retrofit
