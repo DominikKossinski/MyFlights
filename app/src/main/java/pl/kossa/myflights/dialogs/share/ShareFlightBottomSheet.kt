@@ -1,5 +1,6 @@
 package pl.kossa.myflights.dialogs.share
 
+import android.content.Intent
 import android.os.CountDownTimer
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -60,6 +61,21 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
         binding.progressIv.setImageBitmap(qrCodeBitmap)
         binding.timeTv.isVisible = true
         binding.progressIv.isProgressVisible = true
+        binding.sendButton.isEnabled = true
+        binding.sendButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SEND)
+            intent.putExtra(
+                Intent.EXTRA_TEXT,
+                getString(R.string.share_flight_invitation_link_format, dynamicLink)
+            )
+            intent.putExtra(
+                Intent.EXTRA_SUBJECT,
+                getString(R.string.share_flight_invitation_link_title)
+            )
+            intent.type = "text/plain"
+            val shareIntent = Intent.createChooser(intent, null)
+            startActivity(shareIntent)
+        }
         timer = object : CountDownTimer(sharedFlight.expiresAt.time - Date().time, 1_000) {
             override fun onTick(millisUntilFinished: Long) {
                 val minutes = millisUntilFinished / (60 * 1_000)
@@ -70,6 +86,7 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
             override fun onFinish() {
                 viewModel.setToastMessage(R.string.share_flight_code_expired)
                 binding.progressIv.isProgressVisible = false
+                binding.sendButton.isEnabled = false
                 binding.progressIv.setImageResource(R.drawable.progress_placeholder)
                 viewModel.fetchSharedFlight()
             }

@@ -163,6 +163,9 @@
     <string name="share_flight_uri_format">https://myflights.kossa.pl/join?sharedFlightId=%1$s</string>
     <string name="share_flight_time_format">%1$02d:%2$02d</string>
     <string name="share_flight_code_expired">Code expired</string>
+    <string name="share_flight_send_invitation_link">Send invitation link</string>
+    <string name="share_flight_invitation_link_format">Hi! I want to invite you to my flight. Click the link below to join:\n%1$s</string>
+    <string name="share_flight_invitation_link_title">Join My Flight</string>
 
     <!--ScanQRCode-->
     <string name="scan_qr_code_error">Error by processing image</string>
