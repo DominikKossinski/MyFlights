@@ -6,7 +6,9 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.annotation.DrawableRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import pl.kossa.myflights.R
 import pl.kossa.myflights.databinding.ViewProgressImageViewBinding
 
 class ProgressImageView(context: Context, attrs: AttributeSet) :
@@ -14,6 +16,9 @@ class ProgressImageView(context: Context, attrs: AttributeSet) :
 
     private val binding: ViewProgressImageViewBinding =
         ViewProgressImageViewBinding.inflate(LayoutInflater.from(context), this)
+
+    private val redDrawable = ContextCompat.getDrawable(context, R.drawable.progress_drawable_red)
+    private val greenDrawable = ContextCompat.getDrawable(context, R.drawable.progress_drawable)
 
     var max = 100
         set(value) {
@@ -43,6 +48,11 @@ class ProgressImageView(context: Context, attrs: AttributeSet) :
                 field = value
                 progress.toDouble() / max.toDouble()
             }
+            if (ratio < 0.25) {
+                binding.p1.progressDrawable = redDrawable
+            } else {
+                binding.p1.progressDrawable = greenDrawable
+            }
             when {
                 ratio < 0.25 -> {
                     binding.p1.progress = field * 4
@@ -67,6 +77,7 @@ class ProgressImageView(context: Context, attrs: AttributeSet) :
                     binding.p2.progress = max
                     binding.p3.progress = max
                     binding.p4.progress = field * 4 - 3 * max
+
                 }
             }
         }
