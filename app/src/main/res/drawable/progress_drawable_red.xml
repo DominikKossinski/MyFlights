@@ -1,0 +1,17 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape>
+            <corners android:radius="3dp"/>
+            <solid android:color="@color/white_day_night" />
+        </shape>
+
+    </item>
+    <item android:id="@android:id/progress">
+        <clip android:gravity="left">
+            <shape>
+                <corners android:radius="3dp"/>
+                <solid android:color="@color/color_delete" />
+            </shape>
+        </clip>
+    </item>
+</layer-list>

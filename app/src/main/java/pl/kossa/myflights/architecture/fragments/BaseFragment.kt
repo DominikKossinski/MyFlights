@@ -84,15 +84,13 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment() {
                         Navigation.findNavController(
                             requireActivity(),
                             R.id.mainNavHostFragment
-                        )
-                            .popBackStack()
+                        ).popBackStack()
                     }
                     R.id.lists_nav_graph -> {
                         Navigation.findNavController(
                             requireActivity(),
                             R.id.listsNavHostFragment
-                        )
-                            .popBackStack()
+                        ).popBackStack()
                     }
                     R.id.login_nav_graph -> {
                         Navigation.findNavController(

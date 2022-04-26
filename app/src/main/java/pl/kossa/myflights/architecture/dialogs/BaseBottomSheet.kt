@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
@@ -50,7 +52,7 @@ abstract class BaseBottomSheet<VM : BaseViewModel, VB : ViewBinding> : BottomShe
 
     protected open fun collectFlow() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.signOutFlow.collect {
+            viewModel.signOutFlow.collectLatest {
                 when (findNavController().graph.id) {
                     R.id.main_nav_graph -> {
                         Navigation.findNavController(requireActivity(), R.id.mainNavHostFragment)
@@ -65,12 +67,12 @@ abstract class BaseBottomSheet<VM : BaseViewModel, VB : ViewBinding> : BottomShe
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.apiErrorFlow.collect {
+            viewModel.apiErrorFlow.collectLatest {
                 it?.let { handleApiError(it) }
             }
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.backFlow.collect {
+            viewModel.backFlow.collectLatest {
                 when (findNavController().graph.id) {
                     R.id.main_nav_graph -> {
                         Navigation.findNavController(
@@ -97,7 +99,7 @@ abstract class BaseBottomSheet<VM : BaseViewModel, VB : ViewBinding> : BottomShe
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.getNavDirectionsFlow().collect {
+            viewModel.getNavDirectionsFlow().collectLatest {
                 when (findNavController().graph.id) {
                     R.id.main_nav_graph -> {
                         Navigation.findNavController(
@@ -118,6 +120,14 @@ abstract class BaseBottomSheet<VM : BaseViewModel, VB : ViewBinding> : BottomShe
                     }
                 }
             }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.toastMessage.collectLatest {
+                it?.let {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
+                }
+            }
+
         }
     }
 

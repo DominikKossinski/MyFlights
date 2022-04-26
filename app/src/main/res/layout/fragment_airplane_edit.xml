@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <pl.kossa.myflights.views.SaveAppBar
+    <pl.kossa.myflights.views.appbars.SaveAppBar
         android:id="@+id/saveAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -22,7 +22,7 @@ class FlightsViewModel @Inject constructor(
     fun fetchFlights() {
         makeRequest {
             val response = flightsService.getAllFlights()
-            response.body?.let { flightsList.value = it }
+            response.body?.let { flightsList.value = it.map { it.flight } } // TODO
         }
     }
 
@@ -40,6 +40,10 @@ class FlightsViewModel @Inject constructor(
             setToastMessage(R.string.flight_deleted)
             fetchFlights()
         }
+    }
+
+    fun navigateToPendingFlights() {
+        navigate(MainFragmentDirections.goToPendingSharedFlightsFragment())
     }
 
 

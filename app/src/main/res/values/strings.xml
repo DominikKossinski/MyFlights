@@ -94,6 +94,10 @@
     <!--FlightDetailsFragment-->
     <string name="flight_deleted">Flight has been deleted.</string>
     <string name="flight_delete_question_info">Are you sure to delete this flight? The operation is irreversible.</string>
+    <string name="flight_resign_question_info">Are you sure to resign from this shared flight? The operation is irreversible.</string>
+    <string name="flight_details_see_all">See all</string>
+    <string name="flight_details_owner">Owner</string>
+    <string name="flight_details_invited_users">Invited users</string>
 
     <!--FlightAddFragment-->
     <string name="departure_airport">Departure airport</string>
@@ -152,6 +156,35 @@
     <string name="top_departures">Top departures</string>
     <string name="top_arrivals">Top arrivals</string>
 
+    <!--ShareFlight-->
+    <string name="share_flight_share_flight">Share Flight</string>
+    <string name="share_flight_instruction">Share this QR code with your friends to enable them joining your flight:)</string>
+    <string name="share_flight_dynamic_link_format">https://myflightsdev.page.link/?link=%1$s&amp;apn=pl.kossa.myflights</string>
+    <string name="share_flight_uri_format">https://myflights.kossa.pl/join?sharedFlightId=%1$s</string>
+    <string name="share_flight_time_format">%1$02d:%2$02d</string>
+    <string name="share_flight_code_expired">Code expired</string>
+    <string name="share_flight_send_invitation_link">Send invitation link</string>
+    <string name="share_flight_invitation_link_format">Hi! I want to invite you to my flight. Click the link below to join:\n%1$s</string>
+    <string name="share_flight_invitation_link_title">Join My Flight</string>
+
+    <!--ScanQRCode-->
+    <string name="scan_qr_code_error">Error by processing image</string>
+
+    <!--PendingSharedFlights-->
+    <string name="pending_shared_flights_awaiting_owner_acceptation">Awaiting owner\'s acceptation</string>
+
+    <!--PendingSharedFlightDetails-->
+    <string name="pending_shared_flight_confirmed">Shared flight confirmed</string>
+
+    <!--JoinFlight-->
+    <string name="join_flight_question">Do you want to join this flight?</string>
+    <string name="join_flight_route">Route</string>
+
+    <!--JoinRequestSent-->
+    <string name="join_request_sent_title">Join request sent</string>
+    <string name="join_request_sent_info">Your join request has been sent. Now it\'s waiting for owner confirmation.</string>
+
+
     <!--Common-->
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
@@ -169,6 +202,10 @@
     <string name="nick">Nick</string>
     <string name="coming_soon">Coming soon...</string>
     <string name="sign_in_with_google">Sign in with google</string>
+    <string name="decline">Decline</string>
+    <string name="confirm">Confirm</string>
+    <string name="resign">Resign</string>
+    <string name="route_format">%1$s-%2$s</string>
 
     <!--Errors-->
     <string name="error_empty_name">Name can\'t be empty.</string>

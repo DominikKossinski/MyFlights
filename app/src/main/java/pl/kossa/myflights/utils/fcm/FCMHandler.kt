@@ -1,5 +1,6 @@
 package pl.kossa.myflights.utils.fcm
 
+import android.util.Log
 import com.google.firebase.messaging.FirebaseMessaging
 
 class FCMHandler {
@@ -23,6 +24,8 @@ class FCMHandler {
     fun refreshFCMToken() {
         FirebaseMessaging.getInstance().deleteToken().addOnSuccessListener {
             FirebaseMessaging.getInstance().token
+        }.addOnFailureListener {
+            Log.d("MyLog", "Exception: $it")
         }
     }
 }

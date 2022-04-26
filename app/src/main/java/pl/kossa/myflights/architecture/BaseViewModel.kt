@@ -81,6 +81,7 @@ abstract class BaseViewModel(
                         toastMessage.emit(R.string.error_no_connection_to_server)
                     }
                     else -> {
+                        e.printStackTrace()
                         setToastMessage(R.string.unexpected_error)
                     }
                 }
@@ -136,9 +137,6 @@ abstract class BaseViewModel(
         firebaseAuth.signOut()
         analyticsTracker.setUserId(null)
         fcmHandler.disableFCM {
-            makeRequest {
-                fcmUserService.putFcmToken(FcmRequest(null))
-            }
             viewModelScope.launch {
                 preferencesHelper.token = null
                 preferencesHelper.fcmToken = null

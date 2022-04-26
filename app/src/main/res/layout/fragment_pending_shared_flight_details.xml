@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <pl.kossa.myflights.views.appbars.BackAppBar
+            android:id="@+id/backAppbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            app:deleteVisible="false" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/sharedFlightSwipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/nestedScrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/flightIv"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="64dp"
+                        android:src="@drawable/ic_flight_rounded"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/deleteButton"
+                        style="@style/RedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:text="@string/delete"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toBottomOf="@id/flightIv"
+                        tools:visibility="visible" />
+
+                    <pl.kossa.myflights.views.ElementWithTagView
+                        android:id="@+id/nickEwtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/deleteButton"
+                        app:tagText="@string/nick" />
+
+                    <pl.kossa.myflights.views.ElementWithTagView
+                        android:id="@+id/emailEwtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/nickEwtv"
+                        app:tagText="@string/email" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/declineButton"
+                        style="@style/RedButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:text="@string/decline"
+                        app:layout_constraintEnd_toStartOf="@id/confirmButton"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/emailEwtv" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/confirmButton"
+                        style="@style/BlackButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:text="@string/confirm"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/declineButton"
+                        app:layout_constraintTop_toBottomOf="@id/emailEwtv" />
+
+                    <pl.kossa.myflights.views.ElementWithTagView
+                        android:id="@+id/airplaneEwtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/confirmButton"
+                        app:tagText="@string/airplane" />
+
+                    <pl.kossa.myflights.views.ElementWithTagView
+                        android:id="@+id/departureAirportEwtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/airplaneEwtv"
+                        app:tagText="@string/departure_airport" />
+
+                    <pl.kossa.myflights.views.ElementWithTagView
+                        android:id="@+id/departureRunwayEwtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/departureAirportEwtv"
+                        app:tagText="@string/departure_runway" />
+
+                    <pl.kossa.myflights.views.ElementWithTagView
+                        android:id="@+id/arrivalAirportEwtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/departureRunwayEwtv"
+                        app:tagText="@string/arrival_airport" />
+
+                    <pl.kossa.myflights.views.ElementWithTagView
+                        android:id="@+id/arrivalRunwayEwtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/arrivalAirportEwtv"
+                        app:tagText="@string/arrival_runway" />
+
+                    <pl.kossa.myflights.views.ElementWithTagView
+                        android:id="@+id/departureTimeEwtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/arrivalRunwayEwtv"
+                        app:tagText="@string/departure_time" />
+
+
+                    <pl.kossa.myflights.views.ElementWithTagView
+                        android:id="@+id/arrivalTimeEwtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/departureTimeEwtv"
+                        app:tagText="@string/arrival_time" />
+
+
+                    <pl.kossa.myflights.views.ElementWithTagView
+                        android:id="@+id/distanceEwtv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/arrivalTimeEwtv"
+                        app:tagText="@string/flight_distance" />
+
+                    <TextView
+                        android:id="@+id/noteTagTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="24dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/note"
+                        android:textColor="@color/black_day_night"
+                        android:textSize="@dimen/middle_text_size"
+                        app:layout_constraintTop_toBottomOf="@id/distanceEwtv" />
+
+
+                    <TextView
+                        android:id="@+id/noteTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
+                        android:background="@drawable/ripple_bordered_transparent"
+                        android:fontFamily="@font/poppins_light"
+                        android:padding="8dp"
+                        android:textColor="@color/black_day_night"
+                        android:textSize="@dimen/middle_text_size"
+                        app:layout_constraintTop_toBottomOf="@id/noteTagTv"
+                        tools:text="@string/note" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

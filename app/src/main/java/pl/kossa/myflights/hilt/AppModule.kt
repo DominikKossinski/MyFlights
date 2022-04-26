@@ -10,16 +10,14 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.Protocol
-import okhttp3.ResponseBody
 import pl.kossa.myflights.BuildConfig
-import pl.kossa.myflights.utils.analytics.AnalyticsTracker
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
-import pl.kossa.myflights.utils.fcm.FCMHandler
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
-import retrofit2.Response
+import pl.kossa.myflights.utils.analytics.AnalyticsTracker
+import pl.kossa.myflights.utils.fcm.FCMHandler
+import pl.kossa.myflights.utils.language.UserLanguageManager
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -34,19 +32,27 @@ object AppModule {
     }
 
     @Provides
+    fun provideUserLanguageManager(): UserLanguageManager {
+        return UserLanguageManager()
+    }
+
+    @Provides
     fun provideOkHttpClient(
-        preferencesHelper: PreferencesHelper
+        preferencesHelper: PreferencesHelper,
+        userLanguageManager: UserLanguageManager
     ): OkHttpClient {
         return OkHttpClient.Builder().addInterceptor { chain ->
             val token = preferencesHelper.token
             val newRequest = chain.request().newBuilder()
                 .addHeader("Authorization", "Bearer ${token}")
+                .addHeader("Accept-Language", userLanguageManager.getCurrentLanguage())
                 .build()
             Log.d("MyLog", "Token: ${token}")
 //            Log.d("MyLog", "$newRequest")
             chain.proceed(newRequest)
         }.build()
     }
+
 
     @Provides
     fun provideGson(): Gson {
@@ -60,6 +66,7 @@ object AppModule {
         return Retrofit.Builder()
             .client(client)
             .baseUrl(BuildConfig.SERVER_URL)
+//            .baseUrl("http://192.168.200.139:8080/")
             .addCallAdapterFactory(ApiResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
@@ -98,6 +105,11 @@ object AppModule {
     @Provides
     fun provideStatisticsService(retrofit: Retrofit): StatisticsService {
         return retrofit.create(StatisticsService::class.java)
+    }
+
+    @Provides
+    fun provideSharedFlightsService(retrofit: Retrofit): SharedFlightsService {
+        return retrofit.create(SharedFlightsService::class.java)
     }
 
     @Provides

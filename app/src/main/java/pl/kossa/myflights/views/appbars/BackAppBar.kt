@@ -1,4 +1,4 @@
-package pl.kossa.myflights.views
+package pl.kossa.myflights.views.appbars
 
 import android.content.Context
 import android.util.AttributeSet
@@ -27,7 +27,12 @@ class BackAppBar(context: Context, attrs: AttributeSet) : ConstraintLayout(conte
         context.theme.obtainStyledAttributes(attrs, R.styleable.BackAppBar, 0, 0).apply {
             isDeleteIconVisible = getBoolean(R.styleable.BackAppBar_deleteVisible, true)
         }
-        binding.root.setBackgroundColor(ContextCompat.getColor(context, R.color.white_background_day_night))
+        binding.root.setBackgroundColor(
+            ContextCompat.getColor(
+                context,
+                R.color.white_background_day_night
+            )
+        )
         binding.backTv.setOnClickListener {
             backOnClickListener?.invoke()
         }
@@ -43,6 +48,4 @@ class BackAppBar(context: Context, attrs: AttributeSet) : ConstraintLayout(conte
     fun setDeleteOnClickListener(listener: (() -> Unit)?) {
         deleteOnClickListener = listener
     }
-
-
 }

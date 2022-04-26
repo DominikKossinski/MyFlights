@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/titleTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/share_flight_share_flight"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/app_name_text_size"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/infoTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_light"
+        android:text="@string/share_flight_instruction"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/middle_text_size"
+        app:layout_constraintTop_toBottomOf="@id/titleTv" />
+
+    <TextView
+        android:id="@+id/timeTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:fontFamily="@font/poppins_light"
+        android:textAlignment="center"
+        android:textColor="@color/black_day_night"
+        android:textSize="@dimen/middle_text_size"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/infoTv"
+        tools:text="00:00"
+        tools:visibility="visible" />
+
+
+    <pl.kossa.myflights.views.ProgressImageView
+        android:id="@+id/progressIv"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/timeTv" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sendButton"
+        style="@style/BlackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="8dp"
+        android:gravity="center"
+        android:drawableEnd="@drawable/ic_message"
+        android:drawablePadding="8dp"
+        android:text="@string/share_flight_send_invitation_link"
+        app:drawableTint="@color/white_day_night"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressIv" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

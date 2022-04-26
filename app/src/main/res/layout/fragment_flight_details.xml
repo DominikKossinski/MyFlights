@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <pl.kossa.myflights.views.BackAppBar
-            android:id="@+id/backAppbar"
+        <pl.kossa.myflights.views.appbars.ShareAppBar
+            android:id="@+id/shareAppbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:title="@string/flight" />
+            android:layout_height="wrap_content" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/flightSwipeRefresh"
+            android:id="@+id/shared_flight_swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -40,13 +39,63 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <pl.kossa.myflights.views.OwnerElementWithTag
+                        android:id="@+id/ownerEtw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/flightIv" />
+
+                    <TextView
+                        android:id="@+id/sharedUsersTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="@string/flight_details_invited_users"
+                        android:textColor="@color/black_day_night"
+                        android:textSize="@dimen/middle_text_size"
+                        app:layout_constrainedWidth="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/ownerEtw" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/sharedUsersCg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintTop_toBottomOf="@id/sharedUsersTv" />
+
+                    <TextView
+                        android:id="@+id/seeAllTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/flight_details_see_all"
+                        android:background="@drawable/ripple_transparent"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/black_day_night"
+                        android:textSize="@dimen/middle_text_size"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/sharedUsersCg" />
+
 
                     <pl.kossa.myflights.views.ElementWithTagView
                         android:id="@+id/airplaneEwtv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        app:layout_constraintTop_toBottomOf="@id/flightIv"
+                        app:layout_constraintTop_toBottomOf="@id/seeAllTv"
                         app:tagText="@string/airplane" />
 
                     <pl.kossa.myflights.views.ElementWithTagView
@@ -124,15 +173,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="32dp"
-                        android:layout_marginEnd="32dp"
                         android:layout_marginTop="8dp"
+                        android:layout_marginEnd="32dp"
                         android:background="@drawable/ripple_bordered_transparent"
                         android:fontFamily="@font/poppins_light"
-                        tools:text="@string/note"
                         android:padding="8dp"
                         android:textColor="@color/black_day_night"
                         android:textSize="@dimen/middle_text_size"
-                        app:layout_constraintTop_toBottomOf="@id/noteTagTv" />
+                        app:layout_constraintTop_toBottomOf="@id/noteTagTv"
+                        tools:text="@string/note" />
 
 
                     <androidx.appcompat.widget.AppCompatButton
@@ -140,10 +189,11 @@
                         style="@style/BlackButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/edit"
                         android:layout_margin="16dp"
+                        android:text="@string/edit"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/noteTv" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.core.widget.NestedScrollView>
