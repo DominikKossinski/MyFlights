@@ -10,4 +10,15 @@ class AnalyticsTracker {
     fun setUserId(userId: String?) {
         analytics.setUserId(userId)
     }
+
+    //TODO make list of events
+
+
+    private enum class AnalyticsEvent(val eventName: String) {
+        TEST("click")
+    }
+
+    private enum class AnalyticsEventParam(val paramName: String) {
+        TEST("test")
+    }
 }
