@@ -37,6 +37,7 @@ class FlightDetailsViewModel @Inject constructor(
     fun deleteFlight() {
         makeRequest {
             flightsService.deleteFlight(flightId)
+            analyticsTracker.logClickDeleteFlight()
             setToastMessage(R.string.flight_deleted)
             navigateBack()
         }
@@ -50,6 +51,7 @@ class FlightDetailsViewModel @Inject constructor(
                 makeRequest {
                     sharedFlightsService.resignFromSharedFlight(shareData.sharedFlightId)
                     //TODO toast
+                    analyticsTracker.logClickResignFromFlight()
                     navigateBack()
                 }
             }
@@ -57,10 +59,12 @@ class FlightDetailsViewModel @Inject constructor(
     }
 
     fun navigateToFlightShareDialog() {
+        analyticsTracker.logClickShareFlight()
         navigate(FlightDetailsFragmentDirections.goToShareFlightDialog(flightId))
     }
 
     fun navigateToSharedUsers() {
+        analyticsTracker.logClickGoToSharedUsers()
         navigate(FlightDetailsFragmentDirections.goToSharedUsersFragment(flightId))
     }
 
