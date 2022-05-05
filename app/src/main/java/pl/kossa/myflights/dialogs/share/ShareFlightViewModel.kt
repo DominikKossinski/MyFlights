@@ -32,4 +32,8 @@ class ShareFlightViewModel @Inject constructor(
         }
     }
 
+    fun logClickShareWithLink() {
+        analyticsTracker.logClickShareWithLink()
+    }
+
 }

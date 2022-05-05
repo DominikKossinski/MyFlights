@@ -74,6 +74,7 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
             )
             intent.type = "text/plain"
             val shareIntent = Intent.createChooser(intent, null)
+            viewModel.logClickShareWithLink()
             startActivity(shareIntent)
         }
         timer = object : CountDownTimer(sharedFlight.expiresAt.time - Date().time, 1_000) {
