@@ -31,6 +31,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun navigateToSettings() {
+        analyticsTracker.logClickSettings()
         navigate(MainFragmentDirections.goToSettings())
     }
 
@@ -39,6 +40,11 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun navigateToStatistics() {
+        analyticsTracker.logClickStatistics()
         navigate(MainFragmentDirections.goToStatistics())
+    }
+
+    fun logSignOut() {
+        analyticsTracker.logClickSignOut()
     }
 }

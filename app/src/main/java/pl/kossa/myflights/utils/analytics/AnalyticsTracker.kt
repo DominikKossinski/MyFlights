@@ -54,6 +54,18 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_CREATE_ACCOUNT)
     }
 
+    fun logClickStatistics() {
+        logEvent(AnalyticsEvent.CLICK_STATISTICS)
+    }
+
+    fun logClickSettings() {
+        logEvent(AnalyticsEvent.CLICK_SETTINGS)
+    }
+
+    fun logClickSignOut() {
+        logEvent(AnalyticsEvent.CLICK_SIGN_OUT)
+    }
+
     private fun logEvent(event: AnalyticsEvent, params: Bundle? = null) {
         Log.d("MyLog", "Event: $event Params: $params")
 //        analytics.logEvent(event.eventName, params)
@@ -74,12 +86,17 @@ class AnalyticsTracker {
         CLICK_DELETE_FLIGHT("click_delete_flight"),
         CLICK_GO_TO_SHARED_USERS("click_go_to_shared_users"),
 
-        //JoinFlightBottomSheet
+        // JoinFlightBottomSheet
         JOIN_REQUEST_SCANNED("join_request_scanned"),
         CLICK_JOIN_FLIGHT("click_join_flight"),
 
         //ShareFlightBottomSheet
         CLICK_SHARE_WITH_LINK("click_share_with_link"),
+
+        // Profile
+        CLICK_STATISTICS("click_statistics"),
+        CLICK_SETTINGS("click_settings"),
+        CLICK_SIGN_OUT("click_sign_out"),
     }
 
     private enum class AnalyticsEventParam(val paramName: String) {
