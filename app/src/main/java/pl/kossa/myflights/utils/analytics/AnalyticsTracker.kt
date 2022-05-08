@@ -42,6 +42,14 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_SHARE_WITH_LINK)
     }
 
+    fun logClickLogin() {
+        logEvent(AnalyticsEvent.CLICK_LOGIN)
+    }
+
+    fun logClickGoogleSignIn() {
+        logEvent(AnalyticsEvent.CLICK_GOOGLE_SIGN_IN)
+    }
+
     private fun logEvent(event: AnalyticsEvent, params: Bundle? = null) {
         Log.d("MyLog", "Event: $event Params: $params")
 //        analytics.logEvent(event.eventName, params)
@@ -49,6 +57,10 @@ class AnalyticsTracker {
 
 
     private enum class AnalyticsEvent(val eventName: String) {
+        // LoginFragment
+        CLICK_LOGIN("click_login"),
+        CLICK_GOOGLE_SIGN_IN("click_google_sign_in"),
+
         // FlightDetailsFragment
         CLICK_SHARE_FLIGHT("click_share_flight"),
         CLICK_RESIGN_FROM_FLIGHT("click_resign_from_flight"),
