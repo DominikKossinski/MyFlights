@@ -50,6 +50,10 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_GOOGLE_SIGN_IN)
     }
 
+    fun logClickCreateAccount() {
+        logEvent(AnalyticsEvent.CLICK_CREATE_ACCOUNT)
+    }
+
     private fun logEvent(event: AnalyticsEvent, params: Bundle? = null) {
         Log.d("MyLog", "Event: $event Params: $params")
 //        analytics.logEvent(event.eventName, params)
@@ -60,6 +64,9 @@ class AnalyticsTracker {
         // LoginFragment
         CLICK_LOGIN("click_login"),
         CLICK_GOOGLE_SIGN_IN("click_google_sign_in"),
+
+        // CreateAccount
+        CLICK_CREATE_ACCOUNT("click_create_account"),
 
         // FlightDetailsFragment
         CLICK_SHARE_FLIGHT("click_share_flight"),
