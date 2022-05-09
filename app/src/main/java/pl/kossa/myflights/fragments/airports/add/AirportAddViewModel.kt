@@ -72,6 +72,7 @@ class AirportAddViewModel @Inject constructor(
             val request =
                 AirportRequest(name, city, icaoCode, towerFrequency, groundFrequency, null)
             val response = airportsService.postAirport(request)
+            analyticsTracker.logClickAddAirport()
             response.body?.let { navigateToDetails(it.entityId) }
         }
     }

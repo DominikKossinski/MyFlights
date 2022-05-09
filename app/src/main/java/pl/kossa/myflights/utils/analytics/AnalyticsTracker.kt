@@ -74,6 +74,10 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_ADD_FLIGHT)
     }
 
+    fun logClickAddAirport() {
+        logEvent(AnalyticsEvent.CLICK_ADD_AIRPORT)
+    }
+
     private fun logEvent(event: AnalyticsEvent, params: Bundle? = null) {
         Log.d("MyLog", "Event: $event Params: $params")
 //        analytics.logEvent(event.eventName, params)
@@ -105,12 +109,15 @@ class AnalyticsTracker {
         //ShareFlightBottomSheet
         CLICK_SHARE_WITH_LINK("click_share_with_link"),
 
-        // AddFlight
+        // FlightAdd
         CLICK_ADD_FLIGHT("click_add_flight"),
         CLICK_SCAN_QR_CODE("click_scan_qr_code"),
 
-        // AddAirplane
+        // AirplaneAdd
         CLICK_ADD_AIRPLANE("click_add_airplane"),
+
+        // AirportAdd
+        CLICK_ADD_AIRPORT("click_add_airport"),
 
         // Profile
         CLICK_STATISTICS("click_statistics"),
