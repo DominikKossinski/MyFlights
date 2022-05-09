@@ -58,6 +58,7 @@ class AirplaneAddViewModel @Inject constructor(
             //TODO image
             val request = AirplaneRequest(name, maxSpeed, weight, null)
             val response = airplanesService.postAirplane(request)
+            analyticsTracker.logClickAddAirplane()
             response.body?.let {
                 navigateToDetails(it.entityId)
             }
