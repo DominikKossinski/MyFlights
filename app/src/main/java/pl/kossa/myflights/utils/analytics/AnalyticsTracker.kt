@@ -86,15 +86,18 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_ABOUT_APP)
     }
 
-    private fun logEvent(event: AnalyticsEvent, params: Bundle? = null) {
-        Log.d("MyLog", "Event: $event Params: $params")
-//        analytics.logEvent(event.eventName, params)
-    }
-
     fun logClickAddAirplane() {
         logEvent(AnalyticsEvent.CLICK_ADD_AIRPLANE)
     }
 
+    fun logClickDeleteAccount() {
+        logEvent(AnalyticsEvent.CLICK_DELETE_ACCOUNT)
+    }
+
+    private fun logEvent(event: AnalyticsEvent, params: Bundle? = null) {
+        Log.d("MyLog", "Event: $event Params: $params")
+//        analytics.logEvent(event.eventName, params)
+    }
 
     private enum class AnalyticsEvent(val eventName: String) {
         // LoginFragment
@@ -137,6 +140,9 @@ class AnalyticsTracker {
 
         // Settings
         CLICK_ABOUT_APP("click_about_app"),
+
+        // AccountDelete
+        CLICK_DELETE_ACCOUNT("click_account_delete")
 
     }
 

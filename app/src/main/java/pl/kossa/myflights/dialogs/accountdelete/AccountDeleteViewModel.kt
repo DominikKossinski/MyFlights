@@ -54,6 +54,7 @@ class AccountDeleteViewModel @Inject constructor(
             ?.addOnSuccessListener {
                 makeRequest {
                     userService.deleteUser()
+                    analyticsTracker.logClickDeleteAccount()
                     isLoadingData.value = false
                     signOut()
                 }
