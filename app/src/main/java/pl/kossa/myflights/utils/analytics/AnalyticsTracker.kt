@@ -82,6 +82,10 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_ADD_RUNWAY)
     }
 
+    fun logClickAboutApp() {
+        logEvent(AnalyticsEvent.CLICK_ABOUT_APP)
+    }
+
     private fun logEvent(event: AnalyticsEvent, params: Bundle? = null) {
         Log.d("MyLog", "Event: $event Params: $params")
 //        analytics.logEvent(event.eventName, params)
@@ -130,6 +134,10 @@ class AnalyticsTracker {
         CLICK_STATISTICS("click_statistics"),
         CLICK_SETTINGS("click_settings"),
         CLICK_SIGN_OUT("click_sign_out"),
+
+        // Settings
+        CLICK_ABOUT_APP("click_about_app"),
+
     }
 
     private enum class AnalyticsEventParam(val paramName: String) {
