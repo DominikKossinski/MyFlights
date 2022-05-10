@@ -78,6 +78,10 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_ADD_AIRPORT)
     }
 
+    fun logClickAddRunway() {
+        logEvent(AnalyticsEvent.CLICK_ADD_RUNWAY)
+    }
+
     private fun logEvent(event: AnalyticsEvent, params: Bundle? = null) {
         Log.d("MyLog", "Event: $event Params: $params")
 //        analytics.logEvent(event.eventName, params)
@@ -118,6 +122,9 @@ class AnalyticsTracker {
 
         // AirportAdd
         CLICK_ADD_AIRPORT("click_add_airport"),
+
+        // RunwayAdd
+        CLICK_ADD_RUNWAY("click_add_runway"),
 
         // Profile
         CLICK_STATISTICS("click_statistics"),
