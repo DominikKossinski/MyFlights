@@ -90,8 +90,16 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_ABOUT_APP)
     }
 
+    fun logClickAirplaneDetails() {
+        logEvent(AnalyticsEvent.CLICK_AIRPLANE_DETAILS)
+    }
+
     fun logClickAddAirplane() {
         logEvent(AnalyticsEvent.CLICK_ADD_AIRPLANE)
+    }
+
+    fun logClickDeleteAirplane() {
+        logEvent(AnalyticsEvent.CLICK_DELETE_AIRPLANE)
     }
 
     fun logClickDeleteAccount() {
@@ -113,6 +121,12 @@ class AnalyticsTracker {
 
         // FlightsFragment
         CLICK_FLIGHT_DETAILS("click_flight_details"),
+
+        // AirplanesFragment
+        CLICK_AIRPLANE_DETAILS("click_airplane_details"),
+
+        // AirplaneDetails
+        CLICK_DELETE_AIRPLANE("click_delete_airplane"),
 
         // FlightDetailsFragment
         CLICK_SHARE_FLIGHT("click_share_flight"),
