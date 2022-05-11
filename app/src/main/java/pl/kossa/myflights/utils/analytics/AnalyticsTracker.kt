@@ -78,6 +78,14 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_ADD_FLIGHT)
     }
 
+    fun logClickAirportDetails() {
+        logEvent(AnalyticsEvent.CLICK_AIRPORT_DETAILS)
+    }
+
+    fun logClickDeleteAirport() {
+        logEvent(AnalyticsEvent.CLICK_DELETE_AIRPORT)
+    }
+
     fun logClickAddAirport() {
         logEvent(AnalyticsEvent.CLICK_ADD_AIRPORT)
     }
@@ -147,6 +155,12 @@ class AnalyticsTracker {
 
         // AirplaneAdd
         CLICK_ADD_AIRPLANE("click_add_airplane"),
+
+        // AirportsFragment
+        CLICK_AIRPORT_DETAILS("click_airport_details"),
+
+        // AirportDetails
+        CLICK_DELETE_AIRPORT("click_delete_airport"),
 
         // AirportAdd
         CLICK_ADD_AIRPORT("click_add_airport"),
