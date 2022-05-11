@@ -31,6 +31,7 @@ class FlightsViewModel @Inject constructor(
     }
 
     fun navigateToFlightDetails(flightId: String) {
+        analyticsTracker.logClickFlightDetails()
         navigate(MainFragmentDirections.goToFlightDetails(flightId))
     }
 
@@ -38,6 +39,7 @@ class FlightsViewModel @Inject constructor(
         makeRequest {
             flightsService.deleteFlight(flightId)
             setToastMessage(R.string.flight_deleted)
+            analyticsTracker.logClickDeleteFlight()
             fetchFlights()
         }
     }

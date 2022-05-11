@@ -70,6 +70,10 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_SCAN_QR_CODE)
     }
 
+    fun logClickFlightDetails() {
+        logEvent(AnalyticsEvent.CLICK_FLIGHT_DETAILS)
+    }
+
     fun logClickAddFlight() {
         logEvent(AnalyticsEvent.CLICK_ADD_FLIGHT)
     }
@@ -106,6 +110,9 @@ class AnalyticsTracker {
 
         // CreateAccount
         CLICK_CREATE_ACCOUNT("click_create_account"),
+
+        // FlightsFragment
+        CLICK_FLIGHT_DETAILS("click_flight_details"),
 
         // FlightDetailsFragment
         CLICK_SHARE_FLIGHT("click_share_flight"),
