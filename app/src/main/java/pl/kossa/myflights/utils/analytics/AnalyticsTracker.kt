@@ -98,6 +98,10 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_ADD_RUNWAY)
     }
 
+    fun logClickDeleteRunway() {
+        logEvent(AnalyticsEvent.CLICK_DELETE_RUNWAY)
+    }
+
     fun logClickAboutApp() {
         logEvent(AnalyticsEvent.CLICK_ABOUT_APP)
     }
@@ -171,6 +175,7 @@ class AnalyticsTracker {
         CLICK_ADD_AIRPORT("click_add_airport"),
 
         // RunwayDetails
+        CLICK_DELETE_RUNWAY("click_delete_runway"),
 
         // RunwayAdd
         CLICK_ADD_RUNWAY("click_add_runway"),
