@@ -122,6 +122,10 @@ class AnalyticsTracker {
         logEvent(AnalyticsEvent.CLICK_DELETE_ACCOUNT)
     }
 
+    fun logClickSaveAvatar() {
+        logEvent(AnalyticsEvent.CLICK_SAVE_AVATAR)
+    }
+
     private fun logEvent(event: AnalyticsEvent, params: Bundle? = null) {
         Log.d("MyLog", "Event: $event Params: $params")
 //        analytics.logEvent(event.eventName, params)
@@ -189,7 +193,10 @@ class AnalyticsTracker {
         CLICK_ABOUT_APP("click_about_app"),
 
         // AccountDelete
-        CLICK_DELETE_ACCOUNT("click_account_delete")
+        CLICK_DELETE_ACCOUNT("click_account_delete"),
+
+        // AcceptAvatar
+        CLICK_SAVE_AVATAR("click_save_avatar")
 
     }
 

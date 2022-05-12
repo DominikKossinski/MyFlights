@@ -71,6 +71,7 @@ class AcceptAvatarViewModel @Inject constructor(
                         )
                     )
                 }
+                analyticsTracker.logClickSaveAvatar()
                 navigateBack()
             }
         }
