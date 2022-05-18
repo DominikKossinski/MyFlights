@@ -63,6 +63,7 @@ class RunwayAddViewModel @Inject constructor(
                 airportId,
                 RunwayRequest(_name.value, length, heading, _ilsFrequency.value, null)
             )
+            analyticsTracker.logClickAddRunway()
             response.body?.let {
                 navigate(RunwayAddFragmentDirections.goToRunwayDetails(airportId, it.entityId))
             }

@@ -29,6 +29,7 @@ class AirplanesViewModel @Inject constructor(
     fun deleteAirplane(airplaneId: String) {
         makeRequest {
             airplanesService.deleteAirplane(airplaneId)
+            analyticsTracker.logClickDeleteAirplane()
             setToastMessage(R.string.airplane_deleted)
             fetchAirplanes()
         }
@@ -39,6 +40,7 @@ class AirplanesViewModel @Inject constructor(
     }
 
     fun navigateToAirplaneDetails(airplaneId: String) {
+        analyticsTracker.logClickAirplaneDetails()
         navigate(MainFragmentDirections.goToAirplaneDetails(airplaneId))
     }
 }

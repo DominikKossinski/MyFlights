@@ -78,6 +78,7 @@ class FlightAddViewModel @Inject constructor(
                     _arrivalRunwayId.value
                 )
             )
+            analyticsTracker.logClickAddFlight()
             response.body?.let { navigateToFlightDetails(it.entityId) }
         }
     }
@@ -136,6 +137,7 @@ class FlightAddViewModel @Inject constructor(
     }
 
     fun navigateToScanQRCodeFragment() {
+        analyticsTracker.logClickScanQRCode()
         navigate(FlightAddFragmentDirections.goToScanQRCodeFragment())
     }
 }

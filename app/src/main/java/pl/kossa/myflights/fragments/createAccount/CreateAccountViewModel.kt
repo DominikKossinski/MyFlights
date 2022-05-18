@@ -76,6 +76,7 @@ class CreateAccountViewModel @Inject constructor(
             else -> {
                 firebaseAuth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
                     firebaseAuth.currentUser?.sendEmailVerification()?.addOnSuccessListener {
+                        analyticsTracker.logClickCreateAccount()
                         navigateToEmailResend()
                     }?.addOnFailureListener {
                         when (it) {

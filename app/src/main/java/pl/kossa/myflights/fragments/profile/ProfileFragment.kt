@@ -31,6 +31,7 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
             viewModel.navigateToSettings()
         }
         binding.signOutButton.setOnClickListener {
+            viewModel.logSignOut()
             viewModel.signOut()
         }
         binding.editAvatarIv.setOnClickListener {
@@ -45,12 +46,12 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
 
     override fun collectFlow() {
         super.collectFlow()
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isLoadingData.collect {
                 binding.profileSwipeRefresh.isRefreshing = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.user.collect {
                 Log.d("MyLog", "Profile $it")
                 it?.let { setupUserData(it) }

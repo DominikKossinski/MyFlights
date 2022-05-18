@@ -39,6 +39,7 @@ class RunwayDetailsViewModel @Inject constructor(
     fun deleteRunway() {
         makeRequest {
             runwaysService.deleteRunway(airportId, runwayId)
+            analyticsTracker.logClickDeleteRunway()
             setToastMessage(R.string.runway_deleted)
             navigateBack()
         }

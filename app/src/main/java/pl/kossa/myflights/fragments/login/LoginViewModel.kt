@@ -66,6 +66,7 @@ class LoginViewModel @Inject constructor(
                                 analyticsTracker.setUserId(firebaseAuth.currentUser?.uid)
                                 fcmHandler.enableFCM {
                                     fcmHandler.refreshFCMToken()
+                                    analyticsTracker.logClickLogin()
                                     navigate(LoginFragmentDirections.goToMainActivity(), true)
                                     isLoadingData.value = false
                                 }
@@ -133,6 +134,7 @@ class LoginViewModel @Inject constructor(
                         fcmHandler.refreshFCMToken()
                     }
                     makeRequest {
+                        analyticsTracker.logClickGoogleSignIn()
                         val response = userService.getUser()
                         val user = response.body!!
                         Log.d("MyLog", "New User: $user")

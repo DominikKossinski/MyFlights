@@ -51,6 +51,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun navigateToAboutApp() {
+        analyticsTracker.logClickAboutApp()
         navigate(SettingsFragmentDirections.goToAboutApp())
     }
 }
