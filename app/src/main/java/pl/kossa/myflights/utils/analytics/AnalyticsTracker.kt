@@ -127,8 +127,7 @@ class AnalyticsTracker {
     }
 
     private fun logEvent(event: AnalyticsEvent, params: Bundle? = null) {
-        Log.d("MyLog", "Event: $event Params: $params")
-//        analytics.logEvent(event.eventName, params)
+        analytics.logEvent(event.eventName, params)
     }
 
     private enum class AnalyticsEvent(val eventName: String) {
