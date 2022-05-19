@@ -9,13 +9,13 @@ apply plugin: 'dagger.hilt.android.plugin'
 
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "pl.kossa.myflights"
         minSdkVersion 22
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
 
@@ -49,12 +49,13 @@ android {
     hilt {
         enableTransformForLocalTests = true
     }
+    namespace 'pl.kossa.myflights'
 
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+    implementation 'com.google.android.gms:play-services-auth:20.2.0'
     kapt "com.android.databinding:compiler:3.6.4"
     //noinspection GradleDependency
     implementation 'androidx.appcompat:appcompat:1.3.1'
@@ -76,7 +77,7 @@ dependencies {
     androidTestImplementation "androidx.navigation:navigation-testing:2.4.2"
 
     //Material Components
-    implementation 'com.google.android.material:material:1.5.0'
+    implementation 'com.google.android.material:material:1.6.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
@@ -88,10 +89,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-mlkit-barcode-scanning:18.0.0'
 
     //CameraX
-    implementation "androidx.camera:camera-core:1.1.0-beta03"
-    implementation 'androidx.camera:camera-camera2:1.1.0-beta03'
-    implementation 'androidx.camera:camera-lifecycle:1.1.0-beta03'
-    implementation 'androidx.camera:camera-view:1.1.0-beta03'
+    implementation "androidx.camera:camera-core:1.2.0-alpha01"
+    implementation 'androidx.camera:camera-camera2:1.2.0-alpha01'
+    implementation 'androidx.camera:camera-lifecycle:1.2.0-alpha01'
+    implementation 'androidx.camera:camera-view:1.2.0-alpha01'
 
 
     //Firebase
@@ -107,7 +108,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
 
     //Auth
-    implementation 'com.google.firebase:firebase-auth:21.0.3'
+    implementation 'com.google.firebase:firebase-auth:21.0.4'
 
     //Crashlytics
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
@@ -122,12 +123,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-dynamic-links-ktx'
 
     //GSM
-    implementation 'com.google.android.gms:play-services-basement:18.0.1'
+    implementation 'com.google.android.gms:play-services-basement:18.0.2'
 
 
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0-native-mt'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1-native-mt'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
