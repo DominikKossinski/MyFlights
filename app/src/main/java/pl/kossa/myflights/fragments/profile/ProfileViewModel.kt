@@ -2,7 +2,6 @@ package pl.kossa.myflights.fragments.profile
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
@@ -15,7 +14,10 @@ class ProfileViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-    val user = MutableStateFlow<User?>(null)
+    val email = MutableStateFlow(preferencesHelper.userEmail ?: "")
+    val nick = MutableStateFlow(preferencesHelper.userNick ?: "")
+    val avatar = MutableStateFlow<String?>(preferencesHelper.avatarUrl)
+
 
     init {
         fetchUser()
@@ -25,7 +27,10 @@ class ProfileViewModel @Inject constructor(
         makeRequest {
             val response = userService.getUser()
             response.body?.let {
-                user.emit(it)
+                setUser(it)
+                email.emit(it.email ?: "")
+                nick.emit(it.nick)
+                avatar.emit(it.avatar?.url)
             }
         }
     }
