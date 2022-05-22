@@ -16,6 +16,7 @@ import pl.kossa.myflights.R
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
+import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.services.UserService
@@ -140,6 +141,7 @@ abstract class BaseViewModel(
             viewModelScope.launch {
                 preferencesHelper.token = null
                 preferencesHelper.fcmToken = null
+                preferencesHelper.setUser(null)
                 signOutFlow.emit(Unit)
             }
         }
@@ -152,4 +154,8 @@ abstract class BaseViewModel(
     }
 
     fun getNavDirectionsFlow() = navDirectionFlow
+
+    fun setUser(user: User?) {
+        preferencesHelper.setUser(user)
+    }
 }
