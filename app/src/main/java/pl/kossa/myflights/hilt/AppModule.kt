@@ -2,6 +2,7 @@ package pl.kossa.myflights.hilt
 
 import android.content.Context
 import android.util.Log
+import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -13,6 +14,7 @@ import okhttp3.OkHttpClient
 import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
+import pl.kossa.myflights.room.AppDatabase
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
 import pl.kossa.myflights.utils.analytics.AnalyticsTracker
@@ -110,6 +112,15 @@ object AppModule {
     @Provides
     fun provideSharedFlightsService(retrofit: Retrofit): SharedFlightsService {
         return retrofit.create(SharedFlightsService::class.java)
+    }
+
+    @Provides
+    fun provideRoomDatabase(@ApplicationContext applicationContext: Context): AppDatabase {
+        return Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "my-flights-db"
+        ).build()
     }
 
     @Provides
