@@ -9,16 +9,16 @@ data class AirplaneModel(
     val airplaneId: String,
 
     @NotNull
-    @ColumnInfo(name = "Name")
+    @ColumnInfo(name = "name")
     val name: String,
 
-    @ColumnInfo(name = "MaxSpeed")
+    @ColumnInfo(name = "maxSpeed")
     val maxSpeed: Int?,
 
-    @ColumnInfo(name = "Weight")
+    @ColumnInfo(name = "weight")
     val weight: Int?,
 
-    @ColumnInfo(name="imageId")
+    @ColumnInfo(name = "imageId")
     val imageId: String?,
 
     @NotNull
@@ -33,5 +33,10 @@ data class Airplane(
         parentColumn = "imageId",
         entityColumn = "imageId"
     )
-    val image: ImageModel
+    val image: ImageModel?,
+    @Relation(
+        parentColumn = "airportId",
+        entityColumn = "airportId"
+    )
+    val runways: List<Runway>
 )
