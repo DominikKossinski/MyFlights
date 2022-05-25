@@ -21,6 +21,11 @@ android {
 
         testInstrumentationRunner "pl.kossa.myflights.CustomTestRunner"
 
+        kapt {
+            arguments {
+                arg("room.schemaLocation", "$projectDir/schemas")
+            }
+        }
     }
 
     buildTypes {
