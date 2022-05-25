@@ -15,6 +15,7 @@ import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
 import pl.kossa.myflights.room.AppDatabase
+import pl.kossa.myflights.room.converters.DateConverter
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
 import pl.kossa.myflights.utils.analytics.AnalyticsTracker
@@ -120,7 +121,8 @@ object AppModule {
             applicationContext,
             AppDatabase::class.java,
             "my-flights-db"
-        ).build()
+        ).addTypeConverter(DateConverter())
+            .build()
     }
 
     @Provides

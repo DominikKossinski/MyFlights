@@ -33,7 +33,7 @@ data class Airplane(
         parentColumn = "imageId",
         entityColumn = "imageId"
     )
-    val image: ImageModel?,
+    val image: Image?,
     @Relation(
         parentColumn = "airportId",
         entityColumn = "airportId"

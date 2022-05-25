@@ -27,10 +27,11 @@ data class RunwayModel(
 )
 
 data class Runway(
-    @Embedded val runway: RunwayModel,
+    @Embedded
+    val runway: RunwayModel,
     @Relation(
         parentColumn = "imageId",
         entityColumn = "imageId"
     )
-    val image: ImageModel?
+    val image: Image?
 )

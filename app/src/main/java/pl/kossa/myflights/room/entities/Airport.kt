@@ -1,7 +1,6 @@
 package pl.kossa.myflights.room.entities
 
 import androidx.room.*
-import pl.kossa.myflights.api.models.Airport
 
 @Entity
 data class AirportModel(
@@ -38,6 +37,6 @@ data class Airport(
         parentColumn = "imageId",
         entityColumn = "imageId"
     )
-    val imageModel: ImageModel?
+    val imageModel: Image?
 ) {
 }

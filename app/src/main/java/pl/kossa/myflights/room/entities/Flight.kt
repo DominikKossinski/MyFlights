@@ -1,8 +1,6 @@
 package pl.kossa.myflights.room.entities
 
 import androidx.room.*
-import pl.kossa.myflights.api.models.Airport
-import pl.kossa.myflights.api.models.Runway
 import java.util.*
 
 @Entity
@@ -41,7 +39,10 @@ data class FlightModel(
     val arrivalAirportId: String,
 
     @ColumnInfo(name = "arrivalRunwayId")
-    val arrivalRunwayId: String
+    val arrivalRunwayId: String,
+
+    @ColumnInfo(name = "ownerId")
+    val ownerId: String
 )
 
 data class Flight(
@@ -71,5 +72,81 @@ data class Flight(
         parentColumn = "arrivalRunwayId",
         entityColumn = "runwayId"
     )
-    val arrivalRunway: Runway
+    val arrivalRunway: Runway,
+    @Relation(
+        parentColumn = "ownerId",
+        entityColumn = "ownerId"
+    )
+    val ownerData: OwnerData,
+    @Relation(
+        parentColumn = "flightId",
+        entityColumn = "flightId"
+    )
+    val sharedUsers: List<ShareData>
+)
+
+@Entity
+data class ShareDataModel(
+    @PrimaryKey
+    val sharedFlightId: String,
+    @ColumnInfo(name = "flightId")
+    val flightId: String,
+    @ColumnInfo(name = "sharedUserId")
+    val sharedUserId: String,
+    @ColumnInfo(name = "isConfirmed")
+    val isConfirmed: Boolean
+)
+
+data class ShareData(
+    @Embedded
+    val sharedData: ShareDataModel,
+    @Relation(
+        parentColumn = "sharedUserId",
+        entityColumn = "sharedUserId"
+    )
+    val sharedUserData: SharedUserData
+)
+
+@Entity
+data class SharedUserDataModel(
+    @PrimaryKey
+    val userId: String,
+    @ColumnInfo(name = "sharedUserEmail")
+    val email: String,
+    @ColumnInfo(name = "sharedUserNick")
+    val nick: String,
+    @ColumnInfo(name = "sharedUserImageId")
+    val imageId: String?
+)
+
+data class SharedUserData(
+    @Embedded
+    val sharedUser: SharedUserDataModel,
+    @Relation(
+        parentColumn = "sharedUserId",
+        entityColumn = "imageId"
+    )
+    val image: Image?
+)
+
+@Entity
+data class OwnerDataModel(
+    @PrimaryKey
+    val ownerId: String,
+    @ColumnInfo(name = "ownerEmail")
+    val email: String,
+    @ColumnInfo(name = "ownerNick")
+    val nick: String,
+    @ColumnInfo(name = "ownerImageId")
+    val imageId: String?
+)
+
+data class OwnerData(
+    @Embedded
+    val ownerData: OwnerDataModel,
+    @Relation(
+        parentColumn = "ownerImageId",
+        entityColumn = "imageId"
+    )
+    val image: Image?
 )
