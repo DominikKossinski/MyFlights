@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import org.jetbrains.annotations.NotNull
 
 @Entity
-data class Image(
+data class ImageModel(
     @PrimaryKey
     val imageId: String,
     @NotNull

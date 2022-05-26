@@ -126,7 +126,7 @@ data class SharedUserData(
         parentColumn = "sharedUserId",
         entityColumn = "imageId"
     )
-    val image: Image?
+    val image: ImageModel?
 )
 
 @Entity
@@ -148,5 +148,5 @@ data class OwnerData(
         parentColumn = "ownerImageId",
         entityColumn = "imageId"
     )
-    val image: Image?
+    val image: ImageModel?
 )

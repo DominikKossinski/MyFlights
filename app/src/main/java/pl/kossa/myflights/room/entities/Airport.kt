@@ -37,6 +37,10 @@ data class Airport(
         parentColumn = "imageId",
         entityColumn = "imageId"
     )
-    val imageModel: Image?
-) {
-}
+    val imageModel: ImageModel?,
+    @Relation(
+        parentColumn = "airportId",
+        entityColumn = "airportId"
+    )
+    val runways: List<Runway>
+)

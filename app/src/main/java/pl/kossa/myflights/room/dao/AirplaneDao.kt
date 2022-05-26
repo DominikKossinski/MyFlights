@@ -3,11 +3,11 @@ package pl.kossa.myflights.room.dao
 import androidx.room.Dao
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import pl.kossa.myflights.api.models.Airplane
+import pl.kossa.myflights.room.entities.Airplane
 
 @Dao
 interface AirplaneDao {
 
-    @Query("SELECT * FROM Airplane WHERE airplane_user_id = :userId")
+    @Query("SELECT * FROM AirplaneModel WHERE userId = :userId")
     fun getAll(userId: String): Flow<List<Airplane>>
 }

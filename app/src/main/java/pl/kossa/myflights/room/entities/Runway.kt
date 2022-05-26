@@ -22,6 +22,9 @@ data class RunwayModel(
     @ColumnInfo(name = "imageId")
     val imageId: String?,
 
+    @ColumnInfo(name="airportId")
+    val airportId: String,
+
     @ColumnInfo(name = "userId")
     val userId: String
 )
@@ -33,5 +36,5 @@ data class Runway(
         parentColumn = "imageId",
         entityColumn = "imageId"
     )
-    val image: Image?
+    val image: ImageModel?
 )

@@ -8,7 +8,8 @@ import pl.kossa.myflights.room.entities.*
 
 @Database(
     entities = [
-        AirplaneModel::class, AirportModel::class, RunwayModel::class, FlightModel::class, Image::class
+        AirplaneModel::class, AirportModel::class, RunwayModel::class, FlightModel::class,
+        ShareDataModel::class, ImageModel::class, SharedUserDataModel::class, OwnerDataModel::class
     ], version = 1
 )
 @TypeConverters(DateConverter::class)
