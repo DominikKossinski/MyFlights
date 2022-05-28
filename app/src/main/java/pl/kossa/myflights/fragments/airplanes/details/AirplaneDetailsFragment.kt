@@ -5,7 +5,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Airplane
+import pl.kossa.myflights.room.entities.Airplane
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.fragments.BaseFragment
@@ -50,9 +50,9 @@ class AirplaneDetailsFragment :
     }
 
     private fun setupAirplaneData(airplane: Airplane) {
-        binding.nameEwt.valueText = airplane.name
-        binding.maxSpeedEtw.valueText = airplane.maxSpeed?.toString() ?: ""
-        binding.weightEwt.valueText = airplane.weight?.toString() ?: ""
+        binding.nameEwt.valueText = airplane.airplane.name
+        binding.maxSpeedEtw.valueText = airplane.airplane.maxSpeed?.toString() ?: ""
+        binding.weightEwt.valueText = airplane.airplane.weight?.toString() ?: ""
     }
 
     private fun showDeleteDialog() {

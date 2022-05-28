@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AirplanesViewModel @Inject constructor(
     private val airplanesService: AirplanesService,
-    private val airplanesRepository: AirplaneRepository,
+    private val airplaneRepository: AirplaneRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -24,7 +24,7 @@ class AirplanesViewModel @Inject constructor(
     fun fetchAirplanes() {
         makeRequest {
             val airplanes = currentUser?.uid?.let {
-                airplanesRepository.getAirplanes(it)
+                airplaneRepository.getAirplanes(it)
             } ?: emptyList()
             Log.d("MyLog", "Airplanes: $airplanes")
             airplanesList.value = airplanes

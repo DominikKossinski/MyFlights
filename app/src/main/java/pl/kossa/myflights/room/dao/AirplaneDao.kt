@@ -12,6 +12,10 @@ abstract class AirplaneDao {
     @Query("SELECT * FROM AirplaneModel WHERE userId = :userId")
     abstract suspend fun getAll(userId: String): List<Airplane>
 
+    @Transaction
+    @Query("SELECT * FROM AirplaneModel WHERE userId = :userId AND airplaneId = :airplaneId LIMIT 1")
+    abstract suspend fun getAirplaneById(userId: String, airplaneId: String): Airplane?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract suspend fun insertAirplaneModel(airplaneModel: AirplaneModel)
 
