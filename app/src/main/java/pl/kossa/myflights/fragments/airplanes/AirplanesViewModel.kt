@@ -1,19 +1,21 @@
 package pl.kossa.myflights.fragments.airplanes
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
+import pl.kossa.myflights.repository.AirplaneRepository
+import pl.kossa.myflights.room.entities.Airplane
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AirplanesViewModel @Inject constructor(
     private val airplanesService: AirplanesService,
+    private val airplanesRepository: AirplaneRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -21,8 +23,11 @@ class AirplanesViewModel @Inject constructor(
 
     fun fetchAirplanes() {
         makeRequest {
-            val response = airplanesService.getAirplanes()
-            response.body?.let { airplanesList.value = it }
+            val airplanes = currentUser?.uid?.let {
+                airplanesRepository.getAirplanes(it)
+            } ?: emptyList()
+            Log.d("MyLog", "Airplanes: $airplanes")
+            airplanesList.value = airplanes
         }
     }
 

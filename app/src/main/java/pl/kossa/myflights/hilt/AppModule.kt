@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient
 import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
+import pl.kossa.myflights.repository.AirplaneRepository
 import pl.kossa.myflights.room.AppDatabase
 import pl.kossa.myflights.room.converters.DateConverter
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -121,8 +122,15 @@ object AppModule {
             applicationContext,
             AppDatabase::class.java,
             "my-flights-db"
-        ).addTypeConverter(DateConverter())
-            .build()
+        ).build()
+    }
+
+    @Provides
+    fun provideAirplaneRepository(
+        airplanesService: AirplanesService,
+        db: AppDatabase
+    ): AirplaneRepository {
+        return AirplaneRepository(airplanesService, db.getAirplaneDao())
     }
 
     @Provides

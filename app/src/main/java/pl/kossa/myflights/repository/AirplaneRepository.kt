@@ -1,4 +1,20 @@
 package pl.kossa.myflights.repository
 
-class AirplaneRepository {
+import pl.kossa.myflights.api.services.AirplanesService
+import pl.kossa.myflights.room.dao.AirplaneDao
+import pl.kossa.myflights.room.entities.Airplane
+
+class AirplaneRepository(
+    private val airplanesService: AirplanesService,
+    private val airplaneDao: AirplaneDao
+) {
+
+    suspend fun getAirplanes(userId: String): List<Airplane> {
+        val response = airplanesService.getAirplanes()
+        val airplanes = response.body ?: emptyList()
+        airplanes.forEach {
+            airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
+        }
+        return airplaneDao.getAll(userId)
+    }
 }

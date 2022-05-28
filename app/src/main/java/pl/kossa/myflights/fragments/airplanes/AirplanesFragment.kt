@@ -45,7 +45,7 @@ class AirplanesFragment : BaseFragment<AirplanesViewModel, FragmentAirplanesBind
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         super.onDismissed(transientBottomBar, event)
                         if (event == DISMISS_EVENT_TIMEOUT) {
-                            viewModel.deleteAirplane(item.airplaneId)
+                            viewModel.deleteAirplane(item.airplane.airplaneId)
                         }
                     }
                 })
@@ -90,7 +90,7 @@ class AirplanesFragment : BaseFragment<AirplanesViewModel, FragmentAirplanesBind
 
     private fun setupRecyclerView() {
         adapter.setOnItemClickListener {
-            viewModel.navigateToAirplaneDetails(it.airplaneId)
+            viewModel.navigateToAirplaneDetails(it.airplane.airplaneId)
         }
         binding.airplanesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.airplanesRecyclerView.adapter = adapter

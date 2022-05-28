@@ -34,4 +34,21 @@ data class Airplane(
         entityColumn = "imageId"
     )
     val image: ImageModel?
-)
+) {
+
+    companion object {
+        fun fromApiAirplane(airplane: pl.kossa.myflights.api.models.Airplane): Airplane {
+            return Airplane(
+                AirplaneModel(
+                    airplane.airplaneId,
+                    airplane.name,
+                    airplane.maxSpeed,
+                    airplane.weight,
+                    airplane.image?.imageId,
+                    airplane.userId
+                ),
+                ImageModel.fromApiImage(airplane.image)
+            )
+        }
+    }
+}
