@@ -12,6 +12,7 @@ class AirplaneRepository(
     private val preferencesHelper: PreferencesHelper
 ) {
 
+
     suspend fun getAirplanes(userId: String): List<Airplane> {
         val response = airplanesService.getAirplanes()
         val airplanes = response.body ?: emptyList()
@@ -34,6 +35,16 @@ class AirplaneRepository(
         val response = airplanesService.getAirplaneById(airplaneId)
         response.body?.let {
             airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
+        }
+    }
+
+    suspend fun deleteAirplane(airplaneId: String) {
+        airplanesService.deleteAirplane(airplaneId)
+        preferencesHelper.userId?.let {
+            val airplane = airplaneDao.getAirplaneById(it, airplaneId)
+            airplane?.let { entity ->
+                airplaneDao.delete(entity)
+            }
         }
     }
 }

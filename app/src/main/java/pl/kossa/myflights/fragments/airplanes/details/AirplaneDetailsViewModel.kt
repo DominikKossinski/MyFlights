@@ -14,7 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class AirplaneDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val airplanesService: AirplanesService,
     private val airplaneRepository: AirplaneRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
@@ -30,8 +29,6 @@ class AirplaneDetailsViewModel @Inject constructor(
         makeRequest {
             airplane.value =
                 currentUser?.uid?.let { airplaneRepository.getAirplaneById(it, airplaneId) }
-//            val response = airplanesService.getAirplaneById(airplaneId)
-//            response.body?.let { airplane.value = it }
         }
     }
 
@@ -41,7 +38,7 @@ class AirplaneDetailsViewModel @Inject constructor(
 
     fun deleteAirplane() {
         makeRequest {
-            airplanesService.deleteAirplane(airplaneId)
+            airplaneRepository.deleteAirplane(airplaneId)
             setToastMessage(R.string.airplane_deleted)
             navigateBack()
         }
