@@ -14,7 +14,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AirplanesViewModel @Inject constructor(
-    private val airplanesService: AirplanesService,
     private val airplaneRepository: AirplaneRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
@@ -33,7 +32,7 @@ class AirplanesViewModel @Inject constructor(
 
     fun deleteAirplane(airplaneId: String) {
         makeRequest {
-            airplanesService.deleteAirplane(airplaneId)
+            airplaneRepository.deleteAirplane(airplaneId)
             analyticsTracker.logClickDeleteAirplane()
             setToastMessage(R.string.airplane_deleted)
             fetchAirplanes()

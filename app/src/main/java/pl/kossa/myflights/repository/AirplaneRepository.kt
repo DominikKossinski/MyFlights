@@ -30,6 +30,17 @@ class AirplaneRepository(
         return airplaneDao.getAirplaneById(userId, airplaneId)
     }
 
+    suspend fun createAirplane(airplaneRequest: AirplaneRequest): String? {
+        val response = airplanesService.postAirplane(airplaneRequest)
+        response.body?.entityId?.let { entityId ->
+            val airplaneResponse = airplanesService.getAirplaneById(entityId)
+            airplaneResponse.body?.let {
+                airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
+            }
+        }
+        return response.body?.entityId
+    }
+
     suspend fun saveAirplane(airplaneId: String, airplaneRequest: AirplaneRequest) {
         airplanesService.putAirplane(airplaneId, airplaneRequest)
         val response = airplanesService.getAirplaneById(airplaneId)
