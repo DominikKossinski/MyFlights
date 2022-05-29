@@ -6,12 +6,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplaneEditBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged
+import pl.kossa.myflights.room.entities.Airplane
 
 @AndroidEntryPoint
 class AirplaneEditFragment : BaseFragment<AirplaneEditViewModel, FragmentAirplaneEditBinding>() {
@@ -25,12 +25,12 @@ class AirplaneEditFragment : BaseFragment<AirplaneEditViewModel, FragmentAirplan
 
     override fun collectFlow() {
         super.collectFlow()
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.airplane.collect {
-                it?.let { setupAirplaneData(it)}
+                it?.let { setupAirplaneData(it) }
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isSaveButtonEnabled.collect {
                 binding.saveButton.isEnabled = it
                 binding.saveAppBar.isSaveIconEnabled = it
@@ -49,7 +49,7 @@ class AirplaneEditFragment : BaseFragment<AirplaneEditViewModel, FragmentAirplan
             viewModel.putAirplane()
         }
 
-        binding.nameTie.doOnTextChanged{ text ->
+        binding.nameTie.doOnTextChanged { text ->
             viewModel.setAirplaneName(text)
         }
         binding.maxSpeedTie.doOnTextChanged { text ->
@@ -65,24 +65,24 @@ class AirplaneEditFragment : BaseFragment<AirplaneEditViewModel, FragmentAirplan
     }
 
     private fun setupAirplaneData(airplane: Airplane) {
-        binding.nameTie.setText(airplane.name)
-        binding.maxSpeedTie.setText(airplane.maxSpeed?.toString() ?: "")
-        binding.weightTie.setText(airplane.weight?.toString() ?: "")
+        binding.nameTie.setText(airplane.airplane.name)
+        binding.maxSpeedTie.setText(airplane.airplane.maxSpeed?.toString() ?: "")
+        binding.weightTie.setText(airplane.airplane.weight?.toString() ?: "")
     }
 
     override fun handleApiError(apiError: ApiError) {
-        when(apiError.code) {
+        when (apiError.code) {
             HttpCode.NOT_FOUND.code -> {
-                viewModel.setToastMessage( R.string.error_airplane_not_found)
+                viewModel.setToastMessage(R.string.error_airplane_not_found)
             }
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastMessage( R.string.error_forbidden)
+                viewModel.setToastMessage(R.string.error_forbidden)
             }
             else -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
         }
         viewModel.navigateBack()

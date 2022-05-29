@@ -1,12 +1,15 @@
 package pl.kossa.myflights.repository
 
+import pl.kossa.myflights.api.requests.AirplaneRequest
 import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.room.dao.AirplaneDao
 import pl.kossa.myflights.room.entities.Airplane
+import pl.kossa.myflights.utils.PreferencesHelper
 
 class AirplaneRepository(
     private val airplanesService: AirplanesService,
-    private val airplaneDao: AirplaneDao
+    private val airplaneDao: AirplaneDao,
+    private val preferencesHelper: PreferencesHelper
 ) {
 
     suspend fun getAirplanes(userId: String): List<Airplane> {
@@ -24,5 +27,13 @@ class AirplaneRepository(
             airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
         }
         return airplaneDao.getAirplaneById(userId, airplaneId)
+    }
+
+    suspend fun saveAirplane(airplaneId: String, airplaneRequest: AirplaneRequest) {
+        airplanesService.putAirplane(airplaneId, airplaneRequest)
+        val response = airplanesService.getAirplaneById(airplaneId)
+        response.body?.let {
+            airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
+        }
     }
 }

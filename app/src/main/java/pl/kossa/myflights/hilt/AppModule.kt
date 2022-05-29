@@ -128,9 +128,10 @@ object AppModule {
     @Provides
     fun provideAirplaneRepository(
         airplanesService: AirplanesService,
-        db: AppDatabase
+        db: AppDatabase,
+        preferencesHelper: PreferencesHelper
     ): AirplaneRepository {
-        return AirplaneRepository(airplanesService, db.getAirplaneDao())
+        return AirplaneRepository(airplanesService, db.getAirplaneDao(), preferencesHelper)
     }
 
     @Provides
