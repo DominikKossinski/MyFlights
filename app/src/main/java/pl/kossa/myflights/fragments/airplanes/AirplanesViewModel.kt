@@ -4,7 +4,6 @@ import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.repository.AirplaneRepository
@@ -22,10 +21,7 @@ class AirplanesViewModel @Inject constructor(
 
     fun fetchAirplanes() {
         makeRequest {
-            val airplanes = currentUser?.uid?.let {
-                airplaneRepository.getAirplanes(it)
-            } ?: emptyList()
-            Log.d("MyLog", "Airplanes: $airplanes")
+            val airplanes = airplaneRepository.getAirplanes()
             airplanesList.value = airplanes
         }
     }

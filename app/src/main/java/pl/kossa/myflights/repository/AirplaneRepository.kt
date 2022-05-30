@@ -12,22 +12,21 @@ class AirplaneRepository(
     private val preferencesHelper: PreferencesHelper
 ) {
 
-
-    suspend fun getAirplanes(userId: String): List<Airplane> {
+    suspend fun getAirplanes(): List<Airplane> {
         val response = airplanesService.getAirplanes()
         val airplanes = response.body ?: emptyList()
         airplanes.forEach {
             airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
         }
-        return airplaneDao.getAll(userId)
+        return preferencesHelper.userId?.let { airplaneDao.getAll(it) } ?: emptyList()
     }
 
-    suspend fun getAirplaneById(userId: String, airplaneId: String): Airplane? {
+    suspend fun getAirplaneById(airplaneId: String): Airplane? {
         val response = airplanesService.getAirplaneById(airplaneId)
         response.body?.let {
             airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
         }
-        return airplaneDao.getAirplaneById(userId, airplaneId)
+        return preferencesHelper.userId?.let { airplaneDao.getAirplaneById(it, airplaneId) }
     }
 
     suspend fun createAirplane(airplaneRequest: AirplaneRequest): String? {

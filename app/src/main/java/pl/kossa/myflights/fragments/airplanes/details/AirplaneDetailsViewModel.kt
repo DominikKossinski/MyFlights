@@ -27,8 +27,7 @@ class AirplaneDetailsViewModel @Inject constructor(
 
     fun fetchAirplane() {
         makeRequest {
-            airplane.value =
-                currentUser?.uid?.let { airplaneRepository.getAirplaneById(it, airplaneId) }
+            airplane.value = airplaneRepository.getAirplaneById(airplaneId)
         }
     }
 
