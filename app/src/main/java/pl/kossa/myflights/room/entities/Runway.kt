@@ -33,6 +33,7 @@ data class Runway(
     @Embedded
     val runway: RunwayModel,
     @Relation(
+        entity=ImageModel::class,
         parentColumn = "imageId",
         entityColumn = "imageId"
     )
