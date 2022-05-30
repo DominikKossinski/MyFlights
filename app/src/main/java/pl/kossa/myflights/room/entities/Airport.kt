@@ -44,4 +44,26 @@ data class Airport(
         entityColumn = "airportId"
     )
     val runways: List<Runway>
-)
+) {
+
+    companion object {
+        fun fromApiAirport(airport: pl.kossa.myflights.api.models.Airport): Airport {
+            return Airport(
+                AirportModel(
+                    airport.airportId,
+                    airport.name,
+                    airport.city,
+                    airport.icaoCode,
+                    airport.towerFrequency,
+                    airport.groundFrequency,
+                    airport.image?.imageId,
+                    airport.userId
+                ),
+                ImageModel.fromApiImage(airport.image),
+                airport.runways.map {
+                    Runway.fromApiRunway(airport.airportId, it)
+                }
+            )
+        }
+    }
+}

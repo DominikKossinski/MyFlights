@@ -31,21 +31,15 @@ class AirplaneRepository(
 
     suspend fun createAirplane(airplaneRequest: AirplaneRequest): String? {
         val response = airplanesService.postAirplane(airplaneRequest)
-        response.body?.entityId?.let { entityId ->
-            val airplaneResponse = airplanesService.getAirplaneById(entityId)
-            airplaneResponse.body?.let {
-                airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
-            }
+        response.body?.entityId?.let {
+            getAirplaneById(it)
         }
         return response.body?.entityId
     }
 
     suspend fun saveAirplane(airplaneId: String, airplaneRequest: AirplaneRequest) {
         airplanesService.putAirplane(airplaneId, airplaneRequest)
-        val response = airplanesService.getAirplaneById(airplaneId)
-        response.body?.let {
-            airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
-        }
+        getAirplaneById(airplaneId)
     }
 
     suspend fun deleteAirplane(airplaneId: String) {

@@ -15,8 +15,8 @@ import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
 import pl.kossa.myflights.repository.AirplaneRepository
+import pl.kossa.myflights.repository.AirportRepository
 import pl.kossa.myflights.room.AppDatabase
-import pl.kossa.myflights.room.converters.DateConverter
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
 import pl.kossa.myflights.utils.analytics.AnalyticsTracker
@@ -132,6 +132,15 @@ object AppModule {
         preferencesHelper: PreferencesHelper
     ): AirplaneRepository {
         return AirplaneRepository(airplanesService, db.getAirplaneDao(), preferencesHelper)
+    }
+
+    @Provides
+    fun provideAirportRepository(
+        airportsService: AirportsService,
+        db: AppDatabase,
+        preferencesHelper: PreferencesHelper
+    ): AirportRepository {
+        return AirportRepository(airportsService, db.getAirportDao(), preferencesHelper)
     }
 
     @Provides

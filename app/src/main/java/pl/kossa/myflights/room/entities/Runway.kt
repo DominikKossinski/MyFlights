@@ -22,7 +22,7 @@ data class RunwayModel(
     @ColumnInfo(name = "imageId")
     val imageId: String?,
 
-    @ColumnInfo(name="airportId")
+    @ColumnInfo(name = "airportId")
     val airportId: String,
 
     @ColumnInfo(name = "userId")
@@ -33,9 +33,31 @@ data class Runway(
     @Embedded
     val runway: RunwayModel,
     @Relation(
-        entity=ImageModel::class,
+        entity = ImageModel::class,
         parentColumn = "imageId",
         entityColumn = "imageId"
     )
     val image: ImageModel?
-)
+) {
+
+    companion object {
+        fun fromApiRunway(
+            airportId: String,
+            runway: pl.kossa.myflights.api.models.Runway
+        ): Runway {
+            return Runway(
+                RunwayModel(
+                    runway.runwayId,
+                    runway.name,
+                    runway.length,
+                    runway.heading,
+                    runway.ilsFrequency,
+                    runway.image?.imageId,
+                    airportId,
+                    runway.userId
+                ),
+                ImageModel.fromApiImage(runway.image)
+            )
+        }
+    }
+}

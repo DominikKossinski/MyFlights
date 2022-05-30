@@ -13,7 +13,7 @@ data class Airport(
 
     val groundFrequency: String?,
 
-    val imageUrl: String?,
+    val image: Image?,
 
     val runways: List<Runway>,
 
