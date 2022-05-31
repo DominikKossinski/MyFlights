@@ -41,9 +41,9 @@ class AirportSelectFragment : BaseFragment<AirportSelectViewModel, FragmentAirpo
     private fun setupRecyclerView() {
         adapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putString(AIRPORT_ID_KEY, it.airportId)
-                putString(AIRPORT_NAME_KEY, it.name)
-                putString(AIRPORT_ICAO_CODE_KEY, it.icaoCode)
+                putString(AIRPORT_ID_KEY, it.airport.airportId)
+                putString(AIRPORT_NAME_KEY, it.airport.name)
+                putString(AIRPORT_ICAO_CODE_KEY, it.airport.icaoCode)
             }
             parentFragmentManager.setFragmentResult(args.key, bundle)
             viewModel.navigateBack()

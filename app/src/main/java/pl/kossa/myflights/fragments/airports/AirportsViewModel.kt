@@ -1,22 +1,18 @@
 package pl.kossa.myflights.fragments.airports
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Airport
-import pl.kossa.myflights.api.services.AirportsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
+import pl.kossa.myflights.repository.AirportRepository
+import pl.kossa.myflights.room.entities.Airport
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AirportsViewModel @Inject constructor(
-    private val airportsService: AirportsService,
+    private val airportRepository: AirportRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -24,14 +20,13 @@ class AirportsViewModel @Inject constructor(
 
     fun fetchAirports() {
         makeRequest {
-            val response = airportsService.getAirports()
-            response.body?.let { airportsList.value = it }
+            airportsList.value = airportRepository.getAirports()
         }
     }
 
     fun deleteAirport(airportId: String) {
         makeRequest {
-            airportsService.deleteAirport(airportId)
+            airportRepository.deleteAirport(airportId)
             analyticsTracker.logClickDeleteAirport()
             setToastMessage(R.string.airport_deleted)
             fetchAirports()
