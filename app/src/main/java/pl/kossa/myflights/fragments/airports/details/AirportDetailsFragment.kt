@@ -9,7 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Airport
+import pl.kossa.myflights.room.entities.Airport
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.fragments.BaseFragment
@@ -47,7 +47,7 @@ class AirportDetailsFragment :
 
     private fun setupRecyclerView() {
         runwaysAdapter.setOnItemClickListener {
-            viewModel.navigateToRunwayDetails(it.runwayId)
+            viewModel.navigateToRunwayDetails(it.runway.runwayId)
         }
         binding.runwaysRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.runwaysRecyclerView.adapter = runwaysAdapter
@@ -82,13 +82,13 @@ class AirportDetailsFragment :
     }
 
     private fun setupAirportData(airport: Airport) {
-        binding.nameEwt.valueText = airport.name
-        binding.cityEwt.valueText = airport.city
-        binding.icaoCodeEwt.valueText = airport.icaoCode
-        binding.towerFrequencyEwt.isVisible = !airport.towerFrequency.isNullOrBlank()
-        binding.towerFrequencyEwt.valueText = airport.towerFrequency ?: ""
-        binding.groundFrequencyEwt.isVisible = !airport.groundFrequency.isNullOrBlank()
-        binding.groundFrequencyEwt.valueText = airport.groundFrequency ?: ""
+        binding.nameEwt.valueText = airport.airport.name
+        binding.cityEwt.valueText = airport.airport.city
+        binding.icaoCodeEwt.valueText = airport.airport.icaoCode
+        binding.towerFrequencyEwt.isVisible = !airport.airport.towerFrequency.isNullOrBlank()
+        binding.towerFrequencyEwt.valueText = airport.airport.towerFrequency ?: ""
+        binding.groundFrequencyEwt.isVisible = !airport.airport.groundFrequency.isNullOrBlank()
+        binding.groundFrequencyEwt.valueText = airport.airport.groundFrequency ?: ""
         binding.runwaysTv.isVisible = airport.runways.isNotEmpty()
         binding.runwaysRecyclerView.isVisible = airport.runways.isNotEmpty()
         runwaysAdapter.items.clear()

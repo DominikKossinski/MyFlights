@@ -36,7 +36,7 @@ class RunwaySelectFragment : BaseFragment<RunwaySelectViewModel, FragmentRunwayS
 
     override fun collectFlow() {
         super.collectFlow()
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.airport.collect {
                 it?.let {
                     binding.noRunwaysTextView.isVisible = it.runways.isEmpty()
@@ -53,8 +53,8 @@ class RunwaySelectFragment : BaseFragment<RunwaySelectViewModel, FragmentRunwayS
         binding.runwaysRecyclerView.adapter = adapter
         adapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putString(RUNWAY_ID_KEY, it.runwayId)
-                putString(RUNWAY_NAME_KEY, it.name)
+                putString(RUNWAY_ID_KEY, it.runway.runwayId)
+                putString(RUNWAY_NAME_KEY, it.runway.name)
             }
             parentFragmentManager.setFragmentResult(args.key, bundle)
             viewModel.navigateBack()
@@ -62,15 +62,15 @@ class RunwaySelectFragment : BaseFragment<RunwaySelectViewModel, FragmentRunwayS
     }
 
     override fun handleApiError(apiError: ApiError) {
-        when(apiError.code) {
+        when (apiError.code) {
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastMessage( R.string.error_forbidden)
+                viewModel.setToastMessage(R.string.error_forbidden)
             }
             else -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
         }
     }
