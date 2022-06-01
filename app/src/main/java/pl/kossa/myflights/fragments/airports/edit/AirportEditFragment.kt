@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Airport
+import pl.kossa.myflights.room.entities.Airport
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.fragments.BaseFragment
@@ -68,11 +68,11 @@ class AirportEditFragment : BaseFragment<AirportEditViewModel, FragmentAirportEd
     }
 
     private fun setupAirportData(airport: Airport) {
-        binding.nameTie.setText(airport.name)
-        binding.cityTie.setText(airport.city)
-        binding.icaoCodeTie.setText(airport.icaoCode)
-        binding.towerFrequencyTie.setText(airport.towerFrequency ?: "")
-        binding.groundFrequencyTie.setText(airport.groundFrequency ?: "")
+        binding.nameTie.setText(airport.airport.name)
+        binding.cityTie.setText(airport.airport.city)
+        binding.icaoCodeTie.setText(airport.airport.icaoCode)
+        binding.towerFrequencyTie.setText(airport.airport.towerFrequency ?: "")
+        binding.groundFrequencyTie.setText(airport.airport.groundFrequency ?: "")
     }
 
     override fun handleApiError(apiError: ApiError) {
