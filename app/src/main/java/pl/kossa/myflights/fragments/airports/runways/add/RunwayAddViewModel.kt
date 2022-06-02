@@ -8,13 +8,14 @@ import pl.kossa.myflights.api.requests.RunwayRequest
 import pl.kossa.myflights.api.services.RunwaysService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.airports.details.AirportDetailsFragmentDirections
+import pl.kossa.myflights.repository.RunwayRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class RunwayAddViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val runwaysService: RunwaysService,
+    private val runwayRepository: RunwayRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -59,13 +60,13 @@ class RunwayAddViewModel @Inject constructor(
             return
         }
         makeRequest {
-            val response = runwaysService.postRunway(
+            val entityId = runwayRepository.createRunway(
                 airportId,
                 RunwayRequest(_name.value, length, heading, _ilsFrequency.value, null)
             )
             analyticsTracker.logClickAddRunway()
-            response.body?.let {
-                navigate(RunwayAddFragmentDirections.goToRunwayDetails(airportId, it.entityId))
+            entityId?.let {
+                navigate(RunwayAddFragmentDirections.goToRunwayDetails(airportId, it))
             }
         }
     }
