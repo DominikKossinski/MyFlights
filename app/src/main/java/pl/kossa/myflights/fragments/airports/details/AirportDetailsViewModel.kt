@@ -18,12 +18,12 @@ class AirportDetailsViewModel @Inject constructor(
 ) : BaseViewModel(preferencesHelper) {
 
     private val airportId = savedStateHandle.get<String>("airportId")!!
+    val airport = MutableStateFlow<Airport?>(null)
 
     init {
         fetchAirport()
     }
 
-    val airport = MutableStateFlow<Airport?>(null)
 
     fun fetchAirport() {
         makeRequest {
