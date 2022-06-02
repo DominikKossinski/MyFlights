@@ -9,8 +9,8 @@ import pl.kossa.myflights.room.entities.RunwayModel
 abstract class RunwayDao {
 
     @Transaction
-    @Query("SELECT * FROM RunwayModel WHERE userId = :userId AND runwayId = :runwayId")
-    abstract suspend fun getRunwayById(userId: String, runwayId: String): Runway?
+    @Query("SELECT * FROM RunwayModel WHERE userId = :userId AND airportId = :airportId AND runwayId = :runwayId")
+    abstract suspend fun getRunwayById(userId: String, airportId: String, runwayId: String): Runway?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract suspend fun insertRunwayModel(runwayModel: RunwayModel)
