@@ -4,21 +4,17 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import okhttp3.ResponseBody
-import pl.kossa.myflights.api.models.Runway
+import pl.kossa.myflights.room.entities.Runway
 import pl.kossa.myflights.api.requests.RunwayRequest
-import pl.kossa.myflights.api.responses.ApiErrorBody
-import pl.kossa.myflights.api.services.RunwaysService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.RunwayRepository
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
 class RunwayEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val runwaysService: RunwaysService,
+    private val runwayRepository: RunwayRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -58,8 +54,7 @@ class RunwayEditViewModel @Inject constructor(
 
     fun fetchRunway() {
         makeRequest {
-            val response = runwaysService.getRunwayById(airportId, runwayId)
-            response.body?.let { runway.value = it }
+            runway.value = runwayRepository.getRunwayById(airportId, runwayId)
         }
     }
 
@@ -75,7 +70,7 @@ class RunwayEditViewModel @Inject constructor(
             return
         }
         makeRequest {
-            runwaysService.putRunway(
+            runwayRepository.savaRunway(
                 airportId, runwayId,
                 RunwayRequest(_name.value, length, heading, _ilsFrequency.value, null)
             )
