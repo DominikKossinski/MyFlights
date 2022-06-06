@@ -1,6 +1,7 @@
 package pl.kossa.myflights.room.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import pl.kossa.myflights.room.entities.ImageModel
 import pl.kossa.myflights.room.entities.SharedUserData
@@ -20,5 +21,16 @@ abstract class SharedUserDataDao {
             insertImageModel(it)
         }
         insertSharedUserDataModel(sharedUserData.sharedUser)
+    }
+
+    @Delete
+    protected abstract suspend fun deleteSharedUserDataModel(sharedUserDataModel: SharedUserDataModel)
+
+    @Delete
+    protected abstract suspend fun deleteImageModel(imageModel: ImageModel)//TODO think about it
+
+    suspend fun delete(sharedUserData: SharedUserData) {
+        deleteSharedUserDataModel(sharedUserData.sharedUser)
+        sharedUserData.image?.let { deleteImageModel(it) }
     }
 }
