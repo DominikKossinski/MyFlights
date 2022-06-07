@@ -50,37 +50,44 @@ data class Flight(
     val flight: FlightModel,
     @Relation(
         parentColumn = "airplaneId",
-        entityColumn = "airplaneId"
+        entityColumn = "airplaneId",
+        entity = AirplaneModel::class
     )
     val airplane: Airplane,
     @Relation(
         parentColumn = "departureAirportId",
-        entityColumn = "airportId"
+        entityColumn = "airportId",
+        entity = AirportModel::class
     )
     val departureAirport: Airport,
     @Relation(
         parentColumn = "departureRunwayId",
-        entityColumn = "runwayId"
+        entityColumn = "runwayId",
+        entity = RunwayModel::class
     )
     val departureRunway: Runway,
     @Relation(
         parentColumn = "arrivalAirportId",
-        entityColumn = "airportId"
+        entityColumn = "airportId",
+        entity = AirportModel::class
     )
     val arrivalAirport: Airport,
     @Relation(
         parentColumn = "arrivalRunwayId",
-        entityColumn = "runwayId"
+        entityColumn = "runwayId",
+        entity = RunwayModel::class
     )
     val arrivalRunway: Runway,
     @Relation(
         parentColumn = "ownerId",
-        entityColumn = "ownerId"
+        entityColumn = "ownerId",
+        entity = OwnerDataModel::class
     )
     val ownerData: OwnerData,
     @Relation(
         parentColumn = "flightId",
-        entityColumn = "flightId"
+        entityColumn = "flightId",
+        entity = ShareDataModel::class
     )
     val sharedUsers: List<ShareData>
 )
@@ -102,7 +109,8 @@ data class ShareData(
     val sharedData: ShareDataModel,
     @Relation(
         parentColumn = "sharedUserId",
-        entityColumn = "sharedUserId"
+        entityColumn = "userId",
+        entity = SharedUserDataModel::class
     )
     val sharedUserData: SharedUserData
 )
@@ -123,8 +131,9 @@ data class SharedUserData(
     @Embedded
     val sharedUser: SharedUserDataModel,
     @Relation(
-        parentColumn = "sharedUserId",
-        entityColumn = "imageId"
+        parentColumn = "sharedUserImageId",
+        entityColumn = "imageId",
+        entity = ImageModel::class
     )
     val image: ImageModel?
 )
@@ -146,7 +155,8 @@ data class OwnerData(
     val ownerData: OwnerDataModel,
     @Relation(
         parentColumn = "ownerImageId",
-        entityColumn = "imageId"
+        entityColumn = "imageId",
+        entity = ImageModel::class
     )
     val image: ImageModel?
 )

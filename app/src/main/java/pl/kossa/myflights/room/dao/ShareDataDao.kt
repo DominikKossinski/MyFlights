@@ -1,13 +1,15 @@
 package pl.kossa.myflights.room.dao
 
 import androidx.room.*
+import pl.kossa.myflights.room.AppDatabase
 import pl.kossa.myflights.room.entities.ShareData
 import pl.kossa.myflights.room.entities.ShareDataModel
 
 @Dao
 abstract class ShareDataDao(
-    private val sharedUserDataDao: SharedUserDataDao
+    db: AppDatabase
 ) {
+    private val sharedUserDataDao = db.getSharedUserDataDao()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract suspend fun insertShareDataModel(shareDataModel: ShareDataModel)

@@ -4,10 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import pl.kossa.myflights.room.converters.DateConverter
-import pl.kossa.myflights.room.dao.AirplaneDao
-import pl.kossa.myflights.room.dao.AirportDao
-import pl.kossa.myflights.room.dao.FlightDao
-import pl.kossa.myflights.room.dao.RunwayDao
+import pl.kossa.myflights.room.dao.*
 import pl.kossa.myflights.room.entities.*
 
 @Database(
@@ -27,4 +24,9 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getRunwayDao(): RunwayDao
 
+    abstract fun getOwnerDataDao(): OwnerDataDao
+
+    abstract fun getShareDataDao(): ShareDataDao
+
+    abstract fun getSharedUserDataDao(): SharedUserDataDao
 }
