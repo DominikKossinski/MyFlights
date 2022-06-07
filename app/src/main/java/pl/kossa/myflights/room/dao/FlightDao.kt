@@ -21,8 +21,9 @@ abstract class FlightDao(
     @Query("SELECT * FROM FlightModel")
     abstract suspend fun getAll(): List<Flight>
 
+    @Transaction
     @Query("SELECT * FROM FlightModel WHERE flightId = :flightId LIMIT 1")
-    abstract suspend fun getFlightById(flightId: String): Flight
+    abstract suspend fun getFlightById(flightId: String): Flight?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract fun insertFlightModel(flightModel: FlightModel)

@@ -1,6 +1,7 @@
 package pl.kossa.myflights.room.entities
 
 import androidx.room.*
+import pl.kossa.myflights.api.responses.flights.FlightResponse
 import java.util.*
 
 @Entity
@@ -90,7 +91,40 @@ data class Flight(
         entity = ShareDataModel::class
     )
     val sharedUsers: List<ShareData>
-)
+) {
+
+    companion object {
+        fun fromApiFlight(flightResponse: FlightResponse): Flight {
+            val flight = flightResponse.flight
+            return Flight(
+                FlightModel(
+                    flight.flightId,
+                    flight.note,
+                    flight.distance,
+                    flight.image?.imageId,
+                    flight.departureDate,
+                    flight.arrivalDate,
+                    flight.userId,
+                    flight.airplane.airplaneId,
+                    flight.departureAirport.airportId,
+                    flight.departureRunway.runwayId,
+                    flight.arrivalAirport.airportId,
+                    flight.arrivalRunway.runwayId,
+                    flight.userId
+                ),
+                Airplane.fromApiAirplane(flight.airplane),
+                Airport.fromApiAirport(flight.departureAirport),
+                Runway.fromApiRunway(flight.departureAirport.airportId, flight.departureRunway),
+                Airport.fromApiAirport(flight.arrivalAirport),
+                Runway.fromApiRunway(flight.arrivalAirport.airportId, flight.arrivalRunway),
+                OwnerData.fromApiOwnerData(flightResponse.ownerData),
+                flightResponse.sharedUsers.map {
+                    ShareData.fromApiShareData(flight.flightId, it)
+                }
+            )
+        }
+    }
+}
 
 @Entity
 data class ShareDataModel(
@@ -99,7 +133,7 @@ data class ShareDataModel(
     @ColumnInfo(name = "flightId")
     val flightId: String,
     @ColumnInfo(name = "sharedUserId")
-    val sharedUserId: String,
+    val sharedUserId: String?,
     @ColumnInfo(name = "isConfirmed")
     val isConfirmed: Boolean
 )
@@ -112,8 +146,26 @@ data class ShareData(
         entityColumn = "userId",
         entity = SharedUserDataModel::class
     )
-    val sharedUserData: SharedUserData
-)
+    val sharedUserData: SharedUserData?
+) {
+
+    companion object {
+        fun fromApiShareData(
+            flightId: String,
+            shareData: pl.kossa.myflights.api.responses.flights.ShareData
+        ): ShareData {
+            return ShareData(
+                ShareDataModel(
+                    shareData.sharedFlightId,
+                    flightId,
+                    shareData.userData?.userId, // TODO refactor to nullable
+                    shareData.isConfirmed
+                ),
+                SharedUserData.fromApiSharedUserData(shareData.userData)
+            )
+        }
+    }
+}
 
 @Entity
 data class SharedUserDataModel(
@@ -136,7 +188,23 @@ data class SharedUserData(
         entity = ImageModel::class
     )
     val image: ImageModel?
-)
+) {
+    companion object {
+        fun fromApiSharedUserData(sharedUserData: pl.kossa.myflights.api.responses.sharedflights.SharedUserData?): SharedUserData? {
+            return sharedUserData?.let {
+                SharedUserData(
+                    SharedUserDataModel(
+                        it.userId,
+                        it.email,
+                        it.nick,
+                        it.avatar?.imageId
+                    ),
+                    ImageModel.fromApiImage(it.avatar)
+                )
+            }
+        }
+    }
+}
 
 @Entity
 data class OwnerDataModel(
@@ -159,4 +227,19 @@ data class OwnerData(
         entity = ImageModel::class
     )
     val image: ImageModel?
-)
+) {
+
+    companion object {
+        fun fromApiOwnerData(sharedUserData: pl.kossa.myflights.api.responses.sharedflights.SharedUserData): OwnerData {
+            return OwnerData(
+                OwnerDataModel(
+                    sharedUserData.userId,
+                    sharedUserData.email,
+                    sharedUserData.nick,
+                    sharedUserData.avatar?.imageId
+                ),
+                ImageModel.fromApiImage(sharedUserData.avatar)
+            )
+        }
+    }
+}

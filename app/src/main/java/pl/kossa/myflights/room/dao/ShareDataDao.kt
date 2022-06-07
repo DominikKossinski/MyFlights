@@ -15,7 +15,7 @@ abstract class ShareDataDao(
     protected abstract suspend fun insertShareDataModel(shareDataModel: ShareDataModel)
 
     suspend fun insertShareData(shareData: ShareData) {
-        sharedUserDataDao.insertSharedUserData(shareData.sharedUserData)
+        shareData.sharedUserData?.let { sharedUserDataDao.insertSharedUserData(it) }
         insertShareDataModel(shareData.sharedData)
     }
 
@@ -24,7 +24,7 @@ abstract class ShareDataDao(
 
     suspend fun delete(shareData: ShareData) {
         deleteShareDataModel(shareData.sharedData)
-        if (getSharedFlightCount(shareData.sharedData.sharedUserId) == 0) {
+        if (shareData.sharedUserData != null &&getSharedFlightCount(shareData.sharedUserData.sharedUser.userId) == 0) {
             sharedUserDataDao.delete(shareData.sharedUserData)
         }
     }
