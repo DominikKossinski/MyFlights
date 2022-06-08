@@ -1,13 +1,10 @@
 package pl.kossa.myflights.room.converters
 
-import androidx.room.ProvidedAutoMigrationSpec
-import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import pl.kossa.myflights.exstensions.toDateTime
 import pl.kossa.myflights.exstensions.toUTCDateTimeString
 import java.util.*
 
-@ProvidedTypeConverter
 class DateConverter {
 
     @TypeConverter

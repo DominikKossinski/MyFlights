@@ -3,16 +3,16 @@ package pl.kossa.myflights.fragments.flights
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Flight
-import pl.kossa.myflights.api.services.FlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
+import pl.kossa.myflights.repository.FlightRepository
+import pl.kossa.myflights.room.entities.Flight
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class FlightsViewModel @Inject constructor(
-    private val flightsService: FlightsService,
+    private val flightRepository: FlightRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -21,8 +21,7 @@ class FlightsViewModel @Inject constructor(
 
     fun fetchFlights() {
         makeRequest {
-            val response = flightsService.getAllFlights()
-            response.body?.let { flightsList.value = it.map { it.flight } } // TODO
+            flightsList.value = flightRepository.getFlights()
         }
     }
 
@@ -37,7 +36,7 @@ class FlightsViewModel @Inject constructor(
 
     fun deleteFlight(flightId: String) {
         makeRequest {
-            flightsService.deleteFlight(flightId)
+            flightRepository.deleteFlight(flightId)
             setToastMessage(R.string.flight_deleted)
             analyticsTracker.logClickDeleteFlight()
             fetchFlights()

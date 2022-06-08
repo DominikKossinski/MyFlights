@@ -2,6 +2,7 @@ package pl.kossa.myflights.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import pl.kossa.myflights.room.converters.DateConverter
 import pl.kossa.myflights.room.dao.*
