@@ -8,15 +8,14 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Flight
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
-import pl.kossa.myflights.api.responses.flights.FlightResponse
-import pl.kossa.myflights.api.responses.flights.ShareData
 import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.databinding.FragmentFlightDetailsBinding
 import pl.kossa.myflights.exstensions.toDateString
 import pl.kossa.myflights.exstensions.toTimeString
+import pl.kossa.myflights.room.entities.Flight
+import pl.kossa.myflights.room.entities.ShareData
 
 @AndroidEntryPoint
 class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFlightDetailsBinding>() {
@@ -56,10 +55,10 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
     override fun collectFlow() {
         super.collectFlow()
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.flightResponse.collect {
+            viewModel.flight.collect {
                 it?.let {
-                    val isMyFlight = viewModel.isMyFlight(it.ownerData.userId)
-                    setupFlightData(it.flight)
+                    val isMyFlight = viewModel.isMyFlight(it.ownerData.ownerData.ownerId)
+                    setupFlightData(it)
                     setupAppBar(it, isMyFlight)
                     setupSharedUsersData(it.sharedUsers, isMyFlight)
                 }
@@ -68,27 +67,27 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
     }
 
     private fun setupFlightData(flight: Flight) {
-        binding.airplaneEwtv.valueText = flight.airplane.name
+        binding.airplaneEwtv.valueText = flight.airplane.airplane.name
         binding.departureAirportEwtv.valueText =
-            "${flight.departureAirport.name} (${flight.departureAirport.icaoCode})"
-        binding.departureRunwayEwtv.valueText = flight.departureRunway.name
+            "${flight.departureAirport.airport.name} (${flight.departureAirport.airport.icaoCode})"
+        binding.departureRunwayEwtv.valueText = flight.departureRunway.runway.name
 
         binding.arrivalAirportEwtv.valueText =
-            "${flight.arrivalAirport.name} (${flight.arrivalAirport.icaoCode})"
-        binding.arrivalRunwayEwtv.valueText = flight.arrivalRunway.name
+            "${flight.arrivalAirport.airport.name} (${flight.arrivalAirport.airport.icaoCode})"
+        binding.arrivalRunwayEwtv.valueText = flight.arrivalRunway.runway.name
 
         binding.departureTimeEwtv.valueText =
-            "${flight.departureDate.toDateString()} ${flight.departureDate.toTimeString()}"
+            "${flight.flight.departureDate.toDateString()} ${flight.flight.departureDate.toTimeString()}"
         binding.arrivalTimeEwtv.valueText =
-            "${flight.arrivalDate.toDateString()} ${flight.arrivalDate.toTimeString()}"
+            "${flight.flight.arrivalDate.toDateString()} ${flight.flight.arrivalDate.toTimeString()}"
 
-        binding.distanceEwtv.valueText = flight.distance?.toString() ?: ""
-        binding.noteTagTv.isVisible = !flight.note.isNullOrBlank()
-        binding.noteTv.isVisible = !flight.note.isNullOrBlank()
-        binding.noteTv.text = flight.note ?: ""
+        binding.distanceEwtv.valueText = flight.flight.distance?.toString() ?: ""
+        binding.noteTagTv.isVisible = !flight.flight.note.isNullOrBlank()
+        binding.noteTv.isVisible = !flight.flight.note.isNullOrBlank()
+        binding.noteTv.text = flight.flight.note ?: ""
     }
 
-    private fun setupAppBar(flightResponse: FlightResponse, isMyFlight: Boolean) {
+    private fun setupAppBar(flight: Flight, isMyFlight: Boolean) {
         binding.shareAppbar.isDeleteIconVisible = isMyFlight
         binding.shareAppbar.isShareVisible = isMyFlight
         binding.editButton.isVisible = isMyFlight
@@ -96,36 +95,38 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
         binding.shareAppbar.isResignVisible = !isMyFlight
 
         binding.ownerEtw.isMyFlight = isMyFlight
-        binding.ownerEtw.ownerEmail = flightResponse.ownerData.email
-        binding.ownerEtw.ownerNick = flightResponse.ownerData.nick
-        binding.ownerEtw.profileUrl = flightResponse.ownerData.avatar?.thumbnailUrl
+        binding.ownerEtw.ownerEmail = flight.ownerData.ownerData.email
+        binding.ownerEtw.ownerNick = flight.ownerData.ownerData.nick
+        binding.ownerEtw.profileUrl = flight.ownerData.image?.thumbnailUrl
     }
 
     private fun setupSharedUsersData(shareList: List<ShareData>, isMyFlight: Boolean) {
         binding.sharedUsersCg.removeAllViews()
-        val anyUsers = shareList.any { it.userData != null && (it.isConfirmed || isMyFlight) }
+        val anyUsers =
+            shareList.any { it.sharedUserData != null && (it.sharedData.isConfirmed || isMyFlight) }
         binding.sharedUsersTv.isVisible = anyUsers
         binding.sharedUsersCg.isVisible = anyUsers
         binding.seeAllTv.isVisible = anyUsers
-        shareList.filter { it.isConfirmed && (it.isConfirmed || isMyFlight) }.forEach {
-            it.userData?.let { userData ->
-                val child = layoutInflater.inflate(R.layout.element_shared_user_chip, null)
-                val chip = child.findViewById<Chip>(R.id.chip)!!
-                chip.text = userData.nick.ifBlank {
-                    userData.email
+        shareList.filter { it.sharedData.isConfirmed && (it.sharedData.isConfirmed || isMyFlight) }
+            .forEach {
+                it.sharedUserData?.let { userData ->
+                    val child = layoutInflater.inflate(R.layout.element_shared_user_chip, null)
+                    val chip = child.findViewById<Chip>(R.id.chip)!!
+                    chip.text = userData.sharedUser.nick.ifBlank {
+                        userData.sharedUser.email
+                    }
+                    userData.image?.thumbnailUrl?.let { url ->
+                        Glide.with(chip)
+                            .load(url)
+                            .submit(100, 100)
+                            .get()?.let { drawable ->
+                                chip.chipIcon = drawable
+                            }
+                    }
+                    binding.sharedUsersCg.addView(chip)
                 }
-                userData.avatar?.thumbnailUrl?.let { url ->
-                    Glide.with(chip)
-                        .load(url)
-                        .submit(100, 100)
-                        .get()?.let { drawable ->
-                            chip.chipIcon = drawable
-                        }
-                }
-                binding.sharedUsersCg.addView(chip)
-            }
 
-        }
+            }
     }
 
     private fun showDeleteDialog() {
