@@ -4,18 +4,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.api.requests.FlightRequest
-import pl.kossa.myflights.api.services.FlightsService
-import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment
+import pl.kossa.myflights.repository.FlightRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class FlightAddViewModel @Inject constructor(
-    private val flightsService: FlightsService,
-    private val sharedFlightsService: SharedFlightsService,
+    private val flightRepository: FlightRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -64,7 +62,7 @@ class FlightAddViewModel @Inject constructor(
         val arrivalDate = _arrivalDate.value
         if (departureDate == null || arrivalDate == null) return // TODO diplay error
         makeRequest {
-            val response = flightsService.postFlight(
+            val entityId = flightRepository.createFlight(
                 FlightRequest(
                     _note.value,
                     _distance.value,
@@ -79,7 +77,7 @@ class FlightAddViewModel @Inject constructor(
                 )
             )
             analyticsTracker.logClickAddFlight()
-            response.body?.let { navigateToFlightDetails(it.entityId) }
+            entityId?.let { navigateToFlightDetails(it) }
         }
     }
 
