@@ -35,12 +35,14 @@ class SharedUsersFragment : BaseFragment<SharedUsersViewModel, FragmentSharedUse
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.flightResponse.collectLatest {
+            viewModel.flight.collectLatest {
                 it?.let {
                     adapter.items.clear()
-                    val isMyFlight = viewModel.getUserId() == it.ownerData.userId
+                    val isMyFlight = viewModel.getUserId() == it.ownerData.ownerData.ownerId
                     adapter.isMyFlight = isMyFlight
-                    adapter.items.addAll(it.sharedUsers.filter { sU -> sU.isConfirmed || isMyFlight })
+                    adapter.items.addAll(it.sharedUsers.filter { sharedUser->
+                        sharedUser.sharedData.isConfirmed || isMyFlight }
+                    )
                     adapter.notifyDataSetChanged()
                 }
             }
