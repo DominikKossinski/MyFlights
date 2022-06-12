@@ -14,10 +14,7 @@ import okhttp3.OkHttpClient
 import pl.kossa.myflights.BuildConfig
 import pl.kossa.myflights.api.call.ApiResponseAdapterFactory
 import pl.kossa.myflights.api.services.*
-import pl.kossa.myflights.repository.AirplaneRepository
-import pl.kossa.myflights.repository.AirportRepository
-import pl.kossa.myflights.repository.FlightRepository
-import pl.kossa.myflights.repository.RunwayRepository
+import pl.kossa.myflights.repository.*
 import pl.kossa.myflights.room.AppDatabase
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
@@ -161,6 +158,13 @@ object AppModule {
         preferencesHelper: PreferencesHelper
     ): FlightRepository {
         return FlightRepository(flightsService, db.getFlightDao(), preferencesHelper)
+    }
+
+    @Provides
+    fun provideSharedFlightsRepository(
+        sharedFlightsService: SharedFlightsService
+    ): SharedFlightRepository {
+        return SharedFlightRepository(sharedFlightsService)
     }
 
     @Provides
