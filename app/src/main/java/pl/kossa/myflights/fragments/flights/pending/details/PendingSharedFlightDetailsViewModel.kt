@@ -7,13 +7,14 @@ import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightResponse
 import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.SharedFlightRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class PendingSharedFlightDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val sharedFlightsService: SharedFlightsService,
+    private val sharedFlightRepository: SharedFlightRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -26,21 +27,21 @@ class PendingSharedFlightDetailsViewModel @Inject constructor(
 
     fun fetchSharedFlight() {
         makeRequest {
-            val response = sharedFlightsService.getSharedFlight(sharedFlightId)
+            val response = sharedFlightRepository.getSharedFlight(sharedFlightId)
             response.body?.let { sharedFlight.value = it }
         }
     }
 
     fun deleteSharedFlight() {
         makeRequest {
-            sharedFlightsService.deleteSharedFlight(sharedFlightId)
+            sharedFlightRepository.deleteSharedFlight(sharedFlightId)
             navigateBack()
         }
     }
 
     fun confirmSharedFlight() {
         makeRequest {
-            sharedFlightsService.confirmSharedFlight(sharedFlightId)
+            sharedFlightRepository.confirmSharedFlight(sharedFlightId)
             setToastMessage(R.string.pending_shared_flight_confirmed)
             navigateBack()
         }
