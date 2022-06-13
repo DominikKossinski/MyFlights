@@ -7,6 +7,7 @@ import pl.kossa.myflights.R
 import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.FlightRepository
+import pl.kossa.myflights.repository.SharedFlightRepository
 import pl.kossa.myflights.room.entities.Flight
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class FlightDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val flightRepository: FlightRepository,
-    private val sharedFlightsService: SharedFlightsService,
+    private val sharedFlightRepository: SharedFlightRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -48,7 +49,7 @@ class FlightDetailsViewModel @Inject constructor(
                 sharedUsers.sharedData.sharedUserId == currentUser?.uid
             }?.let { shareData ->
                 makeRequest {
-                    sharedFlightsService.resignFromSharedFlight(shareData.sharedData.sharedFlightId)
+                    sharedFlightRepository.resignFromSharedFlight(shareData.sharedData.sharedFlightId)
                     //TODO toast
                     analyticsTracker.logClickResignFromFlight()
                     navigateBack()
