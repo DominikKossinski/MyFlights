@@ -6,13 +6,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightJoinDetails
 import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.SharedFlightRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class JoinFlightViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val sharedFlightsService: SharedFlightsService,
+    private val sharedFlightRepository: SharedFlightRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -26,7 +27,7 @@ class JoinFlightViewModel @Inject constructor(
 
     private fun fetchSharedFlightJoinDetails() {
         makeRequest {
-            val response = sharedFlightsService.getSharedFlightJoinDetails(sharedFlightId)
+            val response = sharedFlightRepository.getSharedFlightJoinDetails(sharedFlightId)
             analyticsTracker.logJoinRequestScanned()
             response.body?.let { sharedFlightJoinDetails.value = it }
         }
@@ -34,7 +35,7 @@ class JoinFlightViewModel @Inject constructor(
 
     fun joinSharedFlight() {
         makeRequest {
-            sharedFlightsService.joinSharedFlight(sharedFlightId)
+            sharedFlightRepository.joinSharedFlight(sharedFlightId)
             analyticsTracker.logClickJoinFlight()
             navigate(JoinFlightBottomSheetDirections.showJoinRequestSentDialog())
         }
