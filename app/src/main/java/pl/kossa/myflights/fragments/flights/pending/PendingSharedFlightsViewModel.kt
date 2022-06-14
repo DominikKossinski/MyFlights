@@ -4,14 +4,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightResponse
-import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.SharedFlightRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class PendingSharedFlightsViewModel @Inject constructor(
-    private val sharedFlightsService: SharedFlightsService,
+    private val sharedFlightRepository: SharedFlightRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -23,7 +23,7 @@ class PendingSharedFlightsViewModel @Inject constructor(
 
     fun fetchPendingSharedFlights() {
         makeRequest {
-            val response = sharedFlightsService.getPendingSharedFlights()
+            val response = sharedFlightRepository.getPendingSharedFlights()
             response.body?.let { pendingSharedFlights.value = it }
         }
     }
@@ -38,14 +38,14 @@ class PendingSharedFlightsViewModel @Inject constructor(
 
     fun deleteSharedFlight(sharedFlightId: String) {
         makeRequest {
-            sharedFlightsService.deleteSharedFlight(sharedFlightId)
+            sharedFlightRepository.deleteSharedFlight(sharedFlightId)
             fetchPendingSharedFlights()
         }
     }
 
     fun confirmSharedFlight(sharedFlightId: String) {
         makeRequest {
-            sharedFlightsService.confirmSharedFlight(sharedFlightId)
+            sharedFlightRepository.confirmSharedFlight(sharedFlightId)
             setToastMessage(R.string.pending_shared_flight_confirmed)
             fetchPendingSharedFlights()
         }
