@@ -168,6 +168,13 @@ object AppModule {
     }
 
     @Provides
+    fun provideUserRepository(
+        userService: UserService
+    ): UserRepository {
+        return UserRepository(userService)
+    }
+
+    @Provides
     fun provideAnalyticsTracker(): AnalyticsTracker {
         return AnalyticsTracker()
     }
