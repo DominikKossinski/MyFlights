@@ -14,12 +14,13 @@ import pl.kossa.myflights.api.models.ProviderType
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountDeleteViewModel @Inject constructor(
-    private val userService: UserService,
+    private val userRepository: UserRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -37,7 +38,7 @@ class AccountDeleteViewModel @Inject constructor(
 
     private fun fetchUser() {
         makeRequest {
-            val response = userService.getUser()
+            val response = userRepository.getUser()
             user.value = response.body
         }
     }
@@ -53,7 +54,7 @@ class AccountDeleteViewModel @Inject constructor(
         firebaseAuth.currentUser?.reauthenticate(credential)
             ?.addOnSuccessListener {
                 makeRequest {
-                    userService.deleteUser()
+                    userRepository.deleteUser()
                     analyticsTracker.logClickDeleteAccount()
                     isLoadingData.value = false
                     signOut()

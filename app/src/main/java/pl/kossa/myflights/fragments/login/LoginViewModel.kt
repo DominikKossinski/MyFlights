@@ -12,12 +12,13 @@ import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userService: UserService,
+    private val userRepository: UserRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -135,7 +136,7 @@ class LoginViewModel @Inject constructor(
                     }
                     makeRequest {
                         analyticsTracker.logClickGoogleSignIn()
-                        val response = userService.getUser()
+                        val response = userRepository.getUser()
                         val user = response.body!!
                         Log.d("MyLog", "New User: $user")
                         if (!user.regulationsAccepted || isNew) {

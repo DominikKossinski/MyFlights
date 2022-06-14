@@ -14,8 +14,8 @@ import okhttp3.RequestBody
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
 import pl.kossa.myflights.api.services.ImagesService
-import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.io.File
 import javax.inject.Inject
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AcceptAvatarViewModel @Inject constructor(
     private val imagesService: ImagesService,
-    private val userService: UserService,
+    private val userRepository: UserRepository,
     savedStateHandle: SavedStateHandle,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
@@ -41,7 +41,7 @@ class AcceptAvatarViewModel @Inject constructor(
 
     fun fetchUser() {
         makeRequest {
-            val response = userService.getUser()
+            val response = userRepository.getUser()
             _user.emit(response.body)
         }
     }
@@ -63,7 +63,7 @@ class AcceptAvatarViewModel @Inject constructor(
                     imagesService.putImage(imageId, part)
                 } else {
                     val response = imagesService.postImage(part)
-                    userService.putUser(
+                    userRepository.putUser(
                         UserRequest(
                             nick,
                             response.body!!.entityId,

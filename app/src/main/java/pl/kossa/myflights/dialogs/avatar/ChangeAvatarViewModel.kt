@@ -7,12 +7,13 @@ import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class ChangeAvatarViewModel @Inject constructor(
-    private val userService: UserService,
+    private val userRepository: UserRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -24,7 +25,7 @@ class ChangeAvatarViewModel @Inject constructor(
 
     fun fetchUser() {
         makeRequest {
-            val response = userService.getUser()
+            val response = userRepository.getUser()
             user.value = response.body
         }
     }
@@ -33,7 +34,7 @@ class ChangeAvatarViewModel @Inject constructor(
         makeRequest {
             val nick = user.value?.nick ?: ""
             val regulationsAccepted = user.value?.regulationsAccepted ?: false
-            userService.putUser(UserRequest(nick, null, regulationsAccepted))
+            userRepository.putUser(UserRequest(nick, null, regulationsAccepted))
             navigateBack()
         }
     }

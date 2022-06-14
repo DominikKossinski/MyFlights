@@ -14,13 +14,14 @@ import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class ChangePasswordViewModel @Inject constructor(
-    private val userService: UserService,
+    private val userRepository: UserRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -99,7 +100,7 @@ class ChangePasswordViewModel @Inject constructor(
 
     fun fetchUser() {
         makeRequest {
-            val response = userService.getUser()
+            val response = userRepository.getUser()
             response.body?.let { _user.value = it }
         }
     }

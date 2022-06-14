@@ -7,12 +7,13 @@ import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class FillProfileViewModel @Inject constructor(
-    private val userService: UserService,
+    private val userRepository: UserRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -29,7 +30,7 @@ class FillProfileViewModel @Inject constructor(
 
     fun fetchUser() {
         makeRequest {
-            val response = userService.getUser()
+            val response = userRepository.getUser()
             response.body?.let {
                 user.emit(it)
             }
@@ -39,7 +40,7 @@ class FillProfileViewModel @Inject constructor(
     fun createAccount() {
         makeRequest {
             val imageId = user.value?.avatar?.imageId
-            userService.putUser(
+            userRepository.putUser(
                 UserRequest(_nick.value, imageId, _regulationsAccepted.value)
             )
             navigate(FillProfileFragmentDirections.goToMainActivity(), true)
