@@ -175,6 +175,13 @@ object AppModule {
     }
 
     @Provides
+    fun provideStatisticsRepository(
+        statisticsService: StatisticsService
+    ): StatisticsRepository {
+        return StatisticsRepository(statisticsService)
+    }
+
+    @Provides
     fun provideAnalyticsTracker(): AnalyticsTracker {
         return AnalyticsTracker()
     }
