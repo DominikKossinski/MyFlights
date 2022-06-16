@@ -182,6 +182,13 @@ object AppModule {
     }
 
     @Provides
+    fun provideImageRepository(
+        imagesService: ImagesService
+    ): ImageRepository {
+        return ImageRepository(imagesService)
+    }
+
+    @Provides
     fun provideAnalyticsTracker(): AnalyticsTracker {
         return AnalyticsTracker()
     }
