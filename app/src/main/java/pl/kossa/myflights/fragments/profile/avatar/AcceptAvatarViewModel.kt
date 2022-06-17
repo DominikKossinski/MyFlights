@@ -15,6 +15,7 @@ import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
 import pl.kossa.myflights.api.services.ImagesService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.ImageRepository
 import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.io.File
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AcceptAvatarViewModel @Inject constructor(
-    private val imagesService: ImagesService,
+    private val imageRepository: ImageRepository,
     private val userRepository: UserRepository,
     savedStateHandle: SavedStateHandle,
     preferencesHelper: PreferencesHelper
@@ -60,9 +61,9 @@ class AcceptAvatarViewModel @Inject constructor(
                     file.asRequestBody(type.toMediaTypeOrNull())
                 )
                 if (imageId != null) {
-                    imagesService.putImage(imageId, part)
+                    imageRepository.putImage(imageId, part)
                 } else {
-                    val response = imagesService.postImage(part)
+                    val response = imageRepository.postImage(part)
                     userRepository.putUser(
                         UserRequest(
                             nick,
