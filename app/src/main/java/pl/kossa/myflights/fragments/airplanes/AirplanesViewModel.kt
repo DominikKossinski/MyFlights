@@ -7,6 +7,7 @@ import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.repository.AirplaneRepository
+import pl.kossa.myflights.repository.ResultWrapper
 import pl.kossa.myflights.room.entities.Airplane
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
@@ -22,7 +23,10 @@ class AirplanesViewModel @Inject constructor(
     fun fetchAirplanes() {
         makeRequest {
             val airplanes = airplaneRepository.getAirplanes()
-            airplanesList.value = airplanes
+            airplanesList.value = airplanes.value
+            if (airplanes is ResultWrapper.GenericError) {
+                apiErrorFlow.emit(airplanes.apiError)
+            }
         }
     }
 

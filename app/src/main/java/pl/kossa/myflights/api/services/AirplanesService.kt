@@ -1,6 +1,7 @@
 package pl.kossa.myflights.api.services
 
 import pl.kossa.myflights.api.call.ApiResponse
+import pl.kossa.myflights.api.call.ApiResponse1
 import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.requests.AirplaneRequest
 import pl.kossa.myflights.api.responses.CreatedResponse
@@ -9,7 +10,7 @@ import retrofit2.http.*
 interface AirplanesService {
 
     @GET("/api/airplanes")
-    suspend fun getAirplanes(@Query("filter") filter: String = ""): ApiResponse<List<Airplane>>
+    suspend fun getAirplanes(@Query("filter") filter: String = ""): ApiResponse1<List<Airplane>>
 
     @GET("/api/airplanes/{airplaneId}")
     suspend fun getAirplaneById(@Path("airplaneId") airplaneId: String): ApiResponse<Airplane>

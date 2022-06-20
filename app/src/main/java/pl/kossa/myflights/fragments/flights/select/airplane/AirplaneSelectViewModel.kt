@@ -26,9 +26,9 @@ class AirplaneSelectViewModel @Inject constructor(
     fun fetchAirplanes(text: String) {
         makeRequest {
             val response = airplanesService.getAirplanes(text)
-            response.body?.let {
-                airplanesList.value = it
-            }
+//         TODO   response.body?.let {
+//                airplanesList.value = it
+//            }
         }
     }
 
