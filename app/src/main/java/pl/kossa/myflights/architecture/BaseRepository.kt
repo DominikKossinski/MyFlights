@@ -32,20 +32,19 @@ abstract class BaseRepository(
         return try {
             block.invoke()
         } catch (e: UnauthorizedException) {
-            return ApiResponse1.GenericError(ApiError(401, ApiErrorBody("mess", "desc")))
+            return ApiResponse1.GenericError(ApiError(401, null))
         } catch (e: NoInternetException) {
             return ApiResponse1.NetworkError
         } catch (e: ApiServerException) {
-            return ApiResponse1.GenericError(ApiError(401, ApiErrorBody("mess", "desc")))
+            return ApiResponse1.GenericError(e.apiError)
         } catch (e: Exception) {
             return when (e) {
                 is SocketTimeoutException, is UnknownHostException, is ConnectionShutdownException, is IOException -> {
                     ApiResponse1.NetworkError
                 }
                 else -> {
-                    // TODO crashlitics
                     FirebaseCrashlytics.getInstance().recordException(e)
-                    return ApiResponse1.GenericError(ApiError(500, ApiErrorBody("mess", "desc")))
+                    return ApiResponse1.GenericError(ApiError(500, null))
                 }
             }
         }
