@@ -1,12 +1,8 @@
 package pl.kossa.myflights.repository
 
 import pl.kossa.myflights.api.call.ApiResponse1
-import pl.kossa.myflights.api.exceptions.ApiServerException
-import pl.kossa.myflights.api.exceptions.NoInternetException
-import pl.kossa.myflights.api.exceptions.UnauthorizedException
 import pl.kossa.myflights.api.requests.AirplaneRequest
-import pl.kossa.myflights.api.responses.ApiError
-import pl.kossa.myflights.api.responses.ApiErrorBody
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseRepository
 import pl.kossa.myflights.architecture.ResultWrapper
@@ -19,7 +15,7 @@ class AirplaneRepository(
     private val airplanesService: AirplanesService,
     private val airplaneDao: AirplaneDao,
     preferencesHelper: PreferencesHelper
-): BaseRepository(preferencesHelper) {
+) : BaseRepository(preferencesHelper) {
 
     suspend fun getAirplanes(): ResultWrapper<List<Airplane>> {
         val response = makeRequest(airplanesService::getAirplanes)
@@ -34,16 +30,58 @@ class AirplaneRepository(
         return when (response) {
             is ApiResponse1.Success -> ResultWrapper.Success(value)
             is ApiResponse1.GenericError -> ResultWrapper.GenericError(value, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(value)
+            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(value, response.networkErrorType)
         }
     }
 
-    suspend fun getAirplaneById(airplaneId: String): Airplane? {
-        val response = airplanesService.getAirplaneById(airplaneId)
-        response.body?.let {
-            airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
+    suspend fun getAirplaneById(airplaneId: String): ResultWrapper<Airplane?> {
+        val response = makeRequest {
+            airplanesService.getAirplaneById(airplaneId)
         }
-        return preferencesHelper.userId?.let { airplaneDao.getAirplaneById(it, airplaneId) }
+        return when (response) {
+            is ApiResponse1.Success -> {
+                response.value?.let {
+                    airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
+                }
+                ResultWrapper.Success(preferencesHelper.userId?.let {
+                    airplaneDao.getAirplaneById(
+                        it,
+                        airplaneId
+                    )
+                })
+            }
+            is ApiResponse1.GenericError -> {
+                when (response.apiError.code) {
+                    HttpCode.NOT_FOUND.code -> {
+                        val airplane = preferencesHelper.userId?.let {
+                            airplaneDao.getAirplaneById(
+                                it,
+                                airplaneId
+                            )
+                        }
+                        airplane?.let { airplaneDao.delete(airplane) }
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                    else -> {
+                        val airplane = preferencesHelper.userId?.let {
+                            airplaneDao.getAirplaneById(
+                                it,
+                                airplaneId
+                            )
+                        }
+                        ResultWrapper.GenericError(airplane, response.apiError)
+                    }
+                }
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(preferencesHelper.userId?.let {
+                    airplaneDao.getAirplaneById(
+                        it,
+                        airplaneId
+                    )
+                }, response.networkErrorType)
+            }
+        }
     }
 
     suspend fun createAirplane(airplaneRequest: AirplaneRequest): String? {

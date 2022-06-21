@@ -5,9 +5,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.architecture.ResultWrapper
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.repository.AirplaneRepository
-import pl.kossa.myflights.repository.ResultWrapper
 import pl.kossa.myflights.room.entities.Airplane
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
@@ -26,6 +26,9 @@ class AirplanesViewModel @Inject constructor(
             airplanesList.value = airplanes.value
             if (airplanes is ResultWrapper.GenericError) {
                 apiErrorFlow.emit(airplanes.apiError)
+            }
+            if(airplanes is ResultWrapper.NetworkError) {
+                networkErrorFlow.emit(airplanes.networkErrorType)
             }
         }
     }

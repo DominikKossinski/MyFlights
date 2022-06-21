@@ -4,8 +4,8 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.architecture.ResultWrapper
 import pl.kossa.myflights.repository.AirplaneRepository
 import pl.kossa.myflights.room.entities.Airplane
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -27,7 +27,14 @@ class AirplaneDetailsViewModel @Inject constructor(
 
     fun fetchAirplane() {
         makeRequest {
-            airplane.value = airplaneRepository.getAirplaneById(airplaneId)
+            val result = airplaneRepository.getAirplaneById(airplaneId)
+            airplane.value = result.value
+            if (result is ResultWrapper.GenericError) {
+                apiErrorFlow.emit(result.apiError)
+            }
+            if (result is ResultWrapper.NetworkError) {
+                networkErrorFlow.emit(result.networkErrorType)
+            }
         }
     }
 

@@ -13,7 +13,7 @@ interface AirplanesService {
     suspend fun getAirplanes(@Query("filter") filter: String = ""): ApiResponse1<List<Airplane>>
 
     @GET("/api/airplanes/{airplaneId}")
-    suspend fun getAirplaneById(@Path("airplaneId") airplaneId: String): ApiResponse<Airplane>
+    suspend fun getAirplaneById(@Path("airplaneId") airplaneId: String): ApiResponse1<Airplane>
 
     @POST("/api/airplanes")
     suspend fun postAirplane(@Body airplaneRequest: AirplaneRequest): ApiResponse<CreatedResponse>
