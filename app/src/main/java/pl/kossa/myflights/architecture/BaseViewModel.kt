@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import okhttp3.internal.http2.ConnectionShutdownException
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.call.NetworkErrorType
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
@@ -48,6 +49,7 @@ abstract class BaseViewModel(
     val toastMessage = MutableSharedFlow<Int?>(0)
     val isLoadingData = MutableStateFlow(false)
     val apiErrorFlow = MutableStateFlow<ApiError?>(null)
+    val networkErrorFlow = MutableStateFlow<NetworkErrorType?>(null)
     val activityFinishFlow = MutableSharedFlow<Unit>(0)
     private val navDirectionFlow = MutableSharedFlow<NavDirections>(0)
     val backFlow = MutableSharedFlow<Unit>(0)
