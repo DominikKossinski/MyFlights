@@ -30,7 +30,10 @@ class AirplaneRepository(
         return when (response) {
             is ApiResponse1.Success -> ResultWrapper.Success(value)
             is ApiResponse1.GenericError -> ResultWrapper.GenericError(value, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(value, response.networkErrorType)
+            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+                value,
+                response.networkErrorType
+            )
         }
     }
 
@@ -84,12 +87,21 @@ class AirplaneRepository(
         }
     }
 
-    suspend fun createAirplane(airplaneRequest: AirplaneRequest): String? {
-        val response = airplanesService.postAirplane(airplaneRequest)
-        response.body?.entityId?.let {
-            getAirplaneById(it)
+    suspend fun createAirplane(airplaneRequest: AirplaneRequest): ResultWrapper<String?> {
+        return when (val response = airplanesService.postAirplane(airplaneRequest)) {
+            is ApiResponse1.Success -> {
+                response.value?.entityId?.let {
+                    getAirplaneById(it)
+                }
+                ResultWrapper.Success(response.value?.entityId)
+            }
+            is ApiResponse1.GenericError -> {
+                ResultWrapper.GenericError(null, response.apiError)
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(null, response.networkErrorType)
+            }
         }
-        return response.body?.entityId
     }
 
     suspend fun saveAirplane(airplaneId: String, airplaneRequest: AirplaneRequest) {

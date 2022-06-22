@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.requests.AirplaneRequest
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.architecture.ResultWrapper
 import pl.kossa.myflights.repository.AirplaneRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
@@ -54,10 +55,17 @@ class AirplaneAddViewModel @Inject constructor(
         makeRequest {
             //TODO image
             val request = AirplaneRequest(name, maxSpeed, weight, null)
-            val entityId = airplaneRepository.createAirplane(request)
-            entityId?.let {
-                navigateToDetails(it)
+            val result = airplaneRepository.createAirplane(request)
+            when (result) {
+                is ResultWrapper.Success -> {}
+                is ResultWrapper.GenericError -> {
+                    apiErrorFlow.emit(result.apiError)
+                }
+                is ResultWrapper.NetworkError -> {
+                    networkErrorFlow.emit(result.networkErrorType)
+                }
             }
+            result.value?.let { navigateToDetails(it) }
         }
     }
 

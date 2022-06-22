@@ -16,7 +16,7 @@ interface AirplanesService {
     suspend fun getAirplaneById(@Path("airplaneId") airplaneId: String): ApiResponse1<Airplane>
 
     @POST("/api/airplanes")
-    suspend fun postAirplane(@Body airplaneRequest: AirplaneRequest): ApiResponse<CreatedResponse>
+    suspend fun postAirplane(@Body airplaneRequest: AirplaneRequest): ApiResponse1<CreatedResponse>
 
     @PUT("/api/airplanes/{airplaneId}")
     suspend fun putAirplane(
