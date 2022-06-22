@@ -17,7 +17,6 @@ import pl.kossa.myflights.api.call.NetworkErrorType
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
-import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -55,6 +54,19 @@ abstract class BaseViewModel(
     val backFlow = MutableSharedFlow<Unit>(0)
     val signOutFlow = MutableSharedFlow<Unit>(0)
 
+    suspend fun <T> handleRequest(block: suspend () -> ResultWrapper<T>): T {
+        val result = block.invoke()
+        when (result) {
+            is ResultWrapper.GenericError -> {
+                apiErrorFlow.emit(result.apiError)
+            }
+            is ResultWrapper.NetworkError -> {
+                networkErrorFlow.emit(result.networkErrorType)
+            }
+            is ResultWrapper.Success -> {}
+        }
+        return result.value
+    }
 
     fun makeRequest(block: suspend () -> Unit) {
         firebaseAuth.currentUser ?: return
