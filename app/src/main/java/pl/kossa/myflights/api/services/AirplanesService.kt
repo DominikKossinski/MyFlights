@@ -22,7 +22,7 @@ interface AirplanesService {
     suspend fun putAirplane(
         @Path("airplaneId") airplaneId: String,
         @Body airplaneRequest: AirplaneRequest
-    ): ApiResponse<Void>
+    ): ApiResponse1<Void>
 
     @DELETE("/api/airplanes/{airplaneId}")
     suspend fun deleteAirplane(@Path("airplaneId") airplaneId: String): ApiResponse<Void>

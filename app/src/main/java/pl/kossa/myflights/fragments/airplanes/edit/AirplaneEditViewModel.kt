@@ -52,7 +52,7 @@ class AirplaneEditViewModel @Inject constructor(
             if (result is ResultWrapper.GenericError) {
                 apiErrorFlow.emit(result.apiError)
             }
-            if(result is ResultWrapper.NetworkError) {
+            if (result is ResultWrapper.NetworkError) {
                 networkErrorFlow.emit(result.networkErrorType)
             }
         }
@@ -72,8 +72,12 @@ class AirplaneEditViewModel @Inject constructor(
                 _weight.value,
                 null
             )
-            airplaneRepository.saveAirplane(airplaneId, request)
-            navigateBack()
+            val response = handleRequest {
+                airplaneRepository.saveAirplane(airplaneId, request)
+            }
+            response?.let {
+                navigateBack()
+            }
         }
     }
 

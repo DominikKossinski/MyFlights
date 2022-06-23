@@ -104,9 +104,22 @@ class AirplaneRepository(
         }
     }
 
-    suspend fun saveAirplane(airplaneId: String, airplaneRequest: AirplaneRequest) {
-        airplanesService.putAirplane(airplaneId, airplaneRequest)
-        getAirplaneById(airplaneId)
+    suspend fun saveAirplane(
+        airplaneId: String,
+        airplaneRequest: AirplaneRequest
+    ): ResultWrapper<Unit?> {
+        return when (val response = airplanesService.putAirplane(airplaneId, airplaneRequest)) {
+            is ApiResponse1.Success -> {
+                getAirplaneById(airplaneId)
+                ResultWrapper.Success(Unit)
+            }
+            is ApiResponse1.GenericError -> {
+                ResultWrapper.GenericError(null, response.apiError)
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(null, response.networkErrorType)
+            }
+        }
     }
 
     suspend fun deleteAirplane(airplaneId: String) {
