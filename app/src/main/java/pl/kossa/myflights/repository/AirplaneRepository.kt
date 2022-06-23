@@ -122,12 +122,20 @@ class AirplaneRepository(
         }
     }
 
-    suspend fun deleteAirplane(airplaneId: String) {
-        airplanesService.deleteAirplane(airplaneId)
-        preferencesHelper.userId?.let {
-            val airplane = airplaneDao.getAirplaneById(it, airplaneId)
-            airplane?.let { entity ->
-                airplaneDao.delete(entity)
+    suspend fun deleteAirplane(airplaneId: String): ResultWrapper<Unit?> {
+        return when (val response = airplanesService.deleteAirplane(airplaneId)) {
+            is ApiResponse1.Success -> {
+                val airplane = airplaneDao.getAirplaneById(airplaneId, airplaneId)
+                airplane?.let { entity ->
+                    airplaneDao.delete(entity)
+                }
+                ResultWrapper.Success(Unit)
+            }
+            is ApiResponse1.GenericError -> {
+                ResultWrapper.GenericError(null, response.apiError)
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(null, response.networkErrorType)
             }
         }
     }

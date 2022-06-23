@@ -38,9 +38,11 @@ class AirplaneDetailsViewModel @Inject constructor(
 
     fun deleteAirplane() {
         makeRequest {
-            airplaneRepository.deleteAirplane(airplaneId)
-            setToastMessage(R.string.airplane_deleted)
-            navigateBack()
+            val result = handleRequest { airplaneRepository.deleteAirplane(airplaneId) }
+            result?.let {
+                setToastMessage(R.string.airplane_deleted)
+                navigateBack()
+            }
         }
     }
 }
