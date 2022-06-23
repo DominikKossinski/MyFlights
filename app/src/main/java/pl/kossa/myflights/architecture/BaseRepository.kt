@@ -8,7 +8,6 @@ import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
 import pl.kossa.myflights.api.responses.ApiError
-import pl.kossa.myflights.api.responses.ApiErrorBody
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -34,7 +33,7 @@ abstract class BaseRepository(
             block.invoke()
         } catch (e: UnauthorizedException) {
             return ApiResponse1.GenericError(ApiError(401, null))
-        } catch (e: NoInternetException) { // TODO handle no internet error
+        } catch (e: NoInternetException) {
             return ApiResponse1.NetworkError(NetworkErrorType.NO_INTERNET)
         } catch (e: ApiServerException) {
             return ApiResponse1.GenericError(e.apiError)

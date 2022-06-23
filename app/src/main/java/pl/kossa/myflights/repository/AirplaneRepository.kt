@@ -88,7 +88,10 @@ class AirplaneRepository(
     }
 
     suspend fun createAirplane(airplaneRequest: AirplaneRequest): ResultWrapper<String?> {
-        return when (val response = airplanesService.postAirplane(airplaneRequest)) {
+        val response = makeRequest {
+            airplanesService.postAirplane(airplaneRequest)
+        }
+        return when (response) {
             is ApiResponse1.Success -> {
                 response.value?.entityId?.let {
                     getAirplaneById(it)
@@ -108,7 +111,10 @@ class AirplaneRepository(
         airplaneId: String,
         airplaneRequest: AirplaneRequest
     ): ResultWrapper<Unit?> {
-        return when (val response = airplanesService.putAirplane(airplaneId, airplaneRequest)) {
+        val response = makeRequest {
+            airplanesService.putAirplane(airplaneId, airplaneRequest)
+        }
+        return when (response) {
             is ApiResponse1.Success -> {
                 getAirplaneById(airplaneId)
                 ResultWrapper.Success(Unit)
@@ -123,7 +129,10 @@ class AirplaneRepository(
     }
 
     suspend fun deleteAirplane(airplaneId: String): ResultWrapper<Unit?> {
-        return when (val response = airplanesService.deleteAirplane(airplaneId)) {
+        val response = makeRequest {
+            airplanesService.deleteAirplane(airplaneId)
+        }
+        return when (response) {
             is ApiResponse1.Success -> {
                 val airplane = airplaneDao.getAirplaneById(airplaneId, airplaneId)
                 airplane?.let { entity ->
