@@ -20,7 +20,9 @@ class AirportsViewModel @Inject constructor(
 
     fun fetchAirports() {
         makeRequest {
-            airportsList.value = airportRepository.getAirports()
+            airportsList.value = handleRequest {
+                airportRepository.getAirports()
+            }
         }
     }
 

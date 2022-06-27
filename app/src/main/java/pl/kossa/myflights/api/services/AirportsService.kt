@@ -1,6 +1,7 @@
 package pl.kossa.myflights.api.services
 
 import pl.kossa.myflights.api.call.ApiResponse
+import pl.kossa.myflights.api.call.ApiResponse1
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.requests.AirportRequest
 import pl.kossa.myflights.api.responses.CreatedResponse
@@ -11,7 +12,7 @@ interface AirportsService {
 
 
     @GET("/api/airports")
-    suspend fun getAirports(@Query("filter") filter: String = ""): ApiResponse<List<Airport>>
+    suspend fun getAirports(@Query("filter") filter: String = ""): ApiResponse1<List<Airport>>
 
     @GET("/api/airports/{airportId}")
     suspend fun getAirportById(@Path("airportId") airportId: String): ApiResponse<Airport>

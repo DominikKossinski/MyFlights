@@ -23,7 +23,9 @@ class AirportSelectViewModel @Inject constructor(
     fun fetchAirports(text: String) {
         makeRequest {
             //TODO filtering by text
-            airportsList.value = airportsRepository.getAirports()
+            airportsList.value = handleRequest {
+                airportsRepository.getAirports()
+            }
         }
     }
 }
