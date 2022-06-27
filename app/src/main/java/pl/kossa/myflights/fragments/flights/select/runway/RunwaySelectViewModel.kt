@@ -25,7 +25,9 @@ class RunwaySelectViewModel @Inject constructor(
 
     fun fetchAirport() {
         makeRequest {
-            airport.value = airportRepository.getAirportById(airportId)
+            airport.value = handleRequest {
+                airportRepository.getAirportById(airportId)
+            }
         }
     }
 

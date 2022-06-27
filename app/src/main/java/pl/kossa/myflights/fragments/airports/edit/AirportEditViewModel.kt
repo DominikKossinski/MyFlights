@@ -40,7 +40,9 @@ class AirportEditViewModel @Inject constructor(
 
     private fun fetchAirport() {
         makeRequest {
-            airport.value = airportRepository.getAirportById(airportId)
+            airport.value = handleRequest {
+                airportRepository.getAirportById(airportId)
+            }
         }
     }
 

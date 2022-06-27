@@ -37,12 +37,24 @@ class AirportRepository(
         }
     }
 
-    suspend fun getAirportById(airportId: String): Airport? {
-        val response = airportsService.getAirportById(airportId)
-        response.body?.let {
-            airportDao.insertAirport(Airport.fromApiAirport(it))
+    suspend fun getAirportById(airportId: String): ResultWrapper<Airport?> {
+        val response = makeRequest {
+            airportsService.getAirportById(airportId)
         }
-        return preferencesHelper.userId?.let { airportDao.getAirportById(it, airportId) }
+        if (response is ApiResponse1.Success) {
+            response.value?.let {
+                airportDao.insertAirport(Airport.fromApiAirport(it))
+            }
+        }
+        val value = preferencesHelper.userId?.let { airportDao.getAirportById(it, airportId) }
+        return when (response) {
+            is ApiResponse1.Success -> ResultWrapper.Success(value)
+            is ApiResponse1.GenericError -> ResultWrapper.GenericError(value, response.apiError)
+            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+                value,
+                response.networkErrorType
+            )
+        }
     }
 
     suspend fun createAirport(airportRequest: AirportRequest): String? {
