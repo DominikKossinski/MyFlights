@@ -18,7 +18,7 @@ interface AirportsService {
     suspend fun getAirportById(@Path("airportId") airportId: String): ApiResponse1<Airport>
 
     @POST("/api/airports")
-    suspend fun postAirport(@Body airportRequest: AirportRequest): ApiResponse<CreatedResponse>
+    suspend fun postAirport(@Body airportRequest: AirportRequest): ApiResponse1<CreatedResponse>
 
     @PUT("/api/airports/{airportId}")
     suspend fun putAirport(
