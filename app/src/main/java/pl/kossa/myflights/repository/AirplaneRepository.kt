@@ -137,9 +137,11 @@ class AirplaneRepository(
         }
         return when (response) {
             is ApiResponse1.Success -> {
-                val airplane = airplaneDao.getAirplaneById(airplaneId, airplaneId)
-                airplane?.let { entity ->
-                    airplaneDao.delete(entity)
+                preferencesHelper.userId?.let {
+                    val airplane = airplaneDao.getAirplaneById(it, airplaneId)
+                    airplane?.let { entity ->
+                        airplaneDao.delete(entity)
+                    }
                 }
                 ResultWrapper.Success(Unit)
             }

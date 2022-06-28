@@ -39,10 +39,14 @@ class AirportDetailsViewModel @Inject constructor(
 
     fun deleteAirport() {
         makeRequest {
-            airportRepository.deleteAirport(airportId)
-            analyticsTracker.logClickDeleteAirport()
-            setToastMessage(R.string.airport_deleted)
-            navigateBack()
+            val result = handleRequest {
+                airportRepository.deleteAirport(airportId)
+            }
+            result?.let {
+                analyticsTracker.logClickDeleteAirport()
+                setToastMessage(R.string.airport_deleted)
+                navigateBack()
+            }
         }
     }
 
