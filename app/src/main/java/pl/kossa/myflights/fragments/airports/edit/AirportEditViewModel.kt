@@ -57,7 +57,7 @@ class AirportEditViewModel @Inject constructor(
             //TODO image and data
             val request =
                 AirportRequest(name, city, icaoCode, towerFrequency, groundFrequency, null)
-            airportRepository.saveAirport(airportId, request)
+            handleRequest { airportRepository.saveAirport(airportId, request) }
             navigateBack()
         }
     }

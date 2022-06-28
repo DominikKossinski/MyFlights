@@ -24,7 +24,7 @@ interface AirportsService {
     suspend fun putAirport(
         @Path("airportId") airportId: String,
         @Body airportRequest: AirportRequest
-    ): ApiResponse<Void>
+    ): ApiResponse1<Void>
 
     @DELETE("/api/airports/{airportId}")
     suspend fun deleteAirport(@Path("airportId") airportId: String): ApiResponse<Void>

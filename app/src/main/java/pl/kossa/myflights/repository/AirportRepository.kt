@@ -89,9 +89,25 @@ class AirportRepository(
         }
     }
 
-    suspend fun saveAirport(airportId: String, airportRequest: AirportRequest) {
-        airportsService.putAirport(airportId, airportRequest)
-        getAirportById(airportId)
+    suspend fun saveAirport(
+        airportId: String,
+        airportRequest: AirportRequest
+    ): ResultWrapper<Unit?> {
+        val response = makeRequest {
+            airportsService.putAirport(airportId, airportRequest)
+        }
+        return when (response) {
+            is ApiResponse1.Success -> {
+                getAirportById(airportId)
+                ResultWrapper.Success(Unit)
+            }
+            is ApiResponse1.GenericError -> {
+                ResultWrapper.GenericError(null, response.apiError)
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(null, response.networkErrorType)
+            }
+        }
     }
 
     suspend fun deleteAirport(airportId: String) {
