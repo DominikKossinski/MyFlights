@@ -41,14 +41,11 @@ class AirplaneRepository(
         val response = makeRequest {
             airplanesService.getAirplaneById(airplaneId)
         }
-        if (response is ApiResponse1.Success) {
-            response.value?.let {
-                airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
-            }
-        }
         return when (response) {
             is ApiResponse1.Success -> {
-
+                response.value?.let {
+                    airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
+                }
                 ResultWrapper.Success(preferencesHelper.userId?.let {
                     airplaneDao.getAirplaneById(
                         it,

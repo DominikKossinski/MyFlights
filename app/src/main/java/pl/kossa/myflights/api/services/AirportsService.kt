@@ -1,11 +1,9 @@
 package pl.kossa.myflights.api.services
 
-import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.call.ApiResponse1
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.requests.AirportRequest
 import pl.kossa.myflights.api.responses.CreatedResponse
-import retrofit2.Response
 import retrofit2.http.*
 
 interface AirportsService {
