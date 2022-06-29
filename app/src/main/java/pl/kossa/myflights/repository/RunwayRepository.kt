@@ -62,12 +62,27 @@ class RunwayRepository(
         }
     }
 
-    suspend fun createRunway(airportId: String, runwayRequest: RunwayRequest): String? {
-        val response = runwaysService.postRunway(airportId, runwayRequest)
-        response.body?.entityId?.let {
-            getRunwayById(airportId, it)
+    suspend fun createRunway(
+        airportId: String,
+        runwayRequest: RunwayRequest
+    ): ResultWrapper<String?> {
+        val response = makeRequest {
+            runwaysService.postRunway(airportId, runwayRequest)
         }
-        return response.body?.entityId
+        return when (response) {
+            is ApiResponse1.Success -> {
+                response.value?.entityId?.let {
+                    getRunwayById(airportId, it)
+                }
+                ResultWrapper.Success(response.value?.entityId)
+            }
+            is ApiResponse1.GenericError -> {
+                ResultWrapper.GenericError(null, response.apiError)
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(null, response.networkErrorType)
+            }
+        }
     }
 
     suspend fun savaRunway(airportId: String, runwayId: String, runwayRequest: RunwayRequest) {

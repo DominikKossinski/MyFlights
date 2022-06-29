@@ -60,10 +60,12 @@ class RunwayAddViewModel @Inject constructor(
             return
         }
         makeRequest {
-            val entityId = runwayRepository.createRunway(
-                airportId,
-                RunwayRequest(_name.value, length, heading, _ilsFrequency.value, null)
-            )
+            val entityId = handleRequest {
+                runwayRepository.createRunway(
+                    airportId,
+                    RunwayRequest(_name.value, length, heading, _ilsFrequency.value, null)
+                )
+            }
             analyticsTracker.logClickAddRunway()
             entityId?.let {
                 navigate(RunwayAddFragmentDirections.goToRunwayDetails(airportId, it))

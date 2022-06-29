@@ -20,7 +20,7 @@ interface RunwaysService {
     suspend fun postRunway(
         @Path("airportId") airportId: String,
         @Body runwayRequest: RunwayRequest
-    ): ApiResponse<CreatedResponse>
+    ): ApiResponse1<CreatedResponse>
 
     @PUT("/api/airports/{airportId}/runways/{runwayId}")
     suspend fun putRunway(
