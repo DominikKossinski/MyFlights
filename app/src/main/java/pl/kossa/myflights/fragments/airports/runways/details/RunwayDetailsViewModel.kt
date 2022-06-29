@@ -27,7 +27,9 @@ class RunwayDetailsViewModel @Inject constructor(
 
     fun fetchRunway() {
         makeRequest {
-            runway.value = runwayRepository.getRunwayById(airportId, runwayId)
+            runway.value = handleRequest {
+                runwayRepository.getRunwayById(airportId, runwayId)
+            }
         }
     }
 

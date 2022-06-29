@@ -1,7 +1,11 @@
 package pl.kossa.myflights.repository
 
+import pl.kossa.myflights.api.call.ApiResponse1
 import pl.kossa.myflights.api.requests.RunwayRequest
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.api.services.RunwaysService
+import pl.kossa.myflights.architecture.BaseRepository
+import pl.kossa.myflights.architecture.ResultWrapper
 import pl.kossa.myflights.room.dao.RunwayDao
 import pl.kossa.myflights.room.entities.Runway
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -9,15 +13,53 @@ import pl.kossa.myflights.utils.PreferencesHelper
 class RunwayRepository(
     private val runwaysService: RunwaysService,
     private val runwayDao: RunwayDao,
-    private val preferencesHelper: PreferencesHelper
-) {
+    preferencesHelper: PreferencesHelper
+) : BaseRepository(preferencesHelper) {
 
-    suspend fun getRunwayById(airportId: String, runwayId: String): Runway? {
-        val response = runwaysService.getRunwayById(airportId, runwayId)
-        response.body?.let {
-            runwayDao.insertRunway(Runway.fromApiRunway(airportId, it))
+    suspend fun getRunwayById(airportId: String, runwayId: String): ResultWrapper<Runway?> {
+        val response = makeRequest {
+            runwaysService.getRunwayById(airportId, runwayId)
         }
-        return preferencesHelper.userId?.let { runwayDao.getRunwayById(it, airportId, runwayId) }
+        return when (response) {
+            is ApiResponse1.Success -> {
+                response.value?.let {
+                    runwayDao.insertRunway(Runway.fromApiRunway(airportId, it))
+                }
+                ResultWrapper.Success(preferencesHelper.userId?.let {
+                    runwayDao.getRunwayById(
+                        it, airportId, runwayId
+                    )
+                })
+            }
+            is ApiResponse1.GenericError -> {
+                when (response.apiError.code) {
+                    HttpCode.NOT_FOUND.code -> {
+                        val runway = preferencesHelper.userId?.let {
+                            runwayDao.getRunwayById(
+                                it, airportId, runwayId
+                            )
+                        }
+                        runway?.let { runwayDao.delete(runway) }
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                    else -> {
+                        val runway = preferencesHelper.userId?.let {
+                            runwayDao.getRunwayById(
+                                it, airportId, runwayId
+                            )
+                        }
+                        ResultWrapper.GenericError(runway, response.apiError)
+                    }
+                }
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(preferencesHelper.userId?.let {
+                    runwayDao.getRunwayById(
+                        it, airportId, runwayId
+                    )
+                }, response.networkErrorType)
+            }
+        }
     }
 
     suspend fun createRunway(airportId: String, runwayRequest: RunwayRequest): String? {
