@@ -85,9 +85,39 @@ class RunwayRepository(
         }
     }
 
-    suspend fun savaRunway(airportId: String, runwayId: String, runwayRequest: RunwayRequest) {
-        runwaysService.putRunway(airportId, runwayId, runwayRequest)
-        getRunwayById(airportId, runwayId)
+    suspend fun savaRunway(
+        airportId: String,
+        runwayId: String,
+        runwayRequest: RunwayRequest
+    ): ResultWrapper<Unit?> {
+        val response = makeRequest {
+            runwaysService.putRunway(airportId, runwayId, runwayRequest)
+        }
+        return when (response) {
+            is ApiResponse1.Success -> {
+                getRunwayById(airportId, runwayId)
+                ResultWrapper.Success(Unit)
+            }
+            is ApiResponse1.GenericError -> {
+                when (response.apiError.code) {
+                    HttpCode.NOT_FOUND.code -> {
+                        val runway = preferencesHelper.userId?.let {
+                            runwayDao.getRunwayById(
+                                it, airportId, runwayId
+                            )
+                        }
+                        runway?.let { runwayDao.delete(it) }
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                    else -> {
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                }
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(null, response.networkErrorType)
+            }
+        }
     }
 
     suspend fun deleteRunway(airportId: String, runwayId: String) {

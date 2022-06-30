@@ -27,7 +27,7 @@ interface RunwaysService {
         @Path("airportId") airportId: String,
         @Path("runwayId") runwayId: String,
         @Body runwayRequest: RunwayRequest
-    ): ApiResponse<Void>
+    ): ApiResponse1<Void>
 
     @DELETE("/api/airports/{airportId}/runways/{runwayId}")
     suspend fun deleteRunway(

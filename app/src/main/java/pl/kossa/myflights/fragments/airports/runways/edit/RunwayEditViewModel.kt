@@ -4,10 +4,10 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import pl.kossa.myflights.room.entities.Runway
 import pl.kossa.myflights.api.requests.RunwayRequest
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.RunwayRepository
+import pl.kossa.myflights.room.entities.Runway
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
@@ -72,11 +72,15 @@ class RunwayEditViewModel @Inject constructor(
             return
         }
         makeRequest {
-            runwayRepository.savaRunway(
-                airportId, runwayId,
-                RunwayRequest(_name.value, length, heading, _ilsFrequency.value, null)
-            )
-            navigateBack()
+            val result = handleRequest {
+                runwayRepository.savaRunway(
+                    airportId, runwayId,
+                    RunwayRequest(_name.value, length, heading, _ilsFrequency.value, null)
+                )
+            }
+            result?.let {
+                navigateBack()
+            }
         }
     }
 }
