@@ -145,18 +145,26 @@ class AirplaneRepository(
         val response = makeRequest {
             airplanesService.deleteAirplane(airplaneId)
         }
+        val airplane = preferencesHelper.userId?.let {
+            airplaneDao.getAirplaneById(it, airplaneId)
+        }
         return when (response) {
             is ApiResponse1.Success -> {
-                preferencesHelper.userId?.let {
-                    val airplane = airplaneDao.getAirplaneById(it, airplaneId)
-                    airplane?.let { entity ->
-                        airplaneDao.delete(entity)
-                    }
+                airplane?.let {
+                    airplaneDao.delete(it)
                 }
                 ResultWrapper.Success(Unit)
             }
             is ApiResponse1.GenericError -> {
-                ResultWrapper.GenericError(null, response.apiError)
+                when (response.apiError.code) {
+                    HttpCode.NOT_FOUND.code -> {
+                        airplane?.let { airplaneDao.delete(it) }
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                    else -> {
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                }
             }
             is ApiResponse1.NetworkError -> {
                 ResultWrapper.NetworkError(null, response.networkErrorType)

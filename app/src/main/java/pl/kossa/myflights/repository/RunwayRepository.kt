@@ -120,12 +120,33 @@ class RunwayRepository(
         }
     }
 
-    suspend fun deleteRunway(airportId: String, runwayId: String) {
-        runwaysService.deleteRunway(airportId, runwayId)
-        preferencesHelper.userId?.let {
-            val runway = runwayDao.getRunwayById(it, airportId, runwayId)
-            runway?.let { entity ->
-                runwayDao.delete(entity)
+    suspend fun deleteRunway(airportId: String, runwayId: String): ResultWrapper<Unit?> {
+        val response = makeRequest {
+            runwaysService.deleteRunway(airportId, runwayId)
+        }
+        val runway = preferencesHelper.userId?.let {
+            runwayDao.getRunwayById(it, airportId, runwayId)
+        }
+        return when (response) {
+            is ApiResponse1.Success -> {
+                runway?.let { entity ->
+                    runwayDao.delete(entity)
+                }
+                ResultWrapper.Success(Unit)
+            }
+            is ApiResponse1.GenericError -> {
+                when (response.apiError.code) {
+                    HttpCode.NOT_FOUND.code -> {
+                        runway?.let { runwayDao.delete(it) }
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                    else -> {
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                }
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(null, response.networkErrorType)
             }
         }
     }

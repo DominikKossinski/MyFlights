@@ -33,6 +33,6 @@ interface RunwaysService {
     suspend fun deleteRunway(
         @Path("airportId") airportId: String,
         @Path("runwayId") runwayId: String
-    ): ApiResponse<Void>
+    ): ApiResponse1<Void>
 
 }
