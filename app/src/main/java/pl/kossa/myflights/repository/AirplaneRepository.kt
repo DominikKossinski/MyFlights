@@ -120,7 +120,20 @@ class AirplaneRepository(
                 ResultWrapper.Success(Unit)
             }
             is ApiResponse1.GenericError -> {
-                ResultWrapper.GenericError(null, response.apiError)
+                when (response.apiError.code) {
+                    HttpCode.NOT_FOUND.code -> {
+                        val airplane = preferencesHelper.userId?.let {
+                            airplaneDao.getAirplaneById(
+                                it, airplaneId
+                            )
+                        }
+                        airplane?.let { airplaneDao.delete(it) }
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                    else -> {
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                }
             }
             is ApiResponse1.NetworkError -> {
                 ResultWrapper.NetworkError(null, response.networkErrorType)
