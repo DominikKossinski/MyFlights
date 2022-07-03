@@ -62,20 +62,22 @@ class FlightAddViewModel @Inject constructor(
         val arrivalDate = _arrivalDate.value
         if (departureDate == null || arrivalDate == null) return // TODO diplay error
         makeRequest {
-            val entityId = flightRepository.createFlight(
-                FlightRequest(
-                    _note.value,
-                    _distance.value,
-                    null, // TODO image
-                    departureDate,
-                    arrivalDate,
-                    _airplaneId.value,
-                    _departureAirportId.value,
-                    _departureRunwayId.value,
-                    _arrivalAirportId.value,
-                    _arrivalRunwayId.value
+            val entityId = handleRequest {
+                flightRepository.createFlight(
+                    FlightRequest(
+                        _note.value,
+                        _distance.value,
+                        null, // TODO image
+                        departureDate,
+                        arrivalDate,
+                        _airplaneId.value,
+                        _departureAirportId.value,
+                        _departureRunwayId.value,
+                        _arrivalAirportId.value,
+                        _arrivalRunwayId.value
+                    )
                 )
-            )
+            }
             analyticsTracker.logClickAddFlight()
             entityId?.let { navigateToFlightDetails(it) }
         }

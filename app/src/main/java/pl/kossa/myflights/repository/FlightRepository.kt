@@ -77,12 +77,23 @@ class FlightRepository(
         }
     }
 
-    suspend fun createFlight(flightRequest: FlightRequest): String? {
-        val response = flightsService.postFlight(flightRequest)
-        response.body?.entityId?.let {
-            getFlightById(it)
+    suspend fun createFlight(flightRequest: FlightRequest): ResultWrapper<String?> {
+        val response = makeRequest {
+            flightsService.postFlight(flightRequest)
         }
-        return response.body?.entityId
+        return when (response) {
+            is ApiResponse1.Success -> {
+                response.value?.entityId?.let {
+                    getFlightById(it)
+                }
+                ResultWrapper.Success(response.value?.entityId)
+            }
+            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+                null,
+                response.networkErrorType
+            )
+        }
     }
 
     suspend fun saveFlight(flightId: String, flightRequest: FlightRequest) {
