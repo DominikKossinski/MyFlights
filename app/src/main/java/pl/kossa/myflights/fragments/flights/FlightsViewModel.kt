@@ -21,7 +21,9 @@ class FlightsViewModel @Inject constructor(
 
     fun fetchFlights() {
         makeRequest {
-            flightsList.value = flightRepository.getFlights()
+            flightsList.value = handleRequest {
+                flightRepository.getFlights()
+            }
         }
     }
 

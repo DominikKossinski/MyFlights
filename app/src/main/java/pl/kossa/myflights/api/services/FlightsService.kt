@@ -13,7 +13,7 @@ interface FlightsService {
     suspend fun getFLightById(@Path("flightId") flightId: String): ApiResponse1<FlightResponse>
 
     @GET("/api/flights")
-    suspend fun getAllFlights(): ApiResponse<List<FlightResponse>>
+    suspend fun getAllFlights(): ApiResponse1<List<FlightResponse>>
 
     @POST("/api/flights")
     suspend fun postFlight(@Body flightRequest: FlightRequest): ApiResponse<CreatedResponse>

@@ -16,13 +16,26 @@ class FlightRepository(
     preferencesHelper: PreferencesHelper
 ) : BaseRepository(preferencesHelper) {
 
-    suspend fun getFlights(): List<Flight> {
-        val response = flightsService.getAllFlights()
-        val flights = response.body ?: emptyList()
+    suspend fun getFlights(): ResultWrapper<List<Flight>> {
+        val response = makeRequest {
+            flightsService.getAllFlights()
+        }
+        val flights = when (response) {
+            is ApiResponse1.Success -> response.value ?: emptyList()
+            else -> emptyList()
+        }
         flights.forEach {
             flightDao.insertFlight(Flight.fromApiFlight(it))
         }
-        return flightDao.getAll()
+        val value = flightDao.getAll()
+        return when (response) {
+            is ApiResponse1.Success -> ResultWrapper.Success(value)
+            is ApiResponse1.GenericError -> ResultWrapper.GenericError(value, response.apiError)
+            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+                value,
+                response.networkErrorType
+            )
+        }
     }
 
     suspend fun getFlightById(flightId: String): ResultWrapper<Flight?> {
