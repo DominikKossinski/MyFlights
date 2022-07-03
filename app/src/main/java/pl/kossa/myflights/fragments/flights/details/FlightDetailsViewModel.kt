@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.FlightRepository
 import pl.kossa.myflights.repository.SharedFlightRepository
@@ -26,7 +25,9 @@ class FlightDetailsViewModel @Inject constructor(
 
     fun fetchFlight() {
         makeRequest {
-            flight.value = flightRepository.getFlightById(flightId)
+            flight.value = handleRequest {
+                flightRepository.getFlightById(flightId)
+            }
         }
     }
 

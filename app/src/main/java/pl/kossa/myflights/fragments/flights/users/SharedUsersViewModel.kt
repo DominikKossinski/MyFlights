@@ -26,7 +26,9 @@ class SharedUsersViewModel @Inject constructor(
 
     fun fetchFlight() {
         makeRequest {
-            flight.value = flightRepository.getFlightById(flightId)
+            flight.value = handleRequest {
+                flightRepository.getFlightById(flightId)
+            }
         }
     }
 

@@ -1,7 +1,11 @@
 package pl.kossa.myflights.repository
 
+import pl.kossa.myflights.api.call.ApiResponse1
 import pl.kossa.myflights.api.requests.FlightRequest
+import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.api.services.FlightsService
+import pl.kossa.myflights.architecture.BaseRepository
+import pl.kossa.myflights.architecture.ResultWrapper
 import pl.kossa.myflights.room.dao.FlightDao
 import pl.kossa.myflights.room.entities.Flight
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -9,8 +13,8 @@ import pl.kossa.myflights.utils.PreferencesHelper
 class FlightRepository(
     private val flightsService: FlightsService,
     private val flightDao: FlightDao,
-    private val preferencesHelper: PreferencesHelper
-) {
+    preferencesHelper: PreferencesHelper
+) : BaseRepository(preferencesHelper) {
 
     suspend fun getFlights(): List<Flight> {
         val response = flightsService.getAllFlights()
@@ -21,12 +25,43 @@ class FlightRepository(
         return flightDao.getAll()
     }
 
-    suspend fun getFlightById(flightId: String): Flight? {
-        val response = flightsService.getFLightById(flightId)
-        response.body?.let {
-            flightDao.insertFlight(Flight.fromApiFlight(it))
+    suspend fun getFlightById(flightId: String): ResultWrapper<Flight?> {
+        val response = makeRequest {
+            flightsService.getFLightById(flightId)
         }
-        return flightDao.getFlightById(flightId)
+        return when (response) {
+            is ApiResponse1.Success -> {
+                response.value?.let {
+                    flightDao.insertFlight(Flight.fromApiFlight(it))
+                }
+                ResultWrapper.Success(flightDao.getFlightById(flightId))
+            }
+            is ApiResponse1.GenericError -> {
+                when (response.apiError.code) {
+                    HttpCode.NOT_FOUND.code -> {
+                        val flight = flightDao.getFlightById(
+                            flightId
+                        )
+                        preferencesHelper.userId?.let { userId ->
+                            flight?.let { flightDao.delete(userId, it) }
+                        }
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                    else -> {
+                        val flight = flightDao.getFlightById(flightId)
+                        ResultWrapper.GenericError(flight, response.apiError)
+                    }
+                }
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(
+                    flightDao.getFlightById(
+                        flightId
+                    ),
+                    response.networkErrorType
+                )
+            }
+        }
     }
 
     suspend fun createFlight(flightRequest: FlightRequest): String? {
