@@ -26,6 +26,6 @@ interface FlightsService {
 
 
     @DELETE("/api/flights/{flightId}")
-    suspend fun deleteFlight(@Path("flightId") flightId: String): ApiResponse<Void>
+    suspend fun deleteFlight(@Path("flightId") flightId: String): ApiResponse1<Void>
 
 }

@@ -38,10 +38,14 @@ class FlightsViewModel @Inject constructor(
 
     fun deleteFlight(flightId: String) {
         makeRequest {
-            flightRepository.deleteFlight(flightId)
-            setToastMessage(R.string.flight_deleted)
-            analyticsTracker.logClickDeleteFlight()
-            fetchFlights()
+            val result = handleRequest {
+                flightRepository.deleteFlight(flightId)
+            }
+            result?.let {
+                setToastMessage(R.string.flight_deleted)
+                analyticsTracker.logClickDeleteFlight()
+                fetchFlights()
+            }
         }
     }
 

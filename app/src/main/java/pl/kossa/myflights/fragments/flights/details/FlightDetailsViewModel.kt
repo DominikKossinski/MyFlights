@@ -37,10 +37,14 @@ class FlightDetailsViewModel @Inject constructor(
 
     fun deleteFlight() {
         makeRequest {
-            flightRepository.deleteFlight(flightId)
-            analyticsTracker.logClickDeleteFlight()
-            setToastMessage(R.string.flight_deleted)
-            navigateBack()
+            val result = handleRequest {
+                flightRepository.deleteFlight(flightId)
+            }
+            result?.let {
+                analyticsTracker.logClickDeleteFlight()
+                setToastMessage(R.string.flight_deleted)
+                navigateBack()
+            }
         }
     }
 
