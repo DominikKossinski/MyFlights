@@ -96,9 +96,30 @@ class FlightRepository(
         }
     }
 
-    suspend fun saveFlight(flightId: String, flightRequest: FlightRequest) {
-        flightsService.putFlight(flightId, flightRequest)
-        getFlightById(flightId)
+    suspend fun saveFlight(flightId: String, flightRequest: FlightRequest) : ResultWrapper<Unit?> {
+        val response = makeRequest {
+            flightsService.putFlight(flightId, flightRequest)
+        }
+        return when (response) {
+            is ApiResponse1.Success -> {
+                getFlightById(flightId)
+                ResultWrapper.Success(Unit)
+            }
+            is ApiResponse1.GenericError -> {
+                when (response.apiError.code) {
+                    HttpCode.NOT_FOUND.code -> {
+                        flightDao.delete(flightId)
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                    else -> {
+                        ResultWrapper.GenericError(null, response.apiError)
+                    }
+                }
+            }
+            is ApiResponse1.NetworkError -> {
+                ResultWrapper.NetworkError(null, response.networkErrorType)
+            }
+        }
     }
 
     suspend fun deleteFlight(flightId: String) {

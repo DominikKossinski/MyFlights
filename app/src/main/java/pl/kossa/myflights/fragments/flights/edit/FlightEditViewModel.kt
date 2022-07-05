@@ -84,22 +84,24 @@ class FlightEditViewModel @Inject constructor(
         val arrivalDate = _arrivalDate.value
         if (departureDate == null || arrivalDate == null) return // TODO diplay error
         makeRequest {
-            flightRepository.saveFlight(
-                flightId,
-                FlightRequest(
-                    _note.value,
-                    _distance.value,
-                    null, // TODO image
-                    departureDate,
-                    arrivalDate,
-                    _airplaneId.value,
-                    _departureAirportId.value,
-                    _departureRunwayId.value,
-                    _arrivalAirportId.value,
-                    _arrivalRunwayId.value
+            val result = handleRequest {
+                flightRepository.saveFlight(
+                    flightId,
+                    FlightRequest(
+                        _note.value,
+                        _distance.value,
+                        null, // TODO image
+                        departureDate,
+                        arrivalDate,
+                        _airplaneId.value,
+                        _departureAirportId.value,
+                        _departureRunwayId.value,
+                        _arrivalAirportId.value,
+                        _arrivalRunwayId.value
+                    )
                 )
-            )
-            navigateBack()
+            }
+            result?.let { navigateBack() }
         }
     }
 

@@ -22,7 +22,7 @@ interface FlightsService {
     suspend fun putFlight(
         @Path("flightId") flightId: String,
         @Body flightRequest: FlightRequest
-    ): ApiResponse<Void>
+    ): ApiResponse1<Void>
 
 
     @DELETE("/api/flights/{flightId}")
