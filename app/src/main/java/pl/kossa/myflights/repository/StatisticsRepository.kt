@@ -5,10 +5,12 @@ import pl.kossa.myflights.api.responses.StatisticsResponse
 import pl.kossa.myflights.api.services.StatisticsService
 import pl.kossa.myflights.architecture.BaseRepository
 import pl.kossa.myflights.architecture.ResultWrapper
+import pl.kossa.myflights.room.dao.StatisticsDao
 import pl.kossa.myflights.utils.PreferencesHelper
 
 class StatisticsRepository(
     private val statisticsService: StatisticsService,
+    private val statisticsDao: StatisticsDao,
     preferencesHelper: PreferencesHelper
 ) : BaseRepository(preferencesHelper) {
 

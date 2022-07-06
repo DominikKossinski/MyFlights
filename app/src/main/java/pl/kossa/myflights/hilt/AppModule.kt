@@ -177,9 +177,10 @@ object AppModule {
     @Provides
     fun provideStatisticsRepository(
         statisticsService: StatisticsService,
+        db: AppDatabase,
         preferencesHelper: PreferencesHelper
     ): StatisticsRepository {
-        return StatisticsRepository(statisticsService, preferencesHelper)
+        return StatisticsRepository(statisticsService, db.getStatisticsDao(), preferencesHelper)
     }
 
     @Provides

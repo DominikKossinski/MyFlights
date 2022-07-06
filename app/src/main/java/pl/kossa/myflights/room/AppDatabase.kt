@@ -30,4 +30,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun getShareDataDao(): ShareDataDao
 
     abstract fun getSharedUserDataDao(): SharedUserDataDao
+
+    abstract fun getStatisticsDao(): StatisticsDao
 }
