@@ -176,9 +176,10 @@ object AppModule {
 
     @Provides
     fun provideStatisticsRepository(
-        statisticsService: StatisticsService
+        statisticsService: StatisticsService,
+        preferencesHelper: PreferencesHelper
     ): StatisticsRepository {
-        return StatisticsRepository(statisticsService)
+        return StatisticsRepository(statisticsService, preferencesHelper)
     }
 
     @Provides
