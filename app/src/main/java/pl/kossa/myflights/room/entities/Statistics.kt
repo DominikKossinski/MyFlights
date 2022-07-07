@@ -44,7 +44,8 @@ data class TopNAirport(
     val topNAirport: TopNAirportModel,
     @Relation(
         parentColumn = "airportId",
-        entityColumn = "airportId"
+        entityColumn = "airportId",
+        entity = AirportModel::class
     )
     val airport: Airport
 )
@@ -89,7 +90,7 @@ data class Statistics(
     @Relation(
         parentColumn = "userId",
         entityColumn = "userId",
-        entity = TopNAirplane::class
+        entity = TopNAirplaneModel::class
     )
     val top5Airplanes: List<TopNAirplane>,
     @Relation(
@@ -98,16 +99,25 @@ data class Statistics(
         entity = AirportModel::class
     )
     val favouriteDepartureAirport: Airport?,
-    val top5DepartureAirports: List<TopNAirport> = emptyList(),
+    @Ignore
+    val top5DepartureAirports: List<TopNAirport>,
     @Relation(
         parentColumn = "favouriteArrivalAirportId",
         entityColumn = "airportId",
         entity = AirportModel::class
     )
     val favouriteArrivalAirport: Airport?,
-
-    val top5ArrivalAirports: List<TopNAirport> = emptyList(),
+    @Ignore
+    val top5ArrivalAirports: List<TopNAirport>,
 ) {
+    constructor(
+        statistics: StatisticsModel,
+        favouriteAirplane: Airplane?,
+        top5Airplanes: List<TopNAirplane>,
+        favouriteDepartureAirport: Airport?,
+        favouriteArrivalAirport: Airport?,
+    ) : this(statistics, favouriteAirplane, top5Airplanes, favouriteDepartureAirport, emptyList(), favouriteArrivalAirport, emptyList())
+
     companion object {
         fun fromApiStatisticsResponse(
             userId: String,
