@@ -1,6 +1,7 @@
 package pl.kossa.myflights.room.entities
 
 import androidx.room.*
+import pl.kossa.myflights.api.responses.StatisticsResponse
 
 @Entity
 data class StatisticsModel(
@@ -11,13 +12,13 @@ data class StatisticsModel(
     val flightHours: Double,
 
     @ColumnInfo(name = "favouriteAirplaneId")
-    val favouriteAirplaneId: String,
+    val favouriteAirplaneId: String?,
 
     @ColumnInfo(name = "favouriteDepartureAirportId")
-    val favouriteDepartureAirportId: String,
+    val favouriteDepartureAirportId: String?,
 
     @ColumnInfo(name = "favouriteArrivalAirportId")
-    val favouriteArrivalAirportId: String
+    val favouriteArrivalAirportId: String?
 )
 
 @Entity(primaryKeys = ["userId", "order", "isDeparture"])
@@ -64,6 +65,18 @@ data class TopNAirplaneModel(
     val occurrences: Int
 )
 
+data class TopNAirplane(
+    @Embedded
+    val topNAirplane: TopNAirplaneModel,
+    @Relation(
+        parentColumn = "airplaneId",
+        entityColumn = "airplaneId",
+        entity = AirplaneModel::class
+    )
+    val airplane: Airplane
+)
+
+
 data class Statistics(
     @Embedded
     val statistics: StatisticsModel,
@@ -74,15 +87,85 @@ data class Statistics(
     )
     val favouriteAirplane: Airplane?,
     @Relation(
+        parentColumn = "userId",
+        entityColumn = "userId",
+        entity = TopNAirplane::class
+    )
+    val top5Airplanes: List<TopNAirplane>,
+    @Relation(
         parentColumn = "favouriteDepartureAirportId",
         entityColumn = "airportId",
         entity = AirportModel::class
     )
     val favouriteDepartureAirport: Airport?,
+    val top5DepartureAirports: List<TopNAirport> = emptyList(),
     @Relation(
         parentColumn = "favouriteArrivalAirportId",
         entityColumn = "airportId",
         entity = AirportModel::class
     )
-    val favouriteArrivalAirport: Airport?
-)
+    val favouriteArrivalAirport: Airport?,
+
+    val top5ArrivalAirports: List<TopNAirport> = emptyList(),
+) {
+    companion object {
+        fun fromApiStatisticsResponse(
+            userId: String,
+            statisticsResponse: StatisticsResponse
+        ): Statistics {
+            return Statistics(
+                StatisticsModel(
+                    userId,
+                    statisticsResponse.flightHours,
+                    statisticsResponse.favouriteArrivalAirport?.airportId,
+                    statisticsResponse.favouriteDepartureAirport?.airportId,
+                    statisticsResponse.favouriteArrivalAirport?.airportId
+                ),
+                statisticsResponse.favouriteAirplane?.let {
+                    Airplane.fromApiAirplane(it)
+                },
+                statisticsResponse.top5Airplanes.mapIndexed { i, airplane ->
+                    TopNAirplane(
+                        TopNAirplaneModel(
+                            userId,
+                            i,
+                            airplane.item.airplaneId,
+                            airplane.occurrences,
+                        ),
+                        Airplane.fromApiAirplane(airplane.item)
+                    )
+                },
+                statisticsResponse.favouriteDepartureAirport?.let {
+                    Airport.fromApiAirport(it)
+                },
+                statisticsResponse.top5DepartureAirports.mapIndexed { i, airport ->
+                    TopNAirport(
+                        TopNAirportModel(
+                            userId,
+                            i,
+                            airport.item.airportId,
+                            airport.occurrences,
+                            true
+                        ),
+                        Airport.fromApiAirport(airport.item)
+                    )
+                },
+                statisticsResponse.favouriteArrivalAirport?.let {
+                    Airport.fromApiAirport(it)
+                },
+                statisticsResponse.top5ArrivalAirports.mapIndexed { i, airport ->
+                    TopNAirport(
+                        TopNAirportModel(
+                            userId,
+                            i,
+                            airport.item.airportId,
+                            airport.occurrences,
+                            false
+                        ),
+                        Airport.fromApiAirport(airport.item)
+                    )
+                }
+            )
+        }
+    }
+}
