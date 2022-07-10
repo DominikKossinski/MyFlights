@@ -169,9 +169,10 @@ object AppModule {
 
     @Provides
     fun provideUserRepository(
-        userService: UserService
+        userService: UserService,
+        preferencesHelper: PreferencesHelper
     ): UserRepository {
-        return UserRepository(userService)
+        return UserRepository(userService, preferencesHelper)
     }
 
     @Provides

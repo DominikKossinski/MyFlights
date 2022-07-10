@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.activities.main.MainActivity
 import pl.kossa.myflights.api.requests.FcmRequest
-import pl.kossa.myflights.api.services.UserService
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.fcm.NotificationType
 import javax.inject.Inject
@@ -31,7 +31,7 @@ import javax.inject.Inject
 class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
 
     @Inject
-    lateinit var userService: UserService
+    lateinit var userRepository: UserRepository
 
     @Inject
     lateinit var preferencesHelper: PreferencesHelper
@@ -63,12 +63,7 @@ class MyFlightsFirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         preferencesHelper.fcmToken = token
         MainScope().launch {
-            try {
-                Log.d("MyLog", "New FCM token: $token")
-                userService.putFcmToken(FcmRequest(token))
-            } catch (e: Exception) {
-
-            }
+            userRepository.putFcmToken(FcmRequest(token))
         }
     }
 
