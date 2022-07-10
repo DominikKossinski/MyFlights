@@ -22,7 +22,7 @@ class StatisticsViewModel @Inject constructor(
             val response = handleRequest {
                 statisticsRepository.getStatistics()
             }
-            //statistics.value = response
+            statistics.value = response
         }
     }
 }
