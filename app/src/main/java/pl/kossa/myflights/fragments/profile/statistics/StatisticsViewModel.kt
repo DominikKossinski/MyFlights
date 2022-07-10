@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.api.responses.StatisticsResponse
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.StatisticsRepository
+import pl.kossa.myflights.room.entities.Statistics
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
@@ -14,14 +15,14 @@ class StatisticsViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-    val statistics = MutableStateFlow<StatisticsResponse?>(null)
+    val statistics = MutableStateFlow<Statistics?>(null)
 
     fun fetchStatistics() {
         makeRequest {
             val response = handleRequest {
                 statisticsRepository.getStatistics()
             }
-            statistics.value = response
+            //statistics.value = response
         }
     }
 }
