@@ -48,8 +48,10 @@ class ChangeEmailViewModel @Inject constructor(
 
     private fun fetchUser() {
         makeRequest {
-            val response = userRepository.getUser()
-            response.body?.let { user.value = it }
+            val response = handleRequest {
+                userRepository.getUser()
+            }
+            user.value = response
         }
     }
 

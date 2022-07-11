@@ -14,7 +14,7 @@ import retrofit2.http.PUT
 interface UserService {
 
     @GET("/api/user")
-    suspend fun getUser(): ApiResponse<User>
+    suspend fun getUser(): ApiResponse1<User>
 
     @PUT("/api/user")
     suspend fun putUser(@Body userRequest: UserRequest): ApiResponse1<Void>

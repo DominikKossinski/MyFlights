@@ -29,8 +29,10 @@ class FillProfileViewModel @Inject constructor(
 
     fun fetchUser() {
         makeRequest {
-            val response = userRepository.getUser()
-            response.body?.let {
+            val response = handleRequest {
+                userRepository.getUser()
+            }
+            response?.let {
                 user.emit(it)
             }
         }

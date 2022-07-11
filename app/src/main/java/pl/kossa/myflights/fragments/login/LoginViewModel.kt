@@ -136,8 +136,10 @@ class LoginViewModel @Inject constructor(
                     }
                     makeRequest {
                         analyticsTracker.logClickGoogleSignIn()
-                        val response = userRepository.getUser()
-                        val user = response.body!!
+                        val response = handleRequest {
+                            userRepository.getUser()
+                        }
+                        val user = response!!
                         Log.d("MyLog", "New User: $user")
                         if (!user.regulationsAccepted || isNew) {
                             navigate(LoginFragmentDirections.goToFillProfile())

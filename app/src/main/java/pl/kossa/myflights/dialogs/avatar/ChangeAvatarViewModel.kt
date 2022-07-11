@@ -25,8 +25,10 @@ class ChangeAvatarViewModel @Inject constructor(
 
     fun fetchUser() {
         makeRequest {
-            val response = userRepository.getUser()
-            user.value = response.body
+            val response = handleRequest {
+                userRepository.getUser()
+            }
+            user.value = response
         }
     }
 

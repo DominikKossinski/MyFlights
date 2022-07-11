@@ -42,8 +42,10 @@ class AcceptAvatarViewModel @Inject constructor(
 
     fun fetchUser() {
         makeRequest {
-            val response = userRepository.getUser()
-            _user.emit(response.body)
+            val response = handleRequest {
+                userRepository.getUser()
+            }
+            _user.emit(response)
         }
     }
 

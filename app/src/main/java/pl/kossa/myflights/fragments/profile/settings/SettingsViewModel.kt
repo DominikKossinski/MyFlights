@@ -28,8 +28,10 @@ class SettingsViewModel @Inject constructor(
     private fun fetchUser() {
         makeRequest {
             if (currentUser != null) {
-                val response = userRepository.getUser()
-                _user.value = response.body
+                val response = handleRequest {
+                    userRepository.getUser()
+                }
+                _user.value = response
             }
         }
     }

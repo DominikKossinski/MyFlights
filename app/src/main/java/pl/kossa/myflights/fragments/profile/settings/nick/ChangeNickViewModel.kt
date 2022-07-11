@@ -29,8 +29,10 @@ class ChangeNickViewModel @Inject constructor(
 
     fun fetchUser() {
         makeRequest {
-            val response = userRepository.getUser()
-            response.body?.let { _user.value = it }
+            val response = handleRequest {
+                userRepository.getUser()
+            }
+            _user.value = response
         }
     }
 
