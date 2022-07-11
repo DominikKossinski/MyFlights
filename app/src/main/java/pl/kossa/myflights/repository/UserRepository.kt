@@ -43,6 +43,18 @@ class UserRepository(
         }
     }
 
-    suspend fun deleteUser() = userService.deleteUser()
+    suspend fun deleteUser(): ResultWrapper<Unit?> {
+        val response = makeRequest {
+            userService.deleteUser()
+        }
+        return when(response) {
+            is ApiResponse1.Success -> {
+                preferencesHelper.clearUserData()
+                ResultWrapper.Success(Unit)
+            }
+            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(null, response.networkErrorType)
+        }
+    }
 
 }

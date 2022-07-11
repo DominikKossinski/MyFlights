@@ -53,4 +53,9 @@ class PreferencesHelper(applicationContext: Context) {
             preferences.edit().putInt(LAST_ACCEPTED_JOIN_REQUEST_NOTIFICATION_ID, nextValue).apply()
             return nextValue
         }
+
+    fun clearUserData() {
+        token = null
+        fcmToken = null
+    }
 }

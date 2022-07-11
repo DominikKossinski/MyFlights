@@ -23,5 +23,5 @@ interface UserService {
     suspend fun putFcmToken(@Body fcmRequest: FcmRequest): ApiResponse1<Void>
 
     @DELETE("/api/user")
-    suspend fun deleteUser() : ApiResponse<Void>
+    suspend fun deleteUser() : ApiResponse1<Void>
 }

@@ -152,8 +152,7 @@ abstract class BaseViewModel(
         analyticsTracker.setUserId(null)
         fcmHandler.disableFCM {
             viewModelScope.launch {
-                preferencesHelper.token = null
-                preferencesHelper.fcmToken = null
+                preferencesHelper.clearUserData()
                 signOutFlow.emit(Unit)
             }
         }

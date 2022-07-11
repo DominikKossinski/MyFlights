@@ -54,10 +54,14 @@ class AccountDeleteViewModel @Inject constructor(
         firebaseAuth.currentUser?.reauthenticate(credential)
             ?.addOnSuccessListener {
                 makeRequest {
-                    userRepository.deleteUser()
-                    analyticsTracker.logClickDeleteAccount()
-                    isLoadingData.value = false
-                    signOut()
+                    val response = handleRequest {
+                        userRepository.deleteUser()
+                    }
+                    response?.let {
+                        analyticsTracker.logClickDeleteAccount()
+                        isLoadingData.value = false
+                        signOut()
+                    }
                 }
             }
             ?.addOnFailureListener {
