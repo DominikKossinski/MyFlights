@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
-import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -40,10 +39,14 @@ class FillProfileViewModel @Inject constructor(
     fun createAccount() {
         makeRequest {
             val imageId = user.value?.avatar?.imageId
-            userRepository.putUser(
-                UserRequest(_nick.value, imageId, _regulationsAccepted.value)
-            )
-            navigate(FillProfileFragmentDirections.goToMainActivity(), true)
+            val response = handleRequest {
+                userRepository.putUser(
+                    UserRequest(_nick.value, imageId, _regulationsAccepted.value)
+                )
+            }
+            response?.let {
+                navigate(FillProfileFragmentDirections.goToMainActivity(), true)
+            }
         }
     }
 

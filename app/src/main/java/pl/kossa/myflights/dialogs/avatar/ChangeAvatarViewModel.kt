@@ -34,8 +34,10 @@ class ChangeAvatarViewModel @Inject constructor(
         makeRequest {
             val nick = user.value?.nick ?: ""
             val regulationsAccepted = user.value?.regulationsAccepted ?: false
-            userRepository.putUser(UserRequest(nick, null, regulationsAccepted))
-            navigateBack()
+            val response = handleRequest {
+                userRepository.putUser(UserRequest(nick, null, regulationsAccepted))
+            }
+           response?.let { navigateBack() }
         }
     }
 

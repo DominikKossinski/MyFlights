@@ -17,7 +17,7 @@ interface UserService {
     suspend fun getUser(): ApiResponse<User>
 
     @PUT("/api/user")
-    suspend fun putUser(@Body userRequest: UserRequest): ApiResponse<Void>
+    suspend fun putUser(@Body userRequest: UserRequest): ApiResponse1<Void>
 
     @PUT("/api/user/fcm")
     suspend fun putFcmToken(@Body fcmRequest: FcmRequest): ApiResponse1<Void>

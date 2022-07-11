@@ -64,13 +64,15 @@ class AcceptAvatarViewModel @Inject constructor(
                     imageRepository.putImage(imageId, part)
                 } else {
                     val response = imageRepository.postImage(part)
-                    userRepository.putUser(
-                        UserRequest(
-                            nick,
-                            response.body!!.entityId,
-                            regulationsAccepted
+                    handleRequest {
+                        userRepository.putUser(
+                            UserRequest(
+                                nick,
+                                response.body!!.entityId,
+                                regulationsAccepted
+                            )
                         )
-                    )
+                    }
                 }
                 analyticsTracker.logClickSaveAvatar()
                 navigateBack()
