@@ -13,7 +13,7 @@ interface SharedFlightsService {
     suspend fun getPendingSharedFlights(): ApiResponse1<List<SharedFlightResponse>>
 
     @GET("/api/shared-flights/{sharedFlightId}")
-    suspend fun getSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<SharedFlightResponse>
+    suspend fun getSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse1<SharedFlightResponse>
 
     @POST("/api/shared-flights/share/{flightId}")
     suspend fun shareFlight(@Path("flightId") flightId: String): ApiResponse<SharedFlight>

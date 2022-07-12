@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightResponse
-import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.SharedFlightRepository
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -27,8 +26,10 @@ class PendingSharedFlightDetailsViewModel @Inject constructor(
 
     fun fetchSharedFlight() {
         makeRequest {
-            val response = sharedFlightRepository.getSharedFlight(sharedFlightId)
-            response.body?.let { sharedFlight.value = it }
+            val response = handleRequest {
+                sharedFlightRepository.getSharedFlight(sharedFlightId)
+            }
+            sharedFlight.value = response
         }
     }
 
