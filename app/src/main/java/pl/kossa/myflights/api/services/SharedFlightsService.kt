@@ -16,7 +16,7 @@ interface SharedFlightsService {
     suspend fun getSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse1<SharedFlightResponse>
 
     @POST("/api/shared-flights/share/{flightId}")
-    suspend fun shareFlight(@Path("flightId") flightId: String): ApiResponse<SharedFlight>
+    suspend fun shareFlight(@Path("flightId") flightId: String): ApiResponse1<SharedFlight>
 
     @PUT("/api/shared-flights/confirm/{sharedFlightId}")
     suspend fun confirmSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<Void>
