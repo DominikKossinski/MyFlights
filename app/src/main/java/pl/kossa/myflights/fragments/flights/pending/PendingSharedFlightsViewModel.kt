@@ -23,8 +23,10 @@ class PendingSharedFlightsViewModel @Inject constructor(
 
     fun fetchPendingSharedFlights() {
         makeRequest {
-            val response = sharedFlightRepository.getPendingSharedFlights()
-            response.body?.let { pendingSharedFlights.value = it }
+            val response = handleRequest {
+                sharedFlightRepository.getPendingSharedFlights()
+            }
+            pendingSharedFlights.value = response
         }
     }
 

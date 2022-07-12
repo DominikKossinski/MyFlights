@@ -162,9 +162,10 @@ object AppModule {
 
     @Provides
     fun provideSharedFlightsRepository(
-        sharedFlightsService: SharedFlightsService
+        sharedFlightsService: SharedFlightsService,
+        preferencesHelper: PreferencesHelper
     ): SharedFlightRepository {
-        return SharedFlightRepository(sharedFlightsService)
+        return SharedFlightRepository(sharedFlightsService, preferencesHelper)
     }
 
     @Provides

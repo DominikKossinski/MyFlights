@@ -1,12 +1,34 @@
 package pl.kossa.myflights.repository
 
+import pl.kossa.myflights.api.call.ApiResponse1
+import pl.kossa.myflights.api.responses.sharedflights.SharedFlightResponse
 import pl.kossa.myflights.api.services.SharedFlightsService
+import pl.kossa.myflights.architecture.BaseRepository
+import pl.kossa.myflights.architecture.ResultWrapper
+import pl.kossa.myflights.utils.PreferencesHelper
 
 class SharedFlightRepository(
-    private val sharedFlightsService: SharedFlightsService
-) {
+    private val sharedFlightsService: SharedFlightsService,
+    preferencesHelper: PreferencesHelper
+) : BaseRepository(preferencesHelper) {
 
-    suspend fun getPendingSharedFlights() = sharedFlightsService.getPendingSharedFlights()
+    suspend fun getPendingSharedFlights(): ResultWrapper<List<SharedFlightResponse>> {
+        val response = sharedFlightsService.getPendingSharedFlights()
+        // todo save data locally
+        return when (response) {
+            is ApiResponse1.Success -> {
+                ResultWrapper.Success(response.value ?: emptyList())
+            }
+            is ApiResponse1.GenericError -> ResultWrapper.GenericError(
+                emptyList(),
+                response.apiError
+            )
+            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+                emptyList(),
+                response.networkErrorType
+            )
+        }
+    }
 
     suspend fun getSharedFlight(sharedFlightId: String) =
         sharedFlightsService.getSharedFlight(sharedFlightId)
