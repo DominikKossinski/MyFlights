@@ -47,9 +47,13 @@ class PendingSharedFlightsViewModel @Inject constructor(
 
     fun confirmSharedFlight(sharedFlightId: String) {
         makeRequest {
-            sharedFlightRepository.confirmSharedFlight(sharedFlightId)
-            setToastMessage(R.string.pending_shared_flight_confirmed)
-            fetchPendingSharedFlights()
+            val response = handleRequest {
+                sharedFlightRepository.confirmSharedFlight(sharedFlightId)
+            }
+            response?.let {
+                setToastMessage(R.string.pending_shared_flight_confirmed)
+                fetchPendingSharedFlights()
+            }
         }
     }
 
