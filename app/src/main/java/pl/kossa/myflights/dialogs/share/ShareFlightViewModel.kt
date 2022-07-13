@@ -27,8 +27,10 @@ class ShareFlightViewModel @Inject constructor(
 
     fun fetchSharedFlight() {
         makeRequest {
-            val response = sharedFlightRepository.shareFlight(flightId)
-            sharedFlightFlow.value = response.body
+            val response = handleRequest {
+                sharedFlightRepository.shareFlight(flightId)
+            }
+            sharedFlightFlow.value = response
         }
     }
 
