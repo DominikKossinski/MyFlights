@@ -73,8 +73,19 @@ class SharedFlightRepository(
         }
     }
 
-    suspend fun joinSharedFlight(sharedFlightId: String) =
-        sharedFlightsService.joinSharedFlight(sharedFlightId)
+    suspend fun joinSharedFlight(sharedFlightId: String): ResultWrapper<Unit?> {
+        val response = makeRequest {
+            sharedFlightsService.joinSharedFlight(sharedFlightId)
+        }
+        return when (response) {
+            is ApiResponse1.Success -> ResultWrapper.Success(Unit)
+            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+                null,
+                response.networkErrorType
+            )
+        }
+    }
 
     suspend fun deleteSharedFlight(sharedFlightId: String) =
         sharedFlightsService.deleteSharedFlight(sharedFlightId)

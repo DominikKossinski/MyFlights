@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightJoinDetails
-import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.SharedFlightRepository
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -35,9 +34,13 @@ class JoinFlightViewModel @Inject constructor(
 
     fun joinSharedFlight() {
         makeRequest {
-            sharedFlightRepository.joinSharedFlight(sharedFlightId)
-            analyticsTracker.logClickJoinFlight()
-            navigate(JoinFlightBottomSheetDirections.showJoinRequestSentDialog())
+            val result = handleRequest {
+                sharedFlightRepository.joinSharedFlight(sharedFlightId)
+            }
+            result?.let {
+                analyticsTracker.logClickJoinFlight()
+                navigate(JoinFlightBottomSheetDirections.showJoinRequestSentDialog())
+            }
         }
     }
 }
