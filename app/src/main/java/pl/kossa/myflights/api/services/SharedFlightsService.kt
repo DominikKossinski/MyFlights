@@ -25,7 +25,7 @@ interface SharedFlightsService {
     suspend fun joinSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse1<Void>
 
     @DELETE("/api/shared-flights/{sharedFlightId}")
-    suspend fun deleteSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<Void>
+    suspend fun deleteSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse1<Void>
 
     @DELETE("/api/shared-flights/resign/{sharedFlightId}")
     suspend fun resignFromSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<Void>

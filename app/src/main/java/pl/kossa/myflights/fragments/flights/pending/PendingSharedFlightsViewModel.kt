@@ -40,8 +40,12 @@ class PendingSharedFlightsViewModel @Inject constructor(
 
     fun deleteSharedFlight(sharedFlightId: String) {
         makeRequest {
-            sharedFlightRepository.deleteSharedFlight(sharedFlightId)
-            fetchPendingSharedFlights()
+            val result = handleRequest {
+                sharedFlightRepository.deleteSharedFlight(sharedFlightId)
+            }
+            result?.let {
+                fetchPendingSharedFlights()
+            }
         }
     }
 
