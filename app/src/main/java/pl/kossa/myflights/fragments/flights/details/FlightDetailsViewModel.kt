@@ -54,10 +54,14 @@ class FlightDetailsViewModel @Inject constructor(
                 sharedUsers.sharedData.sharedUserId == currentUser?.uid
             }?.let { shareData ->
                 makeRequest {
-                    sharedFlightRepository.resignFromSharedFlight(shareData.sharedData.sharedFlightId)
-                    //TODO toast
-                    analyticsTracker.logClickResignFromFlight()
-                    navigateBack()
+                    val result = handleRequest {
+                        sharedFlightRepository.resignFromSharedFlight(shareData.sharedData.sharedFlightId)
+                    }
+                    result?.let {
+                        //TODO toast
+                        analyticsTracker.logClickResignFromFlight()
+                        navigateBack()
+                    }
                 }
             }
         }
