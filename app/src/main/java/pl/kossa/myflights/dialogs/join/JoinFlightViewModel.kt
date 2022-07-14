@@ -26,9 +26,11 @@ class JoinFlightViewModel @Inject constructor(
 
     private fun fetchSharedFlightJoinDetails() {
         makeRequest {
-            val response = sharedFlightRepository.getSharedFlightJoinDetails(sharedFlightId)
+            val result = handleRequest {
+                sharedFlightRepository.getSharedFlightJoinDetails(sharedFlightId)
+            }
             analyticsTracker.logJoinRequestScanned()
-            response.body?.let { sharedFlightJoinDetails.value = it }
+            sharedFlightJoinDetails.value = result
         }
     }
 

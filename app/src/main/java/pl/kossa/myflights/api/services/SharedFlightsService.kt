@@ -31,5 +31,5 @@ interface SharedFlightsService {
     suspend fun resignFromSharedFlight(@Path("sharedFlightId") sharedFlightId: String): ApiResponse1<Void>
 
     @GET("/api/shared-flights/join/{sharedFlightId}")
-    suspend fun getSharedFlightJoinDetails(@Path("sharedFlightId") sharedFlightId: String): ApiResponse<SharedFlightJoinDetails>
+    suspend fun getSharedFlightJoinDetails(@Path("sharedFlightId") sharedFlightId: String): ApiResponse1<SharedFlightJoinDetails>
 }

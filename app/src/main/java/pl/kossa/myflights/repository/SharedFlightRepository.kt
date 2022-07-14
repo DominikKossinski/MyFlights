@@ -2,6 +2,7 @@ package pl.kossa.myflights.repository
 
 import pl.kossa.myflights.api.call.ApiResponse1
 import pl.kossa.myflights.api.models.SharedFlight
+import pl.kossa.myflights.api.responses.sharedflights.SharedFlightJoinDetails
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightResponse
 import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseRepository
@@ -115,8 +116,19 @@ class SharedFlightRepository(
         }
     }
 
-    suspend fun getSharedFlightJoinDetails(sharedFlightId: String) =
-        sharedFlightsService.getSharedFlightJoinDetails(sharedFlightId)
+    suspend fun getSharedFlightJoinDetails(sharedFlightId: String): ResultWrapper<SharedFlightJoinDetails?> {
+        val response = makeRequest {
+            sharedFlightsService.getSharedFlightJoinDetails(sharedFlightId)
+        }
+        return when (response) {
+            is ApiResponse1.Success -> ResultWrapper.Success(response.value)
+            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+                null,
+                response.networkErrorType
+            )
+        }
+    }
 
 
 }
