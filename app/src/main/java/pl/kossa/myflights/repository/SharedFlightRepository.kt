@@ -1,6 +1,6 @@
 package pl.kossa.myflights.repository
 
-import pl.kossa.myflights.api.call.ApiResponse1
+import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.models.SharedFlight
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightJoinDetails
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightResponse
@@ -18,14 +18,14 @@ class SharedFlightRepository(
         val response = sharedFlightsService.getPendingSharedFlights()
         // todo save data locally
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 ResultWrapper.Success(response.value ?: emptyList())
             }
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(
                 emptyList(),
                 response.apiError
             )
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 emptyList(),
                 response.networkErrorType
             )
@@ -37,9 +37,9 @@ class SharedFlightRepository(
             sharedFlightsService.getSharedFlight(sharedFlightId)
         }
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(response.value)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(response.value)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )
@@ -51,9 +51,9 @@ class SharedFlightRepository(
             sharedFlightsService.shareFlight(flightId)
         }
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(response.value)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(response.value)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )
@@ -65,9 +65,9 @@ class SharedFlightRepository(
             sharedFlightsService.confirmSharedFlight(sharedFlightId)
         }
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(Unit)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(Unit)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )
@@ -79,9 +79,9 @@ class SharedFlightRepository(
             sharedFlightsService.joinSharedFlight(sharedFlightId)
         }
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(Unit)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(Unit)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )
@@ -93,9 +93,9 @@ class SharedFlightRepository(
             sharedFlightsService.deleteSharedFlight(sharedFlightId)
         }
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(Unit)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(Unit)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )
@@ -107,9 +107,9 @@ class SharedFlightRepository(
             sharedFlightsService.resignFromSharedFlight(sharedFlightId)
         }
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(Unit)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(Unit)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )
@@ -121,9 +121,9 @@ class SharedFlightRepository(
             sharedFlightsService.getSharedFlightJoinDetails(sharedFlightId)
         }
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(response.value)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(response.value)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )

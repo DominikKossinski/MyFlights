@@ -1,6 +1,6 @@
 package pl.kossa.myflights.repository
 
-import pl.kossa.myflights.api.call.ApiResponse1
+import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.api.services.StatisticsService
 import pl.kossa.myflights.architecture.BaseRepository
@@ -19,7 +19,7 @@ class StatisticsRepository(
         val response = makeRequest {
             statisticsService.getStatistics()
         }
-        if (response is ApiResponse1.Success) {
+        if (response is ApiResponse.Success) {
             response.value?.let { stats ->
                 preferencesHelper.userId?.let {
                     statisticsDao.insertStatistics(Statistics.fromApiStatisticsResponse(it, stats))
@@ -28,8 +28,8 @@ class StatisticsRepository(
         }
         val statistics = preferencesHelper.userId?.let { statisticsDao.getUserStatistics(it) }
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(statistics)
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.Success -> ResultWrapper.Success(statistics)
+            is ApiResponse.GenericError -> {
                 if (response.apiError.code == HttpCode.NOT_FOUND.code) {
                     preferencesHelper.userId?.let {
                         statisticsDao.deleteStatisticsByUserId(it)
@@ -39,7 +39,7 @@ class StatisticsRepository(
                     ResultWrapper.GenericError(statistics, response.apiError)
                 }
             }
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 statistics,
                 response.networkErrorType
             )

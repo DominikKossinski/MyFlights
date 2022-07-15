@@ -1,6 +1,6 @@
 package pl.kossa.myflights.repository
 
-import pl.kossa.myflights.api.call.ApiResponse1
+import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.requests.UserRequest
@@ -18,18 +18,18 @@ class UserRepository(
         val response = makeRequest {
             userService.getUser()
         }
-        if (response is ApiResponse1.Success) {
+        if (response is ApiResponse.Success) {
             response.value?.let {
                 preferencesHelper.setUserData(it)
             }
         }
         val user = preferencesHelper.getUser()
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 ResultWrapper.Success(user)
             }
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(user, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(user, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 user,
                 response.networkErrorType
             )
@@ -41,9 +41,9 @@ class UserRepository(
             userService.putUser(userRequest)
         }
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(Unit)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(Unit)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )
@@ -55,9 +55,9 @@ class UserRepository(
             userService.putFcmToken(fcmRequest)
         }
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(Unit)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(Unit)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )
@@ -69,12 +69,12 @@ class UserRepository(
             userService.deleteUser()
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 preferencesHelper.clearUserData()
                 ResultWrapper.Success(Unit)
             }
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )

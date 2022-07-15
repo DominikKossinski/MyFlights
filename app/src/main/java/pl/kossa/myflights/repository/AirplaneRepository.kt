@@ -1,6 +1,6 @@
 package pl.kossa.myflights.repository
 
-import pl.kossa.myflights.api.call.ApiResponse1
+import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.requests.AirplaneRequest
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.api.services.AirplanesService
@@ -20,7 +20,7 @@ class AirplaneRepository(
     suspend fun getAirplanes(): ResultWrapper<List<Airplane>> {
         val response = makeRequest(airplanesService::getAirplanes)
         val airplanes = when (response) {
-            is ApiResponse1.Success -> response.value ?: emptyList()
+            is ApiResponse.Success -> response.value ?: emptyList()
             else -> emptyList()
         }
         airplanes.forEach {
@@ -28,9 +28,9 @@ class AirplaneRepository(
         }
         val value = preferencesHelper.userId?.let { airplaneDao.getAll(it) } ?: emptyList()
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(value)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(value, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(value)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(value, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 value,
                 response.networkErrorType
             )
@@ -42,7 +42,7 @@ class AirplaneRepository(
             airplanesService.getAirplaneById(airplaneId)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 response.value?.let {
                     airplaneDao.insertAirplane(Airplane.fromApiAirplane(it))
                 }
@@ -53,7 +53,7 @@ class AirplaneRepository(
                     )
                 })
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 when (response.apiError.code) {
                     HttpCode.NOT_FOUND.code -> {
                         val airplane = preferencesHelper.userId?.let {
@@ -76,7 +76,7 @@ class AirplaneRepository(
                     }
                 }
             }
-            is ApiResponse1.NetworkError -> {
+            is ApiResponse.NetworkError -> {
                 ResultWrapper.NetworkError(preferencesHelper.userId?.let {
                     airplaneDao.getAirplaneById(
                         it,
@@ -92,16 +92,16 @@ class AirplaneRepository(
             airplanesService.postAirplane(airplaneRequest)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 response.value?.entityId?.let {
                     getAirplaneById(it)
                 }
                 ResultWrapper.Success(response.value?.entityId)
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 ResultWrapper.GenericError(null, response.apiError)
             }
-            is ApiResponse1.NetworkError -> {
+            is ApiResponse.NetworkError -> {
                 ResultWrapper.NetworkError(null, response.networkErrorType)
             }
         }
@@ -115,11 +115,11 @@ class AirplaneRepository(
             airplanesService.putAirplane(airplaneId, airplaneRequest)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 getAirplaneById(airplaneId)
                 ResultWrapper.Success(Unit)
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 when (response.apiError.code) {
                     HttpCode.NOT_FOUND.code -> {
                         val airplane = preferencesHelper.userId?.let {
@@ -135,7 +135,7 @@ class AirplaneRepository(
                     }
                 }
             }
-            is ApiResponse1.NetworkError -> {
+            is ApiResponse.NetworkError -> {
                 ResultWrapper.NetworkError(null, response.networkErrorType)
             }
         }
@@ -149,13 +149,13 @@ class AirplaneRepository(
             airplaneDao.getAirplaneById(it, airplaneId)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 airplane?.let {
                     airplaneDao.delete(it)
                 }
                 ResultWrapper.Success(Unit)
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 when (response.apiError.code) {
                     HttpCode.NOT_FOUND.code -> {
                         airplane?.let { airplaneDao.delete(it) }
@@ -166,7 +166,7 @@ class AirplaneRepository(
                     }
                 }
             }
-            is ApiResponse1.NetworkError -> {
+            is ApiResponse.NetworkError -> {
                 ResultWrapper.NetworkError(null, response.networkErrorType)
             }
         }

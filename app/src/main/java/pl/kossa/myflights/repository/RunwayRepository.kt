@@ -1,6 +1,6 @@
 package pl.kossa.myflights.repository
 
-import pl.kossa.myflights.api.call.ApiResponse1
+import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.requests.RunwayRequest
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.api.services.RunwaysService
@@ -21,7 +21,7 @@ class RunwayRepository(
             runwaysService.getRunwayById(airportId, runwayId)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 response.value?.let {
                     runwayDao.insertRunway(Runway.fromApiRunway(airportId, it))
                 }
@@ -31,7 +31,7 @@ class RunwayRepository(
                     )
                 })
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 when (response.apiError.code) {
                     HttpCode.NOT_FOUND.code -> {
                         val runway = preferencesHelper.userId?.let {
@@ -52,7 +52,7 @@ class RunwayRepository(
                     }
                 }
             }
-            is ApiResponse1.NetworkError -> {
+            is ApiResponse.NetworkError -> {
                 ResultWrapper.NetworkError(preferencesHelper.userId?.let {
                     runwayDao.getRunwayById(
                         it, airportId, runwayId
@@ -70,16 +70,16 @@ class RunwayRepository(
             runwaysService.postRunway(airportId, runwayRequest)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 response.value?.entityId?.let {
                     getRunwayById(airportId, it)
                 }
                 ResultWrapper.Success(response.value?.entityId)
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 ResultWrapper.GenericError(null, response.apiError)
             }
-            is ApiResponse1.NetworkError -> {
+            is ApiResponse.NetworkError -> {
                 ResultWrapper.NetworkError(null, response.networkErrorType)
             }
         }
@@ -94,11 +94,11 @@ class RunwayRepository(
             runwaysService.putRunway(airportId, runwayId, runwayRequest)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 getRunwayById(airportId, runwayId)
                 ResultWrapper.Success(Unit)
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 when (response.apiError.code) {
                     HttpCode.NOT_FOUND.code -> {
                         val runway = preferencesHelper.userId?.let {
@@ -114,7 +114,7 @@ class RunwayRepository(
                     }
                 }
             }
-            is ApiResponse1.NetworkError -> {
+            is ApiResponse.NetworkError -> {
                 ResultWrapper.NetworkError(null, response.networkErrorType)
             }
         }
@@ -128,13 +128,13 @@ class RunwayRepository(
             runwayDao.getRunwayById(it, airportId, runwayId)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 runway?.let { entity ->
                     runwayDao.delete(entity)
                 }
                 ResultWrapper.Success(Unit)
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 when (response.apiError.code) {
                     HttpCode.NOT_FOUND.code -> {
                         runway?.let { runwayDao.delete(it) }
@@ -145,7 +145,7 @@ class RunwayRepository(
                     }
                 }
             }
-            is ApiResponse1.NetworkError -> {
+            is ApiResponse.NetworkError -> {
                 ResultWrapper.NetworkError(null, response.networkErrorType)
             }
         }

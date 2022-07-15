@@ -2,7 +2,7 @@ package pl.kossa.myflights.architecture
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import okhttp3.internal.http2.ConnectionShutdownException
-import pl.kossa.myflights.api.call.ApiResponse1
+import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.call.NetworkErrorType
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
@@ -27,24 +27,24 @@ abstract class BaseRepository(
 ) {
 
     protected suspend fun <T> makeRequest(
-        block: suspend () -> ApiResponse1<T>
-    ): ApiResponse1<T> {
+        block: suspend () -> ApiResponse<T>
+    ): ApiResponse<T> {
         return try {
             block.invoke()
         } catch (e: UnauthorizedException) {
-            return ApiResponse1.GenericError(ApiError(401, null))
+            return ApiResponse.GenericError(ApiError(401, null))
         } catch (e: NoInternetException) {
-            return ApiResponse1.NetworkError(NetworkErrorType.NO_INTERNET)
+            return ApiResponse.NetworkError(NetworkErrorType.NO_INTERNET)
         } catch (e: ApiServerException) {
-            return ApiResponse1.GenericError(e.apiError)
+            return ApiResponse.GenericError(e.apiError)
         } catch (e: Exception) {
             return when (e) {
                 is SocketTimeoutException, is UnknownHostException, is ConnectionShutdownException, is IOException -> {
-                    ApiResponse1.NetworkError(NetworkErrorType.SERVER_CONNECTION_ERROR)
+                    ApiResponse.NetworkError(NetworkErrorType.SERVER_CONNECTION_ERROR)
                 }
                 else -> {
                     FirebaseCrashlytics.getInstance().recordException(e)
-                    return ApiResponse1.GenericError(ApiError(500, null))
+                    return ApiResponse.GenericError(ApiError(500, null))
                 }
             }
         }

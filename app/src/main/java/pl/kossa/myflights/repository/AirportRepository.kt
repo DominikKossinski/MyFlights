@@ -1,6 +1,6 @@
 package pl.kossa.myflights.repository
 
-import pl.kossa.myflights.api.call.ApiResponse1
+import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.requests.AirportRequest
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.api.services.AirportsService
@@ -21,7 +21,7 @@ class AirportRepository(
             airportsService.getAirports()
         }
         val airports = when (response) {
-            is ApiResponse1.Success -> response.value ?: emptyList()
+            is ApiResponse.Success -> response.value ?: emptyList()
             else -> emptyList()
         }
         airports.forEach {
@@ -29,9 +29,9 @@ class AirportRepository(
         }
         val value = preferencesHelper.userId?.let { airportDao.getAll(it) } ?: emptyList()
         return when (response) {
-            is ApiResponse1.Success -> ResultWrapper.Success(value)
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(value, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.Success -> ResultWrapper.Success(value)
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(value, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 value,
                 response.networkErrorType
             )
@@ -42,7 +42,7 @@ class AirportRepository(
         val response = makeRequest {
             airportsService.getAirportById(airportId)
         }
-        if (response is ApiResponse1.Success) {
+        if (response is ApiResponse.Success) {
             response.value?.let {
                 airportDao.insertAirport(Airport.fromApiAirport(it))
             }
@@ -50,10 +50,10 @@ class AirportRepository(
         val airport =
             preferencesHelper.userId?.let { airportDao.getAirportById(it, airportId) }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 ResultWrapper.Success(airport)
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 when (response.apiError.code) {
                     HttpCode.NOT_FOUND.code -> {
                         airport?.let { airportDao.delete(it) }
@@ -63,7 +63,7 @@ class AirportRepository(
                         ResultWrapper.GenericError(airport, response.apiError)
                 }
             }
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 airport,
                 response.networkErrorType
             )
@@ -75,14 +75,14 @@ class AirportRepository(
             airportsService.postAirport(airportRequest)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 response.value?.entityId?.let {
                     getAirportById(it)
                 }
                 ResultWrapper.Success(response.value?.entityId)
             }
-            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
-            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+            is ApiResponse.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse.NetworkError -> ResultWrapper.NetworkError(
                 null,
                 response.networkErrorType
             )
@@ -97,11 +97,11 @@ class AirportRepository(
             airportsService.putAirport(airportId, airportRequest)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 getAirportById(airportId)
                 ResultWrapper.Success(Unit)
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 when (response.apiError.code) {
                     HttpCode.NOT_FOUND.code -> {
                         val airport = preferencesHelper.userId?.let {
@@ -117,7 +117,7 @@ class AirportRepository(
                     }
                 }
             }
-            is ApiResponse1.NetworkError -> {
+            is ApiResponse.NetworkError -> {
                 ResultWrapper.NetworkError(null, response.networkErrorType)
             }
         }
@@ -131,13 +131,13 @@ class AirportRepository(
             airportDao.getAirportById(it, airportId)
         }
         return when (response) {
-            is ApiResponse1.Success -> {
+            is ApiResponse.Success -> {
                 airport?.let {
                     airportDao.delete(it)
                 }
                 ResultWrapper.Success(Unit)
             }
-            is ApiResponse1.GenericError -> {
+            is ApiResponse.GenericError -> {
                 when (response.apiError.code) {
                     HttpCode.NOT_FOUND.code -> {
                         airport?.let { airportDao.delete(it) }
@@ -148,7 +148,7 @@ class AirportRepository(
                     }
                 }
             }
-            is ApiResponse1.NetworkError -> {
+            is ApiResponse.NetworkError -> {
                 ResultWrapper.NetworkError(null, response.networkErrorType)
             }
         }

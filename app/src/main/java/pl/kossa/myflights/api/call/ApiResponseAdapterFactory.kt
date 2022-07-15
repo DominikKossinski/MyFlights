@@ -19,7 +19,7 @@ class ApiResponseAdapterFactory : CallAdapter.Factory() {
             "return type must be parameterized"
         }
         val responseType = getParameterUpperBound(0, returnType)
-        if (getRawType(responseType) != ApiResponse::class.java && getRawType(responseType) != ApiResponse1::class.java) return null
+        if (getRawType(responseType) != ApiResponse::class.java) return null
 
         check(responseType is ParameterizedType) { "Response must be parameterized as NetworkResponse<Foo> or NetworkResponse<out Foo>" }
 
@@ -33,7 +33,6 @@ class ApiResponseAdapterFactory : CallAdapter.Factory() {
             )
         return when (getRawType(responseType)) {
             ApiResponse::class.java -> ApiCallAdapter<Any>(successBodyType, errorBodyConverter)
-            ApiResponse1::class.java -> ApiCallAdapter1<Any>(successBodyType, errorBodyConverter)
             else -> null
         }
     }

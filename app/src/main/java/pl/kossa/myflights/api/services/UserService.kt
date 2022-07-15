@@ -1,6 +1,6 @@
 package pl.kossa.myflights.api.services
 
-import pl.kossa.myflights.api.call.ApiResponse1
+import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.requests.UserRequest
@@ -12,14 +12,14 @@ import retrofit2.http.PUT
 interface UserService {
 
     @GET("/api/user")
-    suspend fun getUser(): ApiResponse1<User>
+    suspend fun getUser(): ApiResponse<User>
 
     @PUT("/api/user")
-    suspend fun putUser(@Body userRequest: UserRequest): ApiResponse1<Void>
+    suspend fun putUser(@Body userRequest: UserRequest): ApiResponse<Void>
 
     @PUT("/api/user/fcm")
-    suspend fun putFcmToken(@Body fcmRequest: FcmRequest): ApiResponse1<Void>
+    suspend fun putFcmToken(@Body fcmRequest: FcmRequest): ApiResponse<Void>
 
     @DELETE("/api/user")
-    suspend fun deleteUser() : ApiResponse1<Void>
+    suspend fun deleteUser() : ApiResponse<Void>
 }
