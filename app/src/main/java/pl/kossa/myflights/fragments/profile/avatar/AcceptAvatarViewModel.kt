@@ -13,7 +13,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
-import pl.kossa.myflights.api.services.ImagesService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.ImageRepository
 import pl.kossa.myflights.repository.UserRepository
@@ -65,15 +64,19 @@ class AcceptAvatarViewModel @Inject constructor(
                 if (imageId != null) {
                     imageRepository.putImage(imageId, part)
                 } else {
-                    val response = imageRepository.postImage(part)
-                    handleRequest {
-                        userRepository.putUser(
-                            UserRequest(
-                                nick,
-                                response.body!!.entityId,
-                                regulationsAccepted
+                    val entityId = handleRequest {
+                        imageRepository.postImage(part)
+                    }
+                    if (entityId != null) {
+                        handleRequest {
+                            userRepository.putUser(
+                                UserRequest(
+                                    nick,
+                                    entityId,
+                                    regulationsAccepted
+                                )
                             )
-                        )
+                        }
                     }
                 }
                 analyticsTracker.logClickSaveAvatar()

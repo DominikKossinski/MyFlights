@@ -1,6 +1,5 @@
 package pl.kossa.myflights.api.services
 
-import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.call.ApiResponse1
 import pl.kossa.myflights.api.models.SharedFlight
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightJoinDetails

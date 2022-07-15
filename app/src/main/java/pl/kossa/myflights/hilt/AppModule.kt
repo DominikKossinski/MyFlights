@@ -187,9 +187,10 @@ object AppModule {
 
     @Provides
     fun provideImageRepository(
-        imagesService: ImagesService
+        imagesService: ImagesService,
+        preferencesHelper: PreferencesHelper
     ): ImageRepository {
-        return ImageRepository(imagesService)
+        return ImageRepository(imagesService, preferencesHelper)
     }
 
     @Provides
