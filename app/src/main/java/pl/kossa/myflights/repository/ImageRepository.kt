@@ -26,7 +26,18 @@ class ImageRepository(
         }
     }
 
-    suspend fun putImage(imageId: String, image: MultipartBody.Part) =
-        imagesService.putImage(imageId, image)
+    suspend fun putImage(imageId: String, image: MultipartBody.Part): ResultWrapper<Unit?> {
+        val response = makeRequest {
+            imagesService.putImage(imageId, image)
+        }
+        return when (response) {
+            is ApiResponse1.Success -> ResultWrapper.Success(Unit)
+            is ApiResponse1.GenericError -> ResultWrapper.GenericError(null, response.apiError)
+            is ApiResponse1.NetworkError -> ResultWrapper.NetworkError(
+                null,
+                response.networkErrorType
+            )
+        }
+    }
 
 }

@@ -62,7 +62,12 @@ class AcceptAvatarViewModel @Inject constructor(
                     file.asRequestBody(type.toMediaTypeOrNull())
                 )
                 if (imageId != null) {
-                    imageRepository.putImage(imageId, part)
+                    val response = handleRequest {
+                        imageRepository.putImage(imageId, part)
+                    }
+                    response?.let {
+                        onSuccess()
+                    }
                 } else {
                     val entityId = handleRequest {
                         imageRepository.postImage(part)
@@ -76,13 +81,18 @@ class AcceptAvatarViewModel @Inject constructor(
                                     regulationsAccepted
                                 )
                             )
+                        }?.let {
+                            onSuccess()
                         }
                     }
                 }
-                analyticsTracker.logClickSaveAvatar()
-                navigateBack()
             }
         }
+    }
+
+    fun onSuccess() {
+        analyticsTracker.logClickSaveAvatar()
+        navigateBack()
     }
 
     fun setFilePath(filePath: String) {

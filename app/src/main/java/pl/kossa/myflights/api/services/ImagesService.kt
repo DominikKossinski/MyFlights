@@ -17,7 +17,7 @@ interface ImagesService {
     suspend fun putImage(
         @Path("imageId") imageId: String,
         @Part image: MultipartBody.Part
-    ): ApiResponse<CreatedResponse>
+    ): ApiResponse1<CreatedResponse>
 
 
 }
