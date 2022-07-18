@@ -58,7 +58,17 @@ abstract class BaseViewModel(
         val result = block.invoke()
         when (result) {
             is ResultWrapper.GenericError -> {
-                apiErrorFlow.emit(result.apiError)
+                if(result.apiError.code == 401) {
+                    if (tokenRefreshed) {
+                        firebaseAuth.signOut()
+                        signOutFlow.emit(Unit)
+                    } else {
+                        tokenRefreshed = true
+                        refreshToken {  }
+                    }
+                } else {
+                    apiErrorFlow.emit(result.apiError)
+                }
             }
             is ResultWrapper.NetworkError -> {
                 networkErrorFlow.emit(result.networkErrorType)
@@ -108,6 +118,7 @@ abstract class BaseViewModel(
 
     protected fun refreshToken(onSuccess: () -> Unit) {
         firebaseAuth.currentUser?.getIdToken(true)?.addOnSuccessListener {
+            tokenRefreshed = false
             preferencesHelper.token = it.token
             onSuccess()
         }?.addOnFailureListener {

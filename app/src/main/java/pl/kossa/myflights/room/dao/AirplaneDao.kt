@@ -9,8 +9,8 @@ import pl.kossa.myflights.room.entities.ImageModel
 abstract class AirplaneDao {
 
     @Transaction
-    @Query("SELECT * FROM AirplaneModel WHERE userId = :userId")
-    abstract suspend fun getAll(userId: String): List<Airplane>
+    @Query("SELECT * FROM AirplaneModel WHERE userId = :userId AND name LIKE '%' || :text || '%'")
+    abstract suspend fun getAll(userId: String, text: String): List<Airplane>
 
     @Transaction
     @Query("SELECT * FROM AirplaneModel WHERE userId = :userId AND airplaneId = :airplaneId LIMIT 1")

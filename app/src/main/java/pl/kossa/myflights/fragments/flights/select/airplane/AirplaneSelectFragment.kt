@@ -62,7 +62,7 @@ class AirplaneSelectFragment :
             viewModel.airplanesList.collect {
                 binding.noAirplanesTextView.isVisible = it.isEmpty()
                 adapter.items.clear()
-                adapter.items.addAll(it.map { item -> Airplane.fromApiAirplane(item) })
+                adapter.items.addAll(it)
                 adapter.notifyDataSetChanged()
             }
         }
