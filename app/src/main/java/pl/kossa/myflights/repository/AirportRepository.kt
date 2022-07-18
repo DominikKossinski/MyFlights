@@ -16,7 +16,7 @@ class AirportRepository(
     preferencesHelper: PreferencesHelper
 ) : BaseRepository(preferencesHelper) {
 
-    suspend fun getAirports(): ResultWrapper<List<Airport>> {
+    suspend fun getAirports(text: String=""): ResultWrapper<List<Airport>> {
         val response = makeRequest {
             airportsService.getAirports()
         }
@@ -27,7 +27,7 @@ class AirportRepository(
         airports.forEach {
             airportDao.insertAirport(Airport.fromApiAirport(it))
         }
-        val value = preferencesHelper.userId?.let { airportDao.getAll(it) } ?: emptyList()
+        val value = preferencesHelper.userId?.let { airportDao.getAll(it, text) } ?: emptyList()
         return when (response) {
             is ApiResponse.Success -> ResultWrapper.Success(value)
             is ApiResponse.GenericError -> ResultWrapper.GenericError(value, response.apiError)

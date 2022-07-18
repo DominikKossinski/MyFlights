@@ -10,8 +10,8 @@ import pl.kossa.myflights.room.entities.RunwayModel
 abstract class AirportDao {
 
     @Transaction
-    @Query("SELECT * FROM AirportModel WHERE userId = :userId")
-    abstract suspend fun getAll(userId: String): List<Airport>
+    @Query("SELECT * FROM AirportModel WHERE userId = :userId AND (name LIKE '%' || :text || '%' OR city LIKE '%' || :text || '%' OR icaoCode LIKE '%' || :text || '%')")
+    abstract suspend fun getAll(userId: String, text: String): List<Airport>
 
     @Transaction
     @Query("SELECT * FROM AirportModel WHERE userId = :userId AND airportId = :airportId")
