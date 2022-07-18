@@ -1,6 +1,5 @@
 package pl.kossa.myflights.api.requests
 
-import android.media.Image
 import java.util.*
 
 data class FlightRequest(

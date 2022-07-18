@@ -5,17 +5,12 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.PickerActions
-import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition
-import androidx.test.espresso.contrib.RecyclerViewActions.scrollTo
 import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -23,7 +18,6 @@ import androidx.test.filters.LargeTest
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
-import kotlinx.coroutines.android.awaitFrame
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.equalTo
@@ -36,7 +30,6 @@ import pl.kossa.myflights.activities.main.MainActivity
 import pl.kossa.myflights.hilt.AppModule
 import pl.kossa.myflights.server.MyFlightsMockServer
 import pl.kossa.myflights.utils.AlertDialogButton
-import java.lang.IllegalStateException
 import java.lang.Thread.sleep
 
 @RunWith(AndroidJUnit4::class)

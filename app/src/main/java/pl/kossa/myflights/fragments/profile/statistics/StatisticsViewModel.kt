@@ -2,7 +2,6 @@ package pl.kossa.myflights.fragments.profile.statistics
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import pl.kossa.myflights.api.responses.StatisticsResponse
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.StatisticsRepository
 import pl.kossa.myflights.room.entities.Statistics

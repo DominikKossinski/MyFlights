@@ -8,5 +8,4 @@ import javax.inject.Inject
 @HiltViewModel
 class AboutAppViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
-): BaseViewModel(preferencesHelper) {
-}
+): BaseViewModel(preferencesHelper) {}

@@ -17,7 +17,6 @@ import org.hamcrest.Matchers
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
-import org.junit.experimental.theories.Theories
 import org.junit.runner.RunWith
 import pl.kossa.myflights.R
 import pl.kossa.myflights.activities.main.MainActivity

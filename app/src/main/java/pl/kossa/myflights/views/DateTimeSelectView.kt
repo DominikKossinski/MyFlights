@@ -9,7 +9,6 @@ import pl.kossa.myflights.R
 import pl.kossa.myflights.databinding.ViewDateTimeSelectBinding
 import pl.kossa.myflights.exstensions.toDateString
 import pl.kossa.myflights.exstensions.toTimeString
-import pl.kossa.myflights.views.pickers.DatePicker
 import java.util.*
 
 class DateTimeSelectView(context: Context, attrs: AttributeSet) : ConstraintLayout(context, attrs) {

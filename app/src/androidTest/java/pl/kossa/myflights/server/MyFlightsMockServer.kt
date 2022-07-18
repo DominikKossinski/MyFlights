@@ -1,7 +1,5 @@
 package pl.kossa.myflights.server
 
-import android.util.Log
-import com.google.gson.GsonBuilder
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -10,15 +8,10 @@ import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.models.Flight
 import pl.kossa.myflights.api.models.Runway
-import pl.kossa.myflights.api.requests.AirplaneRequest
-import pl.kossa.myflights.api.requests.AirportRequest
-import pl.kossa.myflights.api.responses.ApiErrorBody
-import pl.kossa.myflights.api.responses.CreatedResponse
 import pl.kossa.myflights.server.handlers.DeleteMethodHandler
 import pl.kossa.myflights.server.handlers.GetMethodHandler
 import pl.kossa.myflights.server.handlers.PostMethodHandler
 import pl.kossa.myflights.server.handlers.PutMethodHandler
-import java.lang.Exception
 import java.util.*
 
 class MyFlightsMockServer {
@@ -46,7 +39,7 @@ class MyFlightsMockServer {
         )
     )
 
-    private val flights = arrayListOf<Flight>(
+    private val flights = arrayListOf(
         Flight(
             "1",
             "Note from flight",

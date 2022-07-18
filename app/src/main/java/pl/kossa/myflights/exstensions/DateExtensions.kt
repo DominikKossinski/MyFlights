@@ -1,7 +1,6 @@
 package pl.kossa.myflights.exstensions
 
 import java.text.SimpleDateFormat
-import java.time.ZoneId
 import java.util.*
 
 fun Date.toDateString(): String {

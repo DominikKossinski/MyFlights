@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import pl.kossa.myflights.R
 import pl.kossa.myflights.databinding.ViewElementWithTagBinding
 

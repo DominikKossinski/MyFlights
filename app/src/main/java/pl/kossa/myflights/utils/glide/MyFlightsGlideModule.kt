@@ -23,7 +23,7 @@ class MyFlightsGlideModule : AppGlideModule() {
                 )
             val token = preferences.getString(PreferencesHelper.TOKEN, "")
             val newRequest = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer ${token}")
+                .addHeader("Authorization", "Bearer $token")
                 .build()
             chain.proceed(newRequest)
         }.build()

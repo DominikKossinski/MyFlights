@@ -1,6 +1,5 @@
 package pl.kossa.myflights.dialogs.accountdelete
 
-import android.util.Log
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
@@ -12,7 +11,6 @@ import kotlinx.coroutines.flow.map
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.ProviderType
 import pl.kossa.myflights.api.models.User
-import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper

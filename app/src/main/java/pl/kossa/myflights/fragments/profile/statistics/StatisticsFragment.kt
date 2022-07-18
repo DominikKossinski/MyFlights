@@ -6,10 +6,8 @@ import androidx.lifecycle.lifecycleScope
 import com.github.mikephil.charting.data.BarEntry
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import okhttp3.internal.notifyAll
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.ApiError
-import pl.kossa.myflights.api.responses.StatisticsResponse
 import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.databinding.FragmentStatisticsBinding
 import pl.kossa.myflights.room.entities.Statistics

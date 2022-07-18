@@ -3,7 +3,6 @@ package pl.kossa.myflights.views.pickers
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
 import java.util.*

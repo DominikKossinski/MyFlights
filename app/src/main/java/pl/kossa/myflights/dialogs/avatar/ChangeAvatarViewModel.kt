@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
-import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper

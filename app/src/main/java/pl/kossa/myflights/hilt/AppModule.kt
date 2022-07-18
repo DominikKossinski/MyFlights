@@ -47,11 +47,9 @@ object AppModule {
         return OkHttpClient.Builder().addInterceptor { chain ->
             val token = preferencesHelper.token
             val newRequest = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer ${token}")
+                .addHeader("Authorization", "Bearer $token")
                 .addHeader("Accept-Language", userLanguageManager.getCurrentLanguage())
                 .build()
-            Log.d("MyLog", "Token: ${token}")
-//            Log.d("MyLog", "$newRequest")
             chain.proceed(newRequest)
         }.build()
     }

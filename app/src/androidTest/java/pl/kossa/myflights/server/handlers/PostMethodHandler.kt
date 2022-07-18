@@ -10,7 +10,6 @@ import pl.kossa.myflights.api.requests.AirplaneRequest
 import pl.kossa.myflights.api.requests.AirportRequest
 import pl.kossa.myflights.api.requests.FlightRequest
 import pl.kossa.myflights.api.requests.RunwayRequest
-import pl.kossa.myflights.api.responses.CreatedResponse
 import pl.kossa.myflights.server.BasePath
 
 class PostMethodHandler(
@@ -49,7 +48,7 @@ class PostMethodHandler(
                     requestBody.icaoCode,
                     requestBody.towerFrequency,
                     requestBody.groundFrequency,
-                    requestBody.imageUrl,
+                    null, // TODO requestBody.imageUrl,
                     listOf(),
                     "1"
                 )
