@@ -14,6 +14,7 @@ import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplaneSelectBinding
 import pl.kossa.myflights.exstensions.doOnTextChanged
 import pl.kossa.myflights.fragments.airplanes.adapter.AirplanesAdapter
+import pl.kossa.myflights.room.entities.Airplane
 
 @AndroidEntryPoint
 class AirplaneSelectFragment :
@@ -31,8 +32,8 @@ class AirplaneSelectFragment :
     private fun setupRecyclerView() {
         adapter.setOnItemClickListener {
             val bundle = Bundle().apply {
-                putString(AIRPLANE_ID_KEY, it.airplaneId)
-                putString(AIRPLANE_NAME_KEY, it.name)
+                putString(AIRPLANE_ID_KEY, it.airplane.airplaneId)
+                putString(AIRPLANE_NAME_KEY, it.airplane.name)
             }
             parentFragmentManager.setFragmentResult(AIRPLANE_KEY, bundle)
             viewModel.navigateBack()

@@ -4,15 +4,15 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.api.models.SharedFlight
-import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.SharedFlightRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class ShareFlightViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val sharedFlightsService: SharedFlightsService,
+    private val sharedFlightRepository: SharedFlightRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -27,8 +27,10 @@ class ShareFlightViewModel @Inject constructor(
 
     fun fetchSharedFlight() {
         makeRequest {
-            val response = sharedFlightsService.shareFlight(flightId)
-            sharedFlightFlow.value = response.body
+            val response = handleRequest {
+                sharedFlightRepository.shareFlight(flightId)
+            }
+            sharedFlightFlow.value = response
         }
     }
 

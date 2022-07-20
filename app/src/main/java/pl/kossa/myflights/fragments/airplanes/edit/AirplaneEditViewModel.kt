@@ -1,26 +1,21 @@
 package pl.kossa.myflights.fragments.airplanes.edit
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import okhttp3.ResponseBody
-import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Airplane
 import pl.kossa.myflights.api.requests.AirplaneRequest
-import pl.kossa.myflights.api.responses.ApiErrorBody
-import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
-import pl.kossa.myflights.fragments.main.MainFragmentDirections
+import pl.kossa.myflights.architecture.ResultWrapper
+import pl.kossa.myflights.repository.AirplaneRepository
+import pl.kossa.myflights.room.entities.Airplane
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class AirplaneEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val airplanesService: AirplanesService,
+    private val airplaneRepository: AirplaneRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -52,8 +47,14 @@ class AirplaneEditViewModel @Inject constructor(
 
     private fun fetchAirplane() {
         makeRequest {
-            val response = airplanesService.getAirplaneById(airplaneId)
-            response.body?.let { airplane.value = it }
+            val result = airplaneRepository.getAirplaneById(airplaneId)
+            airplane.value = result.value
+            if (result is ResultWrapper.GenericError) {
+                apiErrorFlow.emit(result.apiError)
+            }
+            if (result is ResultWrapper.NetworkError) {
+                networkErrorFlow.emit(result.networkErrorType)
+            }
         }
     }
 
@@ -71,8 +72,12 @@ class AirplaneEditViewModel @Inject constructor(
                 _weight.value,
                 null
             )
-            airplanesService.putAirplane(airplaneId, request)
-            navigateBack()
+            val response = handleRequest {
+                airplaneRepository.saveAirplane(airplaneId, request)
+            }
+            response?.let {
+                navigateBack()
+            }
         }
     }
 

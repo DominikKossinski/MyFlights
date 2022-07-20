@@ -1,6 +1,5 @@
 package pl.kossa.myflights.api.call
 
-import android.util.Log
 import pl.kossa.myflights.api.responses.ApiErrorBody
 import retrofit2.Call
 import retrofit2.CallAdapter
@@ -27,7 +26,14 @@ class ApiResponseAdapterFactory : CallAdapter.Factory() {
         val successBodyType = getParameterUpperBound(0, responseType)
 
         val errorBodyConverter =
-            retrofit.nextResponseBodyConverter<ApiErrorBody>(null, ApiErrorBody::class.java, annotations)
-        return ApiCallAdapter<Any>(successBodyType, errorBodyConverter)
+            retrofit.nextResponseBodyConverter<ApiErrorBody>(
+                null,
+                ApiErrorBody::class.java,
+                annotations
+            )
+        return when (getRawType(responseType)) {
+            ApiResponse::class.java -> ApiCallAdapter<Any>(successBodyType, errorBodyConverter)
+            else -> null
+        }
     }
 }

@@ -4,7 +4,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Runway
+import pl.kossa.myflights.room.entities.Runway
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.fragments.BaseFragment
@@ -62,10 +62,10 @@ class RunwayEditFragment : BaseFragment<RunwayEditViewModel, FragmentRunwayEditB
     }
 
     private fun setupRunwayData(runway: Runway) {
-        binding.nameTie.setText(runway.name)
-        binding.lengthTie.setText(runway.length.toString())
-        binding.headingTie.setText(runway.heading.toString())
-        binding.ilsFrequencyTie.setText(runway.ilsFrequency.toString())
+        binding.nameTie.setText(runway.runway.name)
+        binding.lengthTie.setText(runway.runway.length.toString())
+        binding.headingTie.setText(runway.runway.heading.toString())
+        binding.ilsFrequencyTie.setText(runway.runway.ilsFrequency.toString())
     }
 
     override fun handleApiError(apiError: ApiError) {

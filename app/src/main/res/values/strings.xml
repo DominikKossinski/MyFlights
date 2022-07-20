@@ -9,8 +9,8 @@
     <string name="login">Login</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
-    <string name="empty_email">Email nie może być pusty</string>
-    <string name="empty_password">Hasło nie może być puste</string>
+    <string name="empty_email">Email can\'t be empty</string>
+    <string name="empty_password">Password can\'t be empty</string>
     <string name="no_user_error">No user</string>
     <string name="not_email_error">It is not an email</string>
     <string name="wrong_password_error">Wrong password</string>
@@ -20,12 +20,12 @@
     <string name="dont_have_account">Don\'t you have an account yet?</string>
     <string name="register_now">Register now</string>
     <string name="password_not_maches">Password doesn\'t match</string>
-    <string name="email_resend_info">Na twój email została wysłana wiadomość z mająca na celu zweryfikowanie adresu. W przypadku nie otrzymania wiadomości naciśnij \'Wyślij ponownie\'.</string>
+    <string name="email_resend_info">The verification message was sent on your email. If you didn\'t receive message clinck "Send Again"</string>
     <string name="resend">Resend</string>
     <string name="confirmed_go_to_login">Confirmed go to login</string>
     <string name="to_weak_password">Ad least 6 characters</string>
     <string name="user_exists">User already exists</string>
-    <string name="email_resended">Wysłano ponownie wiadomość</string>
+    <string name="email_resended">The message have been sent</string>
     <string name="flights">Flights</string>
 
     <!--CreateAccountFragment-->
@@ -235,7 +235,7 @@
     <string name="airport_save">Save Airport</string>
     <string name="airport_name">Airport name</string>
     <string name="add_airplane">Add Airplane</string>
-    <string name="firebase_messaging_channel_id">FIREABASE_MESSAGING_CHANNEL</string>
+    <string name="firebase_messaging_channel_id">FIREBASE_MESSAGING_CHANNEL</string>
 
     <string name="double_places_float_format" translatable="false">%.02f</string>
 

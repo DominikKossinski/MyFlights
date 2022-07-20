@@ -14,8 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
-import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.architecture.BaseSwipeDeleteCallback
+import pl.kossa.myflights.architecture.fragments.BaseFragment
 import pl.kossa.myflights.databinding.FragmentAirplanesBinding
 import pl.kossa.myflights.fragments.airplanes.adapter.AirplanesAdapter
 
@@ -45,7 +45,12 @@ class AirplanesFragment : BaseFragment<AirplanesViewModel, FragmentAirplanesBind
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         super.onDismissed(transientBottomBar, event)
                         if (event == DISMISS_EVENT_TIMEOUT) {
-                            viewModel.deleteAirplane(item.airplaneId)
+                            viewModel.deleteAirplane(item.airplane.airplaneId) {
+                                requireActivity().runOnUiThread {
+                                    adapter.items.add(position, item)
+                                    adapter.notifyItemInserted(position)
+                                }
+                            }
                         }
                     }
                 })
@@ -90,7 +95,7 @@ class AirplanesFragment : BaseFragment<AirplanesViewModel, FragmentAirplanesBind
 
     private fun setupRecyclerView() {
         adapter.setOnItemClickListener {
-            viewModel.navigateToAirplaneDetails(it.airplaneId)
+            viewModel.navigateToAirplaneDetails(it.airplane.airplaneId)
         }
         binding.airplanesRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.airplanesRecyclerView.adapter = adapter
@@ -105,19 +110,19 @@ class AirplanesFragment : BaseFragment<AirplanesViewModel, FragmentAirplanesBind
 
     override fun handleApiError(apiError: ApiError) {
         Log.d("MyLog", "Handling error $apiError")
-        when(apiError.code) {
+        when (apiError.code) {
             HttpCode.NOT_FOUND.code -> {
                 viewModel.setToastMessage(R.string.error_airplane_not_found)
             }
             HttpCode.BAD_REQUEST.code -> {
-                viewModel.setToastMessage( R.string.error_airplane_exists_in_flights)
+                viewModel.setToastMessage(R.string.error_airplane_exists_in_flights)
                 viewModel.fetchAirplanes()
             }
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastMessage( R.string.error_forbidden)
+                viewModel.setToastMessage(R.string.error_forbidden)
             }
             else -> {
                 viewModel.setToastMessage(R.string.unexpected_error)

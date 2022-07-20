@@ -4,16 +4,16 @@ import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Runway
-import pl.kossa.myflights.api.services.RunwaysService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.RunwayRepository
+import pl.kossa.myflights.room.entities.Runway
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class RunwayDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val runwaysService: RunwaysService,
+    private val runwayRepository: RunwayRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -27,8 +27,9 @@ class RunwayDetailsViewModel @Inject constructor(
 
     fun fetchRunway() {
         makeRequest {
-            val response = runwaysService.getRunwayById(airportId, runwayId)
-            response.body.let { runway.value = it }
+            runway.value = handleRequest {
+                runwayRepository.getRunwayById(airportId, runwayId)
+            }
         }
     }
 
@@ -38,7 +39,7 @@ class RunwayDetailsViewModel @Inject constructor(
 
     fun deleteRunway() {
         makeRequest {
-            runwaysService.deleteRunway(airportId, runwayId)
+            runwayRepository.deleteRunway(airportId, runwayId)
             analyticsTracker.logClickDeleteRunway()
             setToastMessage(R.string.runway_deleted)
             navigateBack()

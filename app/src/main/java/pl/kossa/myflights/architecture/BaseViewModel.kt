@@ -13,11 +13,11 @@ import kotlinx.coroutines.launch
 import okhttp3.internal.http2.ConnectionShutdownException
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
+import pl.kossa.myflights.api.call.NetworkErrorType
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
 import pl.kossa.myflights.api.models.User
-import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -49,11 +49,35 @@ abstract class BaseViewModel(
     val toastMessage = MutableSharedFlow<Int?>(0)
     val isLoadingData = MutableStateFlow(false)
     val apiErrorFlow = MutableStateFlow<ApiError?>(null)
+    val networkErrorFlow = MutableStateFlow<NetworkErrorType?>(null)
     val activityFinishFlow = MutableSharedFlow<Unit>(0)
     private val navDirectionFlow = MutableSharedFlow<NavDirections>(0)
     val backFlow = MutableSharedFlow<Unit>(0)
     val signOutFlow = MutableSharedFlow<Unit>(0)
 
+    suspend fun <T> handleRequest(block: suspend () -> ResultWrapper<T>): T {
+        val result = block.invoke()
+        when (result) {
+            is ResultWrapper.GenericError -> {
+                if(result.apiError.code == 401) {
+                    if (tokenRefreshed) {
+                        firebaseAuth.signOut()
+                        signOutFlow.emit(Unit)
+                    } else {
+                        tokenRefreshed = true
+                        refreshToken {  }
+                    }
+                } else {
+                    apiErrorFlow.emit(result.apiError)
+                }
+            }
+            is ResultWrapper.NetworkError -> {
+                networkErrorFlow.emit(result.networkErrorType)
+            }
+            is ResultWrapper.Success -> {}
+        }
+        return result.value
+    }
 
     fun makeRequest(block: suspend () -> Unit) {
         firebaseAuth.currentUser ?: return
@@ -95,6 +119,7 @@ abstract class BaseViewModel(
 
     protected fun refreshToken(onSuccess: () -> Unit) {
         firebaseAuth.currentUser?.getIdToken(true)?.addOnSuccessListener {
+            tokenRefreshed = false
             preferencesHelper.token = it.token
             onSuccess()
         }?.addOnFailureListener {
@@ -139,9 +164,7 @@ abstract class BaseViewModel(
         analyticsTracker.setUserId(null)
         fcmHandler.disableFCM {
             viewModelScope.launch {
-                preferencesHelper.token = null
-                preferencesHelper.fcmToken = null
-                preferencesHelper.setUser(null)
+                preferencesHelper.clearUserData()
                 signOutFlow.emit(Unit)
             }
         }
@@ -156,6 +179,6 @@ abstract class BaseViewModel(
     fun getNavDirectionsFlow() = navDirectionFlow
 
     fun setUser(user: User?) {
-        preferencesHelper.setUser(user)
+        user?.let {preferencesHelper.setUserData(it) }
     }
 }

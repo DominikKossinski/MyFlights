@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Runway
+import pl.kossa.myflights.room.entities.Runway
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.fragments.BaseFragment
@@ -53,13 +53,13 @@ class RunwayDetailsFragment : BaseFragment<RunwayDetailsViewModel, FragmentRunwa
     }
 
     private fun setupRunwayData(runway: Runway) {
-        binding.nameEwt.valueText = runway.name
+        binding.nameEwt.valueText = runway.runway.name
         //TODO add formatting
-        binding.lengthEwt.valueText = runway.length.toString()
+        binding.lengthEwt.valueText = runway.runway.length.toString()
         //TODO formatting
-        binding.headingEwt.valueText = runway.heading.toString()
-        binding.ilsFrequencyEwt.isVisible = runway.ilsFrequency != null
-        binding.ilsFrequencyEwt.valueText = runway.ilsFrequency ?: ""
+        binding.headingEwt.valueText = runway.runway.heading.toString()
+        binding.ilsFrequencyEwt.isVisible = runway.runway.ilsFrequency != null
+        binding.ilsFrequencyEwt.valueText = runway.runway.ilsFrequency ?: ""
     }
 
     private fun showDeleteDialog() {

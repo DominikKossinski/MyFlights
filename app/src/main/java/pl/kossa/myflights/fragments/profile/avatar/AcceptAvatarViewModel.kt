@@ -10,20 +10,20 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
-import pl.kossa.myflights.api.services.ImagesService
-import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.ImageRepository
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
 class AcceptAvatarViewModel @Inject constructor(
-    private val imagesService: ImagesService,
-    private val userService: UserService,
+    private val imageRepository: ImageRepository,
+    private val userRepository: UserRepository,
     savedStateHandle: SavedStateHandle,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
@@ -41,8 +41,10 @@ class AcceptAvatarViewModel @Inject constructor(
 
     fun fetchUser() {
         makeRequest {
-            val response = userService.getUser()
-            _user.emit(response.body)
+            val response = handleRequest {
+                userRepository.getUser()
+            }
+            _user.emit(response)
         }
     }
 
@@ -57,24 +59,40 @@ class AcceptAvatarViewModel @Inject constructor(
                 val part = MultipartBody.Part.createFormData(
                     "image",
                     file.name,
-                    RequestBody.create(type.toMediaTypeOrNull()!!, file)
+                    file.asRequestBody(type.toMediaTypeOrNull())
                 )
                 if (imageId != null) {
-                    imagesService.putImage(imageId, part)
+                    val response = handleRequest {
+                        imageRepository.putImage(imageId, part)
+                    }
+                    response?.let {
+                        onSuccess()
+                    }
                 } else {
-                    val response = imagesService.postImage(part)
-                    userService.putUser(
-                        UserRequest(
-                            nick,
-                            response.body!!.entityId,
-                            regulationsAccepted
-                        )
-                    )
+                    val entityId = handleRequest {
+                        imageRepository.postImage(part)
+                    }
+                    if (entityId != null) {
+                        handleRequest {
+                            userRepository.putUser(
+                                UserRequest(
+                                    nick,
+                                    entityId,
+                                    regulationsAccepted
+                                )
+                            )
+                        }?.let {
+                            onSuccess()
+                        }
+                    }
                 }
-                analyticsTracker.logClickSaveAvatar()
-                navigateBack()
             }
         }
+    }
+
+    fun onSuccess() {
+        analyticsTracker.logClickSaveAvatar()
+        navigateBack()
     }
 
     fun setFilePath(filePath: String) {

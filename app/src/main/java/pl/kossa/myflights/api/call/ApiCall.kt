@@ -4,7 +4,6 @@ import android.util.Log
 import okhttp3.Request
 import okhttp3.ResponseBody
 import okio.Timeout
-import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.ApiErrorBody
@@ -27,7 +26,7 @@ class ApiCall<S : Any>(
                 if (response.isSuccessful) {
                     callback.onResponse(
                         this@ApiCall,
-                        Response.success(ApiResponse(response.body()))
+                        Response.success(ApiResponse.Success(response.body()))
                     )
                 } else {
                     if (response.code() == HttpCode.UNAUTHORIZED.code) {
@@ -40,12 +39,16 @@ class ApiCall<S : Any>(
                         } catch (e: IOException) {
                             ApiError(HttpCode.INTERNAL_SERVER_ERROR.code, null)
                         }
-                        callback.onFailure(this@ApiCall, ApiServerException(apiError))
+                        callback.onResponse(
+                            this@ApiCall,
+                            Response.success(ApiResponse.GenericError(apiError))
+                        )
                     }
                 }
             }
 
             override fun onFailure(call: Call<S>, t: Throwable) {
+                // TODO handle error here
                 callback.onFailure(this@ApiCall, t)
             }
 

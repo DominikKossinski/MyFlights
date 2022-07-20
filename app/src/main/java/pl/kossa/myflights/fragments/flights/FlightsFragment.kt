@@ -1,7 +1,5 @@
 package pl.kossa.myflights.fragments.flights
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -46,7 +44,7 @@ class FlightsFragment : BaseFragment<FlightsViewModel, FragmentFlightsBinding>()
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         super.onDismissed(transientBottomBar, event)
                         if (event == DISMISS_EVENT_TIMEOUT) {
-                            viewModel.deleteFlight(item.flightId)
+                            viewModel.deleteFlight(item.flight.flightId)
                         }
                     }
                 })
@@ -102,7 +100,7 @@ class FlightsFragment : BaseFragment<FlightsViewModel, FragmentFlightsBinding>()
 
     private fun setupRecyclerView() {
         adapter.setOnItemClickListener {
-            viewModel.navigateToFlightDetails(it.flightId)
+            viewModel.navigateToFlightDetails(it.flight.flightId)
         }
         binding.flightsRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.flightsRecyclerView.adapter = adapter

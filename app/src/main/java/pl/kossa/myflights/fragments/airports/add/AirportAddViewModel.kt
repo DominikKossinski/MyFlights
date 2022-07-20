@@ -1,19 +1,17 @@
 package pl.kossa.myflights.fragments.airports.add
 
-import android.util.Log
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.api.requests.AirportRequest
-import pl.kossa.myflights.api.services.AirportsService
 import pl.kossa.myflights.architecture.BaseViewModel
-import pl.kossa.myflights.fragments.main.MainFragmentDirections
+import pl.kossa.myflights.repository.AirportRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AirportAddViewModel @Inject constructor(
-    private val airportsService: AirportsService,
+    private val airportRepository: AirportRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -71,9 +69,11 @@ class AirportAddViewModel @Inject constructor(
         makeRequest {
             val request =
                 AirportRequest(name, city, icaoCode, towerFrequency, groundFrequency, null)
-            val response = airportsService.postAirport(request)
+            val entityId = handleRequest {
+                airportRepository.createAirport(request)
+            }
             analyticsTracker.logClickAddAirport()
-            response.body?.let { navigateToDetails(it.entityId) }
+            entityId?.let { navigateToDetails(it) }
         }
     }
 

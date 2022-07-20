@@ -6,14 +6,14 @@ import kotlinx.coroutines.flow.combine
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.UserRequest
-import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class ChangeNickViewModel @Inject constructor(
-    private val userService: UserService,
+    private val userRepository: UserRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -29,14 +29,16 @@ class ChangeNickViewModel @Inject constructor(
 
     fun fetchUser() {
         makeRequest {
-            val response = userService.getUser()
-            response.body?.let { _user.value = it }
+            val response = handleRequest {
+                userRepository.getUser()
+            }
+            _user.value = response
         }
     }
 
     fun putUser() {
         makeRequest {
-            userService.putUser(
+            userRepository.putUser(
                 UserRequest(
                     _nick.value,
                     _user.value?.avatar?.imageId,

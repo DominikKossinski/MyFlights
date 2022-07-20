@@ -1,7 +1,6 @@
 package pl.kossa.myflights.utils.analytics
 
 import android.os.Bundle
-import android.util.Log
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 

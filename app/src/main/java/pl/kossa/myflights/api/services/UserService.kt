@@ -4,7 +4,6 @@ import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.requests.FcmRequest
 import pl.kossa.myflights.api.requests.UserRequest
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

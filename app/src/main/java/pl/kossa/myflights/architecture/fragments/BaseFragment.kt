@@ -14,9 +14,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.flow.collectLatest
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
 import pl.kossa.myflights.activities.main.MainActivity
+import pl.kossa.myflights.api.call.NetworkErrorType
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -144,15 +146,24 @@ abstract class BaseFragment<VM : BaseViewModel, VB : ViewBinding> : Fragment() {
 
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.isLoadingData.collect {
+            viewModel.isLoadingData.collectLatest {
                 progressBar?.isVisible = it
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.apiErrorFlow.collect {
+            viewModel.apiErrorFlow.collectLatest {
                 it?.let { handleApiError(it) }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.networkErrorFlow.collectLatest {
+                it?.let { handleNetworkError(it) }
+            }
+        }
+    }
+
+    private fun handleNetworkError(networkErrorType: NetworkErrorType) {
+        viewModel.setToastMessage(networkErrorType.errorMessage)
     }
 
     protected abstract fun handleApiError(apiError: ApiError)

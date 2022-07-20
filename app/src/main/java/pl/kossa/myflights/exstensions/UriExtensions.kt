@@ -1,11 +1,9 @@
 package pl.kossa.myflights.exstensions
 
 import android.content.Context
-import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
-import androidx.loader.content.CursorLoader
 
 
 fun Uri.getFilePath(context: Context): String? {

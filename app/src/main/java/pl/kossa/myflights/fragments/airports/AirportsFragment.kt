@@ -44,7 +44,7 @@ class AirportsFragment : BaseFragment<AirportsViewModel, FragmentAirportsBinding
                     override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
                         super.onDismissed(transientBottomBar, event)
                         if (event == DISMISS_EVENT_TIMEOUT) {
-                            viewModel.deleteAirport(item.airportId)
+                            viewModel.deleteAirport(item.airport.airportId)
                         }
                     }
                 })
@@ -90,7 +90,7 @@ class AirportsFragment : BaseFragment<AirportsViewModel, FragmentAirportsBinding
 
     private fun setupRecyclerView() {
         adapter.setOnItemClickListener {
-            viewModel.navigateToAirportDetails(it.airportId)
+            viewModel.navigateToAirportDetails(it.airport.airportId)
         }
         binding.airportsRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.airportsRecyclerView.adapter = adapter

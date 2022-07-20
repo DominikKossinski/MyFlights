@@ -5,14 +5,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import pl.kossa.myflights.api.models.ProviderType
 import pl.kossa.myflights.api.models.User
-import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val userService: UserService,
+    private val userRepository: UserRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -28,8 +28,10 @@ class SettingsViewModel @Inject constructor(
     private fun fetchUser() {
         makeRequest {
             if (currentUser != null) {
-                val response = userService.getUser()
-                _user.value = response.body
+                val response = handleRequest {
+                    userRepository.getUser()
+                }
+                _user.value = response
             }
         }
     }

@@ -2,10 +2,8 @@ package pl.kossa.myflights.architecture
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-import com.google.firebase.auth.FirebaseAuth
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.lang.reflect.ParameterizedType
 

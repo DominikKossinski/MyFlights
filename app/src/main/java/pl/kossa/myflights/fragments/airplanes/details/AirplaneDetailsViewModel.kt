@@ -1,22 +1,19 @@
 package pl.kossa.myflights.fragments.airplanes.details
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Airplane
-import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.AirplaneRepository
+import pl.kossa.myflights.room.entities.Airplane
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AirplaneDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val airplanesService: AirplanesService,
+    private val airplaneRepository: AirplaneRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -29,8 +26,9 @@ class AirplaneDetailsViewModel @Inject constructor(
 
     fun fetchAirplane() {
         makeRequest {
-            val response = airplanesService.getAirplaneById(airplaneId)
-            response.body?.let { airplane.value = it }
+            airplane.value = handleRequest {
+                airplaneRepository.getAirplaneById(airplaneId)
+            }
         }
     }
 
@@ -40,9 +38,11 @@ class AirplaneDetailsViewModel @Inject constructor(
 
     fun deleteAirplane() {
         makeRequest {
-            airplanesService.deleteAirplane(airplaneId)
-            setToastMessage(R.string.airplane_deleted)
-            navigateBack()
+            val result = handleRequest { airplaneRepository.deleteAirplane(airplaneId) }
+            result?.let {
+                setToastMessage(R.string.airplane_deleted)
+                navigateBack()
+            }
         }
     }
 }

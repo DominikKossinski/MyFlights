@@ -1,21 +1,18 @@
 package pl.kossa.myflights.fragments.airplanes.add
 
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.launch
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.requests.AirplaneRequest
-import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
-import pl.kossa.myflights.fragments.main.MainFragmentDirections
+import pl.kossa.myflights.repository.AirplaneRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AirplaneAddViewModel @Inject constructor(
-    private val airplanesService: AirplanesService,
+    private val airplaneRepository: AirplaneRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -57,11 +54,10 @@ class AirplaneAddViewModel @Inject constructor(
         makeRequest {
             //TODO image
             val request = AirplaneRequest(name, maxSpeed, weight, null)
-            val response = airplanesService.postAirplane(request)
-            analyticsTracker.logClickAddAirplane()
-            response.body?.let {
-                navigateToDetails(it.entityId)
+            val entityId = handleRequest {
+                airplaneRepository.createAirplane(request)
             }
+            entityId?.let { navigateToDetails(it) }
         }
     }
 

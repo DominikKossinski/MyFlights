@@ -5,12 +5,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import pl.kossa.myflights.api.models.Flight
 import pl.kossa.myflights.api.requests.FlightRequest
-import pl.kossa.myflights.api.services.FlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.flights.add.FlightAddFragmentDirections
 import pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment
+import pl.kossa.myflights.repository.FlightRepository
+import pl.kossa.myflights.room.entities.Flight
 import pl.kossa.myflights.utils.PreferencesHelper
 import java.util.*
 import javax.inject.Inject
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FlightEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val flightsService: FlightsService,
+    private val flightRepository: FlightRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -72,8 +72,10 @@ class FlightEditViewModel @Inject constructor(
 
     fun fetchFlight() {
         makeRequest {
-            val response = flightsService.getFLightById(flightId)
-            response.body?.let { flight.emit(it.flight) } // TODO
+            val flightResponse = handleRequest {
+                flightRepository.getFlightById(flightId)
+            }
+            flightResponse?.let { flight.emit(it) }
         }
     }
 
@@ -82,22 +84,24 @@ class FlightEditViewModel @Inject constructor(
         val arrivalDate = _arrivalDate.value
         if (departureDate == null || arrivalDate == null) return // TODO diplay error
         makeRequest {
-            flightsService.putFlight(
-                flightId,
-                FlightRequest(
-                    _note.value,
-                    _distance.value,
-                    null, // TODO image
-                    departureDate,
-                    arrivalDate,
-                    _airplaneId.value,
-                    _departureAirportId.value,
-                    _departureRunwayId.value,
-                    _arrivalAirportId.value,
-                    _arrivalRunwayId.value
+            val result = handleRequest {
+                flightRepository.saveFlight(
+                    flightId,
+                    FlightRequest(
+                        _note.value,
+                        _distance.value,
+                        null, // TODO image
+                        departureDate,
+                        arrivalDate,
+                        _airplaneId.value,
+                        _departureAirportId.value,
+                        _departureRunwayId.value,
+                        _arrivalAirportId.value,
+                        _arrivalRunwayId.value
+                    )
                 )
-            )
-            navigateBack()
+            }
+            result?.let { navigateBack() }
         }
     }
 

@@ -1,24 +1,20 @@
 package pl.kossa.myflights.fragments.airports.edit
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import okhttp3.ResponseBody
-import pl.kossa.myflights.api.models.Airport
 import pl.kossa.myflights.api.requests.AirportRequest
-import pl.kossa.myflights.api.responses.ApiErrorBody
-import pl.kossa.myflights.api.services.AirportsService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.AirportRepository
+import pl.kossa.myflights.room.entities.Airport
 import pl.kossa.myflights.utils.PreferencesHelper
-import retrofit2.Converter
 import javax.inject.Inject
 
 @HiltViewModel
 class AirportEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val airportsService: AirportsService,
+    private val airportRepository: AirportRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -44,8 +40,9 @@ class AirportEditViewModel @Inject constructor(
 
     private fun fetchAirport() {
         makeRequest {
-            val response = airportsService.getAirportById(airportId)
-            response.body?.let { airport.value = it }
+            airport.value = handleRequest {
+                airportRepository.getAirportById(airportId)
+            }
         }
     }
 
@@ -56,12 +53,12 @@ class AirportEditViewModel @Inject constructor(
         val towerFrequency = _towerFrequency.value
         val groundFrequency = _groundFrequency.value
 
-        makeRequest{
+        makeRequest {
             //TODO image and data
             val request =
                 AirportRequest(name, city, icaoCode, towerFrequency, groundFrequency, null)
-            airportsService.putAirport(airportId, request)
-            navigateBack()
+            val result = handleRequest { airportRepository.saveAirport(airportId, request) }
+            result?.let { navigateBack() }
         }
     }
 

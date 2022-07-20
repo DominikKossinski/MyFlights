@@ -5,15 +5,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.responses.sharedflights.SharedFlightResponse
-import pl.kossa.myflights.api.services.SharedFlightsService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.SharedFlightRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class PendingSharedFlightDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val sharedFlightsService: SharedFlightsService,
+    private val sharedFlightRepository: SharedFlightRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -26,23 +26,33 @@ class PendingSharedFlightDetailsViewModel @Inject constructor(
 
     fun fetchSharedFlight() {
         makeRequest {
-            val response = sharedFlightsService.getSharedFlight(sharedFlightId)
-            response.body?.let { sharedFlight.value = it }
+            val response = handleRequest {
+                sharedFlightRepository.getSharedFlight(sharedFlightId)
+            }
+            sharedFlight.value = response
         }
     }
 
     fun deleteSharedFlight() {
         makeRequest {
-            sharedFlightsService.deleteSharedFlight(sharedFlightId)
-            navigateBack()
+            val result = handleRequest {
+                sharedFlightRepository.deleteSharedFlight(sharedFlightId)
+            }
+            result?.let {
+                navigateBack()
+            }
         }
     }
 
     fun confirmSharedFlight() {
         makeRequest {
-            sharedFlightsService.confirmSharedFlight(sharedFlightId)
-            setToastMessage(R.string.pending_shared_flight_confirmed)
-            navigateBack()
+            val response = handleRequest {
+                sharedFlightRepository.confirmSharedFlight(sharedFlightId)
+            }
+            response?.let {
+                setToastMessage(R.string.pending_shared_flight_confirmed)
+                navigateBack()
+            }
         }
     }
 }

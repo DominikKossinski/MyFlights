@@ -1,19 +1,18 @@
 package pl.kossa.myflights.fragments.airplanes
 
-import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Airplane
-import pl.kossa.myflights.api.services.AirplanesService
 import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
+import pl.kossa.myflights.repository.AirplaneRepository
+import pl.kossa.myflights.room.entities.Airplane
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AirplanesViewModel @Inject constructor(
-    private val airplanesService: AirplanesService,
+    private val airplaneRepository: AirplaneRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -21,17 +20,22 @@ class AirplanesViewModel @Inject constructor(
 
     fun fetchAirplanes() {
         makeRequest {
-            val response = airplanesService.getAirplanes()
-            response.body?.let { airplanesList.value = it }
+            airplanesList.value = handleRequest {
+                airplaneRepository.getAirplanes()
+            }
         }
     }
 
-    fun deleteAirplane(airplaneId: String) {
+    fun deleteAirplane(airplaneId: String, onError: () -> Unit) {
         makeRequest {
-            airplanesService.deleteAirplane(airplaneId)
-            analyticsTracker.logClickDeleteAirplane()
-            setToastMessage(R.string.airplane_deleted)
-            fetchAirplanes()
+            val result = handleRequest {
+                airplaneRepository.deleteAirplane(airplaneId)
+            }
+            result?.also {
+                analyticsTracker.logClickDeleteAirplane()
+                setToastMessage(R.string.airplane_deleted)
+                fetchAirplanes()
+            } ?: onError.invoke()
         }
     }
 

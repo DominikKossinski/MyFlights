@@ -7,7 +7,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.Flight
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.fragments.BaseFragment
@@ -16,6 +15,7 @@ import pl.kossa.myflights.exstensions.*
 import pl.kossa.myflights.fragments.flights.select.airplane.AirplaneSelectFragment
 import pl.kossa.myflights.fragments.flights.select.airport.AirportSelectFragment
 import pl.kossa.myflights.fragments.flights.select.runway.RunwaySelectFragment
+import pl.kossa.myflights.room.entities.Flight
 import pl.kossa.myflights.views.pickers.DateTimePicker
 import java.util.*
 
@@ -172,50 +172,50 @@ class FlightEditFragment : BaseFragment<FlightEditViewModel, FragmentFlightEditB
 
     override fun collectFlow() {
         super.collectFlow()
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.flight.collect {
                 setupFlightData(it)
             }
         }
 
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._airplaneName.collect {
                 binding.airplaneSelectView.elementName = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureAirportName.collect {
                 binding.departureAirportSelectView.elementName = it
                 binding.departureRunwaySelectView.isVisible = it.isNotBlank()
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureRunwayName.collect {
                 binding.departureRunwaySelectView.elementName = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalAirportName.collect {
                 binding.arrivalAirportSelectView.elementName = it
                 binding.arrivalRunwaySelectView.isVisible = it.isNotBlank()
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalRunwayName.collect {
                 binding.arrivalRunwaySelectView.elementName = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._departureDate.collect {
                 binding.departureDts.date = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel._arrivalDate.collect {
                 binding.arrivalDts.date = it
             }
         }
-       viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isAddButtonEnabled.collect {
                 binding.saveAppBar.isSaveIconEnabled = it
                 binding.saveButton.isEnabled = it
@@ -224,37 +224,39 @@ class FlightEditFragment : BaseFragment<FlightEditViewModel, FragmentFlightEditB
     }
 
     private fun setupFlightData(flight: Flight) {
-        viewModel.setAirplaneId(flight.airplane.airplaneId)
-        viewModel._airplaneName.value = flight.airplane.name
-        
-        viewModel.setDepartureAirportId(flight.departureAirport.airportId)
-        viewModel._departureAirportName.value = "${flight.departureAirport.name} (${flight.departureAirport.icaoCode})"
-        
-        viewModel.setDepartureRunwayId(flight.departureRunway.runwayId)
-        viewModel._departureRunwayName.value = flight.departureRunway.name
+        viewModel.setAirplaneId(flight.airplane.airplane.airplaneId)
+        viewModel._airplaneName.value = flight.airplane.airplane.name
 
-        viewModel.setArrivalAirportId(flight.arrivalAirport.airportId)
-        viewModel._arrivalAirportName.value = "${flight.arrivalAirport.name} (${flight.arrivalAirport.icaoCode})"
+        viewModel.setDepartureAirportId(flight.departureAirport.airport.airportId)
+        viewModel._departureAirportName.value =
+            "${flight.departureAirport.airport.name} (${flight.departureAirport.airport.icaoCode})"
 
-        viewModel.setArrivalRunwayId(flight.arrivalRunway.runwayId)
-        viewModel._arrivalRunwayName.value = flight.arrivalRunway.name
+        viewModel.setDepartureRunwayId(flight.departureRunway.runway.runwayId)
+        viewModel._departureRunwayName.value = flight.departureRunway.runway.name
 
-        viewModel._departureDate.value = flight.departureDate
-        viewModel._arrivalDate.value = flight.arrivalDate
+        viewModel.setArrivalAirportId(flight.arrivalAirport.airport.airportId)
+        viewModel._arrivalAirportName.value =
+            "${flight.arrivalAirport.airport.name} (${flight.arrivalAirport.airport.icaoCode})"
 
-        binding.distanceTie.setText(flight.distance?.toString())
-        binding.noteTie.setText(flight.note)
+        viewModel.setArrivalRunwayId(flight.arrivalRunway.runway.runwayId)
+        viewModel._arrivalRunwayName.value = flight.arrivalRunway.runway.name
+
+        viewModel._departureDate.value = flight.flight.departureDate
+        viewModel._arrivalDate.value = flight.flight.arrivalDate
+
+        binding.distanceTie.setText(flight.flight.distance?.toString())
+        binding.noteTie.setText(flight.flight.note)
     }
 
     private fun verifyDepartureDate(departure: Date?, arrival: Date?): Date? {
         return departure?.let {
             when {
                 arrival != null && departure.time > arrival.time -> {
-                    viewModel.setToastMessage( R.string.error_departure_after_arrival)
+                    viewModel.setToastMessage(R.string.error_departure_after_arrival)
                     arrival
                 }
                 departure.time > Date().time -> {
-                    viewModel.setToastMessage( R.string.error_departure_in_future)
+                    viewModel.setToastMessage(R.string.error_departure_in_future)
                     Date()
                 }
                 else -> {
@@ -268,11 +270,11 @@ class FlightEditFragment : BaseFragment<FlightEditViewModel, FragmentFlightEditB
         return arrival?.let {
             when {
                 departure != null && arrival.time < departure.time -> {
-                    viewModel.setToastMessage( R.string.error_arrival_before_departure)
+                    viewModel.setToastMessage(R.string.error_arrival_before_departure)
                     departure
                 }
                 arrival.time > Date().time -> {
-                    viewModel.setToastMessage( R.string.error_arrival_in_future)
+                    viewModel.setToastMessage(R.string.error_arrival_in_future)
                     Date()
                 }
                 else -> {
@@ -283,18 +285,18 @@ class FlightEditFragment : BaseFragment<FlightEditViewModel, FragmentFlightEditB
     }
 
     override fun handleApiError(apiError: ApiError) {
-        when(apiError.code) {
+        when (apiError.code) {
             HttpCode.NOT_FOUND.code -> {
-                viewModel.setToastMessage( R.string.error_flight_not_found)
+                viewModel.setToastMessage(R.string.error_flight_not_found)
             }
             HttpCode.INTERNAL_SERVER_ERROR.code -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
             HttpCode.FORBIDDEN.code -> {
-                viewModel.setToastMessage( R.string.error_forbidden)
+                viewModel.setToastMessage(R.string.error_forbidden)
             }
             else -> {
-                viewModel.setToastMessage( R.string.unexpected_error)
+                viewModel.setToastMessage(R.string.unexpected_error)
             }
         }
     }

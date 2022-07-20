@@ -1,6 +1,5 @@
 package pl.kossa.myflights.dialogs.accountdelete
 
-import android.util.Log
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.EmailAuthProvider
@@ -12,14 +11,14 @@ import kotlinx.coroutines.flow.map
 import pl.kossa.myflights.R
 import pl.kossa.myflights.api.models.ProviderType
 import pl.kossa.myflights.api.models.User
-import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.architecture.BaseViewModel
+import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountDeleteViewModel @Inject constructor(
-    private val userService: UserService,
+    private val userRepository: UserRepository,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
@@ -37,8 +36,10 @@ class AccountDeleteViewModel @Inject constructor(
 
     private fun fetchUser() {
         makeRequest {
-            val response = userService.getUser()
-            user.value = response.body
+            val response = handleRequest {
+                userRepository.getUser()
+            }
+            user.value = response
         }
     }
 
@@ -53,10 +54,14 @@ class AccountDeleteViewModel @Inject constructor(
         firebaseAuth.currentUser?.reauthenticate(credential)
             ?.addOnSuccessListener {
                 makeRequest {
-                    userService.deleteUser()
-                    analyticsTracker.logClickDeleteAccount()
-                    isLoadingData.value = false
-                    signOut()
+                    val response = handleRequest {
+                        userRepository.deleteUser()
+                    }
+                    response?.let {
+                        analyticsTracker.logClickDeleteAccount()
+                        isLoadingData.value = false
+                        signOut()
+                    }
                 }
             }
             ?.addOnFailureListener {
