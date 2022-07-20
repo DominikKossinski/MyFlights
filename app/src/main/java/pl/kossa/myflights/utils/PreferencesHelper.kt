@@ -23,6 +23,7 @@ class PreferencesHelper(applicationContext: Context) {
         private const val LAST_ACCEPTED_JOIN_REQUEST_NOTIFICATION_ID =
             "LAST_ACCEPTED_JOIN_REQUEST_NOTIFICATION_ID"
         private const val MAX_NOTIFICATIONS = 5
+
     }
 
     private val preferences =

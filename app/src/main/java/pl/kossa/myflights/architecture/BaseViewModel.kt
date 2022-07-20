@@ -13,10 +13,10 @@ import kotlinx.coroutines.launch
 import okhttp3.internal.http2.ConnectionShutdownException
 import pl.kossa.myflights.MainNavGraphDirections
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.call.NetworkErrorType
 import pl.kossa.myflights.api.exceptions.ApiServerException
 import pl.kossa.myflights.api.exceptions.NoInternetException
 import pl.kossa.myflights.api.exceptions.UnauthorizedException
+import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.services.UserService
 import pl.kossa.myflights.utils.PreferencesHelper
@@ -176,4 +176,8 @@ abstract class BaseViewModel(
     }
 
     fun getNavDirectionsFlow() = navDirectionFlow
+
+    fun setUser(user: User?) {
+        user?.let {preferencesHelper.setUserData(it) }
+    }
 }

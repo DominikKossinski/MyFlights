@@ -8,8 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import pl.kossa.myflights.R
-import pl.kossa.myflights.api.models.User
 import pl.kossa.myflights.api.responses.ApiError
 import pl.kossa.myflights.api.responses.HttpCode
 import pl.kossa.myflights.architecture.fragments.BaseFragment
@@ -47,38 +47,49 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
     override fun collectFlow() {
         super.collectFlow()
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.isLoadingData.collect {
+            viewModel.isLoadingData.collectLatest {
                 binding.profileSwipeRefresh.isRefreshing = it
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.user.collect {
+            viewModel.avatar.collectLatest {
                 Log.d("MyLog", "Profile $it")
-                it?.let { setupUserData(it) }
+                it?.let { setupAvatar(it) }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.email.collectLatest { email ->
+                binding.emailTv.text = email
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.nick.collectLatest { nick ->
+                setupNick(nick)
             }
         }
     }
 
-    private fun setupUserData(user: User) {
-        binding.nameTv.text = if (user.nick.isBlank()) {
-            getString(R.string.no_nick)
-        } else user.nick
 
-        user.avatar?.let {
+    private fun setupNick(nick: String) {
+        binding.nameTv.text = nick.ifBlank {
+            getString(R.string.no_nick)
+        }
+        val textColor = if (nick.isBlank()) {
+            ContextCompat.getColor(requireContext(), R.color.color_delete)
+        } else ContextCompat.getColor(requireContext(), R.color.black_day_night)
+        binding.nameTv.setTextColor(textColor)
+    }
+
+    private fun setupAvatar(avatarUrl: String?) {
+        avatarUrl?.let {
             Glide.with(requireContext())
-                .load(it.url)
+                .load(it)
                 .transform(CircleCrop())
                 .placeholder(R.drawable.ic_profile)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(binding.profileIv)
         } ?: binding.profileIv.setImageResource(R.drawable.ic_profile)
 
-
-        val textColor = if (user.nick.isBlank()) {
-            ContextCompat.getColor(requireContext(), R.color.color_delete)
-        } else ContextCompat.getColor(requireContext(), R.color.black_day_night)
-        binding.nameTv.setTextColor(textColor)
-        binding.emailTv.text = user.email
     }
 
     override fun handleApiError(apiError: ApiError) {
