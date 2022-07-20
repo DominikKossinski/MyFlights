@@ -14,9 +14,9 @@ class ProfileViewModel @Inject constructor(
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
-    val email = MutableStateFlow(preferencesHelper.userEmail ?: "")
-    val nick = MutableStateFlow(preferencesHelper.userNick ?: "")
-    val avatar = MutableStateFlow<String?>(preferencesHelper.avatarUrl)
+    val email = MutableStateFlow(preferencesHelper.email ?: "")
+    val nick = MutableStateFlow(preferencesHelper.nick ?: "")
+    val avatar = MutableStateFlow<String?>(preferencesHelper.avatar?.url)
 
 
     init {
