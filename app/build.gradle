@@ -129,6 +129,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
     //DynamicLinks
     implementation 'com.google.firebase:firebase-dynamic-links-ktx'
+    //Remote config
+    implementation 'com.google.firebase:firebase-config-ktx'
+
 
     //GSM
     implementation 'com.google.android.gms:play-services-basement:18.1.0'
