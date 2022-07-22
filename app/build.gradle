@@ -113,28 +113,20 @@ dependencies {
 
     //Firebase
     implementation platform('com.google.firebase:firebase-bom:30.3.0')
-
     //FirebaseCore
     implementation 'com.google.firebase:firebase-core'
-
     //In app messaging
     implementation 'com.google.firebase:firebase-inappmessaging-display-ktx'
-
     //Analytics
     implementation 'com.google.firebase:firebase-analytics-ktx'
-
     //Auth
     implementation 'com.google.firebase:firebase-auth:21.0.6'
-
     //Crashlytics
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
-
     //Performance
     implementation 'com.google.firebase:firebase-perf-ktx'
-
     //Messaging
     implementation 'com.google.firebase:firebase-messaging-ktx'
-
     //DynamicLinks
     implementation 'com.google.firebase:firebase-dynamic-links-ktx'
 
@@ -144,7 +136,7 @@ dependencies {
 
     //Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1-native-mt'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2'
 
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
