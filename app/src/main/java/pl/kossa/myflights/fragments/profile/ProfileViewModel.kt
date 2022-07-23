@@ -6,17 +6,20 @@ import pl.kossa.myflights.architecture.BaseViewModel
 import pl.kossa.myflights.fragments.main.MainFragmentDirections
 import pl.kossa.myflights.repository.UserRepository
 import pl.kossa.myflights.utils.PreferencesHelper
+import pl.kossa.myflights.utils.config.MyFlightsRemoteConfig
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    remoteConfig: MyFlightsRemoteConfig,
     preferencesHelper: PreferencesHelper
 ) : BaseViewModel(preferencesHelper) {
 
     val email = MutableStateFlow(preferencesHelper.email ?: "")
     val nick = MutableStateFlow(preferencesHelper.nick ?: "")
     val avatar = MutableStateFlow<String?>(preferencesHelper.avatar?.url)
+    val buttonText = remoteConfig.getButtonText()
 
 
     init {

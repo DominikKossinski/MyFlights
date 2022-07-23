@@ -1,7 +1,6 @@
 package pl.kossa.myflights.hilt
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -19,11 +18,13 @@ import pl.kossa.myflights.room.AppDatabase
 import pl.kossa.myflights.utils.PreferencesHelper
 import pl.kossa.myflights.utils.RetrofitDateSerializer
 import pl.kossa.myflights.utils.analytics.AnalyticsTracker
+import pl.kossa.myflights.utils.config.MyFlightsRemoteConfig
 import pl.kossa.myflights.utils.fcm.FCMHandler
 import pl.kossa.myflights.utils.language.UserLanguageManager
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
+import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -201,4 +202,9 @@ object AppModule {
         return FCMHandler()
     }
 
+    @Singleton
+    @Provides
+    fun provideRemoteConfig(): MyFlightsRemoteConfig {
+        return MyFlightsRemoteConfig()
+    }
 }

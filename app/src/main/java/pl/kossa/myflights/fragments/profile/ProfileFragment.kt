@@ -67,6 +67,12 @@ class ProfileFragment : BaseFragment<ProfileViewModel, FragmentProfileBinding>()
                 setupNick(nick)
             }
         }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.buttonText.collectLatest {
+                Log.d("MyLog", "Collecting: $it")
+                binding.signOutButton.text = it
+            }
+        }
     }
 
 
