@@ -238,5 +238,6 @@
     <string name="firebase_messaging_channel_id">FIREBASE_MESSAGING_CHANNEL</string>
 
     <string name="double_places_float_format" translatable="false">%.02f</string>
+    <string name="dynamic_link_prefix">https://myflightsdev.page.link/</string>
 
 </resources>

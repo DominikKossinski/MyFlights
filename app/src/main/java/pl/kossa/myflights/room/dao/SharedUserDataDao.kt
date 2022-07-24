@@ -3,6 +3,7 @@ package pl.kossa.myflights.room.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import pl.kossa.myflights.room.entities.ImageModel
 import pl.kossa.myflights.room.entities.SharedUserData
 import pl.kossa.myflights.room.entities.SharedUserDataModel
@@ -10,10 +11,10 @@ import pl.kossa.myflights.room.entities.SharedUserDataModel
 @Dao
 abstract class SharedUserDataDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract suspend fun insertSharedUserDataModel(sharedUserDataModel: SharedUserDataModel)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     protected abstract suspend fun insertImageModel(imageModel: ImageModel)
 
     suspend fun insertSharedUserData(sharedUserData: SharedUserData) {
