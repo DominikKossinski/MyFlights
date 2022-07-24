@@ -1,10 +1,15 @@
 package pl.kossa.myflights.dialogs.share
 
 import android.content.Intent
+import android.net.Uri
 import android.os.CountDownTimer
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.dynamiclinks.ktx.androidParameters
+import com.google.firebase.dynamiclinks.ktx.dynamicLink
+import com.google.firebase.dynamiclinks.ktx.dynamicLinks
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import net.glxn.qrgen.android.QRCode
@@ -14,7 +19,6 @@ import pl.kossa.myflights.architecture.dialogs.BaseBottomSheet
 import pl.kossa.myflights.databinding.DialogShareFlightBinding
 import pl.kossa.myflights.exstensions.dpToPx
 import pl.kossa.myflights.utils.timers.ProgressBarCountDownTimer
-import java.net.URLEncoder
 import java.util.*
 
 @AndroidEntryPoint
@@ -41,19 +45,18 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
             }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.sharedFlightFlow.collectLatest {
-                it?.let { setupSharedFlight(it) }
+            viewModel.sharedFlightWithLink.collectLatest { pair ->
+                if (pair?.first != null && pair.second != null && pair.second?.isSuccess == true) {
+                    pair.second?.getOrNull()?.let { link ->
+                        setupSharedFlight(pair.first!!, link)
+                    }
+                }
             }
         }
     }
 
-    private fun setupSharedFlight(sharedFlight: SharedFlight) {
+    private fun setupSharedFlight(sharedFlight: SharedFlight, dynamicLink: String) {
         val size = requireContext().dpToPx(200f).toInt()
-        val appLink = getString(R.string.share_flight_uri_format, sharedFlight.sharedFlightId)
-        val dynamicLink = getString(
-            R.string.share_flight_dynamic_link_format,
-            URLEncoder.encode(appLink, "utf-8")
-        )
         val qrCodeBitmap =
             QRCode.from(dynamicLink)
                 .withSize(size, size)
@@ -98,11 +101,28 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
         timer?.start()
     }
 
+    private fun getDynamicLink(sharedFlightId: String): String {
+
+        val appLink = getString(R.string.share_flight_uri_format, sharedFlightId)
+        val dynamicLink = Firebase.dynamicLinks.dynamicLink {
+            link = Uri.parse(appLink)
+            domainUriPrefix = getString(R.string.dynamic_link_prefix)
+            androidParameters(requireContext().packageName) {
+                minimumVersion = 1
+            }
+        }
+
+        return dynamicLink.uri.toString()
+    }
+
+
     override fun onResume() {
         super.onResume()
-        val sharedFlight = viewModel.sharedFlightFlow.value
-        sharedFlight?.let {
-            setupSharedFlight(it)
+        val pair = viewModel.sharedFlightWithLink.value
+        if (pair?.first != null && pair.second != null && pair.second?.isSuccess == true) {
+            pair.second?.getOrNull()?.let { link ->
+                setupSharedFlight(pair.first!!, link)
+            }
         }
     }
 

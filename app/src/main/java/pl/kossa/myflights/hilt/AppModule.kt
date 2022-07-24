@@ -21,6 +21,7 @@ import pl.kossa.myflights.utils.analytics.AnalyticsTracker
 import pl.kossa.myflights.utils.config.MyFlightsRemoteConfig
 import pl.kossa.myflights.utils.fcm.FCMHandler
 import pl.kossa.myflights.utils.language.UserLanguageManager
+import pl.kossa.myflights.utils.links.DynamicLinksResolver
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -206,5 +207,13 @@ object AppModule {
     @Provides
     fun provideRemoteConfig(): MyFlightsRemoteConfig {
         return MyFlightsRemoteConfig()
+    }
+
+    @Singleton
+    @Provides
+    fun provideDynamicLinksResolver(
+        @ApplicationContext applicationContext: Context
+    ): DynamicLinksResolver {
+        return DynamicLinksResolver(applicationContext)
     }
 }
