@@ -31,16 +31,19 @@ import javax.inject.Singleton
 @Module
 object AppModule {
 
+    @Singleton
     @Provides
     fun providePreferencesHelper(@ApplicationContext applicationContext: Context): PreferencesHelper {
         return PreferencesHelper(applicationContext)
     }
 
+    @Singleton
     @Provides
     fun provideUserLanguageManager(): UserLanguageManager {
         return UserLanguageManager()
     }
 
+    @Singleton
     @Provides
     fun provideOkHttpClient(
         preferencesHelper: PreferencesHelper,
@@ -57,6 +60,7 @@ object AppModule {
     }
 
 
+    @Singleton
     @Provides
     fun provideGson(): Gson {
         return GsonBuilder().apply {
@@ -64,6 +68,7 @@ object AppModule {
         }.create()
     }
 
+    @Singleton
     @Provides
     fun provideRetrofit(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
@@ -75,46 +80,55 @@ object AppModule {
             .build()
     }
 
+    @Singleton
     @Provides
     fun provideFlightsService(retrofit: Retrofit): FlightsService {
         return retrofit.create(FlightsService::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideAirportsService(retrofit: Retrofit): AirportsService {
         return retrofit.create(AirportsService::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideAirplanesService(retrofit: Retrofit): AirplanesService {
         return retrofit.create(AirplanesService::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideRunwaysService(retrofit: Retrofit): RunwaysService {
         return retrofit.create(RunwaysService::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideUserService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideImagesService(retrofit: Retrofit): ImagesService {
         return retrofit.create(ImagesService::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideStatisticsService(retrofit: Retrofit): StatisticsService {
         return retrofit.create(StatisticsService::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideSharedFlightsService(retrofit: Retrofit): SharedFlightsService {
         return retrofit.create(SharedFlightsService::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideRoomDatabase(@ApplicationContext applicationContext: Context): AppDatabase {
         return Room.databaseBuilder(
@@ -124,6 +138,7 @@ object AppModule {
         ).build()
     }
 
+    @Singleton
     @Provides
     fun provideAirplaneRepository(
         airplanesService: AirplanesService,
@@ -133,6 +148,7 @@ object AppModule {
         return AirplaneRepository(airplanesService, db.getAirplaneDao(), preferencesHelper)
     }
 
+    @Singleton
     @Provides
     fun provideAirportRepository(
         airportsService: AirportsService,
@@ -142,6 +158,7 @@ object AppModule {
         return AirportRepository(airportsService, db.getAirportDao(), preferencesHelper)
     }
 
+    @Singleton
     @Provides
     fun provideRunwayRepository(
         runwaysService: RunwaysService,
@@ -151,6 +168,7 @@ object AppModule {
         return RunwayRepository(runwaysService, db.getRunwayDao(), preferencesHelper)
     }
 
+    @Singleton
     @Provides
     fun provideFlightRepository(
         flightsService: FlightsService,
@@ -160,6 +178,7 @@ object AppModule {
         return FlightRepository(flightsService, db.getFlightDao(), preferencesHelper)
     }
 
+    @Singleton
     @Provides
     fun provideSharedFlightsRepository(
         sharedFlightsService: SharedFlightsService,
@@ -168,6 +187,7 @@ object AppModule {
         return SharedFlightRepository(sharedFlightsService, preferencesHelper)
     }
 
+    @Singleton
     @Provides
     fun provideUserRepository(
         userService: UserService,
@@ -176,6 +196,7 @@ object AppModule {
         return UserRepository(userService, preferencesHelper)
     }
 
+    @Singleton
     @Provides
     fun provideStatisticsRepository(
         statisticsService: StatisticsService,
@@ -185,6 +206,7 @@ object AppModule {
         return StatisticsRepository(statisticsService, db.getStatisticsDao(), preferencesHelper)
     }
 
+    @Singleton
     @Provides
     fun provideImageRepository(
         imagesService: ImagesService,
@@ -193,11 +215,13 @@ object AppModule {
         return ImageRepository(imagesService, preferencesHelper)
     }
 
+    @Singleton
     @Provides
     fun provideAnalyticsTracker(): AnalyticsTracker {
         return AnalyticsTracker()
     }
 
+    @Singleton
     @Provides
     fun provideFCMHandler(): FCMHandler {
         return FCMHandler()
