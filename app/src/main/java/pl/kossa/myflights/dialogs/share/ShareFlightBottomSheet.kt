@@ -101,21 +101,6 @@ class ShareFlightBottomSheet : BaseBottomSheet<ShareFlightViewModel, DialogShare
         timer?.start()
     }
 
-    private fun getDynamicLink(sharedFlightId: String): String {
-
-        val appLink = getString(R.string.share_flight_uri_format, sharedFlightId)
-        val dynamicLink = Firebase.dynamicLinks.dynamicLink {
-            link = Uri.parse(appLink)
-            domainUriPrefix = getString(R.string.dynamic_link_prefix)
-            androidParameters(requireContext().packageName) {
-                minimumVersion = 1
-            }
-        }
-
-        return dynamicLink.uri.toString()
-    }
-
-
     override fun onResume() {
         super.onResume()
         val pair = viewModel.sharedFlightWithLink.value
