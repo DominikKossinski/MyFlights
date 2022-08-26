@@ -95,7 +95,8 @@ class FlightDetailsFragment : BaseFragment<FlightDetailsViewModel, FragmentFligh
         binding.shareAppbar.isResignVisible = !isMyFlight
 
         binding.ownerEtw.isMyFlight = isMyFlight
-        binding.ownerEtw.ownerEmail = flight.ownerData.ownerData.email
+        binding.ownerEtw.isVisible = flight.ownerData.ownerData.email != null
+        binding.ownerEtw.ownerEmail = flight.ownerData.ownerData.email ?: ""
         binding.ownerEtw.ownerNick = flight.ownerData.ownerData.nick
         binding.ownerEtw.profileUrl = flight.ownerData.image?.thumbnailUrl
     }

@@ -28,7 +28,7 @@ abstract class SharedUserDataDao {
     protected abstract suspend fun deleteSharedUserDataModel(sharedUserDataModel: SharedUserDataModel)
 
     @Delete
-    protected abstract suspend fun deleteImageModel(imageModel: ImageModel)//TODO think about it
+    protected abstract suspend fun deleteImageModel(imageModel: ImageModel) //TODO think about it
 
     suspend fun delete(sharedUserData: SharedUserData) {
         deleteSharedUserDataModel(sharedUserData.sharedUser)
