@@ -31,16 +31,16 @@ class OwnerElementWithTag(context: Context, attrs: AttributeSet) :
             setupVisibility()
         }
 
-    var ownerEmail = ""
+    var ownerEmail: String? = ""
         set(value) {
             field = value
-            binding.emailTextView.isVisible = value.isNotBlank()
+            binding.emailTextView.isVisible = !value.isNullOrBlank()
             binding.emailTextView.text = value
             setupVisibility()
         }
 
     private fun setupVisibility() {
-        this.isVisible = (ownerEmail.isNotBlank() || ownerNick.isNotBlank()) && !isMyFlight
+        this.isVisible = (!ownerEmail.isNullOrBlank() || ownerNick.isNotBlank()) && !isMyFlight
     }
 
     var profileUrl: String? = null

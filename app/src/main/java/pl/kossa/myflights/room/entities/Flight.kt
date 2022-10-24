@@ -172,7 +172,7 @@ data class SharedUserDataModel(
     @PrimaryKey
     val userId: String,
     @ColumnInfo(name = "sharedUserEmail")
-    val email: String,
+    val email: String?,
     @ColumnInfo(name = "sharedUserNick")
     val nick: String,
     @ColumnInfo(name = "sharedUserImageId")
@@ -211,7 +211,7 @@ data class OwnerDataModel(
     @PrimaryKey
     val ownerId: String,
     @ColumnInfo(name = "ownerEmail")
-    val email: String,
+    val email: String?,
     @ColumnInfo(name = "ownerNick")
     val nick: String,
     @ColumnInfo(name = "ownerImageId")
