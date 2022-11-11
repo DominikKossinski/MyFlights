@@ -44,7 +44,8 @@ class JoinFlightBottomSheet : BaseBottomSheet<JoinFlightViewModel, DialogJoinFli
     private fun setupSharedFlightData(sharedFlightJoinDetails: SharedFlightJoinDetails) {
         binding.ownerEtw.profileUrl = sharedFlightJoinDetails.ownerData.avatar?.thumbnailUrl
         binding.ownerEtw.ownerNick = sharedFlightJoinDetails.ownerData.nick
-        binding.ownerEtw.ownerEmail = sharedFlightJoinDetails.ownerData.email
+        binding.ownerEtw.isVisible = sharedFlightJoinDetails.ownerData.email != null
+        binding.ownerEtw.ownerEmail = sharedFlightJoinDetails.ownerData.email ?: ""
 
         binding.routeEwtv.valueText = getString(
             R.string.route_format,

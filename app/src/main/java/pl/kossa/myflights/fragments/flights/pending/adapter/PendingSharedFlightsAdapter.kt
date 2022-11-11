@@ -56,7 +56,7 @@ class PendingSharedFlightsAdapter(
             }
         } else {
             holder.binding.nickTv.isVisible = sharedFlight.ownerData.nick.isNotBlank()
-            holder.binding.emailTv.isVisible = sharedFlight.ownerData.email.isNotBlank()
+            holder.binding.emailTv.isVisible = sharedFlight.ownerData.email.isNullOrBlank().not()
             holder.binding.nickTv.text = sharedFlight.ownerData.nick
             holder.binding.emailTv.text = sharedFlight.ownerData.email
             sharedFlight.ownerData.avatar?.let {
