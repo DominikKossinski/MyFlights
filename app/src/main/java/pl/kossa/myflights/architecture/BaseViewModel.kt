@@ -33,13 +33,13 @@ abstract class BaseViewModel(
 ) : ViewModel() {
 
     @Inject
-    protected lateinit var fcmUserService: UserService
+    lateinit var fcmUserService: UserService
 
     @Inject
-    protected lateinit var analyticsTracker: AnalyticsTracker
+    lateinit var analyticsTracker: AnalyticsTracker
 
     @Inject
-    protected lateinit var fcmHandler: FCMHandler
+    lateinit var fcmHandler: FCMHandler
 
     protected val firebaseAuth = FirebaseAuth.getInstance()
     protected val currentUser = firebaseAuth.currentUser

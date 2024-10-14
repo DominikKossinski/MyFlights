@@ -16,7 +16,7 @@ class LauncherViewModel @Inject constructor(preferencesHelper: PreferencesHelper
             firebaseAuth.signOut()
             navigate(LauncherFragmentDirections.goToPreLogin())
         } else {
-            navigate(LauncherFragmentDirections.goToMainActivity())
+            navigate(LauncherFragmentDirections.goToMainActivity(), true)
         }
     }
 }

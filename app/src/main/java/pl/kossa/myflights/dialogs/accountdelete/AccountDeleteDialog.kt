@@ -33,6 +33,8 @@ class AccountDeleteDialog : GoogleAuthDialog<AccountDeleteViewModel, DialogAccou
                 ProviderType.GOOGLE -> {
                     launchGoogleSignInIntent()
                 }
+
+                null -> TODO()
             }
         }
         binding.passwordTie.doOnTextChanged {
