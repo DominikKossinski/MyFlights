@@ -16,7 +16,9 @@ class LauncherFragment : BaseFragment<LauncherViewModel, FragmentLauncherBinding
     override fun setOnClickListeners() {
         Thread {
             sleep(2000)
-            viewModel.openNextActivity()
+            requireActivity().runOnUiThread {
+                viewModel.openNextActivity()
+            }
         }.start()
     }
 

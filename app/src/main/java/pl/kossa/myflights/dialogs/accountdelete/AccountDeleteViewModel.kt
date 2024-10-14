@@ -56,6 +56,7 @@ class AccountDeleteViewModel @Inject constructor(
                 makeRequest {
                     val response = handleRequest {
                         userRepository.deleteUser()
+
                     }
                     response?.let {
                         analyticsTracker.logClickDeleteAccount()
