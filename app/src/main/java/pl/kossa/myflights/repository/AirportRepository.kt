@@ -1,5 +1,6 @@
 package pl.kossa.myflights.repository
 
+import android.util.Log
 import pl.kossa.myflights.api.call.ApiResponse
 import pl.kossa.myflights.api.requests.AirportRequest
 import pl.kossa.myflights.api.responses.HttpCode
@@ -20,6 +21,7 @@ class AirportRepository(
         val response = makeRequest {
             airportsService.getAirports()
         }
+        Log.d("MyLog", "Response $response")
         val airports = when (response) {
             is ApiResponse.Success -> response.value ?: emptyList()
             else -> emptyList()

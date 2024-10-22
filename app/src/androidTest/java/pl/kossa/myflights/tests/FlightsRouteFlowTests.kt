@@ -36,7 +36,7 @@ import java.lang.Thread.sleep
 @LargeTest
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
-class FlightsFlowTests {
+class FlightsRouteFlowTests {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

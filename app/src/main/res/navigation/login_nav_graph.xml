@@ -96,7 +96,7 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="pl.kossa.myflights.activities.main.MainActivity"
+        android:name="pl.kossa.myflights.activities.MainComposeActivity"
         android:label="MainActivity"
         tools:layout="@layout/activity_main" />
 </navigation>

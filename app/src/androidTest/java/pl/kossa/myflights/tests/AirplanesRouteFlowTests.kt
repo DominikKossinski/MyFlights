@@ -28,7 +28,7 @@ import pl.kossa.myflights.utils.AlertDialogButton
 @LargeTest
 @UninstallModules(AppModule::class)
 @HiltAndroidTest
-class AirplanesFlowTests {
+class AirplanesRouteFlowTests {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

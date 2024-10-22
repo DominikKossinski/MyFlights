@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.navigation.safeargs.kotlin)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.firebase.perf)
@@ -39,7 +40,7 @@ android {
             /* TODO val localProperties = Properties()
             localProperties.load(project.rootProject.file("local.properties").newDataInputStream())
             val serverUrl = localProperties.getProperty("server_url") ?: "NoServerUrlFound"*/
-            val serverUrl = "\"http://localhost:8080/\""
+            val serverUrl = "\"http://10.0.2.2:8080/\""
             buildConfigField("String", "SERVER_URL", serverUrl)
             buildConfigField("String", "BUILD_ENV", "\"dev\"")
         }
@@ -52,7 +53,7 @@ android {
             /* TODO val localProperties = Properties()
             localProperties.load(project.rootProject.file("local.properties").newDataInputStream())
             val serverUrl = localProperties.getProperty("server_url") ?: "NoServerUrlFound"*/
-            val serverUrl = "\"http://localhost:8080/\""
+            val serverUrl = "\"http://10.0.2.2:8080/\""
             buildConfigField("String", "SERVER_URL", serverUrl)
             buildConfigField("long", "BUILD_TIMESTAMP", System.currentTimeMillis().toString() + "L")
             buildConfigField("String", "BUILD_ENV", "\"prod\"")
@@ -66,6 +67,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_21
         targetCompatibility = JavaVersion.VERSION_21
     }
+
     hilt {
         enableTransformForLocalTests = true
     }
@@ -74,12 +76,14 @@ android {
 dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.androidx.swiperefreshlayout)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
     kapt(libs.compiler)
     //noinspection GradleDependency
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.extensions)
+    implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     androidTestImplementation(libs.androidx.fragment.testing)
 
@@ -87,15 +91,18 @@ dependencies {
     // Kotlin
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.kotlinx.serialization.json)
 
     //Compose
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.androidx.compose)
     debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.activity.compose)
 
     // Feature module Support
     implementation(libs.androidx.navigation.dynamic.features.fragment)
+    implementation(libs.androidx.navigation.compose)
 
     // Testing Navigation
     androidTestImplementation(libs.androidx.navigation.testing)
@@ -165,15 +172,18 @@ dependencies {
     androidTestImplementation(libs.mockwebserver)
 
     //Hilt
-    implementation(libs.hilt.android)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.android.compiler)
+
+    implementation(libs.androidx.hilt.navigation)
     implementation(libs.androidx.hilt.navigation.fragment)
-    kapt(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 
-    testImplementation(libs.hilt.android.testing)
-    kaptTest(libs.hilt.compiler)
-    testAnnotationProcessor(libs.dagger.hilt.android.compiler)
+//    testImplementation(libs.hilt.android.testing)
+//    kaptTest(libs.hilt.compiler)
+//    testAnnotationProcessor(libs.dagger.hilt.android.compiler)
 
-    androidTestImplementation(libs.hilt.android.testing)
+//    androidTestImplementation(libs.hilt.android.testing)
     kaptAndroidTest(libs.dagger.hilt.android.compiler)
     androidTestAnnotationProcessor(libs.dagger.hilt.android.compiler)
 

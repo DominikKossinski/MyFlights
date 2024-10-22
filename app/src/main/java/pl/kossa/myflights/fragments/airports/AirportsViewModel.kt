@@ -18,6 +18,11 @@ class AirportsViewModel @Inject constructor(
 
     val airportsList = MutableStateFlow<List<Airport>>(emptyList())
 
+    init {
+        fetchAirports()
+    }
+
+
     fun fetchAirports() {
         makeRequest {
             airportsList.value = handleRequest {
